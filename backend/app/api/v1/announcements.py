@@ -267,3 +267,60 @@ async def fetch_announcements(
         "status": "started",
         "message": f"数据采集已在后台启动（最多 {settings.CRAWLER_MAX_PAGES} 页）",
     }
+
+
+@router.post("/discover", summary="多引擎搜索发现招标公告")
+async def discover_announcements(
+    background_tasks: BackgroundTasks,
+    queries: Optional[List[str]] = None,
+    max_per_query: int = Query(10, ge=1, le=30, description="每个查询最大结果数"),
+    auto_crawl: bool = Query(False, description="是否自动使用 AI 爬虫抓取发现的内容"),
+):
+    """
+    使用多搜索引擎（Baidu/Bing/DuckDuckGo）聚合搜索，
+    发现各招标网站上的广东移动广告类公告链接。
+
+    可选：自动使用 AI 爬虫抓取发现的页面内容。
+    """
+    try:
+        from app.services.search_discovery import (
+            discover_bidding_announcements,
+            discover_and_crawl,
+        )
+    except ImportError as e:
+        return {
+            "status": "error",
+            "message": f"搜索发现模块不可用: {e}",
+        }
+
+    if auto_crawl:
+        async def _run_discover_and_crawl():
+            try:
+                result = await discover_and_crawl(
+                    queries=queries,
+                    max_per_query=max_per_query,
+                )
+                logger.info(
+                    f"搜索发现+爬取完成: 发现 {result['stats']['discovered']} 条, "
+                    f"爬取成功 {result['stats']['crawled_success']} 条"
+                )
+            except Exception as e:
+                logger.error(f"搜索发现+爬取失败: {e}")
+
+        background_tasks.add_task(_run_discover_and_crawl)
+
+        return {
+            "status": "started",
+            "message": "多引擎搜索发现 + AI 爬取已在后台启动",
+        }
+    else:
+        result = await discover_bidding_announcements(
+            queries=queries,
+            max_per_query=max_per_query,
+        )
+        return {
+            "status": "ok",
+            "total_urls": result["total_count"],
+            "urls": result["total_bidding_urls"][:20],
+            "search_time": result["search_time"],
+        }

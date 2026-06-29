@@ -52,6 +52,14 @@ async def main():
         help="运行单元测试（使用 Mock 数据）",
     )
     parser.add_argument(
+        "--ai", action="store_true",
+        help="使用 AI 增强模式（Crawl4AI Chromium）抓取详情页",
+    )
+    parser.add_argument(
+        "--ai-urls", type=str, nargs="*",
+        help="AI 直采模式：直接指定详情 URL 列表",
+    )
+    parser.add_argument(
         "--verbose", "-v", action="store_true",
         help="详细日志输出",
     )
@@ -66,12 +74,14 @@ async def main():
         run_all_tests()
         return
 
-    logger.info(f"配置: max_pages={args.max_pages}, search={args.search}")
+    logger.info(f"配置: max_pages={args.max_pages}, search={args.search}, ai={args.ai}")
 
     pipeline = BiddingCrawlerPipeline()
     results = await pipeline.run(
         max_pages=args.max_pages,
         use_search=args.search,
+        use_ai=args.ai,
+        ai_detail_urls=args.ai_urls,
     )
 
     logger.info(f"✅ 采集完成，共获取 {len(results)} 条广告类招标项目")

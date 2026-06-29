@@ -11,50 +11,77 @@ import re
 # 关键词配置
 # ============================================================
 
-# 保留关键词 — 命中任意一个即判定为广告类项目
+# 保留关键词 — 命中任意一个即判定为广告/营销类项目
 KEEP_KEYWORDS: List[str] = [
-    "品牌", "广告", "创意", "设计", "视觉", "VI", "宣传", "推广",
-    "投放", "媒介", "KOL", "短视频", "直播", "H5", "公众号", "视频号",
-    "活动", "路演", "展会", "地推", "校园", "发布会", "营销", "策划",
-    "内容", "物料", "制作", "拍摄", "脚本",
+    # 品牌策略
+    "品牌", "策略", "规划", "定位",
+    # 创意设计
+    "创意", "设计", "视觉", "VI", "海报", "画册",
+    # 媒介投放
+    "投放", "媒介", "KOL", "代理",
+    # 活动会展
+    "活动", "路演", "展会", "发布会", "文体", "工会",
+    # 渠道营销
+    "促销", "网格", "地推", "门店", "渠道",
+    # 内容制作
+    "制作", "拍摄", "物料", "H5", "脚本", "视频", "短视频",
+    # 政企传播
+    "党群", "党建", "宣传", "学习", "集团客户", "政企",
+    # 新媒体
+    "公众号", "视频号", "直播", "代运营", "新媒体", "运营",
+    # 通用广告
+    "广告", "营销", "推广", "传播", "策划",
 ]
 
-# 排除关键词 — 命中任意一个即判定为非广告类项目（优先级更高）
+# 排除关键词 — 命中任意一个即判定为非广告/营销类项目（优先级更高）
 EXCLUDE_KEYWORDS: List[str] = [
+    # 纯工程建设类
     "基站", "光缆", "机房", "机电", "施工", "监理", "勘察", "EPC",
-    "食材", "物业", "保洁", "保安", "家具", "办公设备", "空调", "电梯",
+    "土建", "装修", "布线", "配电", "空调", "电梯", "消防",
+    # 后勤保障类
+    "食材", "食堂", "保洁", "保安", "物业", "家具", "办公设备",
+    # IT 技术类（非营销）
+    "服务器", "交换机", "路由器", "数据库", "云计算",
 ]
 
 # 赛道识别规则（按优先级排序，命中即停止）
 CATEGORY_RULES: List[Dict[str, any]] = [
     {
         "category": "品牌策略类",
-        "keywords": ["策略", "规划", "定位", "品牌健康"],
+        "keywords": ["品牌策略", "品牌规划", "品牌定位", "品牌健康", "年度策略"],
     },
     {
         "category": "创意设计类",
-        "keywords": ["创意", "设计", "VI", "视觉"],
+        "keywords": ["创意设计", "视觉设计", "VI设计", "海报设计", "画册设计"],
     },
     {
         "category": "媒介投放类",
-        "keywords": ["投放", "媒介", "KOL", "资源采购"],
+        "keywords": ["媒介投放", "广告投放", "KOL投放", "媒体代理", "投放代理"],
     },
     {
-        "category": "活动执行类",
-        "keywords": ["活动", "路演", "展会", "地推", "发布会"],
+        "category": "活动会展类",
+        "keywords": ["活动执行", "路演", "展会", "发布会", "工会活动", "文体活动"],
+    },
+    {
+        "category": "渠道营销类",
+        "keywords": ["渠道营销", "网格促销", "门店宣传", "地推", "促销活动"],
     },
     {
         "category": "内容制作类",
-        "keywords": ["制作", "拍摄", "物料", "H5", "脚本"],
+        "keywords": ["内容制作", "视频制作", "物料制作", "H5制作", "宣传片"],
+    },
+    {
+        "category": "政企传播类",
+        "keywords": ["党群宣传", "党建学习", "集团客户", "政企服务", "企业宣传"],
     },
     {
         "category": "新媒体运营类",
-        "keywords": ["公众号", "视频号", "直播", "代运营"],
+        "keywords": ["新媒体运营", "公众号运营", "视频号运营", "直播运营", "代运营"],
     },
 ]
 
 # 默认赛道（当保留关键词命中但无法匹配具体赛道时）
-DEFAULT_CATEGORY = "其他广告类"
+DEFAULT_CATEGORY = "其他营销类"
 
 
 # ============================================================
@@ -168,6 +195,110 @@ def filter_advertisement_projects(
         "category": category,
         "reason": "",
     }
+
+
+def apply_preference_boost(
+    item: Dict,
+    preferred_categories: List[str] = None,
+    min_budget: float = 0,
+    min_score: float = 0,
+) -> Dict:
+    """
+    根据用户偏好对项目进行加权。
+
+    在原有过滤基础上，对匹配用户偏好赛道的项目增加加权标记，
+    供前端排序和展示使用。
+
+    Args:
+        item: 已过滤的项目字典（含 project_category, budget, total_score 等）
+        preferred_categories: 用户偏好的赛道列表
+        min_budget: 最低预算过滤
+        min_score: 最低评分过滤
+
+    Returns:
+        附加了 preference 字段的项目字典:
+        {
+            ...原字段,
+            "preference": {
+                "is_preferred": True/False,
+                "category_match": True/False,
+                "budget_meets": True/False,
+                "score_meets": True/False,
+                "boost_score": 0-10,  # 加权分
+            }
+        }
+    """
+    boost = {
+        "is_preferred": False,
+        "category_match": False,
+        "budget_meets": True,
+        "score_meets": True,
+        "boost_score": 0,
+    }
+
+    # 预算过滤
+    budget = float(item.get("budget", 0) or 0)
+    if min_budget > 0 and budget < min_budget:
+        boost["budget_meets"] = False
+
+    # 评分过滤
+    score = float(item.get("total_score", 0) or 0)
+    if min_score > 0 and score < min_score:
+        boost["score_meets"] = False
+
+    # 赛道匹配加权
+    category = item.get("project_category", "") or item.get("category", "")
+    if preferred_categories and category:
+        if category in preferred_categories:
+            boost["category_match"] = True
+            boost["boost_score"] = 5  # 匹配偏好赛道 +5
+
+    # 综合判断
+    boost["is_preferred"] = (
+        boost["category_match"] or boost["budget_meets"]
+    )
+
+    result = dict(item)
+    result["preference"] = boost
+    return result
+
+
+def batch_apply_preferences(
+    items: List[Dict],
+    preferred_categories: List[str] = None,
+    min_budget: float = 0,
+    min_score: float = 0,
+    sort_by_preference: bool = True,
+) -> List[Dict]:
+    """
+    批量应用用户偏好。
+
+    Args:
+        items: 已过滤的项目列表
+        preferred_categories: 偏好赛道
+        min_budget: 最低预算
+        min_score: 最低评分
+        sort_by_preference: 是否按偏好排序（偏好匹配的排在前面）
+
+    Returns:
+        附加了 preference 字段并排序后的列表
+    """
+    result = [
+        apply_preference_boost(item, preferred_categories, min_budget, min_score)
+        for item in items
+    ]
+
+    if sort_by_preference:
+        # 排序：偏好匹配 > 高分 > 高预算
+        result.sort(
+            key=lambda x: (
+                0 if x["preference"]["category_match"] else 1,
+                -(x.get("total_score", 0) or 0),
+                -(x.get("budget", 0) or 0),
+            )
+        )
+
+    return result
 
 
 # ============================================================

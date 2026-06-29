@@ -168,3 +168,19 @@ export async function updateRelation(id, data) {
 export async function deleteRelation(id) {
   return apiClient.delete(`/relations/${id}`);
 }
+
+// ============================================================
+// 用户偏好 API
+// ============================================================
+
+export async function getPreferences() {
+  return apiClient.get("/preferences");
+}
+
+export async function updatePreferences(data) {
+  return apiClient.put("/preferences", data);
+}
+
+export async function resetPreferences() {
+  return apiClient.delete("/preferences");
+}

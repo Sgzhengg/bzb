@@ -28,6 +28,8 @@ from app.api.v1.alerts import router as alerts_router
 from app.api.v1.purchasers import router as purchasers_router
 from app.api.v1.announcements import router as announcements_router
 from app.api.v1.scheduler_api import router as scheduler_router
+from app.api.v1.charts import router as charts_router
+from app.api.v1.preferences import router as preferences_router
 
 # ============================================================
 # 日志配置
@@ -65,6 +67,12 @@ async def lifespan(app: FastAPI):
     if settings.SCHEDULER_ENABLED:
         from app.services.scheduler import start_scheduler
         start_scheduler()
+
+    # 确保所有表已创建（包括 user_preferences）
+    from app.models.base import Base
+    from app.db.session import engine
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
     yield
 
@@ -144,8 +152,10 @@ app.include_router(alerts_router, prefix=API_PREFIX)
 app.include_router(purchasers_router, prefix=API_PREFIX)
 app.include_router(announcements_router, prefix=API_PREFIX)
 app.include_router(scheduler_router, prefix=API_PREFIX)
+app.include_router(charts_router, prefix=API_PREFIX)
+app.include_router(preferences_router, prefix=API_PREFIX)
 
-logger.info("已注册路由: health/relations/alerts/purchasers/announcements/scheduler")
+logger.info("已注册路由: health/relations/alerts/purchasers/announcements/scheduler/charts/preferences")
 
 
 # ============================================================

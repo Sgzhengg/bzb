@@ -541,6 +541,105 @@ def batch_score_opportunities(
 
 
 # ============================================================
+# LLM 增强评分（新增）
+# ============================================================
+
+async def calculate_opportunity_score_with_llm(
+    announcement: Dict,
+    historical_awards: List[Dict],
+    preferred_categories: Optional[List[str]] = None,
+    client_relations: Optional[List[Dict]] = None,
+    incumbent_result: Optional[Dict] = None,
+    use_dynamic_weights: bool = False,
+    market_context: str = "",
+) -> Dict:
+    """
+    LLM 增强的机会评分。
+
+    在传统 6 维评分基础上，增加：
+    1. LLM 生成的自然语言分析
+    2. 动态权重调整（根据市场环境）
+    3. 竞品风险评估
+
+    Returns:
+        {
+            ...传统字段,
+            "llm_analysis": str | None,
+            "llm_risks": [...],
+            "llm_advantages": [...],
+            "dynamic_weights": {...} | None,
+        }
+    """
+    # 先计算传统评分
+    score = calculate_opportunity_score(
+        announcement,
+        historical_awards,
+        preferred_categories=preferred_categories,
+        client_relations=client_relations,
+        incumbent_result=incumbent_result,
+    )
+
+    result = {**announcement, **score.to_dict()}
+    result["llm_analysis"] = None
+    result["llm_risks"] = []
+    result["llm_advantages"] = []
+    result["dynamic_weights"] = None
+
+    # LLM 增强
+    try:
+        from app.services.llm_analyzer import get_llm_analyzer
+
+        analyzer = get_llm_analyzer()
+        if not analyzer.is_available:
+            return result
+
+        # 动态权重
+        if use_dynamic_weights and market_context:
+            new_weights = await analyzer.suggest_weights(
+                market_context=market_context,
+                current_weights=WEIGHTS,
+            )
+            if new_weights != WEIGHTS:
+                result["dynamic_weights"] = new_weights
+
+        # 竞品上下文
+        purchaser_id = announcement.get("purchaser_id", 0)
+        matched_awards = [
+            a for a in historical_awards
+            if a.get("purchaser_id") == purchaser_id
+        ]
+        top_winners = Counter(
+            a.get("winner_name", "") for a in matched_awards
+        ).most_common(5)
+        competitor_context = (
+            f"该采购方 Top5 中标方: "
+            + ", ".join(
+                f"{name}({cnt}次)" for name, cnt in top_winners
+            )
+            if top_winners
+            else "无历史中标记录"
+        )
+
+        # LLM 评估
+        llm_result = await analyzer.evaluate_opportunity(
+            project_info=announcement,
+            competitor_context=competitor_context,
+        )
+
+        result["llm_analysis"] = llm_result.get("analysis", "")
+        result["llm_risks"] = llm_result.get("risks", [])
+        result["llm_advantages"] = llm_result.get("advantages", [])
+
+    except ImportError:
+        pass  # LLM 模块不可用
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).warning(f"LLM 增强评分失败: {e}")
+
+    return result
+
+
+# ============================================================
 # 单元测试
 # ============================================================
 
