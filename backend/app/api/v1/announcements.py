@@ -96,21 +96,30 @@ async def list_announcements(
         items.append({
             "id": ann.id,
             "title": ann.title,
-            "purchaser": purchaser_name,
-            "purchaser_id": ann.purchaser_id,
-            "purchaser_level": ann.purchaser_level,
+            # Excel模板字段
+            "industry": getattr(ann, 'industry', '') or '',
+            "province": getattr(ann, 'province', '') or '',
+            "city": getattr(ann, 'city', '') or '',
             "project_category": ann.project_category,
             "procurement_method": ann.procurement_method,
             "budget": float(ann.budget) if ann.budget else None,
-            "deadline": ann.deadline.isoformat() if ann.deadline else None,
+            "source_url": ann.source_url or '',
             "announce_date": ann.announce_date.isoformat() if ann.announce_date else None,
-            "source_url": ann.source_url,
+            "deadline": ann.deadline.isoformat() if ann.deadline else None,
+            "deadline_time": getattr(ann, 'deadline_time', '') or '',
+            "bid_date": ann.bid_date.isoformat() if getattr(ann, 'bid_date', None) else None,
+            "bid_time": getattr(ann, 'bid_time', '') or '',
+            "registration_fee": float(getattr(ann, 'registration_fee', 0) or 0),
+            "deposit": float(getattr(ann, 'deposit', 0) or 0),
+            "remark": getattr(ann, 'remark', '') or '',
+            # 辅助字段
+            "purchaser": purchaser_name,
+            "purchaser_id": ann.purchaser_id,
+            "purchaser_level": ann.purchaser_level,
             "created_at": ann.created_at.isoformat() if ann.created_at else None,
-            # 前端Mock填充的字段
-            "total_score": None,
-            "probability_label": None,
-            "contact_name": None,
-            "incumbent_name": None,
+            # 评分
+            "total_score": float(ann.total_score) if getattr(ann, 'total_score', None) else None,
+            "probability_label": getattr(ann, 'probability_label', '') or '',
         })
 
     return {

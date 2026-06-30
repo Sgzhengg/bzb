@@ -2,24 +2,22 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Card, Table, Tag, Progress, Button, Space, Input, Select,
   Row, Col, Typography, Badge, Tooltip, message, Spin, Empty,
-  Slider, DatePicker,
+  Slider,
 } from "antd";
 import {
-  ReloadOutlined, SearchOutlined, FilterOutlined,
-  UserOutlined, CrownOutlined, ClockCircleOutlined,
-  ThunderboltOutlined, ClearOutlined,
+  ReloadOutlined, SearchOutlined,
+  ThunderboltOutlined, ClearOutlined, LinkOutlined,
 } from "@ant-design/icons";
 import { getOpportunityList, fetchNewAnnouncements } from "../services/api";
 
 const { Title, Text } = Typography;
-const { RangePicker } = DatePicker;
 
 // ============================================================
 // 常量
 // ============================================================
 
 const CATEGORY_OPTIONS = [
-  { value: "", label: "全部类别" },
+  { value: "", label: "全部种类" },
   { value: "品牌策略类", label: "品牌策略" },
   { value: "创意设计类", label: "创意设计" },
   { value: "媒介投放类", label: "媒介投放" },
@@ -46,83 +44,84 @@ const LEVEL_OPTIONS = [
 ];
 
 const PROBABILITY_OPTIONS = [
-  { value: "", label: "全部" },
+  { value: "", label: "全部陪跑概率" },
   { value: "低", label: "低陪跑概率" },
   { value: "中", label: "中陪跑概率" },
   { value: "高", label: "高陪跑概率" },
 ];
 
-const PROBABILITY_COLORS = {
-  "低": "green",
-  "中": "orange",
-  "高": "red",
-};
-
 // ============================================================
 // 辅助函数
 // ============================================================
 
-function calcDaysLeft(deadline) {
-  if (!deadline) return null;
-  const now = new Date();
-  const dl = new Date(deadline);
-  const diff = Math.ceil((dl - now) / (1000 * 60 * 60 * 24));
-  return diff;
+function formatDate(dateStr) {
+  if (!dateStr) return "—";
+  const d = new Date(dateStr);
+  if (isNaN(d.getTime())) return dateStr;
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
-function renderDaysLeft(deadline) {
-  const days = calcDaysLeft(deadline);
-  if (days === null) return <Text type="secondary">—</Text>;
-  if (days < 0) {
-    return <Tag color="default">已截止</Tag>;
-  }
-  if (days === 0) {
-    return <Tag color="red">今日截止</Tag>;
-  }
-  if (days <= 3) {
-    return <Tag color="red">剩余{days}天</Tag>;
-  }
-  if (days <= 7) {
-    return <Tag color="orange">剩余{days}天</Tag>;
-  }
-  return <Text>{days} 天</Text>;
-}
-
+// ============================================================
 // Mock 数据（后端未就绪时使用）
+// ============================================================
+
 function generateMockData() {
   const items = [];
-  const purchasers = ["省公司", "广州分公司", "东莞分公司", "深圳分公司", "佛山分公司"];
+  const provinces = ["广东", "广东", "广东", "广东", "广东", "广东", "四川", "浙江"];
+  const cities = ["广州", "深圳", "东莞", "佛山", "珠海", "惠州", "成都", "杭州"];
+  const purchasers = ["省公司", "广州分公司", "东莞分公司", "深圳分公司", "佛山分公司", "惠州分公司"];
   const categories = ["品牌策略类", "创意设计类", "媒介投放类", "活动执行类", "内容制作类", "新媒体运营类"];
   const methods = ["公开招标", "公开询比", "竞争性谈判", "单一来源"];
   const names = [
-    "品牌策略规划服务", "广告创意设计项目", "信息流广告投放代理",
-    "校园路演推广活动", "宣传物料设计与制作", "微信公众号代运营",
-    "品牌健康度调研", "VI视觉系统升级", "KOL达人资源采购",
-    "新品发布会活动", "短视频内容制作", "视频号直播运营",
+    "品牌策略规划服务项目", "广告创意设计服务项目", "信息流广告投放代理项目",
+    "校园路演推广活动项目", "宣传物料设计与制作项目", "微信公众号代运营服务项目",
+    "品牌健康度调研项目", "VI视觉系统升级项目", "KOL达人资源采购项目",
+    "新品发布会活动项目", "短视频内容制作项目", "视频号直播运营项目",
   ];
 
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 30; i++) {
     const score = Math.floor(Math.random() * 60) + 25;
     const prob = score >= 75 ? "低" : score >= 50 ? "中" : "高";
-    const deadline = new Date();
-    deadline.setDate(deadline.getDate() + Math.floor(Math.random() * 60) - 5);
 
+    const announceDate = new Date();
+    announceDate.setDate(announceDate.getDate() - Math.floor(Math.random() * 30));
+
+    const deadline = new Date(announceDate);
+    deadline.setDate(deadline.getDate() + 15 + Math.floor(Math.random() * 30));
+
+    const bidDate = new Date(deadline);
+    bidDate.setDate(bidDate.getDate() + Math.floor(Math.random() * 7) + 1);
+
+    const regionIdx = i % 8;
     const hasContact = Math.random() > 0.5;
     const hasIncumbent = Math.random() > 0.65;
 
     items.push({
       id: i + 1,
-      title: `广东移动${purchasers[i % 5]}${names[i % names.length]}`,
-      purchaser: purchasers[i % 5],
-      purchaser_level: purchasers[i % 5],
+      // ── 模板字段 ──
+      announce_date: announceDate.toISOString(),
+      industry: purchasers[i % 6].includes("省公司") ? "中国移动通信集团广东有限公司" : `中国移动通信集团广东有限公司${purchasers[i % 6].replace("分公司", "")}分公司`,
+      province: provinces[regionIdx],
+      city: cities[regionIdx],
+      title: `${purchasers[i % 6]}${names[i % names.length]}`,
       project_category: categories[i % 6],
-      procurement_method: methods[i % 4],
       budget: Math.floor(Math.random() * 800) + 50,
+      source_url: `https://zb.zhaobiao.cn/bidding_v_${String(i).padStart(3, "0")}.html`,
       deadline: deadline.toISOString(),
+      deadline_time: `${String(15 + (i % 8)).padStart(2, "0")}:${i % 2 === 0 ? "00" : "30"}`,
+      bid_date: bidDate.toISOString(),
+      bid_time: `${String(9 + (i % 4)).padStart(2, "0")}:${i % 2 === 0 ? "00" : "30"}`,
+      registration_fee: i % 3 === 0 ? 300 : i % 4 === 0 ? 500 : 0,
+      deposit: i % 3 === 0 ? Math.floor(Math.random() * 10 + 1) * 10000 : 0,
+      remark: i % 7 === 0 ? "需现场报名" : i % 5 === 0 ? "电子标" : "",
+      // ── 辅助字段 ──
+      purchaser: purchasers[i % 6],
+      purchaser_level: purchasers[i % 6],
+      procurement_method: methods[i % 4],
       total_score: score,
       probability_label: prob,
-      contact_name: hasContact ? ["张三", "李四", "王五"][i % 3] : null,
-      incumbent_name: hasIncumbent ? ["省广集团", "蓝色光标", "因赛集团"][i % 3] : null,
+      contact_name: hasContact ? ["张三", "李四", "王五", "赵六"][i % 4] : null,
+      incumbent_name: hasIncumbent ? ["省广集团", "蓝色光标", "因赛集团", "华扬联众"][i % 4] : null,
     });
   }
   items.sort((a, b) => b.total_score - a.total_score);
@@ -213,53 +212,47 @@ function OpportunityList() {
     setSearchText("");
   };
 
-  // 表格列定义
+  // 表格列定义 — 对齐「致合项目查询汇总」Excel 模板
   const columns = useMemo(() => [
+    {
+      title: "招标单位",
+      dataIndex: "industry",
+      key: "industry",
+      width: 220,
+      ellipsis: true,
+      render: (val) => val ? <Text>{val}</Text> : <Text type="secondary">—</Text>,
+    },
+    {
+      title: "省份",
+      dataIndex: "province",
+      key: "province",
+      width: 70,
+      render: (val) => val || <Text type="secondary">—</Text>,
+    },
+    {
+      title: "地市",
+      dataIndex: "city",
+      key: "city",
+      width: 80,
+      render: (val) => val || <Text type="secondary">—</Text>,
+    },
     {
       title: "项目名称",
       dataIndex: "title",
       key: "title",
-      width: 340,
+      width: 320,
       ellipsis: true,
       render: (text, record) => (
-        <Space direction="vertical" size={0}>
-          <a
-            style={{ fontWeight: 500 }}
-            onClick={() => message.info(`详情页: ${record.id}`)}
-          >
-            {text}
-          </a>
-          <Space size={4} wrap>
-            {record.contact_name && (
-              <Tag icon={<UserOutlined />} color="blue" style={{ fontSize: 11 }}>
-                联系人：{record.contact_name}
-              </Tag>
-            )}
-            {record.incumbent_name && (
-              <Tag icon={<CrownOutlined />} color="gold" style={{ fontSize: 11 }}>
-                在位者：{record.incumbent_name}
-              </Tag>
-            )}
-          </Space>
-        </Space>
+        <a
+          style={{ fontWeight: 500 }}
+          onClick={() => message.info(`详情页: ${record.id}`)}
+        >
+          {text}
+        </a>
       ),
     },
     {
-      title: "采购方",
-      dataIndex: "purchaser",
-      key: "purchaser",
-      width: 110,
-      render: (text) => {
-        const isProvince = text?.includes("省公司");
-        return (
-          <Tag color={isProvince ? "purple" : "blue"}>
-            {text?.replace("分公司", "")}
-          </Tag>
-        );
-      },
-    },
-    {
-      title: "类别",
+      title: "种类",
       dataIndex: "project_category",
       key: "project_category",
       width: 100,
@@ -273,44 +266,67 @@ function OpportunityList() {
       },
     },
     {
-      title: "采购方式",
-      dataIndex: "procurement_method",
-      key: "procurement_method",
-      width: 100,
-      render: (m) => <Text>{m}</Text>,
-    },
-    {
-      title: "预算",
+      title: "预算金额\n（万元）",
       dataIndex: "budget",
       key: "budget",
-      width: 90,
+      width: 110,
       sorter: (a, b) => (a.budget || 0) - (b.budget || 0),
-      render: (val) => val ? <Text strong>{val}万</Text> : <Text type="secondary">—</Text>,
+      render: (val) => val ? <Text strong>{val} 万</Text> : <Text type="secondary">—</Text>,
     },
     {
-      title: <><ClockCircleOutlined /> 截止</>,
+      title: "网址",
+      dataIndex: "source_url",
+      key: "source_url",
+      width: 80,
+      render: (url) => url ? (
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          <LinkOutlined /> 查看
+        </a>
+      ) : <Text type="secondary">—</Text>,
+    },
+    {
+      title: "报名截止日期",
       dataIndex: "deadline",
       key: "deadline",
-      width: 100,
-      sorter: (a, b) => calcDaysLeft(a.deadline) - calcDaysLeft(b.deadline),
-      render: (dl) => renderDaysLeft(dl),
+      width: 115,
+      sorter: (a, b) => new Date(a.deadline) - new Date(b.deadline),
+      render: (val) => <Text>{formatDate(val)}</Text>,
+    },
+    {
+      title: "投标日期",
+      dataIndex: "bid_date",
+      key: "bid_date",
+      width: 105,
+      render: (val) => val ? <Text>{formatDate(val)}</Text> : <Text type="secondary">—</Text>,
+    },
+    {
+      title: "报名费",
+      dataIndex: "registration_fee",
+      key: "registration_fee",
+      width: 85,
+      render: (val) => val ? <Text>¥{val}</Text> : <Text type="secondary">—</Text>,
+    },
+    {
+      title: "保证金",
+      dataIndex: "deposit",
+      key: "deposit",
+      width: 90,
+      render: (val) => val ? <Text>¥{val.toLocaleString()}</Text> : <Text type="secondary">—</Text>,
     },
     {
       title: "推荐指数",
       dataIndex: "total_score",
       key: "total_score",
-      width: 160,
+      width: 150,
       sorter: (a, b) => a.total_score - b.total_score,
       defaultSortOrder: "descend",
       render: (score) => (
         <Progress
           percent={score}
           size="small"
-          strokeColor={
-            score >= 75 ? "#52c41a" : score >= 50 ? "#faad14" : "#ff4d4f"
-          }
+          strokeColor={score >= 75 ? "#52c41a" : score >= 50 ? "#faad14" : "#ff4d4f"}
           format={(p) => `${p}分`}
-          style={{ minWidth: 120 }}
+          style={{ minWidth: 110 }}
         />
       ),
     },
@@ -318,12 +334,12 @@ function OpportunityList() {
       title: "陪跑概率",
       dataIndex: "probability_label",
       key: "probability_label",
-      width: 90,
+      width: 95,
       render: (label) => (
         <Badge
           status={label === "低" ? "success" : label === "中" ? "warning" : "error"}
           text={
-            <Text strong style={{ color: PROBABILITY_COLORS[label] }}>
+            <Text strong style={{ color: { "低": "green", "中": "orange", "高": "red" }[label] }}>
               {label === "低" ? "🟢 低" : label === "中" ? "🟡 中" : "🔴 高"}
             </Text>
           }
@@ -437,8 +453,8 @@ function OpportunityList() {
                 showSizeChanger: true,
                 showTotal: (total) => `共 ${total} 条`,
               }}
-              scroll={{ x: 1200 }}
-              size="middle"
+              scroll={{ x: 1800 }}
+              size="small"
               locale={{ emptyText: "暂无数据" }}
             />
           )}
