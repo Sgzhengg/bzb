@@ -67,9 +67,17 @@ function formatDate(dateStr) {
 
 function generateMockData() {
   const items = [];
-  const provinces = ["广东", "广东", "广东", "广东", "广东", "广东", "四川", "浙江"];
-  const cities = ["广州", "深圳", "东莞", "佛山", "珠海", "惠州", "成都", "杭州"];
-  const purchasers = ["省公司", "广州分公司", "东莞分公司", "深圳分公司", "佛山分公司", "惠州分公司"];
+  // 采购方 → 地市映射（均为广东移动各地市分公司）
+  const purchaserCityMap = {
+    "省公司": "广州",
+    "广州分公司": "广州",
+    "深圳分公司": "深圳",
+    "东莞分公司": "东莞",
+    "佛山分公司": "佛山",
+    "惠州分公司": "惠州",
+    "珠海分公司": "珠海",
+  };
+  const purchasers = Object.keys(purchaserCityMap);
   const categories = ["品牌策略类", "创意设计类", "媒介投放类", "活动执行类", "内容制作类", "新媒体运营类"];
   const methods = ["公开招标", "公开询比", "竞争性谈判", "单一来源"];
   const names = [
@@ -92,7 +100,8 @@ function generateMockData() {
     const bidDate = new Date(deadline);
     bidDate.setDate(bidDate.getDate() + Math.floor(Math.random() * 7) + 1);
 
-    const regionIdx = i % 8;
+    const purchaser = purchasers[i % purchasers.length];
+    const city = purchaserCityMap[purchaser];
     const hasContact = Math.random() > 0.5;
     const hasIncumbent = Math.random() > 0.65;
 
@@ -100,13 +109,13 @@ function generateMockData() {
       id: i + 1,
       // ── 模板字段 ──
       announce_date: announceDate.toISOString(),
-      industry: purchasers[i % 6].includes("省公司") ? "中国移动通信集团广东有限公司" : `中国移动通信集团广东有限公司${purchasers[i % 6].replace("分公司", "")}分公司`,
-      province: provinces[regionIdx],
-      city: cities[regionIdx],
-      title: `${purchasers[i % 6]}${names[i % names.length]}`,
-      project_category: categories[i % 6],
+      industry: purchaser.includes("省公司") ? "中国移动通信集团广东有限公司" : `中国移动通信集团广东有限公司${purchaser.replace("分公司", "")}分公司`,
+      province: "广东",
+      city: city,
+      title: `${purchaser}${names[i % names.length]}`,
+      project_category: categories[i % categories.length],
       budget: Math.floor(Math.random() * 800) + 50,
-      source_url: `https://zb.zhaobiao.cn/bidding_v_${String(i).padStart(3, "0")}.html`,
+      source_url: "",  // Mock 数据无真实 URL
       deadline: deadline.toISOString(),
       deadline_time: `${String(15 + (i % 8)).padStart(2, "0")}:${i % 2 === 0 ? "00" : "30"}`,
       bid_date: bidDate.toISOString(),
@@ -115,9 +124,9 @@ function generateMockData() {
       deposit: i % 3 === 0 ? Math.floor(Math.random() * 10 + 1) * 10000 : 0,
       remark: i % 7 === 0 ? "需现场报名" : i % 5 === 0 ? "电子标" : "",
       // ── 辅助字段 ──
-      purchaser: purchasers[i % 6],
-      purchaser_level: purchasers[i % 6],
-      procurement_method: methods[i % 4],
+      purchaser: purchaser,
+      purchaser_level: purchaser,
+      procurement_method: methods[i % methods.length],
       total_score: score,
       probability_label: prob,
       contact_name: hasContact ? ["张三", "李四", "王五", "赵六"][i % 4] : null,
@@ -278,7 +287,7 @@ function OpportunityList() {
       dataIndex: "source_url",
       key: "source_url",
       width: 80,
-      render: (url) => url ? (
+      render: (url) => url && url.startsWith("http") ? (
         <a href={url} target="_blank" rel="noopener noreferrer">
           <LinkOutlined /> 查看
         </a>

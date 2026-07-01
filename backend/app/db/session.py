@@ -7,11 +7,18 @@ from sqlalchemy.orm import sessionmaker
 
 from app.core.config import settings
 
+_is_sqlite = settings.DATABASE_URL.startswith("sqlite")
+
+_engine_kwargs = dict(
+    echo=False,
+    connect_args={"check_same_thread": False} if _is_sqlite else {},
+)
+if not _is_sqlite:
+    _engine_kwargs.update(pool_size=10, max_overflow=20)
+
 engine = create_async_engine(
     settings.DATABASE_URL,
-    echo=False,
-    pool_size=10,
-    max_overflow=20,
+    **_engine_kwargs,
 )
 
 AsyncSessionLocal = sessionmaker(

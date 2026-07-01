@@ -4,9 +4,8 @@
 
 from sqlalchemy import (
     Column, Integer, String, Text, Date, DateTime, Numeric,
-    ForeignKey,
+    ForeignKey, JSON,
 )
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -51,11 +50,11 @@ class Announcement(Base):
     remark = Column(Text, default="", comment="备注")
 
     # ── 原有辅助字段 ──
-    purchaser_id = Column(Integer, ForeignKey("purchasers.id", ondelete="RESTRICT"), nullable=False, comment="采购方ID")
-    purchaser_level = Column(String(50), nullable=False, comment="采购方层级")
+    purchaser_id = Column(Integer, ForeignKey("purchasers.id", ondelete="RESTRICT"), nullable=True, comment="采购方ID")
+    purchaser_level = Column(String(50), nullable=True, comment="采购方层级")
     procurement_method = Column(String(30), nullable=False, default="公开招标", comment="采购方式")
     qualification_requirements = Column(Text, comment="资格要求")
-    score_weight = Column(JSONB, comment="评分权重（JSON）")
+    score_weight = Column(JSON, comment="评分权重（JSON）")
 
     created_at = Column(DateTime, server_default=func.now(), nullable=False)
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)

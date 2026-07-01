@@ -29,6 +29,19 @@ logs/
 # Checkpoint (runtime data)
 checkpoint.json
 
+# Database
+*.db
+*.db-journal
+*.db-wal
+
+# Output (crawled data)
+backend/output/
+output/
+
+# Backups
+*.bak
+*.backup
+
 # OS
 .DS_Store
 Thumbs.db

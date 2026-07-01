@@ -10,9 +10,14 @@ async def main():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     all_candidates = []
     seen = set()
-    ad_kw = ['广告','品牌','宣传','营销','活动','设计','制作','新媒体','视频','渠道',
-             '客户服务','触点','运营','传播','创意','策划','物料','拍摄','直播','内容',
-             '党群','工会','培训','集团客户','展览','论坛','发布会']
+    ad_kw = ['品牌','策略','定位','规划','创意','设计','视觉','VI','海报','画册',
+             '投放','媒介','代理','KOL','活动','路演','展会','发布会','文体','工会',
+             '运动会','比赛','竞赛','评选','表彰','庆典','开放日','展览','展厅','展馆',
+             '促销','网格','地推','门店','渠道','制作','拍摄','物料','H5','脚本',
+             '视频','短视频','宣传','学习','集团客户','政企','新闻','采访','舆情',
+             '培训','研修','参访','客户服务','客户关怀','客户体验','论坛','峰会',
+             '研讨会','沙龙','座谈会','交流会','推介会','公众号','视频号','直播',
+             '代运营','新媒体','运营','广告','营销','推广','传播','策划']
     
     async with async_playwright() as pw:
         browser = await pw.chromium.launch(headless=True)
@@ -28,8 +33,10 @@ async def main():
                 const rows = document.querySelectorAll('table tr');
                 return [...rows].filter(r => r.querySelectorAll("td").length>=3)
                     .map(r => {const c=r.querySelectorAll("td");
+                               const link = c[2]?.querySelector("a");
                                return {unit:(c[0]?.textContent||"").trim(),type:(c[1]?.textContent||"").trim(),
-                                       title:(c[2]?.textContent||"").trim(),date:c.length>3?(c[3]?.textContent||"").trim():""};});
+                                       title:(c[2]?.textContent||"").trim(),date:c.length>3?(c[3]?.textContent||"").trim():"",
+                                       url: link ? link.href : ""};});
             }''')
             
             candidates = [i for i in items if (i['type'].find('候选人')>=0 or i['type'].find('结果公示')>=0 or i['type'].find('中选结果')>=0) and '广东' in i['unit']]
@@ -39,6 +46,10 @@ async def main():
                 if c['title'] not in seen:
                     seen.add(c['title'])
                     c['is_ad'] = any(k in c['title'] for k in ad_kw)
+                    # 构造搜索URL：用标题关键词搜索
+                    from urllib.parse import quote
+                    search_term = c['title'][:30]  # 取前30字作为搜索词
+                    c['url'] = f"https://b2b.10086.cn/b2b/main/listVendorNotice.html?noticeType=2#/searchPage?value={quote(search_term)}&noticeType=ALL&current=1"
                     all_candidates.append(c)
                     new += 1
             

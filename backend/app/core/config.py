@@ -16,7 +16,7 @@ class Settings:
     # 数据库配置
     DATABASE_URL: str = os.getenv(
         "BZB_DATABASE_URL",
-        "postgresql+asyncpg://postgres:postgres@db:5432/biaozhongbao",
+        "sqlite+aiosqlite:///./biaozhongbao.db",
     )
 
     # Redis（可选，用于缓存）
