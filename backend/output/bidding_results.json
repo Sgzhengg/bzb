@@ -1,0 +1,15 @@
+{
+  "crawl_time": "2026-07-06T18:21:09.428050",
+  "stats": {
+    "total_list_items": 0,
+    "detail_fetched": 0,
+    "detail_failed": 0,
+    "ai_detail_fetched": 0,
+    "ai_detail_failed": 0,
+    "ad_filtered": 0,
+    "non_ad_filtered": 0,
+    "pages_crawled": 0
+  },
+  "total": 0,
+  "results": []
+}
