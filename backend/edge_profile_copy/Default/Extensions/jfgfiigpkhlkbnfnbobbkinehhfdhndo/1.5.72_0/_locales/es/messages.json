@@ -1,0 +1,29 @@
+{
+   "contextCustom": {
+      "message": "Personalizado"
+   },
+   "contextExplain": {
+      "message": "Explicar"
+   },
+   "contextRephrase": {
+      "message": "Reformular"
+   },
+   "contextSummarize": {
+      "message": "Resumir"
+   },
+   "contextTranslate": {
+      "message": "Traducir"
+   },
+   "extDescription": {
+      "message": "Usa tu modelo de IA corriendo localmente para asistirte en la navegación."
+   },
+   "extName": {
+      "message": "Page Assist - Una Web UI para modelos de IA Locales"
+   },
+   "openOptionToChat": {
+      "message": "Abrir Web UI para Chatear"
+   },
+   "openSidePanelToChat": {
+      "message": "Abrir Panel Lateral para Chatear"
+   }
+}

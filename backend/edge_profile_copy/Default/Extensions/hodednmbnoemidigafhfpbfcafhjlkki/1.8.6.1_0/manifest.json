@@ -1,0 +1,45 @@
+{
+   "action": {
+      "default_popup": "popup.html"
+   },
+   "background": {
+      "service_worker": "app/background.js"
+   },
+   "commands": {
+      "_execute_action": {
+         "description": "",
+         "suggested_key": {
+            "default": "Alt+M"
+         }
+      }
+   },
+   "content_scripts": [ {
+      "all_frames": false,
+      "css": [ "styles/toolbar.css" ],
+      "js": [ "app/toolbar.js" ],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_end"
+   } ],
+   "default_locale": "zh_CN",
+   "description": "__MSG_extDesc__",
+   "externally_connectable": {
+      "matches": [ "https://fanyi-fanyi.newtranx.com/*" ]
+   },
+   "host_permissions": [ "http://*/*", "https://*/*", "https://hm.baidu.com", "file://*" ],
+   "icons": {
+      "128": "assets/icon/icon128.png",
+      "16": "assets/icon/icon16.png",
+      "32": "assets/icon/icon128.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx+u2rt8LcxsJb+awbOQqTuPQfaLArcBuCefk9d8z+DB1fsTCAM5PTjrtBECHAFf+mfPkyPxz34ujReQllmcWsHDsL3Z4oi74rHn9MgKqzB28CErLPJNK3F2ChVLI7EbUJSsNR9Ojopovc937LuWGKVgI9POQF0R4PsqWJWFCLFRbbfU7URkCoRI27sc1faKUV5832yrf0g1+GbPTEaOIyAguifKdQoGVyeCkg2FzDx+MlRAeVeodxrM8QeaWVpbAcYJOqSjhBgB0UNwz8eny3Zg/Du5+Kp5nkmvezme+7QBr4mipsSo4NbeCMdl/w5dloQr2hlCZzmVTPWT+f76VVQIDAQAB",
+   "manifest_version": 3,
+   "name": "__MSG_extName__",
+   "options_page": "setting.html",
+   "permissions": [ "tabs", "storage", "scripting", "tabCapture", "downloads" ],
+   "update_url": "https://edge.microsoft.com/extensionwebstorebase/v1/crx",
+   "version": "1.8.6.1",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "setting.html" ]
+   } ]
+}

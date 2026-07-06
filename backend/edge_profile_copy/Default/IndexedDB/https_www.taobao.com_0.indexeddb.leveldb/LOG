@@ -1,0 +1,6 @@
+2026/02/25-12:17:37.395 6ccc Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_www.taobao.com_0.indexeddb.leveldb since it was missing.
+2026/02/25-12:17:37.399 6ccc Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_www.taobao.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/02/25-12:55:30.683 6ccc Level-0 table #5: started
+2026/02/25-12:55:30.685 6ccc Level-0 table #5: 3752 bytes OK
+2026/02/25-12:55:30.687 6ccc Delete type=0 #3
+2026/02/25-12:55:30.687 6ccc Manual compaction at level-0 from (begin) .. (end); will stop at (end)

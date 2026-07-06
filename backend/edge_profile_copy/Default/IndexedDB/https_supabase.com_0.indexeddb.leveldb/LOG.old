@@ -1,0 +1,6 @@
+2025/11/18-15:52:05.668 2ec4 Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_supabase.com_0.indexeddb.leveldb since it was missing.
+2025/11/18-15:52:05.671 2ec4 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_supabase.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/11/18-15:52:07.800 2f60 Level-0 table #5: started
+2025/11/18-15:52:07.803 2f60 Level-0 table #5: 891 bytes OK
+2025/11/18-15:52:07.805 2f60 Delete type=0 #3
+2025/11/18-15:52:07.806 2f60 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

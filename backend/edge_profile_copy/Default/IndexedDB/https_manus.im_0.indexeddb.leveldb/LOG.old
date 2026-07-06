@@ -1,0 +1,7 @@
+2026/06/22-10:28:36.860 45fc Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_manus.im_0.indexeddb.leveldb/MANIFEST-000001
+2026/06/22-10:28:36.861 45fc Recovering log #4
+2026/06/22-10:28:36.868 45fc Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_manus.im_0.indexeddb.leveldb/000004.log 
+2026/06/22-10:31:10.284 5518 Level-0 table #8: started
+2026/06/22-10:31:10.288 5518 Level-0 table #8: 388318 bytes OK
+2026/06/22-10:31:10.290 5518 Delete type=0 #4
+2026/06/22-10:31:10.291 1d84 Manual compaction at level-0 from '\x00\x02\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x03\x00\x00\x00' @ 0 : 0; will stop at (end)

@@ -1,0 +1,24 @@
+2025/12/30-14:36:01.978 6ff8 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_imgur.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/12/30-14:36:01.978 6ff8 Recovering log #7
+2025/12/30-14:36:01.979 6ff8 Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_imgur.com_0.indexeddb.leveldb/000007.log 
+2025/12/30-14:36:02.375 71dc Level-0 table #11: started
+2025/12/30-14:36:02.378 71dc Level-0 table #11: 2241 bytes OK
+2025/12/30-14:36:02.379 71dc Delete type=0 #7
+2025/12/30-14:36:02.380 4dac Manual compaction at level-0 from '\x00\x07\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x08\x00\x00\x00' @ 0 : 0; will stop at '\x00\x07\x00\x00\x05' @ 319 : 1
+2025/12/30-14:36:02.380 4dac Compacting 1@0 + 1@1 files
+2025/12/30-14:36:02.381 4dac Generated table #12@0: 111 keys, 2353 bytes
+2025/12/30-14:36:02.381 4dac Compacted 1@0 + 1@1 files => 2353 bytes
+2025/12/30-14:36:02.383 4dac compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/12/30-14:36:02.383 4dac Delete type=2 #11
+2025/12/30-14:36:02.383 4dac Manual compaction at level-0 from '\x00\x07\x00\x00\x05' @ 319 : 1 .. '\x00\x08\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/12/30-14:36:05.376 71dc Level-0 table #14: started
+2025/12/30-14:36:05.380 71dc Level-0 table #14: 2056 bytes OK
+2025/12/30-14:36:05.382 71dc Delete type=2 #8
+2025/12/30-14:36:05.382 71dc Delete type=0 #10
+2025/12/30-14:36:05.383 4dac Manual compaction at level-0 from '\x00\x08\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x09\x00\x00\x00' @ 0 : 0; will stop at '\x00\x08\x00\x00\x05' @ 362 : 1
+2025/12/30-14:36:05.383 4dac Compacting 1@0 + 1@1 files
+2025/12/30-14:36:05.385 4dac Generated table #15@0: 112 keys, 2361 bytes
+2025/12/30-14:36:05.385 4dac Compacted 1@0 + 1@1 files => 2361 bytes
+2025/12/30-14:36:05.386 4dac compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/12/30-14:36:05.387 4dac Delete type=2 #14
+2025/12/30-14:36:05.388 4dac Manual compaction at level-0 from '\x00\x08\x00\x00\x05' @ 362 : 1 .. '\x00\x09\x00\x00\x00' @ 0 : 0; will stop at (end)

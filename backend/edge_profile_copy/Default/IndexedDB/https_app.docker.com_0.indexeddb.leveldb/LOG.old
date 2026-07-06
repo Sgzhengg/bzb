@@ -1,0 +1,7 @@
+2026/05/29-09:18:50.575 5c30 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_app.docker.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/05/29-09:18:50.575 5c30 Recovering log #3
+2026/05/29-09:18:50.575 5c30 Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_app.docker.com_0.indexeddb.leveldb/000003.log 
+2026/05/29-11:21:09.089 69e4 Level-0 table #5: started
+2026/05/29-11:21:09.092 69e4 Level-0 table #5: 6694 bytes OK
+2026/05/29-11:21:09.095 69e4 Delete type=0 #3
+2026/05/29-11:21:09.095 1820 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

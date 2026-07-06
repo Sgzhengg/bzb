@@ -1,0 +1,35 @@
+{
+   "action": {
+      "default_icon": {
+         "128": "data/icons/128.png",
+         "32": "data/icons/32.png",
+         "48": "data/icons/48.png",
+         "64": "data/icons/64.png"
+      },
+      "default_title": "__MSG_app_name__"
+   },
+   "background": {
+      "service_worker": "background.js"
+   },
+   "commands": {
+      "_execute_action": {
+      }
+   },
+   "default_locale": "en",
+   "description": "__MSG_app_description__",
+   "homepage_url": "https://www.downloadhub.cloud/2023/04/calculator.html",
+   "icons": {
+      "128": "data/icons/128.png",
+      "32": "data/icons/32.png",
+      "48": "data/icons/48.png",
+      "64": "data/icons/64.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArTRYtVQtGRhX6stu0ViaD1tjLD+p4zgW0DhZfT6KiNTAdL9Qc2as6hhEs6nXbo3f47/4LwJy6APPlzQgiHXUFUCa3CcfkJUEFOJ6OSYRaVlT9nLX2KiFlJ1i52xYnzNXmgCwVW8MtgGF9NrkIsra9CeV143HiJVou5E1C+fW6NVf/cGYiw7nXzId8ybLPUDct+9NJ2SzVbZ2qcU8tFvZGnoDmmHgGGWUBHEkACdqNYDGV/rrojOtN812kbTnwXTBZU9jVTM3CnSv9tGOa+VFJJnnsErAT4lJ/MkSbnufv3Telon911Gd3Pz08HLBvTQz49i6bCu9wLIswCyVmLbXvQIDAQAB",
+   "manifest_version": 3,
+   "name": "__MSG_app_name__",
+   "offline_enabled": true,
+   "permissions": [ "storage" ],
+   "short_name": "calcu",
+   "update_url": "https://edge.microsoft.com/extensionwebstorebase/v1/crx",
+   "version": "0.1.1"
+}

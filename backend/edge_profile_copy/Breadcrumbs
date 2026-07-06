@@ -1,0 +1,73 @@
+8:03:09 Widget Closed: RoundedOmniboxResultsFrameWindow
+8:03:09 Tab9 FinishNav275
+8:03:10 Tab9 PageLoad
+8:03:30 Widget Closed: StatusBubble
+8:03:46 Widget Closed: StatusBubble
+8:04:00 Widget Closed: StatusBubble
+8:04:17 Widget Closed: StatusBubble
+8:05:14 Widget Closed: StatusBubble
+8:05:27 Widget Closed: StatusBubble
+8:13:17 Widget Closed: StatusBubble
+8:13:17 Browser1 Insert active Tab37 at 2
+8:13:17 Tab37 StartNav276 #renderer-user #link
+8:13:17 Tab37 FinishNav276
+8:13:17 Microsoft.Autofill.Password.SignIn.HasAutofillSuggestions
+8:13:17 PasswordManager_Autofilled
+8:13:17 Microsoft.Autofill.Password.SignIn.AutofilledWithoutAuth
+8:13:17 Microsoft.Autofill.Password.SignIn.HasAutofillSuggestions
+8:13:17 PasswordManager_Autofilled
+8:13:17 Microsoft.Autofill.Password.SignIn.AutofilledWithoutAuth
+8:13:17 Tab37 PageLoad
+8:13:27 Widget Closed: StatusBubble
+8:13:39 Widget Closed: PopupBaseView
+8:13:41 Widget Closed: StatusBubble
+8:13:49 Tab37 StartNav277 #renderer-user #form_submit
+8:13:49 Tab37 FinishNav277
+8:13:49 Tab37 PageLoad
+8:13:49 Tab37 StartNav278 #renderer-script #link
+8:13:49 Tab37 FinishNav278
+8:13:49 Tab37 PageLoad
+8:13:49 Tab37 StartNav279 #renderer-script #link
+8:13:50 Tab37 FinishNav279
+8:13:50 PasswordManager_LoginPassed
+8:13:50 Tab37 PageLoad
+8:14:02 Widget Closed: StatusBubble
+8:14:02 Browser1 Switch from Tab37 to Tab19 at 6
+8:14:02 SwitchTab_Click
+8:14:05 Microsoft.Clipboard.WriteText
+8:14:07 Browser1 Switch from Tab19 to Tab6 at 5
+8:14:07 SwitchTab_Click
+8:14:07 Widget Closed: TabHoverCardBubbleView
+8:14:10 Browser1 Switch from Tab6 to Tab19 at 6
+8:14:10 SwitchTab_Click
+8:14:10 Widget Closed: TabHoverCardBubbleView
+8:14:12 Browser1 Switch from Tab19 to Tab36 at 7
+8:14:12 SwitchTab_Click
+8:14:13 Browser1 Switch from Tab36 to Tab37 at 2
+8:14:13 SwitchTab_Click
+8:14:16 Browser1 Switch from Tab37 to Tab9 at 1
+8:14:16 SwitchTab_Click
+8:14:18 Browser1 Switch from Tab9 to Tab37 at 2
+8:14:18 SwitchTab_Click
+8:14:23 Tab37 StartNav280 #renderer-user #form_submit
+8:14:23 Tab37 FinishNav280
+8:14:23 Tab37 PageLoad
+8:14:23 Tab37 StartNav281 #renderer-script #link
+8:14:23 Tab37 FinishNav281
+8:14:23 Tab37 PageLoad
+8:14:24 Tab37 StartNav282 #renderer-script #link
+8:14:26 Tab37 FinishNav282
+8:14:27 Tab37 PageLoad
+8:14:35 Widget Closed: StatusBubble
+8:14:35 Browser1 Insert active Tab38 at 3
+8:14:35 Tab38 StartNav283 #renderer-user #link
+8:14:36 Tab38 FinishNav283
+8:14:36 Tab38 PageLoad
+8:16:01 Widget Closed: StatusBubble
+8:16:57 Widget Closed: StatusBubble
+8:21:18 Widget Closed: StatusBubble
+8:21:42 Widget Closed: StatusBubble
+8:22:01 Tab39 StartNav284 #auto_toplevel
+8:22:01 Browser1 Insert active Tab39 at 9
+8:22:01 Tab39 FinishNav284
+8:22:01 Tab39 PageLoad

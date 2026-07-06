@@ -37,6 +37,7 @@ from app.api.v1.announcements import router as announcements_router
 from app.api.v1.scheduler_api import router as scheduler_router
 from app.api.v1.charts import router as charts_router
 from app.api.v1.preferences import router as preferences_router
+from app.api.v1.awards import router as awards_router
 
 # ============================================================
 # 日志配置（支持文件轮转）
@@ -145,11 +146,10 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["X-Total-Count", "X-Request-ID"],
 )
 
 
@@ -269,8 +269,9 @@ app.include_router(announcements_router, prefix=API_PREFIX)
 app.include_router(scheduler_router, prefix=API_PREFIX)
 app.include_router(charts_router, prefix=API_PREFIX)
 app.include_router(preferences_router, prefix=API_PREFIX)
+app.include_router(awards_router, prefix=API_PREFIX)
 
-logger.info("已注册路由: health/relations/alerts/purchasers/announcements/scheduler/charts/preferences")
+logger.info("已注册路由: health/relations/alerts/purchasers/announcements/scheduler/charts/preferences/awards")
 
 
 # ============================================================

@@ -1,0 +1,29 @@
+{
+   "contextCustom": {
+      "message": "Custom"
+   },
+   "contextExplain": {
+      "message": "Explain"
+   },
+   "contextRephrase": {
+      "message": "Rephrase"
+   },
+   "contextSummarize": {
+      "message": "Summarize"
+   },
+   "contextTranslate": {
+      "message": "Translate"
+   },
+   "extDescription": {
+      "message": "Use your locally running AI models to assist you in your web browsing."
+   },
+   "extName": {
+      "message": "Page Assist - A Web UI for Local AI Models"
+   },
+   "openOptionToChat": {
+      "message": "Open Web UI to Chat"
+   },
+   "openSidePanelToChat": {
+      "message": "Open Side Panel to Chat"
+   }
+}

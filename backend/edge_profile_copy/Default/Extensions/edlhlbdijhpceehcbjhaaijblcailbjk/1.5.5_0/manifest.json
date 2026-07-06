@@ -1,0 +1,38 @@
+{
+   "author": "__MSG_extName__",
+   "background": {
+      "service_worker": "js/background.js"
+   },
+   "content_scripts": [ {
+      "css": [ "css/youtube-video-downloader.css" ],
+      "exclude_matches": [ "http://www.youtube.com/embed/*", "https://www.youtube.com/embed/*" ],
+      "js": [ "js/content.js" ],
+      "matches": [ "http://www.youtube.com/*", "https://www.youtube.com/*", "http://m.youtube.com/*" ],
+      "run_at": "document_start",
+      "world": "MAIN"
+   }, {
+      "css": [ "css/youtube-video-downloader.css" ],
+      "exclude_matches": [ "http://www.youtube.com/embed/*", "https://www.youtube.com/embed/*" ],
+      "js": [ "js/forward.js" ],
+      "matches": [ "http://www.youtube.com/*", "https://www.youtube.com/*", "http://m.youtube.com/*" ],
+      "run_at": "document_start",
+      "world": "ISOLATED"
+   } ],
+   "default_locale": "en",
+   "description": "__MSG_extShortDesc__",
+   "host_permissions": [ "\u003Call_urls>" ],
+   "icons": {
+      "128": "icons/icon128.png",
+      "16": "icons/icon16.png",
+      "300": "icons/icon300.png",
+      "48": "icons/icon48.png"
+   },
+   "incognito": "spanning",
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4tjZybA2xxZcFT49KPFxtpBaOyKm0c6lRdMWWx6iJngLwgiTFWKiCRUigge8r6D95L7wY479DAbJ3Pb6bv6AXK6GmtMyljXFp5jOQkxHBQnBUa6gICZeEkwYXFVvBpsPpLlNxj+JPMX8J6GoSpOzC8gq7YqWeXxhBtHjZRENR0ge63rOT1gj4VR7uZSHUdablpHhy2MeP3Uh0RlPRSXcl3/3SfvaZYlWD3QZNOZ1UCD0o7RDr3SvupQm/+O4ozHOg9G4NxnWa9Q27EORhZEyKl09Lcwpnn2byP9CPO2caXCzcdZSSHH9kFPWW9zNDo2fCJ2S2pwJSz/uvrVDA4bhLQIDAQAB",
+   "manifest_version": 3,
+   "minimum_chrome_version": "95",
+   "name": "__MSG_extName__",
+   "permissions": [ "alarms", "declarativeNetRequest", "downloads", "scripting", "storage" ],
+   "update_url": "https://edge.microsoft.com/extensionwebstorebase/v1/crx",
+   "version": "1.5.5"
+}

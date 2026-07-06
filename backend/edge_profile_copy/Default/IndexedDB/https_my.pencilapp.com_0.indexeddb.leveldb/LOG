@@ -1,0 +1,26 @@
+2026/01/29-12:15:22.643 3b74 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_my.pencilapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/01/29-12:15:22.644 3b74 Recovering log #4
+2026/01/29-12:15:22.644 3b74 Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_my.pencilapp.com_0.indexeddb.leveldb/000004.log 
+2026/01/29-12:15:22.724 4094 Level-0 table #8: started
+2026/01/29-12:15:22.726 4094 Level-0 table #8: 2971 bytes OK
+2026/01/29-12:15:22.728 4094 Delete type=0 #4
+2026/01/29-12:15:22.728 3b74 Manual compaction at level-0 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/01/29-12:19:29.300 2cc0 Level-0 table #10: started
+2026/01/29-12:19:29.301 2cc0 Level-0 table #10: 371 bytes OK
+2026/01/29-12:19:29.303 2cc0 Delete type=0 #7
+2026/01/29-12:19:29.303 2cc0 Manual compaction at level-0 from (begin) .. (end); will stop at '\x00\x02\x01\x02\x01\x05\x00_\x00_\x00s\x00a\x00k' @ 222 : 1
+2026/01/29-12:19:29.303 2cc0 Compacting 1@0 + 1@1 files
+2026/01/29-12:19:29.304 2cc0 Generated table #11@0: 92 keys, 1853 bytes
+2026/01/29-12:19:29.304 2cc0 Compacted 1@0 + 1@1 files => 1853 bytes
+2026/01/29-12:19:29.306 2cc0 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/01/29-12:19:29.306 2cc0 Delete type=2 #8
+2026/01/29-12:19:29.306 2cc0 Delete type=2 #10
+2026/01/29-12:19:29.306 2cc0 Manual compaction at level-0 from '\x00\x02\x01\x02\x01\x05\x00_\x00_\x00s\x00a\x00k' @ 222 : 1 .. (end); will stop at (end)
+2026/01/29-12:19:29.306 2cc0 Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x04\x01\x02\x01\x13\x00[\x00D\x00E\x00F\x00A\x00U\x00L\x00T\x00]\x00!\x00u\x00n\x00d\x00e\x00f\x00i\x00n\x00e\x00d' @ 153 : 1
+2026/01/29-12:19:29.306 2cc0 Compacting 1@1 + 1@2 files
+2026/01/29-12:19:29.307 2cc0 Generated table #12@1: 55 keys, 1493 bytes
+2026/01/29-12:19:29.307 2cc0 Compacted 1@1 + 1@2 files => 1493 bytes
+2026/01/29-12:19:29.309 2cc0 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/01/29-12:19:29.309 2cc0 Delete type=2 #5
+2026/01/29-12:19:29.309 2cc0 Delete type=2 #11
+2026/01/29-12:19:29.309 2cc0 Manual compaction at level-1 from '\x00\x04\x01\x02\x01\x13\x00[\x00D\x00E\x00F\x00A\x00U\x00L\x00T\x00]\x00!\x00u\x00n\x00d\x00e\x00f\x00i\x00n\x00e\x00d' @ 153 : 1 .. (end); will stop at (end)

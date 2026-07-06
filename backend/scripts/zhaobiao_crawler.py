@@ -149,8 +149,11 @@ class CheckpointManager:
 class ZhaobiaoCrawler:
     """中国招标网 Playwright 爬虫"""
 
-    def __init__(self, max_pages: int = MAX_PAGES):
+    def __init__(self, max_pages: int = MAX_PAGES, headless: bool = True,
+                 use_profile: bool = False):
         self.max_pages = max_pages
+        self.headless = headless
+        self.use_profile = use_profile
         self.results: List[BiddingItem] = []
         self.checkpoint = CheckpointManager(
             os.path.join(OUTPUT_DIR, CHECKPOINT_FILE)
@@ -158,6 +161,7 @@ class ZhaobiaoCrawler:
         self.browser = None
         self.context = None
         self.page = None
+        self._pw = None
 
     async def __aenter__(self):
         return self
@@ -170,61 +174,134 @@ class ZhaobiaoCrawler:
         if self.browser is None:
             from playwright.async_api import async_playwright
             self._pw = await async_playwright().start()
-            self.browser = await self._pw.chromium.launch(
-                headless=True,
-                args=["--disable-blink-features=AutomationControlled"]
-            )
-            self.context = await self.browser.new_context(
-                user_agent=(
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                    "AppleWebKit/537.36 (KHTML, like Gecko) "
-                    "Chrome/125.0.0.0 Safari/537.36"
-                ),
-                viewport={"width": 1920, "height": 1080},
-            )
-            self.page = await self.context.new_page()
-            logger.info("🌐 Playwright 浏览器已启动")
+            
+            if self.use_profile:
+                # 使用持久化 profile（用户已登录状态）
+                profile_dir = os.path.join(
+                    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                    "zhaobiao_profile"
+                )
+                os.makedirs(profile_dir, exist_ok=True)
+                self.context = await self._pw.chromium.launch_persistent_context(
+                    profile_dir,
+                    channel="msedge",  # 使用 Edge 浏览器
+                    headless=self.headless,
+                    user_agent=(
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) "
+                        "Chrome/125.0.0.0 Safari/537.36"
+                    ),
+                    viewport={"width": 1920, "height": 1080},
+                )
+                self.page = await self.context.new_page()
+                logger.info("🌐 Playwright 浏览器已启动（持久化会话）")
+            else:
+                self.browser = await self._pw.chromium.launch(
+                    headless=self.headless,
+                    args=["--disable-blink-features=AutomationControlled"]
+                )
+                self.context = await self.browser.new_context(
+                    user_agent=(
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) "
+                        "Chrome/125.0.0.0 Safari/537.36"
+                    ),
+                    viewport={"width": 1920, "height": 1080},
+                )
+                self.page = await self.context.new_page()
+                logger.info("🌐 Playwright 浏览器已启动")
 
     async def close(self):
+        if self.context:
+            await self.context.close()
         if self.browser:
             await self.browser.close()
-            if hasattr(self, '_pw'):
-                await self._pw.stop()
+        if self._pw:
+            await self._pw.stop()
 
     def _random_delay(self):
         import random
         return random.uniform(MIN_DELAY, MAX_DELAY)
 
-    # ── 搜索 ──
+    # ── 非广告类硬排除词（广东移动常见但非广告的项目类型）──
+    NON_AD_KEYWORDS = [
+        "基站", "光缆", "软件开发", "系统编码", "服务器", "物业管理",
+        "食堂", "保安", "保洁", "DCN", "铁塔", "监理服务", "施工图审查",
+        "数据中心", "网络技术支撑", "API接口", "DevOps", "数智化",
+        "业务支撑系统", "前端服务优化", "定制软件", "通信铁塔",
+        "食材", "福利品", "基建工程", "视频监控", "话务平台",
+        "视频报警", "强弱电", "线路整治", "防护工具",
+        "慧眼", "维护支撑", "传输管线", "机房", "电源", "空调",
+        "消防", "防雷", "发电", "蓄电池", "综合布线",
+    ]
+
+    # ── 广告类必须关键词（匹配广东移动后，必须包含至少一个）──
+    AD_REQUIRED_KEYWORDS = [
+        "广告", "品牌", "宣传", "营销", "活动", "新媒体",
+        "视频制作", "宣传片", "设计制作", "物料制作",
+        "创意设计", "媒介投放", "内容制作", "渠道推广",
+        "客户服务活动", "校园营销", "社区推广", "促销活动",
+        "发布会", "推介会", "路演", "展会", "展览展示",
+        "集团客户活动", "政企客户活动", "客户关怀", "客户活动",
+        "文化宣传", "党建宣传", "品牌推广", "品牌传播",
+        "社会化营销", "公关传播", "媒体宣传", "广告投放",
+        "直播运营", "新媒体运营", "公众号运营", "短视频",
+        "印刷", "喷绘", "标识标牌", "门头招牌",
+        "策划", "推广", "地推", "运营支撑", "渠道营销",
+        "网格营销", "厅店推广", "商圈推广", "校园推广",
+        "VI设计", "视觉设计", "平面设计", "形象设计",
+        "全案策划", "整合推广", "广告设计", "广告策划",
+        "参观学习", "交流考察", "交流学习", "合作伙伴智慧展示",
+        # === 新增：企业宣传类 ===
+        "业务宣传", "企业文化", "企业文化建设", "企业文化宣传",
+        "工会活动", "员工活动", "文体活动", "团队建设",
+        "客户信息化参观", "信息化参观", "智慧展示体验",
+        "党建活动", "党群活动", "党员活动", "主题党日",
+        "培训服务", "业务培训", "技能提升", "学习交流",
+    ]
+
+    # ── 广东地市分公司匹配词（处理"云浮分公司"这类缩略标题）──
+    GD_CITY_BRANCH_PATTERNS = [
+        f"{c}分公司" for c in [
+            "广州", "深圳", "东莞", "佛山", "珠海", "中山", "惠州",
+            "汕头", "江门", "湛江", "茂名", "肇庆", "梅州", "汕尾",
+            "河源", "阳江", "清远", "潮州", "揭阳", "云浮", "韶关",
+        ]
+    ]
 
     def _is_gd_mobile(self, title: str, location: str = "") -> bool:
-        """判断是否与广东移动相关。"""
-        # 剥离 zhaobiao.cn 的 "((XX+XX... 相关在信息中)" 噪音标记
+        """判断是否与广东移动广告/营销类项目相关。"""
         import re
         clean_title = re.sub(r'\(\([^)]*?相关在信息中\)', '', title).strip()
         text = (clean_title + " " + location).replace(" ", "")
 
-        # 精确匹配：标题/地点含广东移动或地市移动
+        # 第1步：必须匹配广东移动或地市移动
         exact_kw = ["广东移动", "中国移动广东", "广州移动", "深圳移动",
                      "东莞移动", "佛山移动", "珠海移动", "中山移动", "惠州移动",
                      "汕头移动", "江门移动", "湛江移动", "茂名移动", "肇庆移动",
                      "梅州移动", "汕尾移动", "河源移动", "阳江移动", "清远移动",
                      "潮州移动", "揭阳移动", "云浮移动", "韶关移动",
                      "广东有限公司", "中国移动通信集团广东"]
-        for kw in exact_kw:
-            if kw.replace(" ", "") in text:
-                return True
-        # 地点必须在广东
-        gd_regions = ["广东", "广州", "深圳", "东莞", "佛山", "珠海", "中山",
-                       "惠州", "汕头", "江门", "湛江", "茂名", "肇庆", "梅州",
-                       "汕尾", "河源", "阳江", "清远", "潮州", "揭阳", "云浮", "韶关"]
-        if not any(r in text for r in gd_regions):
+        is_gd_mobile = any(kw.replace(" ", "") in text for kw in exact_kw)
+        # 也匹配 "云浮分公司"、"中山分公司" 等缩略形式
+        if not is_gd_mobile:
+            is_gd_mobile = any(pattern in text for pattern in self.GD_CITY_BRANCH_PATTERNS)
+
+        if not is_gd_mobile:
             return False
-        # 广东地区 + 广告营销关键词
-        ad_kw = ["广告", "品牌", "营销", "宣传", "活动", "设计", "制作", "新媒体",
-                 "视频", "直播", "投放", "策划", "创意", "展会", "论坛", "发布会",
-                 "党群", "党建", "工会", "培训", "集团客户", "物料"]
-        return any(k in text for k in ad_kw)
+
+        # 第2步：检查是否命中非广告类硬排除词 → 直接拒绝
+        for kw in self.NON_AD_KEYWORDS:
+            if kw in text:
+                return False
+
+        # 第3步：必须包含至少一个广告类关键词 → 确认是广告项目
+        for kw in self.AD_REQUIRED_KEYWORDS:
+            if kw in text:
+                return True
+
+        # 第4步：未命中任何广告词 → 拒绝（宁可漏掉，不可误收）
+        return False
 
     async def search(self, keyword: str) -> List[Dict]:
         """

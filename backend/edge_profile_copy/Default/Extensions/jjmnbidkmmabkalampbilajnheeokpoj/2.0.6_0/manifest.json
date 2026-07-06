@@ -1,0 +1,39 @@
+{
+   "action": {
+      "default_icon": {
+         "19": "img/icon19.png",
+         "38": "img/icon38.png"
+      },
+      "default_popup": "html/browser_popup.html",
+      "default_title": "Summarize this page."
+   },
+   "background": {
+      "service_worker": "js/background.js"
+   },
+   "content_scripts": [ {
+      "js": [ "js/lib/jquery.min.js", "js/shared.min.js", "js/installation.min.js" ],
+      "matches": [ "*://*.tldrthis.com/*" ]
+   } ],
+   "description": "Automatically summarize any article, text, document, webpage or essay in a click.",
+   "externally_connectable": {
+      "matches": [ "*://*.tldrthis.com/*" ]
+   },
+   "homepage_url": "https://v1.tldrthis.com",
+   "host_permissions": [ "http://*/*", "https://*/*" ],
+   "icons": {
+      "128": "img/icon128.png",
+      "16": "img/icon16.png",
+      "48": "img/icon48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAouRk2SmduKzSvVAzYjgN5n+6sU1b/dnhgeGPdhYnv/U6YrBv/dJ6VdSsRG7v6M/XXcaO/DzY4t6gy1xam41aqKDNhAe2siE2oX7p4R5/k0aeeo+OiMOqUv5DIPfZrn0owAG51ImWCd1Y2gq3LSuHwBS0qiGxXo5k7Sn+PpdRrgkN03a6A0doCsG45Yiwn6CPNCoOsXZpikzH1f7GRogMnvvX13NR0uqya9V4l1m8U4ughWMeeDCzT0B9NHWegJyeW9ZJY02eVjNlSn+m3xhZb59vzkLnv4vJwL4klgn+EAfzIW0fY5i77vVnmdA4DXuwC30ZjeFBPzx0HmoKWsj1dQIDAQAB",
+   "manifest_version": 3,
+   "name": "TLDR This - Free automatic text summary tool",
+   "permissions": [ "storage", "activeTab", "contextMenus" ],
+   "short_name": "TLDR This",
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "2.0.6",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "img/*", "fonts/*" ]
+   } ]
+}

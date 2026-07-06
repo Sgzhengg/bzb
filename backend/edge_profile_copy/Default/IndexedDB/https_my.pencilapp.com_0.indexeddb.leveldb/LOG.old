@@ -1,0 +1,6 @@
+2026/01/29-12:13:06.081 2cc0 Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_my.pencilapp.com_0.indexeddb.leveldb since it was missing.
+2026/01/29-12:13:06.086 2cc0 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_my.pencilapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/01/29-12:13:06.125 4094 Level-0 table #5: started
+2026/01/29-12:13:06.128 4094 Level-0 table #5: 1385 bytes OK
+2026/01/29-12:13:06.131 4094 Delete type=0 #3
+2026/01/29-12:13:06.132 6e98 Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)

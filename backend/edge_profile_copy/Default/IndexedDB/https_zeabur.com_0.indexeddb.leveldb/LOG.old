@@ -1,0 +1,34 @@
+2026/05/22-14:57:07.477 366c Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_zeabur.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/05/22-14:57:07.477 366c Recovering log #281
+2026/05/22-14:57:07.478 366c Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_zeabur.com_0.indexeddb.leveldb/000281.log 
+2026/05/22-14:57:07.478 366c Delete type=2 #279
+2026/05/22-14:57:07.484 366c Level-0 table #286: started
+2026/05/22-14:57:07.486 366c Level-0 table #286: 9920 bytes OK
+2026/05/22-14:57:07.487 366c Delete type=0 #281
+2026/05/22-14:57:07.487 366c Manual compaction at level-0 from '\x00T\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00U\x00\x00\x00' @ 0 : 0; will stop at '\x00T\x00\x00\x05' @ 32166 : 1
+2026/05/22-14:57:07.488 366c Compacting 1@0 + 1@1 files
+2026/05/22-14:57:07.489 366c Generated table #287@0: 169 keys, 2224 bytes
+2026/05/22-14:57:07.489 366c Compacted 1@0 + 1@1 files => 2224 bytes
+2026/05/22-14:57:07.490 366c compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/05/22-14:57:07.490 366c Delete type=2 #286
+2026/05/22-14:57:07.490 366c Manual compaction at level-0 from '\x00T\x00\x00\x05' @ 32166 : 1 .. '\x00U\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/05/22-15:21:01.121 2a7c Level-0 table #289: started
+2026/05/22-15:21:01.122 2a7c Level-0 table #289: 7510 bytes OK
+2026/05/22-15:21:01.123 2a7c Delete type=2 #283
+2026/05/22-15:21:01.123 2a7c Delete type=0 #285
+2026/05/22-15:21:01.124 2a7c Manual compaction at level-0 from (begin) .. (end); will stop at '\x00\x02\x02\x02\x01$\x00c\x00c\x008\x00d\x001\x00e\x00b\x00b\x00-\x009\x006\x00a\x00f\x00-\x004\x009\x00e\x00c\x00-\x000\x00b\x006\x002\x00-\x003\x004\x00f\x001\x00a\x004\x003\x004\x009\x00c\x00c\x004' @ 32193 : 1
+2026/05/22-15:21:01.124 2a7c Compacting 1@0 + 1@1 files
+2026/05/22-15:21:01.125 2a7c Generated table #290@0: 232 keys, 2798 bytes
+2026/05/22-15:21:01.125 2a7c Compacted 1@0 + 1@1 files => 2798 bytes
+2026/05/22-15:21:01.126 2a7c compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/05/22-15:21:01.126 2a7c Delete type=2 #287
+2026/05/22-15:21:01.126 2a7c Delete type=2 #289
+2026/05/22-15:21:01.126 2a7c Manual compaction at level-0 from '\x00\x02\x02\x02\x01$\x00c\x00c\x008\x00d\x001\x00e\x00b\x00b\x00-\x009\x006\x00a\x00f\x00-\x004\x009\x00e\x00c\x00-\x000\x00b\x006\x002\x00-\x003\x004\x00f\x001\x00a\x004\x003\x004\x009\x00c\x00c\x004' @ 32193 : 1 .. (end); will stop at (end)
+2026/05/22-15:21:01.126 2a7c Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x02\x02\x02\x01$\x00c\x00c\x008\x00d\x001\x00e\x00b\x00b\x00-\x009\x006\x00a\x00f\x00-\x004\x009\x00e\x00c\x00-\x000\x00b\x006\x002\x00-\x003\x004\x00f\x001\x00a\x004\x003\x004\x009\x00c\x00c\x004' @ 32529 : 1
+2026/05/22-15:21:01.126 2a7c Compacting 1@1 + 1@2 files
+2026/05/22-15:21:01.128 2a7c Generated table #291@1: 52 keys, 1214 bytes
+2026/05/22-15:21:01.128 2a7c Compacted 1@1 + 1@2 files => 1214 bytes
+2026/05/22-15:21:01.129 2a7c compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/05/22-15:21:01.129 2a7c Delete type=2 #276
+2026/05/22-15:21:01.129 2a7c Delete type=2 #290
+2026/05/22-15:21:01.129 2a7c Manual compaction at level-1 from '\x00\x02\x02\x02\x01$\x00c\x00c\x008\x00d\x001\x00e\x00b\x00b\x00-\x009\x006\x00a\x00f\x00-\x004\x009\x00e\x00c\x00-\x000\x00b\x006\x002\x00-\x003\x004\x00f\x001\x00a\x004\x003\x004\x009\x00c\x00c\x004' @ 32529 : 1 .. (end); will stop at (end)

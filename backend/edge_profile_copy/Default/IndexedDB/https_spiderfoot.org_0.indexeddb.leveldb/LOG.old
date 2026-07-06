@@ -1,0 +1,6 @@
+2026/03/04-16:55:10.398 5030 Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_spiderfoot.org_0.indexeddb.leveldb since it was missing.
+2026/03/04-16:55:10.403 5030 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_spiderfoot.org_0.indexeddb.leveldb/MANIFEST-000001
+2026/03/04-17:04:46.678 5c3c Level-0 table #5: started
+2026/03/04-17:04:46.680 5c3c Level-0 table #5: 4381 bytes OK
+2026/03/04-17:04:46.682 5c3c Delete type=0 #3
+2026/03/04-17:04:46.682 5c3c Manual compaction at level-0 from (begin) .. (end); will stop at (end)

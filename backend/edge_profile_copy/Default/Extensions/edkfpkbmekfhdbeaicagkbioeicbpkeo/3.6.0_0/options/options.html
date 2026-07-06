@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="optionsPageTitle">N8N Master Settings</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Sidebar Menu -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="../icons/icon48.png" alt="N8N Master">
+                <h2 data-i18n="optionsPageHeader">N8N Master</h2>
+                <div class="version" id="extension-version">Loading...</div>
+            </div>
+            
+            <nav class="menu">
+                <button class="menu-item active" data-section="main">
+                    <span class="icon">🏠</span>
+                    <span class="text" data-i18n="menuMain">Main</span>
+                </button>
+                <button class="menu-item" data-section="ai">
+                    <span class="icon">🧠</span>
+                    <span class="text" data-i18n="menuAI">AI</span>
+                </button>
+                <button class="menu-item" data-section="export">
+                    <span class="icon">📤</span>
+                    <span class="text" data-i18n="menuExport">Export</span>
+                </button>
+                <button class="menu-item" data-section="import">
+                    <span class="icon">📥</span>
+                    <span class="text" data-i18n="menuImport">Import</span>
+                </button>
+                <button class="menu-item" data-section="workflow-history">
+                    <span class="icon">📚</span>
+                    <span class="text" data-i18n="menuWorkflowHistory">Workflow History</span>
+                </button>
+                <button class="menu-item" data-section="about">
+                    <span class="icon">ℹ️</span>
+                    <span class="text" data-i18n="menuAbout">About</span>
+                </button>
+            </nav>
+            
+            <!-- Hostinger VPS Block -->
+            <div class="hostinger-block">
+                <div class="hostinger-header">
+                    <div class="hostinger-logo">HOSTINGER</div>
+                </div>
+                <div class="hostinger-content">
+                    <div class="vps-info">
+                        <span class="vps-icon">🟣</span>
+                        <span class="vps-text">Self-hosted n8n VPS</span>
+                    </div>
+                    <div class="price">US$ 4.99 <span class="period">/month</span></div>
+                    <div class="feature">
+                        <span class="check-icon">✓</span>
+                        <span>Unlimited workflows</span>
+                    </div>
+                    <div class="feature">
+                        <span class="check-icon">✓</span>
+                        <span>Unlimited executions</span>
+                    </div>
+                    <a href="https://www.hostinger.com/vps/n8n-hosting?REFERRALCODE=SBJDJEKNIIAK" target="_blank" class="get-started-btn">
+                        <span>Get Started</span>
+                        <span class="arrow-icon">↗</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <!-- Main Section -->
+            <section id="main-section" class="section active">
+                <h1 data-i18n="mainSectionTitle">Main Settings</h1>
+                
+                <div class="settings-group">
+                    <h3 data-i18n="languageSettings">Language Settings</h3>
+                    <div class="field-group">
+                        <label for="language-select" data-i18n="selectLanguage">Select Language:</label>
+                        <select id="language-select" class="select-field">
+                            <option value="en">English</option>
+                            <option value="ru">Русский</option>
+                            <option value="es">Español</option>
+                            <option value="de">Deutsch</option>
+                            <option value="fr">Français</option>
+                            <option value="zh_CN">中文</option>
+                            <option value="uk">Український</option>
+                            <option value="pt_BR">Português</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Review Block -->
+                <div class="settings-group review-block">
+                    <div class="review-content">
+                        <h3 data-i18n="reviewTitle">Do you like this extension? 😊</h3>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p data-i18n="reviewSubtitle">Leave a review</p>
+                        <div class="review-arrow">👇</div>
+                        <div class="store-links">
+                            <a id="chrome-store-link" href="https://fffem.com/n8n_chrome" target="_blank" class="store-link chrome-link" style="display: none;">
+                                <span class="store-icon">🔵</span>
+                                <span data-i18n="chromeWebStore">Chrome Web Store</span>
+                            </a>
+                            <a id="edge-store-link" href="https://fffem.com/n8n_edge" target="_blank" class="store-link edge-link" style="display: none;">
+                                <span class="store-icon">🔷</span>
+                                <span data-i18n="edgeStore">Microsoft Edge Store</span>
+                            </a>
+                            <div class="or-divider" data-i18n="orText">or</div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- AI Section -->
+            <section id="ai-section" class="section">
+                <h1 data-i18n="aiSectionTitle">AI Settings</h1>
+                
+                <!-- OpenAI -->
+                <div class="settings-group">
+                    <h3><a href="https://platform.openai.com/api-keys" target="_blank">OpenAI</a></h3>
+                    <div class="field-group">
+                        <label for="openai-key" data-i18n="apiKey">API Key:</label>
+                        <div class="input-with-button">
+                            <input type="password" id="openai-key" class="text-field" placeholder="sk-...">
+                            <button id="test-openai" class="test-btn" data-i18n="testKey">Test</button>
+                        </div>
+                        <div id="openai-status" class="status-message"></div>
+                    </div>
+                    <div class="field-group" id="openai-model-group" style="display: none;">
+                        <label for="openai-model" data-i18n="selectModel">Select Model:</label>
+                        <select id="openai-model" class="select-field">
+                            <option value="gpt-4o">GPT-4o (Default)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Anthropic -->
+                <div class="settings-group">
+                    <h3><a href="https://console.anthropic.com/settings/keys" target="_blank">Anthropic</a></h3>
+                    <div class="field-group">
+                        <label for="anthropic-key" data-i18n="apiKey">API Key:</label>
+                        <div class="input-with-button">
+                            <input type="password" id="anthropic-key" class="text-field" placeholder="sk-ant-...">
+                            <button id="test-anthropic" class="test-btn" data-i18n="testKey">Test</button>
+                        </div>
+                        <div id="anthropic-status" class="status-message"></div>
+                    </div>
+                    <div class="field-group" id="anthropic-model-group" style="display: none;">
+                        <label for="anthropic-model" data-i18n="selectModel">Select Model:</label>
+                        <select id="anthropic-model" class="select-field">
+                            <option value="claude-sonnet-4-20250514">Claude 4 Sonnet</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- OpenRouter -->
+                <div class="settings-group">
+                    <h3><a href="https://openrouter.ai/settings/keys" target="_blank">OpenRouter</a></h3>
+                    <div class="field-group">
+                        <label for="openrouter-key" data-i18n="apiKey">API Key:</label>
+                        <div class="input-with-button">
+                            <input type="password" id="openrouter-key" class="text-field" placeholder="sk-or-...">
+                            <button id="test-openrouter" class="test-btn" data-i18n="testKey">Test</button>
+                        </div>
+                        <div id="openrouter-status" class="status-message"></div>
+                    </div>
+                    <div class="field-group" id="openrouter-model-group" style="display: none;">
+                        <label for="openrouter-model" data-i18n="selectModel">Select Model:</label>
+                        <select id="openrouter-model" class="select-field">
+                            <option value="x-ai/grok-beta">Grok 3 beta (Default)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Local LLMs -->
+                <div class="settings-group">
+                    <h3><a href="https://lmstudio.ai/" target="_blank" data-i18n="localLLMsTitle">Local LLMs</a></h3>
+                    <div class="field-group">
+                        <label for="local-api-key" data-i18n="apiKey">API Key:</label>
+                        <div class="input-with-button">
+                            <input type="password" id="local-api-key" class="text-field" placeholder="Specify API key if required">
+                            <button id="test-local-api-key" class="test-btn" data-i18n="testKey">Test</button>
+                        </div>
+                        <div id="local-api-key-status" class="status-message"></div>
+                    </div>
+                    <div class="field-group">
+                        <label for="local-chat-address" data-i18n="localChatAddress">Local chat address:</label>
+                        <div class="input-with-button">
+                            <input type="text" id="local-chat-address" class="text-field" placeholder="http://localhost:1234/v1/chat/completions">
+                            <button id="test-local-chat" class="test-btn" data-i18n="testKey">Test</button>
+                        </div>
+                        <div id="local-chat-status" class="status-message"></div>
+                    </div>
+                    <div class="field-group">
+                        <label for="local-models-address" data-i18n="localModelsAddress">Local models address:</label>
+                        <div class="input-with-button">
+                            <input type="text" id="local-models-address" class="text-field" placeholder="http://localhost:1234/v1/models">
+                            <button id="test-local-models" class="test-btn" data-i18n="testKey">Test</button>
+                        </div>
+                        <div id="local-models-status" class="status-message"></div>
+                    </div>
+                    <div class="field-group" id="local-model-group" style="display: none;">
+                        <label for="local-model" data-i18n="selectModel">Select Model:</label>
+                        <select id="local-model" class="select-field">
+                            <!-- Models will be populated after successful test -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- System Messages -->
+                <div class="settings-group">
+                    <h3 data-i18n="systemMessages">System Messages</h3>
+                    
+                    <div class="field-group">
+                        <label for="system-optimize" data-i18n="optimizePrompt">Optimize Prompt:</label>
+                        <textarea id="system-optimize" class="textarea-field" data-i18n-placeholder="placeholderOptimize"></textarea>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label for="system-generate-prompt" data-i18n="generatePrompt">Generate Prompt:</label>
+                        <textarea id="system-generate-prompt" class="textarea-field" data-i18n-placeholder="placeholderGeneratePrompt"></textarea>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label for="system-generate-code" data-i18n="generateCode">Generate Code:</label>
+                        <textarea id="system-generate-code" class="textarea-field" data-i18n-placeholder="placeholderGenerateCode"></textarea>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label for="system-generate-json" data-i18n="generateJSON">Generate JSON:</label>
+                        <textarea id="system-generate-json" class="textarea-field" data-i18n-placeholder="placeholderGenerateJson"></textarea>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label for="system-explain-code" data-i18n="explainCode">Explain Code:</label>
+                        <textarea id="system-explain-code" class="textarea-field" data-i18n-placeholder="placeholderExplainCode"></textarea>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label for="system-generate-workflow" data-i18n="generateWorkflow">Generate Workflow:</label>
+                        <textarea id="system-generate-workflow" class="textarea-field" data-i18n-placeholder="placeholderGenerateWorkflow"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Export Section -->
+            <section id="export-section" class="section">
+                <h1 data-i18n="exportSectionTitle">Export Settings</h1>
+                
+                <div class="settings-group">
+                    <h3 data-i18n="exportDescription">Export Configuration</h3>
+                    <p data-i18n="exportInfo">Export your extension settings, API keys, and data to a JSON file. This includes:</p>
+                    
+                    <ul class="export-list">
+                        <li data-i18n="exportSettings">Extension Settings</li>
+                        <li data-i18n="exportApiKeys">AI API Keys</li>
+                        <li data-i18n="exportN8nKey">N8N API Key</li>
+                        <li data-i18n="exportTemplates">Output Templates from IndexedDB</li>
+                        <li data-i18n="exportProjects">Local Projects from IndexedDB</li>
+                        <li data-i18n="exportOptions">Extension Options</li>
+                    </ul>
+                    
+                    <div class="action-buttons">
+                        <button id="export-btn" class="primary-btn">
+                            <span class="icon">📤</span>
+                            <span data-i18n="exportButton">Export Settings</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Import Section -->
+            <section id="import-section" class="section">
+                <h1 data-i18n="importSectionTitle">Import Settings</h1>
+                
+                <div class="settings-group">
+                    <h3 data-i18n="importDescription">Import Configuration</h3>
+                    <p data-i18n="importInfo">Import previously exported settings from a JSON file. The import will validate the structure and restore your configuration.</p>
+                    
+                    <div class="import-area">
+                        <input type="file" id="import-file" accept=".json" style="display: none;">
+                        <button id="select-file-btn" class="secondary-btn">
+                            <span class="icon">📁</span>
+                            <span data-i18n="selectFile">Select JSON File</span>
+                        </button>
+                        
+                        <div id="file-info" class="file-info" style="display: none;">
+                            <div class="file-details">
+                                <span>📄 <span id="file-name"></span></span>
+                                <span id="file-size"></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Import Data Selection -->
+                        <div id="import-data-selection" class="import-selection" style="display: none;">
+                            <h4 data-i18n="selectDataToImport">Select Data to Import:</h4>
+                            
+                            <div class="import-categories">
+                                <div class="import-category">
+                                    <h5 data-i18n="chromeStorageData">Chrome Storage Data</h5>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="import-extension-settings" checked>
+                                        <span data-i18n="extensionSettings">Extension Settings</span>
+                                        <span class="item-count" id="extension-settings-count"></span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="import-extension-options" checked>
+                                        <span data-i18n="extensionOptions">Extension Options</span>
+                                        <span class="item-count" id="extension-options-count"></span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="import-ai-keys" checked>
+                                        <span data-i18n="aiApiKeys">AI API Keys</span>
+                                        <span class="item-count" id="ai-keys-count"></span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="import-n8n-key" checked>
+                                        <span data-i18n="n8nApiKey">N8N API Key</span>
+                                        <span class="item-count" id="n8n-key-count"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="import-category">
+                                    <h5 data-i18n="indexedDbData">IndexedDB Data</h5>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="import-output-templates" checked>
+                                        <span data-i18n="outputTemplates">Output Templates</span>
+                                        <span class="item-count" id="output-templates-count"></span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="import-local-projects" checked>
+                                        <span data-i18n="localProjects">Local Projects</span>
+                                        <span class="item-count" id="local-projects-count"></span>
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="import-local-variables" checked>
+                                        <span data-i18n="localVariables">Local Variables</span>
+                                        <span class="item-count" id="local-variables-count"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="selection-actions">
+                                <button id="select-all-btn" class="secondary-btn">
+                                    <span data-i18n="selectAll">Select All</span>
+                                </button>
+                                <button id="deselect-all-btn" class="secondary-btn">
+                                    <span data-i18n="deselectAll">Deselect All</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button id="import-btn" class="primary-btn" disabled>
+                                <span class="icon">📥</span>
+                                <span data-i18n="importButton">Import Settings</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <p data-i18n="importWarning">⚠️ Note: License activation is required for importing extension settings.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Workflow History Section -->
+            <section id="workflow-history-section" class="section">
+                <h1 data-i18n="workflowHistorySectionTitle">Workflow History</h1>
+                
+                <div class="settings-group">
+                    <h3 data-i18n="workflowHistoryDescription">All Workflow Versions</h3>
+                    <p data-i18n="workflowHistoryInfo">View and copy all workflow versions from history. This includes all saved versions across all workflows.</p>
+                    
+                    <div class="action-buttons">
+                        <button id="refresh-history-btn" class="secondary-btn">
+                            <span class="icon">🔄</span>
+                            <span data-i18n="refreshHistory">Refresh History</span>
+                        </button>
+                        <button id="clear-history-btn" class="danger-btn">
+                            <span class="icon">🗑️</span>
+                            <span data-i18n="clearHistory">Clear History</span>
+                        </button>
+                    </div>
+                    
+                    <div id="workflow-history-list" class="workflow-history-list">
+                        <div class="loading-message">
+                            <span class="icon">⏳</span>
+                            <span data-i18n="loadingHistory">Loading workflow history...</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- About Section -->
+            <section id="about-section" class="section">
+                <h1 data-i18n="aboutSectionTitle">About N8N Master</h1>
+                
+                <div class="settings-group">
+                    <h3 data-i18n="deviceInfo">Device Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label data-i18n="deviceId">Device ID:</label>
+                            <span id="device-id" class="info-value">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <label data-i18n="extensionVersion">Extension Version:</label>
+                            <span class="info-value" id="about-extension-version">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h3 data-i18n="licenseInfo">License Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label data-i18n="licenseStatus">License Status:</label>
+                            <span id="license-status" class="info-value">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <label data-i18n="licenseKey">License Key:</label>
+                            <span id="license-key" class="info-value">Loading...</span>
+                        </div>
+                        <div class="info-item">
+                            <label data-i18n="activationDate">Activation Date:</label>
+                            <span id="activation-date" class="info-value">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h3 data-i18n="links">Links & Support</h3>
+                    <div class="links-grid">
+                        <a href="https://www.linkedin.com/in/evgeniiorel/" target="_blank" class="link-item">
+                            <span class="icon">🤝</span>
+                            <span data-i18n="leaveReview">Linkedin</span>
+                        </a>
+                        <a href="https://www.youtube.com/@eugene-ai-agent" target="_blank" class="link-item">
+                            <span class="icon">✅</span>
+                            <span data-i18n="subscribeYoutubeChannel">Subscribe Youtube Channel</span>
+                        </a>
+                        <a href="mailto:djeknitiweb@gmail.com" class="link-item">
+                            <span class="icon">📧</span>
+                            <span data-i18n="support">Support</span>
+                        </a>
+                        <a href="https://nitiweb.net" target="_blank" class="link-item">
+                            <span class="icon">💻</span>
+                            <span data-i18n="services">Services</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Floating Save Button -->
+    <div class="save-container">
+        <button id="save-all-btn" class="save-btn">
+            <span class="icon">💾</span>
+            <span data-i18n="saveAllSettings">Save All Settings</span>
+        </button>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        Settings saved successfully!
+    </div>
+
+    <script src="../modules/unified-database-manager.js"></script>
+    <script src="options.js"></script>
+</body>
+</html> 

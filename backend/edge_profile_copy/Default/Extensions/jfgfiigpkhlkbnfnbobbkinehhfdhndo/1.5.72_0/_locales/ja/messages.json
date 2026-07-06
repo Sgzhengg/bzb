@@ -1,0 +1,26 @@
+{
+   "contextCustom": {
+      "message": "カスタム"
+   },
+   "contextExplain": {
+      "message": "説明"
+   },
+   "contextRephrase": {
+      "message": "言い換え"
+   },
+   "contextSummarize": {
+      "message": "要約"
+   },
+   "contextTranslate": {
+      "message": "翻訳"
+   },
+   "extDescription": {
+      "message": "ローカルで実行中のAIモデルを使って、Webブラウジングをアシストします。"
+   },
+   "extName": {
+      "message": "Page Assist - ローカルAIモデル用のWeb UI"
+   },
+   "openSidePanelToChat": {
+      "message": "サイドパネルを開いてチャットする"
+   }
+}

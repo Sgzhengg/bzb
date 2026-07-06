@@ -1,0 +1,26 @@
+{
+   "contextCustom": {
+      "message": "Personnalisé"
+   },
+   "contextExplain": {
+      "message": "Expliquer"
+   },
+   "contextRephrase": {
+      "message": "Reformuler"
+   },
+   "contextSummarize": {
+      "message": "Résumer"
+   },
+   "contextTranslate": {
+      "message": "Traduire"
+   },
+   "extDescription": {
+      "message": "Utilisez vos modèles d'IA locaux pour vous aider dans votre navigation web."
+   },
+   "extName": {
+      "message": "Page Assist - Une interface Web pour les modèles d'IA locaux"
+   },
+   "openSidePanelToChat": {
+      "message": "Ouvrir le panneau latéral pour discuter"
+   }
+}

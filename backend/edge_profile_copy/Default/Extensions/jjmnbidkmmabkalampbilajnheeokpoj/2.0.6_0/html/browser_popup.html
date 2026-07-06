@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link
+      href="../css/lib/fontawesome-all.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="../css/shared.min.css" rel="stylesheet" type="text/css" />
+    <link href="../css/browser_action.css" rel="stylesheet" type="text/css" />
+    <link
+      href="../css/lib/argon-design-system.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <script type="text/javascript" src="../js/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/lib/popper.js"></script>
+    <script type="text/javascript" src="../js/lib/bootstrap.js"></script>
+    <script type="text/javascript" src="../js/lib/purify.min.js"></script>
+    <script type="text/javascript" src="../js/shared.min.js"></script>
+    <script type="text/javascript" src="../js/browser_action.min.js"></script>
+  </head>
+
+  <body>
+    <div id="tldr-this-page">
+      <div id="header" class="header">
+        <a
+          href="https://v1.tldrthis.com/?utm_source=chrome_extension"
+          target="_blank"
+        >
+          <img class="logo" src="../img/tldr-this.png" alt="TLDR This" />
+        </a>
+        <a
+          id="signup-cta"
+          class="btn btn-primary btn-sm"
+          target="_blank"
+          href="https://v1.tldrthis.com/signup?utm_source=chrome_extension"
+        >
+          Create a free account
+        </a>
+      </div>
+      <div class="body">
+        <div class="feedback-notification">
+          <p>Are you satisfied with <strong>TLDR This</strong> extension?</p>
+          <a
+            class="btn btn-success feedback_link"
+            href="#"
+            id="open-rate-notification"
+            >Yes</a
+          >
+          <a
+            class="btn btn-warning feedback_link"
+            href="#"
+            id="open-contact-notification"
+            >No</a
+          >
+        </div>
+
+        <div class="rate-notification">
+          <p>
+            <strong>TLDR This</strong> extension is free. Please help us spread
+            the word by letting a review!
+          </p>
+          <a
+            class="btn btn-primary"
+            href="https://chrome.google.com/webstore/detail/tldr-this-free-automatic/jjmnbidkmmabkalampbilajnheeokpoj/reviews"
+            target="_blank"
+            >Add a review</a
+          >
+        </div>
+
+        <div class="contact-notification">
+          We are sorry for the inconvenience. Please contact us at
+          <strong>contact@tldrthis.com</strong> if you have any suggestions for
+          us.
+        </div>
+
+        <div class="summary-placeholder">
+          <div class="background-masker article-metadata-block"></div>
+          <div class="background-masker summary-block"></div>
+          <div class="background-masker summary-sentence-block"></div>
+          <div class="background-masker summary-sentence-block"></div>
+          <div class="background-masker summary-sentence-block"></div>
+          <div class="background-masker summary-sentence-block"></div>
+          <div class="background-masker summary-sentence-block"></div>
+          <div class="background-masker summary-sentence-block"></div>
+          <div class="background-masker summary-sentence-block"></div>
+          <div class="background-masker summary-sentence-block"></div>
+        </div>
+
+        <div class="connect-container">
+          <div class="connect-message">
+            You've reached your daily limit! Please connect to your
+            <strong>TLDR This</strong>
+            account to use the extension. It's free and takes 30 seconds.
+          </div>
+          <a
+            href="https://v1.tldrthis.com/signup?utm_source=chrome_extension"
+            target="_blank"
+            class="btn btn-primary"
+            >Create a free account</a
+          >
+          <a
+            href="https://v1.tldrthis.com/chrome/welcome?utm_source=chrome_extension"
+            target="_blank"
+            class="btn btn-outline-default"
+            >Sign in</a
+          >
+        </div>
+
+        <div class="upgrade-container">
+          <div class="upgrade-message">
+            You have used up all of your TLDR coins. Please upgrade your plan to
+            keep using advanced summaries.
+          </div>
+          <a
+            href="https://v1.tldrthis.com/subscription/billing?utm_source=chrome_extension"
+            target="_blank"
+            class="btn btn-primary"
+            >Upgrade</a
+          >
+        </div>
+
+        <div class="connect-again-container">
+          <div class="connect-message">
+            <strong>TLDR This</strong> browser extension seems not to be
+            associated to your account. Please sign in to continue.
+          </div>
+          <a
+            href="https://v1.tldrthis.com/login?utm_source=chrome_extension&utm_medium=chrome_extension&utm_campaign=extension&utm_content=browser_popup"
+            target="_blank"
+            class="btn btn-primary"
+            >Sign in</a
+          >
+        </div>
+
+        <div class="error-container">
+          <i class="fas fa-times"></i>
+          <div class="error-message"></div>
+        </div>
+
+        <!-- no results -->
+        <div class="no-result-container">
+          <div class="big-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div class="no-result-message">
+            <h2>Sorry, we couldn't generate a summary for this page.</h2>
+            <br />
+            <p style="font-size: 1.2rem; font-weight: 300;">
+              <b>Why are there no results for <span class="domain"></span>?</b>
+            </p>
+            <p>
+              There can be several reasons:
+            </p>
+            <ul style="font-weight: 300;">
+              <li>
+                We weren't able to extract the content on this domain name
+                probably because the website doesn't allow web scrapers.
+              </li>
+              <li>
+                The article content is too short to be summarized.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="article-metadata-container">
+          <div class="article-metadata-head">
+            <div class="article-metadata">
+              <div class="row">
+                <div class="col-md-12">
+                  <h2 style="font-size: 1.2rem; font-weight: 500;">
+                    <span id="title"></span>
+                  </h2>
+                  <p
+                    id="article_metadata"
+                    style="list-style-type: none; font-size: 13px; color: #575e86bf; text-align: left; font-weight: 500; margin-bottom: -10px;"
+                  ></p>
+                  <div
+                    class="keywords-container"
+                    id="keywords-container"
+                    style="display: block;"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section class="item-summary" style="margin-top: 2rem;">
+          <ul
+            id="summary"
+            style="list-style-type: circle; padding: 5px 20px !important; margin-top: 0; margin-bottom: 1em;"
+          ></ul>
+        </section>
+      </div>
+
+      <div class="account-information grey">
+        <div class="account-loading">
+          <i class="fas fa-spinner-third fa-spin"></i>
+        </div>
+
+        <div class="account-not-logged">
+          Not logged in
+          <div class="float-right">
+            <a
+              target="_blank"
+              href="https://v1.tldrthis.com/chrome/welcome?utm_source=chrome_extension"
+            >
+              Sign in
+            </a>
+            or
+            <a
+              target="_blank"
+              href="https://v1.tldrthis.com/signup?utm_source=chrome_extension"
+            >
+              Create a free account
+            </a>
+          </div>
+        </div>
+
+        <div class="account-logged">
+          <div>
+            <div class="list_select_container">
+              <select class="list_select">
+                <option selected="selected" value="free"
+                  >Basic Summarizer</option
+                >
+                <option value="premium">Advanced Summarizer</option>
+              </select>
+            </div>
+            <div class="float-right">
+              <div class="custom-control custom-checkbox mb-3">
+                <input
+                  class="custom-control-input"
+                  id="display_keywords"
+                  type="checkbox"
+                  checked=""
+                />
+                <label class="custom-control-label" for="display_keywords">
+                  <span>Display Keywords</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <div class="float-left">
+              Available TLDR coins:
+              <span class="account-calls-available"></span>
+              <span>&nbsp;•&nbsp;</span>
+              <a
+                target="_blank"
+                href="https://v1.tldrthis.com/subscription/billing?utm_source=chrome_extension"
+              >
+                Upgrade
+              </a>
+            </div>
+            <div class="float-right">
+              <span>
+                <a
+                  href="https://forms.gle/xp9PHRQTEfZTsBnCA"
+                  target="_blank"
+                  style="color: #525f7f;"
+                  ><i class="fas fa-gift"></i> Feature Request</a
+                >
+              </span>
+              |
+              <span>
+                <a href="https://forms.gle/ksPcVjtiCkU9tQEh6" target="_blank" style="color: #525f7f;"><i class="fas fa-bug"></i>
+                  Report a Bug</a>
+              </span>
+              |
+              <span>
+                <a
+                  href="https://twitter.com/tldrthis"
+                  target="_blank"
+                  style="color: #525f7f;"
+                  ><i class="fab fa-twitter"></i> Twitter</a
+                >
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- use this for local pages -->
+    <div id="empty-notification">
+      <div class="big-icon"><i class="far fa-browser"></i></div>
+      Open <strong>TLDR This</strong> when you read articles on websites to
+      summarize them in a click. <br /><br />
+      <a
+        target="_blank"
+        class="btn btn-primary"
+        href="https://v1.tldrthis.com?utm_source=chrome_extension&utm_medium=chrome_extension&utm_campaign=extension&utm_content=browser_popup"
+        >Home Page</a
+      >
+    </div>
+
+    <!-- use this for refused connections -->
+    <div id="blocked-notification">
+      <div class="big-icon"><i class="far fa-warning"></i></div>
+      <span class="grey"
+        >The connection to TLDR This has been refused. Please try again after
+        some time. If it doesn't work, please
+        <a href="https://v1.tldrthis.com/contact" target="_blank"> contact us</a>
+        for more information.</span
+      >
+    </div>
+  </body>
+</html>

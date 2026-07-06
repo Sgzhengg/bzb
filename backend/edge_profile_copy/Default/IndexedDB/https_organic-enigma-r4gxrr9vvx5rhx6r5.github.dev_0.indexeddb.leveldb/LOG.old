@@ -1,0 +1,36 @@
+2026/03/02-16:02:10.361 4708 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_organic-enigma-r4gxrr9vvx5rhx6r5.github.dev_0.indexeddb.leveldb/MANIFEST-000001
+2026/03/02-16:02:10.362 4708 Recovering log #3
+2026/03/02-16:02:10.364 4708 Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_organic-enigma-r4gxrr9vvx5rhx6r5.github.dev_0.indexeddb.leveldb/000003.log 
+2026/03/02-16:08:38.635 6238 Level-0 table #5: started
+2026/03/02-16:08:38.645 6238 Level-0 table #5: 1413859 bytes OK
+2026/03/02-16:08:38.646 6238 Delete type=0 #3
+2026/03/02-16:19:25.862 6238 Level-0 table #7: started
+2026/03/02-16:19:25.886 6238 Level-0 table #7: 2748906 bytes OK
+2026/03/02-16:19:25.888 6238 Delete type=0 #4
+2026/03/02-16:22:41.386 6238 Compacting 1@1 + 1@2 files
+2026/03/02-16:22:41.392 6238 Generated table #8@1: 459 keys, 192638 bytes
+2026/03/02-16:22:41.392 6238 Compacted 1@1 + 1@2 files => 192638 bytes
+2026/03/02-16:22:41.394 6238 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/03/02-16:22:41.394 6238 Delete type=2 #5
+2026/03/02-16:22:41.394 6238 Delete type=2 #7
+2026/03/02-16:57:10.553 4708 Level-0 table #10: started
+2026/03/02-16:57:10.566 4708 Level-0 table #10: 1163907 bytes OK
+2026/03/02-16:57:10.568 4708 Delete type=0 #6
+2026/03/02-17:01:14.839 4708 Compacting 1@1 + 1@2 files
+2026/03/02-17:01:14.846 4708 Generated table #11@1: 536 keys, 196175 bytes
+2026/03/02-17:01:14.846 4708 Compacted 1@1 + 1@2 files => 196175 bytes
+2026/03/02-17:01:14.847 4708 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/03/02-17:01:14.847 4708 Delete type=2 #8
+2026/03/02-17:01:14.847 4708 Delete type=2 #10
+2026/03/02-17:38:09.577 6238 Level-0 table #13: started
+2026/03/02-17:38:09.582 6238 Level-0 table #13: 499064 bytes OK
+2026/03/02-17:38:09.583 6238 Delete type=0 #9
+2026/03/02-17:38:09.583 6238 Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2026/03/02-17:38:09.583 6238 Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x03\x01\x02\x01\x1e\x00w\x00o\x00r\x00k\x00b\x00e\x00n\x00c\x00h\x00.\x00e\x00x\x00p\x00l\x00o\x00r\x00e\x00r\x00.\x00v\x00i\x00e\x00w\x00s\x00.\x00s\x00t\x00a\x00t\x00e' @ 21339 : 1
+2026/03/02-17:38:09.584 6238 Compacting 1@1 + 1@2 files
+2026/03/02-17:38:09.588 6238 Generated table #14@1: 541 keys, 192176 bytes
+2026/03/02-17:38:09.588 6238 Compacted 1@1 + 1@2 files => 192176 bytes
+2026/03/02-17:38:09.589 6238 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/03/02-17:38:09.589 6238 Delete type=2 #11
+2026/03/02-17:38:09.589 6238 Delete type=2 #13
+2026/03/02-17:38:09.589 6238 Manual compaction at level-1 from '\x00\x03\x01\x02\x01\x1e\x00w\x00o\x00r\x00k\x00b\x00e\x00n\x00c\x00h\x00.\x00e\x00x\x00p\x00l\x00o\x00r\x00e\x00r\x00.\x00v\x00i\x00e\x00w\x00s\x00.\x00s\x00t\x00a\x00t\x00e' @ 21339 : 1 .. (end); will stop at (end)

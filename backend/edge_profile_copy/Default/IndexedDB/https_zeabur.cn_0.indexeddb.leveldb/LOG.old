@@ -1,0 +1,36 @@
+2026/01/19-11:10:05.671 447c Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_zeabur.cn_0.indexeddb.leveldb/MANIFEST-000001
+2026/01/19-11:10:05.672 447c Recovering log #479
+2026/01/19-11:10:05.672 447c Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_zeabur.cn_0.indexeddb.leveldb/000479.log 
+2026/01/19-11:10:05.673 447c Delete type=2 #477
+2026/01/19-11:10:05.691 44d0 Level-0 table #484: started
+2026/01/19-11:10:05.693 44d0 Level-0 table #484: 4009 bytes OK
+2026/01/19-11:10:05.695 44d0 Delete type=0 #479
+2026/01/19-11:10:05.696 447c Manual compaction at level-0 from '\x00\xaa\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\xab\x00\x00\x00' @ 0 : 0; will stop at '\x00\xaa\x00\x00\x05' @ 9464 : 1
+2026/01/19-11:10:05.696 447c Compacting 1@0 + 1@1 files
+2026/01/19-11:10:05.698 447c Generated table #485@0: 132 keys, 1924 bytes
+2026/01/19-11:10:05.698 447c Compacted 1@0 + 1@1 files => 1924 bytes
+2026/01/19-11:10:05.698 447c compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/01/19-11:10:05.699 447c Delete type=2 #484
+2026/01/19-11:10:05.699 447c Manual compaction at level-0 from '\x00\xaa\x00\x00\x05' @ 9464 : 1 .. '\x00\xab\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/01/19-11:13:03.866 44d0 Level-0 table #487: started
+2026/01/19-11:13:03.869 44d0 Level-0 table #487: 5458 bytes OK
+2026/01/19-11:13:03.870 44d0 Delete type=2 #481
+2026/01/19-11:13:03.871 44d0 Delete type=0 #483
+2026/01/19-11:13:03.871 44c0 Manual compaction at level-0 from '\x00\xab\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\xac\x00\x00\x00' @ 0 : 0; will stop at '\x00\xab\x00\x00\x05' @ 9723 : 1
+2026/01/19-11:13:03.871 44c0 Compacting 1@0 + 1@1 files
+2026/01/19-11:13:03.873 44c0 Generated table #488@0: 196 keys, 2528 bytes
+2026/01/19-11:13:03.873 44c0 Compacted 1@0 + 1@1 files => 2528 bytes
+2026/01/19-11:13:03.873 44c0 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/01/19-11:13:03.874 44c0 Delete type=2 #487
+2026/01/19-11:13:03.874 447c Manual compaction at level-0 from '\x00\xab\x00\x00\x05' @ 9723 : 1 .. '\x00\xac\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/01/19-11:14:51.185 44d0 Level-0 table #490: started
+2026/01/19-11:14:51.187 44d0 Level-0 table #490: 2850 bytes OK
+2026/01/19-11:14:51.188 44d0 Delete type=2 #485
+2026/01/19-11:14:51.189 44d0 Delete type=0 #486
+2026/01/19-11:14:51.189 447c Manual compaction at level-0 from '\x00\xac\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\xad\x00\x00\x00' @ 0 : 0; will stop at '\x00\xac\x00\x00\x05' @ 9854 : 1
+2026/01/19-11:14:51.189 447c Compacting 1@0 + 1@1 files
+2026/01/19-11:14:51.190 447c Generated table #491@0: 240 keys, 3046 bytes
+2026/01/19-11:14:51.190 447c Compacted 1@0 + 1@1 files => 3046 bytes
+2026/01/19-11:14:51.191 447c compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/01/19-11:14:51.191 447c Delete type=2 #490
+2026/01/19-11:14:51.191 447c Manual compaction at level-0 from '\x00\xac\x00\x00\x05' @ 9854 : 1 .. '\x00\xad\x00\x00\x00' @ 0 : 0; will stop at (end)

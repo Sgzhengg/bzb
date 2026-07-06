@@ -1,0 +1,2282 @@
+{
+   "Variables": {
+      "description": "Variables menu item name",
+      "message": "Variables"
+   },
+   "aboutSectionTitle": {
+      "description": "About section title",
+      "message": "About N8N Master"
+   },
+   "accountBlocked": {
+      "description": "Account blocked title",
+      "message": "Account Blocked"
+   },
+   "actions": {
+      "description": "Table column header for actions",
+      "message": "Actions"
+   },
+   "activate": {
+      "description": "Activate button",
+      "message": "ACTIVATE"
+   },
+   "activateButton": {
+      "description": "Activate license button",
+      "message": "Activate"
+   },
+   "activateExtension": {
+      "description": "Button to activate extension on n8n page",
+      "message": "Activate"
+   },
+   "activating": {
+      "description": "Activation process",
+      "message": "Activating..."
+   },
+   "activationDate": {
+      "description": "Activation date label",
+      "message": "Activation Date:"
+   },
+   "activationFailed": {
+      "description": "Status message when activation fails",
+      "message": "Activation failed"
+   },
+   "add": {
+      "description": "Add button text",
+      "message": "Add"
+   },
+   "addVariable": {
+      "description": "Add variable button text",
+      "message": "+ Add"
+   },
+   "addVariableTitle": {
+      "description": "Add variable modal title",
+      "message": "Add Variable"
+   },
+   "addWorkflow": {
+      "description": "Add workflow button text",
+      "message": "+ Add"
+   },
+   "addedWorkflows": {
+      "description": "Counter text for added workflows",
+      "message": "Added:"
+   },
+   "aiAgentWithTools": {
+      "description": "Message for AI agent with connected tools",
+      "message": "AI Agent \"{nodeName}\" with {toolCount} tools"
+   },
+   "aiApiKeys": {
+      "description": "AI API keys import option",
+      "message": "AI API Keys"
+   },
+   "aiChatAssistant": {
+      "description": "AI chat assistant feature name",
+      "message": "AI Chat Assistant"
+   },
+   "aiChatAssistantDesc": {
+      "description": "AI chat assistant feature description",
+      "message": "Ask questions about workflows, get AI-powered help and analysis"
+   },
+   "aiErrorTrigger": {
+      "description": "AI error trigger setting name",
+      "message": "AI Error Trigger"
+   },
+   "aiErrorTriggerDesc": {
+      "description": "AI error trigger setting description",
+      "message": "Automatic error analysis when testing a node in the chat"
+   },
+   "aiProvider": {
+      "description": "AI provider section header",
+      "message": "AI Provider"
+   },
+   "aiSectionTitle": {
+      "description": "AI section title",
+      "message": "AI Settings"
+   },
+   "aiTools": {
+      "description": "AI Tools section title",
+      "message": "AI Tools"
+   },
+   "aiToolsDescription": {
+      "description": "AI Tools section description",
+      "message": "Over 7,000 AI tools selected to accelerate and automate your tasks."
+   },
+   "ailexDescription": {
+      "description": "AiLex extension description",
+      "message": "Your personal AI agent in the browser. BYOK & Free"
+   },
+   "ailexTitle": {
+      "description": "AiLex extension title",
+      "message": "AiLex"
+   },
+   "allFeaturesUnlocked": {
+      "description": "All features unlocked message",
+      "message": "All premium features are unlocked"
+   },
+   "allGroups": {
+      "description": "Filter option for all groups",
+      "message": "All groups"
+   },
+   "allNodesAddedToCanvas": {
+      "description": "Message when nodes are automatically added to canvas",
+      "message": "All nodes have been added to your canvas."
+   },
+   "allSites": {
+      "description": "Filter option for all sites",
+      "message": "All sites"
+   },
+   "allStatuses": {
+      "description": "Filter option for all statuses",
+      "message": "All statuses"
+   },
+   "analyzingCode": {
+      "description": "Analyzing code status",
+      "message": "analyzing code"
+   },
+   "analyzingWorkflow": {
+      "description": "Message when analyzing workflow",
+      "message": "Analyzing workflow"
+   },
+   "anthropicApiKey": {
+      "description": "Anthropic API key field label",
+      "message": "Anthropic API Key"
+   },
+   "api": {
+      "description": "API link text",
+      "message": "API"
+   },
+   "apiKey": {
+      "description": "API key field label",
+      "message": "API Key:"
+   },
+   "apiKeyError": {
+      "description": "Error testing API key",
+      "message": "API key testing error"
+   },
+   "apiKeyFromN8n": {
+      "description": "Link text for N8N API key input",
+      "message": "API key from n8n"
+   },
+   "apiKeyInvalid": {
+      "description": "Invalid API key status",
+      "message": "Invalid API key"
+   },
+   "apiKeyTesting": {
+      "description": "API key testing process",
+      "message": "Testing..."
+   },
+   "apiKeyValid": {
+      "description": "Valid API key status",
+      "message": "API key is valid and working!"
+   },
+   "apiKeys": {
+      "description": "API keys section header",
+      "message": "🔑 API Keys"
+   },
+   "appDescription": {
+      "description": "Application description",
+      "message": "AI assistant for n8n workflow automation. Works with self-hosted instances, AI APIs (OpenAI, Anthropic) and templates"
+   },
+   "appName": {
+      "description": "Application name",
+      "message": "N8N Master - Workflow Assistant"
+   },
+   "appTitle": {
+      "description": "Application title in header",
+      "message": "N8N Master"
+   },
+   "askN8nMaster": {
+      "description": "Ask N8N Master button text",
+      "message": "ASK N8N MASTER"
+   },
+   "autoPinAi": {
+      "description": "Auto pin AI setting name",
+      "message": "Auto pin AI"
+   },
+   "autoPinAiDesc": {
+      "description": "Auto pin AI setting description",
+      "message": "Pin response after successful AI Agent execution"
+   },
+   "autoPinHttp": {
+      "description": "Auto pin HTTP setting name",
+      "message": "Auto pin HTTP"
+   },
+   "autoPinHttpDesc": {
+      "description": "Auto pin HTTP setting description",
+      "message": "Pin response after successful HTTP Request execution"
+   },
+   "autoPinSuccess": {
+      "description": "Auto pin success message",
+      "message": "$1 response pinned automatically!"
+   },
+   "autoSave": {
+      "description": "Auto save setting name",
+      "message": "Auto Save"
+   },
+   "autoSaveDesc": {
+      "description": "Auto save setting description",
+      "message": "Automatically save workflow when changes are made"
+   },
+   "autoSaveDescription": {
+      "description": "Auto-save workflows option description",
+      "message": "Automatically save workflow changes while editing"
+   },
+   "autoSaveFailed": {
+      "description": "Auto save failed message",
+      "message": "Auto save failed"
+   },
+   "autoSaveOption": {
+      "description": "Auto-save workflows option label",
+      "message": "Auto-save workflows"
+   },
+   "autoSavePin": {
+      "description": "Auto save and pin feature name",
+      "message": "Auto Save & Auto Pin"
+   },
+   "autoSavePinDesc": {
+      "description": "Auto save and pin feature description",
+      "message": "Automatically save workflows and pin execution results"
+   },
+   "bestForWorkflowGeneration": {
+      "description": "Badge text indicating the best AI provider for workflow generation",
+      "message": "Best for workflow generation"
+   },
+   "blockedMessage": {
+      "description": "Account blocked message",
+      "message": "Data tampering attempt detected. Purchase a license to unlock features."
+   },
+   "buyKeyButton": {
+      "description": "Buy license key button",
+      "message": "Buy a Key"
+   },
+   "cachedWorkflows": {
+      "description": "Cached workflows label",
+      "message": "Cached workflows:"
+   },
+   "cancel": {
+      "description": "Cancel button text",
+      "message": "Cancel"
+   },
+   "cancelButton": {
+      "description": "Cancel button text",
+      "message": "Cancel"
+   },
+   "chatAnalyzing": {
+      "description": "Chat analyzing message",
+      "message": "Analyzing"
+   },
+   "chatAnalyzingError": {
+      "description": "Chat analyzing error message",
+      "message": "Analyzing error"
+   },
+   "chatClearHistory": {
+      "description": "Clear chat history button tooltip",
+      "message": "Clear chat history"
+   },
+   "chatFullscreen": {
+      "description": "Chat fullscreen button tooltip",
+      "message": "Expand to full screen"
+   },
+   "chatGenerating": {
+      "description": "Chat generating message",
+      "message": "Generating..."
+   },
+   "chatNotAvailable": {
+      "description": "Chat not available error",
+      "message": "Chat widget not available. Please open chat manually first."
+   },
+   "chatProcessing": {
+      "description": "Chat processing placeholder",
+      "message": "Processing..."
+   },
+   "chatRequestCancelled": {
+      "description": "Message when user cancels AI request",
+      "message": "🛑 Request cancelled by user"
+   },
+   "chatThinking": {
+      "description": "Chat thinking message",
+      "message": "Thinking"
+   },
+   "chatTitle": {
+      "description": "Chat widget title",
+      "message": "N8N Master"
+   },
+   "chatWelcome": {
+      "description": "Chat welcome message line 1",
+      "message": "Hi! I'm your N8N Master assistant. I can help you analyze workflows, create a new workflows, optimize prompts, and answer questions about your n8n setup."
+   },
+   "chatWelcome2": {
+      "description": "Chat welcome message line 2",
+      "message": "Try asking: \"What does this workflow do?\" or \"Analyze selected nodes\""
+   },
+   "chatWelcomeHelp": {
+      "description": "Chat welcome help text with example questions",
+      "message": "Try asking: \"What does this workflow do?\" or \"Analyze selected nodes\""
+   },
+   "checking": {
+      "description": "Checking status message",
+      "message": "Checking..."
+   },
+   "chooseColorFor": {
+      "description": "Color picker modal title prefix (followed by project name)",
+      "message": "Choose color for"
+   },
+   "chromeStorageData": {
+      "description": "Category header for Chrome storage data",
+      "message": "Chrome Storage Data"
+   },
+   "chromeWebStore": {
+      "description": "Chrome Web Store link text",
+      "message": "Chrome Web Store"
+   },
+   "clearHistory": {
+      "description": "Button to clear workflow history",
+      "message": "Clear History"
+   },
+   "clearSearch": {
+      "description": "Tooltip for clear search button",
+      "message": "Clear search"
+   },
+   "clickToActivate": {
+      "description": "Badge message prompting user to activate",
+      "message": "Click to activate the extension"
+   },
+   "clickToCopy": {
+      "description": "Tooltip for variable items",
+      "message": "Click to copy"
+   },
+   "clickToSelectAll": {
+      "description": "Click to select all tooltip",
+      "message": "Click to select all"
+   },
+   "close": {
+      "description": "Close button text",
+      "message": "Close"
+   },
+   "codeExplanation": {
+      "description": "Header for code explanation in chat",
+      "message": "Code Explanation:"
+   },
+   "commandAddNodes": {
+      "description": "Command to add nodes to workflow",
+      "message": "Add the specified nodes to the workflow"
+   },
+   "commandCreateWorkflow": {
+      "description": "Command to create a new workflow",
+      "message": "Create a new workflow"
+   },
+   "commandHelp": {
+      "description": "Command to get workflow explanation",
+      "message": "Explain what this workflow does"
+   },
+   "commandRemoveNodes": {
+      "description": "Command to remove nodes",
+      "message": "Remove the specified nodes"
+   },
+   "commandReplaceNode": {
+      "description": "Command to replace a node",
+      "message": "Replace the specified node"
+   },
+   "commandUpdateNodes": {
+      "description": "Command to update node settings",
+      "message": "Update settings of specified nodes"
+   },
+   "confirmDeleteApiKey": {
+      "description": "Confirmation message when deleting API key for a domain",
+      "message": "Are you sure you want to delete the API key for {domain}?"
+   },
+   "confirmDeleteProject": {
+      "description": "Confirmation message when deleting a project",
+      "message": "Are you sure you want to delete project \"{projectName}\"? This action cannot be undone."
+   },
+   "connectAPI": {
+      "description": "Button to connect new API key",
+      "message": "Connect API"
+   },
+   "connectN8NAPI": {
+      "description": "Modal title for connecting new N8N API",
+      "message": "Connect N8N API"
+   },
+   "connections": {
+      "description": "Connections text in workflow stats",
+      "message": "connections"
+   },
+   "contextMenuAnalyzingCode": {
+      "description": "Context menu action text for analyzing code",
+      "message": "analyzing code"
+   },
+   "contextMenuApiKeyNotConfigured": {
+      "description": "Context menu error when API key is not configured",
+      "message": "API key not configured. Please set up your API key in extension settings."
+   },
+   "contextMenuApiRequestError": {
+      "description": "Context menu error prefix for API errors",
+      "message": "API Request Error"
+   },
+   "contextMenuCodeExplained": {
+      "description": "Context menu success message for code explanation",
+      "message": "Code explanation sent to chat!"
+   },
+   "contextMenuCodeGenerated": {
+      "description": "Context menu success message for code generation",
+      "message": "Code generated and inserted successfully!"
+   },
+   "contextMenuCurlGenerated": {
+      "description": "Context menu success message for cURL generation",
+      "message": "cURL generated and inserted successfully!"
+   },
+   "contextMenuCurlSentToChat": {
+      "description": "Context menu success message for cURL sent to chat",
+      "message": "cURL command sent to chat!"
+   },
+   "contextMenuFixingJson": {
+      "description": "Context menu action text for fixing JSON",
+      "message": "fixing JSON"
+   },
+   "contextMenuGeneratingCode": {
+      "description": "Context menu action text for generating code",
+      "message": "generating code"
+   },
+   "contextMenuGeneratingCurl": {
+      "description": "Context menu action text for generating cURL",
+      "message": "generating cURL request"
+   },
+   "contextMenuGeneratingJson": {
+      "description": "Context menu action text for generating JSON",
+      "message": "creating JSON structure"
+   },
+   "contextMenuGeneratingPrompt": {
+      "description": "Context menu action text for generating prompt",
+      "message": "generating prompt"
+   },
+   "contextMenuJsonFixed": {
+      "description": "Context menu success message for JSON fixing",
+      "message": "JSON fixed and inserted successfully!"
+   },
+   "contextMenuJsonGenerated": {
+      "description": "Context menu success message for JSON generation",
+      "message": "JSON generated and inserted successfully!"
+   },
+   "contextMenuNoTextSelected": {
+      "description": "Context menu error when no text is selected",
+      "message": "No text selected or active input field found."
+   },
+   "contextMenuOperationCompleted": {
+      "description": "Context menu default success message",
+      "message": "Operation completed successfully!"
+   },
+   "contextMenuOptimizingPrompt": {
+      "description": "Context menu action text for optimizing prompt",
+      "message": "optimizing prompt"
+   },
+   "contextMenuProcessing": {
+      "description": "Context menu default processing text",
+      "message": "processing"
+   },
+   "contextMenuPromptGenerated": {
+      "description": "Context menu success message for prompt generation",
+      "message": "Prompt generated and inserted successfully!"
+   },
+   "contextMenuPromptOptimized": {
+      "description": "Context menu success message for prompt optimization",
+      "message": "Prompt optimized and inserted successfully!"
+   },
+   "contextMenuTools": {
+      "description": "Context menu tools feature name",
+      "message": "Context Menu Tools"
+   },
+   "contextMenuToolsDesc": {
+      "description": "Context menu tools feature description",
+      "message": "Right-click tools for code optimization, JSON fixing, and more"
+   },
+   "copied": {
+      "description": "Copied button text",
+      "message": "Copied"
+   },
+   "copy": {
+      "description": "Copy button text",
+      "message": "Copy"
+   },
+   "copyError": {
+      "description": "Copy error notification",
+      "message": "Failed to copy"
+   },
+   "copyLink": {
+      "description": "Copy link button",
+      "message": "Copy link"
+   },
+   "copyNodeFromTemplate": {
+      "description": "Tooltip for node copy button",
+      "message": "Copy node from template"
+   },
+   "copySuccess": {
+      "description": "Copy success notification",
+      "message": "Copied to clipboard"
+   },
+   "copyToClipboard": {
+      "description": "Text for template copy to clipboard button",
+      "message": "📋 Copy to clipboard"
+   },
+   "copy_json": {
+      "description": "Copy JSON button text",
+      "message": "Copy JSON"
+   },
+   "createWorkflow": {
+      "description": "Chat input placeholder",
+      "message": "Enter / to select a command"
+   },
+   "creatingCustomWorkflow": {
+      "description": "Message displayed when creating a custom workflow",
+      "message": "Creating custom workflow"
+   },
+   "creatingWorkflow": {
+      "description": "Message when creating workflow",
+      "message": "Creating workflow"
+   },
+   "current": {
+      "description": "Label for current workflow version in history",
+      "message": "(current)"
+   },
+   "currentlyOpen": {
+      "description": "Text shown for currently open workflow",
+      "message": "(currently open)"
+   },
+   "dataIntegrityViolated": {
+      "description": "Data integrity violation message",
+      "message": "Data integrity violated. Purchase a license to unlock features"
+   },
+   "delete": {
+      "description": "Delete button text",
+      "message": "Delete"
+   },
+   "deleteVariable": {
+      "description": "Delete variable modal title",
+      "message": "Delete Variable"
+   },
+   "deleteVariableConfirm": {
+      "description": "Delete variable confirmation message",
+      "message": "Are you sure you want to delete this variable? This action cannot be undone."
+   },
+   "deleteZone": {
+      "description": "Delete zone text for dragging workflows",
+      "message": "🗑️ Delete"
+   },
+   "describeWorkflowChanges": {
+      "description": "Placeholder for describing workflow changes",
+      "message": "Describe what needs to be changed in the workflow..."
+   },
+   "deselectAll": {
+      "description": "Button to deselect all import options",
+      "message": "Deselect All"
+   },
+   "deviceId": {
+      "description": "Device ID label",
+      "message": "Device ID:"
+   },
+   "deviceInfo": {
+      "description": "Device info group title",
+      "message": "Device Information"
+   },
+   "disableButton": {
+      "description": "Button to disable extension on n8n page",
+      "message": "Disable"
+   },
+   "disconnect": {
+      "description": "Disconnect button",
+      "message": "DISCONNECT"
+   },
+   "discountAvailable": {
+      "description": "Discount notification message in license modal",
+      "message": "You can purchase with a 50% discount"
+   },
+   "documentation": {
+      "description": "Documentation link",
+      "message": "Documentation"
+   },
+   "domain": {
+      "description": "Table column header for domain",
+      "message": "Domain"
+   },
+   "done": {
+      "description": "Done button text",
+      "message": "Done"
+   },
+   "download": {
+      "description": "Download button text",
+      "message": "Download"
+   },
+   "downloadingTemplate": {
+      "description": "Downloading template message",
+      "message": "Downloading template from GitHub"
+   },
+   "dragWidget": {
+      "description": "Tooltip text for widget drag handle",
+      "message": "Drag widget"
+   },
+   "edgeStore": {
+      "description": "Microsoft Edge Store link text",
+      "message": "Microsoft Edge Store"
+   },
+   "editProjectName": {
+      "description": "Edit project modal title",
+      "message": "Edit Project Name"
+   },
+   "enableHistory": {
+      "description": "Enable history setting name",
+      "message": "Enable History"
+   },
+   "enableHistoryDesc": {
+      "description": "Enable history setting description",
+      "message": "Track workflow history and activate history button"
+   },
+   "enableStreaming": {
+      "description": "Enable streaming setting name",
+      "message": "Enable Streaming"
+   },
+   "enableStreamingDesc": {
+      "description": "Enable streaming setting description",
+      "message": "Chat responses are streamed"
+   },
+   "enterLicenseKey": {
+      "description": "License key input placeholder",
+      "message": "Enter your license key"
+   },
+   "enterProjectName": {
+      "description": "Project name input placeholder",
+      "message": "Enter project name"
+   },
+   "enterVariableName": {
+      "description": "Variable name input placeholder",
+      "message": "Enter variable name..."
+   },
+   "enterVariableValue": {
+      "description": "Variable value input placeholder",
+      "message": "Enter variable value..."
+   },
+   "error": {
+      "description": "Error message",
+      "message": "Error"
+   },
+   "errorAnalysisCurrentNode": {
+      "description": "Current node section title",
+      "message": "**CURRENT NODE:**"
+   },
+   "errorAnalysisErrorDetails": {
+      "description": "Error details section title",
+      "message": "**ERROR DETAILS:**"
+   },
+   "errorAnalysisInputData": {
+      "description": "Input data section title",
+      "message": "**INPUT DATA:**"
+   },
+   "errorAnalysisInstructions": {
+      "description": "Instructions for error analysis",
+      "message": "Please analyze this error and provide:\n1. Root cause explanation\n2. Step-by-step solution\n3. Prevention tips\n4. Alternative approaches if applicable\n\nFocus on practical, actionable solutions for n8n workflows."
+   },
+   "errorAnalysisLocation": {
+      "description": "Label for error location",
+      "message": "Location"
+   },
+   "errorAnalysisMessage": {
+      "description": "Label for error message",
+      "message": "Message"
+   },
+   "errorAnalysisNodeType": {
+      "description": "Label for node type",
+      "message": "Node Type"
+   },
+   "errorAnalysisParameters": {
+      "description": "Label for node parameters",
+      "message": "Parameters"
+   },
+   "errorAnalysisPromptTitle": {
+      "description": "Title for error analysis prompt",
+      "message": "🚨 **AUTOMATIC ERROR ANALYSIS REQUEST**"
+   },
+   "errorAnalysisRequest": {
+      "description": "Request section title",
+      "message": "**REQUEST:**"
+   },
+   "errorAnalysisTotalNodes": {
+      "description": "Label for total nodes count",
+      "message": "Total Nodes"
+   },
+   "errorAnalysisWorkflowContext": {
+      "description": "Workflow context section title",
+      "message": "**WORKFLOW CONTEXT:**"
+   },
+   "errorAnalysisWorkflowName": {
+      "description": "Label for workflow name",
+      "message": "Name"
+   },
+   "errorConfigureApiKey": {
+      "description": "Error message when API key is not configured",
+      "message": "Please configure your API key first"
+   },
+   "errorDeletingProject": {
+      "description": "Error message when project deletion fails",
+      "message": "Error deleting project"
+   },
+   "errorFailedToLoadTranslations": {
+      "description": "Error message when translation loading fails",
+      "message": "Failed to load translations for language:"
+   },
+   "errorHttpStatus": {
+      "description": "Error message prefix for HTTP status errors",
+      "message": "HTTP error! status:"
+   },
+   "errorInvalidIndexedDB": {
+      "description": "Error message when IndexedDB response is invalid",
+      "message": "Invalid IndexedDB response"
+   },
+   "errorLoadingVariables": {
+      "description": "Error message when variables fail to load",
+      "message": "Error loading variables"
+   },
+   "errorNoActiveTab": {
+      "description": "Error message when no active tab is found",
+      "message": "No active tab found"
+   },
+   "errorNotLikelyN8nPage": {
+      "description": "Error message when page is not likely an N8N page",
+      "message": "Not likely N8N page"
+   },
+   "errorSavingProjectName": {
+      "description": "Error message when saving project name fails",
+      "message": "Error saving project name"
+   },
+   "errorServerValidationFailed": {
+      "description": "Error message when server validation fails",
+      "message": "Server validation failed"
+   },
+   "error_loading_template": {
+      "description": "Error loading template text",
+      "message": "Error loading template:"
+   },
+   "errorsTodayClickToView": {
+      "description": "Tooltip for errors today metric with click instruction",
+      "message": "Errors today - Click to view"
+   },
+   "execTime": {
+      "description": "Execution time column header",
+      "message": "Exec Time"
+   },
+   "executionsToday": {
+      "description": "Tooltip for executions today metric",
+      "message": "Executions today"
+   },
+   "explainCode": {
+      "description": "Explain code field label",
+      "message": "Explain Code:"
+   },
+   "explore": {
+      "description": "Explore button text",
+      "message": "Explore"
+   },
+   "exportApiKeys": {
+      "description": "Export API keys item",
+      "message": "AI API Keys"
+   },
+   "exportButton": {
+      "description": "Export button text",
+      "message": "Export Settings"
+   },
+   "exportDescription": {
+      "description": "Export description title",
+      "message": "Export Configuration"
+   },
+   "exportInfo": {
+      "description": "Export information text",
+      "message": "Export your extension settings, API keys, and data to a JSON file. This includes:"
+   },
+   "exportN8nKey": {
+      "description": "Export N8N key item",
+      "message": "N8N API Key"
+   },
+   "exportOptions": {
+      "description": "Export options item",
+      "message": "Extension Options"
+   },
+   "exportProjects": {
+      "description": "Export projects item",
+      "message": "Local Projects from IndexedDB"
+   },
+   "exportSectionTitle": {
+      "description": "Export section title",
+      "message": "Export Settings"
+   },
+   "exportSettings": {
+      "description": "Export settings item",
+      "message": "Extension Settings"
+   },
+   "exportTemplates": {
+      "description": "Export templates item",
+      "message": "Output Templates from IndexedDB"
+   },
+   "extensionIsActive": {
+      "description": "Badge message when extension is active",
+      "message": "The extension is active"
+   },
+   "extensionOptions": {
+      "description": "Extension options import option",
+      "message": "Extension Options"
+   },
+   "extensionPage": {
+      "description": "Extension page link",
+      "message": "Extension Page"
+   },
+   "extensionSettings": {
+      "description": "Extension settings import option",
+      "message": "Extension Settings"
+   },
+   "extensionUpdated": {
+      "description": "Extension updated warning",
+      "message": "Extension was updated. Please reload the page to continue using N8N Master."
+   },
+   "extensionVersion": {
+      "description": "Extension version label",
+      "message": "Extension Version:"
+   },
+   "failed": {
+      "description": "Failed button text",
+      "message": "Failed"
+   },
+   "failedToAnalyzeWorkflow": {
+      "description": "Error message when workflow analysis fails",
+      "message": "Failed to complete workflow analysis"
+   },
+   "failedToAnalyzeWorkflowGeneric": {
+      "description": "Generic error message when workflow analysis fails",
+      "message": "Failed to analyze workflow"
+   },
+   "failedToCopyNode": {
+      "description": "Error message when node copy fails",
+      "message": "Failed to copy node:"
+   },
+   "failedToCopyToClipboard": {
+      "description": "Error message when clipboard copy fails",
+      "message": "Failed to copy to clipboard"
+   },
+   "failedToCreateWorkflow": {
+      "description": "Error message when workflow creation fails",
+      "message": "Failed to complete workflow creation"
+   },
+   "failedToCreateWorkflowGeneric": {
+      "description": "Generic error message when workflow creation fails",
+      "message": "Failed to create workflow"
+   },
+   "failedToDeleteVariable": {
+      "description": "Error message when variable deletion fails",
+      "message": "Failed to delete variable:"
+   },
+   "failedToDownloadTemplate": {
+      "description": "Failed to download template message",
+      "message": "Failed to download template"
+   },
+   "failedToLoadNodes": {
+      "description": "Error message when nodes fail to load",
+      "message": "Failed to load nodes"
+   },
+   "failedToLoadWorkflows": {
+      "description": "Error message when loading workflows fails",
+      "message": "Failed to load workflows. Please check your API key."
+   },
+   "failedToModifyWorkflow": {
+      "description": "Error message when workflow modification fails",
+      "message": "Failed to complete workflow modification"
+   },
+   "failedToModifyWorkflowGeneric": {
+      "description": "Generic error message when workflow modification fails",
+      "message": "Failed to modify workflow"
+   },
+   "failedToSaveVariable": {
+      "description": "Error message when variable save fails",
+      "message": "Failed to save variable:"
+   },
+   "failedToValidateApiKey": {
+      "description": "API key validation error",
+      "message": "Failed to validate API key"
+   },
+   "featureAiChat": {
+      "description": "AI Chat feature title",
+      "message": "AI Chat Assistant"
+   },
+   "featureAiChatDesc": {
+      "description": "AI Chat feature description",
+      "message": "Get help creating workflows with AI-powered assistance"
+   },
+   "featureAutoSavePin": {
+      "description": "Auto Save & Pin feature title",
+      "message": "Auto Save & Pin"
+   },
+   "featureAutoSavePinDesc": {
+      "description": "Auto Save & Pin feature description",
+      "message": "Automatic workflow saving and node execution pinning"
+   },
+   "featureLocalProjects": {
+      "description": "Local Projects feature title",
+      "message": "Local Projects"
+   },
+   "featureLocalProjectsDesc": {
+      "description": "Local Projects feature description",
+      "message": "Organize workflows in custom project folders"
+   },
+   "featureNodeSelector": {
+      "description": "Node selector feature title",
+      "message": "Node selector"
+   },
+   "featureNodeSelectorDesc": {
+      "description": "Node selector feature description",
+      "message": "Quickly copy configured nodes from other workflows"
+   },
+   "featureTemplates": {
+      "description": "Templates feature title",
+      "message": "Templates"
+   },
+   "featureTemplatesDesc": {
+      "description": "Templates feature description",
+      "message": "Access pre-built workflow templates"
+   },
+   "featureWorkflowHistory": {
+      "description": "Workflow History feature title",
+      "message": "Workflow History"
+   },
+   "featureWorkflowHistoryDesc": {
+      "description": "Workflow History feature description",
+      "message": "Track and restore previous versions of your workflows"
+   },
+   "features": {
+      "description": "Features section header",
+      "message": "Features"
+   },
+   "filters": {
+      "description": "Filters section label",
+      "message": "Filters"
+   },
+   "finishWorkflow": {
+      "description": "Message when workflow is finished",
+      "message": "✅ Finish workflow"
+   },
+   "finished": {
+      "description": "Finished column header",
+      "message": "Finished"
+   },
+   "fontDetectorDescription": {
+      "description": "FontDetector Pro extension description",
+      "message": "An indispensable tool for designers to detect and download fonts for websites."
+   },
+   "fontDetectorTitle": {
+      "description": "FontDetector Pro extension title",
+      "message": "FontDetector Pro"
+   },
+   "footerText": {
+      "description": "Footer text with usage instructions",
+      "message": "Right-click in the editor field to access the context menu commands."
+   },
+   "foundPerfectTemplate": {
+      "description": "Header message when a perfect template match is found",
+      "message": "Found Perfect Template!"
+   },
+   "fullyActivated": {
+      "description": "Fully activated status",
+      "message": "✅ Fully Activated"
+   },
+   "generateCode": {
+      "description": "Generate code field label",
+      "message": "Generate Code:"
+   },
+   "generateJSON": {
+      "description": "Generate JSON field label",
+      "message": "Generate JSON:"
+   },
+   "generatePrompt": {
+      "description": "Generate prompt field label",
+      "message": "Generate Prompt:"
+   },
+   "generateWorkflow": {
+      "description": "Generate workflow field label",
+      "message": "Generate Workflow:"
+   },
+   "generatedCurlCommand": {
+      "description": "Header for generated cURL command in chat",
+      "message": "Generated cURL command:"
+   },
+   "generatingCode": {
+      "description": "Generating code status",
+      "message": "generating code"
+   },
+   "generatingCurl": {
+      "description": "Generating cURL request status",
+      "message": "generating cURL request"
+   },
+   "generatingCustomWorkflow": {
+      "description": "Generating custom workflow message",
+      "message": "Generating custom workflow instead..."
+   },
+   "generatingPrompt": {
+      "description": "Generating prompt status",
+      "message": "generating prompt"
+   },
+   "gettingStarted": {
+      "description": "Getting Started section title",
+      "message": "🚀 Getting Started"
+   },
+   "group": {
+      "description": "Group column header",
+      "message": "Group"
+   },
+   "hideLinks": {
+      "description": "Hide links toggle text",
+      "message": "Hide links"
+   },
+   "hostDetected": {
+      "description": "Host detected label",
+      "message": "Host detected:"
+   },
+   "howToFindApiKey": {
+      "description": "Title for API key instructions section",
+      "message": "How to find the API key?"
+   },
+   "importButton": {
+      "description": "Import button text",
+      "message": "Import Settings"
+   },
+   "importDescription": {
+      "description": "Import description title",
+      "message": "Import Configuration"
+   },
+   "importInfo": {
+      "description": "Import information text",
+      "message": "Import previously exported settings from a JSON file. The import will validate the structure and restore your configuration."
+   },
+   "importSectionTitle": {
+      "description": "Import section title",
+      "message": "Import Settings"
+   },
+   "importWarning": {
+      "description": "Import warning message",
+      "message": "⚠️ Note: If license is not activated, extension settings will not be imported."
+   },
+   "incompleteReplacementBlocked": {
+      "description": "Message when incomplete replacement is blocked",
+      "message": "Error: AI performed incomplete replacement (only removal). Replacement blocked."
+   },
+   "incompleteReplacementError": {
+      "description": "Error when AI attempts incomplete node replacement",
+      "message": "Error: AI attempted incomplete replacement (only removal without addition). Please try rephrasing your request."
+   },
+   "indexedDbData": {
+      "description": "Category header for IndexedDB data",
+      "message": "IndexedDB Data"
+   },
+   "install": {
+      "description": "Install button text",
+      "message": "Install"
+   },
+   "instructionStep1": {
+      "description": "First step in API key instructions",
+      "message": "In the left corner next to your name, click on the three dots"
+   },
+   "instructionStep2": {
+      "description": "Second step in API key instructions",
+      "message": "Click on Settings and then on n8n API"
+   },
+   "instructionStep3": {
+      "description": "Third step in API key instructions",
+      "message": "Click Create an API key"
+   },
+   "instructionStep4": {
+      "description": "Fourth step in API key instructions",
+      "message": "Specify the label and set the expiration period to No expiration and the Save"
+   },
+   "instructionStep5": {
+      "description": "Fifth step in API key instructions",
+      "message": "Copy created key here and click save"
+   },
+   "keyFeatures": {
+      "description": "Key Features section title",
+      "message": "🚀 Key Features"
+   },
+   "lang_en": {
+      "description": "English language name",
+      "message": "English"
+   },
+   "lang_es": {
+      "description": "Spanish language name",
+      "message": "Español"
+   },
+   "lang_ru": {
+      "description": "Russian language name",
+      "message": "Русский"
+   },
+   "language": {
+      "description": "Language selector label",
+      "message": "Language"
+   },
+   "languageSettings": {
+      "description": "Language settings group title",
+      "message": "Language Settings"
+   },
+   "leaveReview": {
+      "description": "Leave a review",
+      "message": "Leave a review"
+   },
+   "licenseExpired": {
+      "description": "License expired message",
+      "message": "License expired. Please reactivate in the extension popup."
+   },
+   "licenseInfo": {
+      "description": "License info group title",
+      "message": "License Information"
+   },
+   "licenseKey": {
+      "description": "License key label",
+      "message": "License Key:"
+   },
+   "licenseStatus": {
+      "description": "License status label",
+      "message": "License Status:"
+   },
+   "links": {
+      "description": "Links group title",
+      "message": "Links & Support"
+   },
+   "linksWorkflows": {
+      "description": "Links field label",
+      "message": "Links"
+   },
+   "loading": {
+      "description": "Loading message",
+      "message": "Loading..."
+   },
+   "loadingChangelog": {
+      "description": "Loading changelog message",
+      "message": "Loading changelog..."
+   },
+   "loadingExecutions": {
+      "description": "Loading state message for executions",
+      "message": "Loading executions..."
+   },
+   "loadingHistory": {
+      "description": "Loading message for workflow history",
+      "message": "Loading workflow history..."
+   },
+   "loadingNodes": {
+      "description": "Loading message for nodes",
+      "message": "Loading nodes..."
+   },
+   "loadingText": {
+      "description": "Loading text",
+      "message": "Loading..."
+   },
+   "loadingWorkflows": {
+      "description": "Loading message while fetching workflows",
+      "message": "Loading workflows..."
+   },
+   "loading_template": {
+      "description": "Loading template text",
+      "message": "Loading template..."
+   },
+   "loading_workflow_preview": {
+      "description": "Loading workflow preview text",
+      "message": "Loading workflow preview..."
+   },
+   "localChatAddress": {
+      "description": "Label for local chat endpoint input",
+      "message": "Local chat address:"
+   },
+   "localLLMConfigureInstructions": {
+      "description": "Instructions to configure Local LLM endpoints",
+      "message": "Configure endpoints in Settings → AI tab"
+   },
+   "localLLMConfigured": {
+      "description": "Status message when Local LLM is configured",
+      "message": "✅ Local LM configured"
+   },
+   "localLLMOption": {
+      "description": "Local LLM provider option in popup",
+      "message": "Local LM (Model)"
+   },
+   "localLLMSection": {
+      "description": "Local LLM section header in popup",
+      "message": "Local LM"
+   },
+   "localLLMsTitle": {
+      "description": "Local LLMs section title in options",
+      "message": "Local LLMs"
+   },
+   "localModelsAddress": {
+      "description": "Label for local models endpoint input",
+      "message": "Local models address:"
+   },
+   "localProjects": {
+      "description": "Local projects setting name",
+      "message": "Local projects"
+   },
+   "localProjectsDesc": {
+      "description": "Local projects setting description",
+      "message": "Enable project folders in the left column"
+   },
+   "localVariables": {
+      "description": "Local variables setting name",
+      "message": "Local variables"
+   },
+   "localVariablesDesc": {
+      "description": "Local variables setting description",
+      "message": "The Variables link in the menu will provide access to a notebook for important data. Hotkey: Ctrl+Shift+V"
+   },
+   "mainSectionTitle": {
+      "description": "Main section title",
+      "message": "Main Settings"
+   },
+   "menuAI": {
+      "description": "AI menu item",
+      "message": "AI"
+   },
+   "menuAbout": {
+      "description": "About menu item",
+      "message": "About"
+   },
+   "menuExport": {
+      "description": "Export menu item",
+      "message": "Export"
+   },
+   "menuImport": {
+      "description": "Import menu item",
+      "message": "Import"
+   },
+   "menuMain": {
+      "description": "Main menu item",
+      "message": "Main"
+   },
+   "menuWorkflowHistory": {
+      "description": "Menu item for workflow history section",
+      "message": "Workflow History"
+   },
+   "modalSettingsDescription": {
+      "description": "Modal settings description",
+      "message": "To configure N8N Master settings:"
+   },
+   "modalStep1": {
+      "description": "Modal step 1 text",
+      "message": "Click the N8N Master extension icon in your browser toolbar"
+   },
+   "modalStep2": {
+      "description": "Modal step 2 text",
+      "message": "Configure your API keys and enable features"
+   },
+   "modalStep3": {
+      "description": "Modal step 3 text",
+      "message": "Start using N8N Master features"
+   },
+   "modalTipText": {
+      "description": "Modal tip text",
+      "message": " If you don't see the extension icon, click the puzzle piece (🧩) in your toolbar and pin N8N Master."
+   },
+   "modalTipTitle": {
+      "description": "Modal tip title",
+      "message": "💡 Tip:"
+   },
+   "modifyingWorkflow": {
+      "description": "Message when modifying workflow",
+      "message": "Modifying workflow"
+   },
+   "n8nApiConfiguration": {
+      "description": "N8N API configuration section",
+      "message": "N8N API Configuration"
+   },
+   "n8nApiConfigurationDesc": {
+      "description": "N8N API configuration description",
+      "message": "Configure N8N API key for selected options"
+   },
+   "n8nApiKey": {
+      "description": "N8N API key field label",
+      "message": "N8N API Key"
+   },
+   "n8nApiKeyDescription": {
+      "description": "N8N API key field description",
+      "message": "API key for accessing N8N webhooks and automation"
+   },
+   "n8nApiKeyNotConfigured": {
+      "description": "Error message when N8N API key is not configured",
+      "message": "N8N API key not configured. Please configure it in the extension settings."
+   },
+   "n8nApiKeyPlaceholder": {
+      "description": "N8N API key placeholder",
+      "message": "Enter your N8N API key..."
+   },
+   "n8nApiKeyRemoved": {
+      "description": "N8N API key removed message",
+      "message": "API key has been removed"
+   },
+   "n8nApiKeyRequired": {
+      "description": "Warning message when N8N API key is required",
+      "message": "N8N API Key required for"
+   },
+   "n8nApiKeyRequiredMessage": {
+      "description": "Message for API key required dialog",
+      "message": "To copy nodes from other workflows, please configure your N8N API key in the extension settings."
+   },
+   "n8nApiKeyValid": {
+      "description": "Valid N8N API key status",
+      "message": "N8N API key is valid!"
+   },
+   "n8nApiSettings": {
+      "description": "N8N API settings group title",
+      "message": "N8N API Settings"
+   },
+   "n8nApiUrl": {
+      "description": "N8N API URL field label",
+      "message": "N8N API URL:"
+   },
+   "n8nApiUrlDescription": {
+      "description": "N8N API URL field description",
+      "message": "Base URL for your N8N instance API"
+   },
+   "n8nMasterActivated": {
+      "description": "Status after activation",
+      "message": "N8N Master activated (refresh page to see chat)"
+   },
+   "n8nMasterActivatedRefresh": {
+      "description": "Notification when N8N Master is activated and page refresh is needed",
+      "message": "N8N Master activated! Refresh the page to see the chat widget."
+   },
+   "n8nMasterActiveOnPage": {
+      "description": "Notification when N8N Master is activated on current page",
+      "message": "N8N Master is now active on this page"
+   },
+   "n8nMasterDisconnected": {
+      "description": "Notification when N8N Master is disconnected from current page",
+      "message": "N8N Master disconnected from this page"
+   },
+   "n8nMasterIsActive": {
+      "description": "Status when N8N Master is active",
+      "message": "N8N Master is active on this page"
+   },
+   "n8nMasterLocalVariables": {
+      "description": "Extension icon tooltip for local variables",
+      "message": "N8N Master - Local Variables"
+   },
+   "n8nMasterNotWorking": {
+      "description": "Status when N8N Master not working",
+      "message": "N8N Master is not working on this page"
+   },
+   "n8nMasterProcessing": {
+      "description": "Extension name for processing notifications",
+      "message": "N8N Master"
+   },
+   "n8nPageDetectedReady": {
+      "description": "Status message when N8N page is detected and ready to activate",
+      "message": "N8N page detected - ready to activate"
+   },
+   "n8nWorkflowDetected": {
+      "description": "Status when workflow page is found",
+      "message": "N8N workflow page detected - ready to activate"
+   },
+   "newProjectButton": {
+      "description": "Add new project button text",
+      "message": "📁 + Add project"
+   },
+   "next": {
+      "description": "Next page button",
+      "message": "Next"
+   },
+   "noActiveTab": {
+      "description": "Error when no active tab",
+      "message": "No active tab found"
+   },
+   "noApiKeyForImport": {
+      "description": "Message shown when no API key is configured for importing workflows",
+      "message": "To import workflows from your N8N instance, please configure your N8N API key in the extension settings."
+   },
+   "noAvailableWorkflows": {
+      "description": "Message when no workflows are available to add",
+      "message": "No available workflows found. All workflows are already in projects."
+   },
+   "noDomainsConnected": {
+      "description": "Message when no domains are configured",
+      "message": "No domains connected"
+   },
+   "noGroup": {
+      "description": "No group placeholder",
+      "message": "—"
+   },
+   "noHistoryAvailable": {
+      "description": "Message when workflow has no history",
+      "message": "No history available yet"
+   },
+   "noNodesFound": {
+      "description": "No nodes found error",
+      "message": "No nodes found in workflow"
+   },
+   "noNodesMatchSearch": {
+      "description": "Message when no nodes match search term",
+      "message": "No nodes match search"
+   },
+   "noOtherWorkflowsAvailable": {
+      "description": "Message when no other workflows are available",
+      "message": "No other workflows available.\u003Cbr/>Create more workflows to copy nodes between them."
+   },
+   "noTags": {
+      "description": "No tags placeholder",
+      "message": "—"
+   },
+   "noVariablesFound": {
+      "description": "Message when search returns no results",
+      "message": "No variables found matching your search."
+   },
+   "noVariablesMatchingSearch": {
+      "description": "Message when no variables match search term",
+      "message": "No variables found matching \"{{searchTerm}}\"."
+   },
+   "noVariablesYet": {
+      "description": "Message when no variables exist",
+      "message": "No variables yet. Click \"+ Add variable\" to create your first one."
+   },
+   "noWorkflowsFound": {
+      "description": "Message when no workflows are available",
+      "message": "No workflows found"
+   },
+   "noWorkflowsMatchSearch": {
+      "description": "Message when search returns no results",
+      "message": "No workflows match your search."
+   },
+   "nodeAnalysis": {
+      "description": "Node analysis feature name",
+      "message": "Node Analysis"
+   },
+   "nodeAnalysisDesc": {
+      "description": "Node analysis feature description",
+      "message": "Analyze selected nodes and get insights about workflow structure"
+   },
+   "nodeCopiedSuccessfully": {
+      "description": "Success message when node is copied",
+      "message": "copied successfully and added to workflow!"
+   },
+   "nodeCopiedToClipboard": {
+      "description": "Message when node is copied to clipboard",
+      "message": "copied to clipboard. Use Ctrl+V to paste in n8n."
+   },
+   "nodeCopy": {
+      "description": "Copy node button",
+      "message": "Copy Node"
+   },
+   "nodeCopySuccess": {
+      "description": "Node copy success message",
+      "message": "Node copied successfully"
+   },
+   "nodeExecutionSelect": {
+      "description": "Node execution select setting name",
+      "message": "Node execution select"
+   },
+   "nodeExecutionSelectDesc": {
+      "description": "Node execution select setting description",
+      "message": "When editing a node output, you can select data from the Executions"
+   },
+   "nodeNameCopiedToClipboard": {
+      "description": "Message when specific node is copied to clipboard",
+      "message": "Node \"{nodeName}\" copied to clipboard. Use Ctrl+V to paste in n8n."
+   },
+   "nodePaste": {
+      "description": "Paste node button",
+      "message": "Paste Node"
+   },
+   "nodePasteSuccess": {
+      "description": "Node paste success message",
+      "message": "Node pasted successfully"
+   },
+   "nodeSelector": {
+      "description": "Node selector setting name",
+      "message": "Node selector"
+   },
+   "nodeSelectorDesc": {
+      "description": "Node selector setting description",
+      "message": "For each node with \"+\" a selector is added to select nodes from your workflows"
+   },
+   "nodes": {
+      "description": "Plural form of node count in history",
+      "message": "nodes"
+   },
+   "notN8nPage": {
+      "description": "Badge message when page is not n8n",
+      "message": "This is not n8n page"
+   },
+   "notN8nPageError": {
+      "description": "Error when page is not N8N",
+      "message": "This is not an n8n page"
+   },
+   "notificationsDescription": {
+      "description": "Enable notifications option description",
+      "message": "Show success and error notifications"
+   },
+   "notificationsOption": {
+      "description": "Enable notifications option label",
+      "message": "Enable notifications"
+   },
+   "of": {
+      "description": "Of label in pagination",
+      "message": "of"
+   },
+   "openChatFirst": {
+      "description": "Open chat first message",
+      "message": "Please open chat widget first to see AI messages."
+   },
+   "openSettings": {
+      "description": "Button text to open settings",
+      "message": "Open Settings"
+   },
+   "openSource": {
+      "description": "Open Source section title",
+      "message": "Open Source"
+   },
+   "openSourceDescription": {
+      "description": "Open Source section description",
+      "message": "Over 700 open source projects for organizing your own projects based on ready-made solutions."
+   },
+   "openaiApiKey": {
+      "description": "OpenAI API key field label",
+      "message": "OpenAI API Key"
+   },
+   "openrouterApiKey": {
+      "description": "Openrouter API key field label",
+      "message": "Openrouter API Key"
+   },
+   "optimizePrompt": {
+      "description": "Optimize prompt field label",
+      "message": "Optimize Prompt:"
+   },
+   "optionsPage": {
+      "description": "Options page link text",
+      "message": "Options"
+   },
+   "optionsPageHeader": {
+      "description": "Options page header",
+      "message": "N8N Master"
+   },
+   "optionsPageTitle": {
+      "description": "Options page title",
+      "message": "N8N Master Settings"
+   },
+   "orText": {
+      "description": "Or divider text between store links",
+      "message": "or"
+   },
+   "outputTemplates": {
+      "description": "Output templates import option",
+      "message": "Output Templates"
+   },
+   "page": {
+      "description": "Page label in pagination",
+      "message": "Page"
+   },
+   "pageStatus": {
+      "description": "Page status section header",
+      "message": "🔍 Page Status"
+   },
+   "pinData": {
+      "description": "Pin data modal title",
+      "message": "Pin Data"
+   },
+   "pinned": {
+      "description": "Pinned icon tooltip",
+      "message": "Pinned"
+   },
+   "pinnedData": {
+      "description": "Pinned data modal title",
+      "message": "Pinned Data"
+   },
+   "placeholderExplainCode": {
+      "description": "Placeholder for explain code textarea",
+      "message": "Custom system message for code explanation..."
+   },
+   "placeholderGenerateCode": {
+      "description": "Placeholder for generate code textarea",
+      "message": "Custom system message for code generation..."
+   },
+   "placeholderGenerateJson": {
+      "description": "Placeholder for generate JSON textarea",
+      "message": "Custom system message for JSON generation..."
+   },
+   "placeholderGeneratePrompt": {
+      "description": "Placeholder for generate prompt textarea",
+      "message": "Custom system message for prompt generation..."
+   },
+   "placeholderGenerateWorkflow": {
+      "description": "Placeholder for generate workflow textarea",
+      "message": "Custom system message for workflow generation..."
+   },
+   "placeholderOptimize": {
+      "description": "Placeholder for optimize prompt textarea",
+      "message": "Custom system message for optimization..."
+   },
+   "pleaseEnterApiKey": {
+      "description": "Message when API key is not entered",
+      "message": "Please enter an API key"
+   },
+   "pleaseEnterN8nApiKey": {
+      "description": "Message when N8N API key is not entered",
+      "message": "Please enter an N8N API key"
+   },
+   "popupTitle": {
+      "description": "Popup window title",
+      "message": "N8N Master Settings"
+   },
+   "popup_language": {
+      "description": "Language selector label in popup",
+      "message": "Language"
+   },
+   "popup_settings": {
+      "description": "Settings section title in popup",
+      "message": "Settings"
+   },
+   "previous": {
+      "description": "Previous page button",
+      "message": "Previous"
+   },
+   "privacyPolicy": {
+      "description": "Privacy policy link text",
+      "message": "Privacy Policy"
+   },
+   "proceedingCustomWorkflow": {
+      "description": "Proceeding with custom workflow message",
+      "message": "Proceeding with custom workflow generation"
+   },
+   "projectNameAlreadyExists": {
+      "description": "Validation error when project name already exists",
+      "message": "A project with this name already exists"
+   },
+   "projectNameCannotBeEmpty": {
+      "description": "Validation error when project name is empty",
+      "message": "Project name cannot be empty"
+   },
+   "projectNamePlaceholder": {
+      "description": "Project name input placeholder in form",
+      "message": "Project name..."
+   },
+   "projectsCreate": {
+      "description": "Create project button",
+      "message": "Create Project"
+   },
+   "projectsDelete": {
+      "description": "Delete project button",
+      "message": "Delete Project"
+   },
+   "projectsExport": {
+      "description": "Export project button",
+      "message": "Export Project"
+   },
+   "projectsImport": {
+      "description": "Import project button",
+      "message": "Import Project"
+   },
+   "projectsName": {
+      "description": "Project name field",
+      "message": "Project Name"
+   },
+   "purchaseLicenseToUnlock": {
+      "description": "Purchase license button text",
+      "message": "Purchase a license to unlock features"
+   },
+   "rateUs": {
+      "description": "Rate us link text",
+      "message": "Rate us"
+   },
+   "refreshHistory": {
+      "description": "Button to refresh workflow history",
+      "message": "Refresh History"
+   },
+   "rememberDialog": {
+      "description": "Remember dialog setting name",
+      "message": "Remember Dialog"
+   },
+   "rememberDialogDesc": {
+      "description": "Remember dialog setting description",
+      "message": "Saves the chat dialog for each workflow"
+   },
+   "requiresN8nApiKey": {
+      "description": "Message shown when N8N API key is required for a feature",
+      "message": "To activate this option, first enter the"
+   },
+   "reset": {
+      "description": "Reset button text",
+      "message": "Reset"
+   },
+   "resetSuccess": {
+      "description": "Settings reset success notification",
+      "message": "Settings reset"
+   },
+   "reviewRequestButton": {
+      "description": "Button text for review request in chat",
+      "message": "⭐ Leave a review"
+   },
+   "reviewRequestProductHunt": {
+      "description": "Text for Product Hunt support request in chat",
+      "message": "And support us on Product Hunt"
+   },
+   "reviewRequestProductHuntButton": {
+      "description": "Button text for Product Hunt support in chat",
+      "message": "🚀 Product Hunt"
+   },
+   "reviewRequestText": {
+      "description": "Text for review request message in chat",
+      "message": "Please leave a review about us on Google Web Store"
+   },
+   "reviewRequestTitle": {
+      "description": "Title for review request message in chat",
+      "message": "🌟 Do you like this extension?"
+   },
+   "reviewSubtitle": {
+      "description": "Review block subtitle",
+      "message": "Leave a review"
+   },
+   "reviewTitle": {
+      "description": "Review block title",
+      "message": "Do you like this extension? 😊"
+   },
+   "salesPilotDescription": {
+      "description": "SalesPilot AI extension description",
+      "message": "AI assistant for analyzing important website metrics for SEO promotion."
+   },
+   "salesPilotTitle": {
+      "description": "SalesPilot AI extension title",
+      "message": "SalesPilot AI"
+   },
+   "save": {
+      "description": "Save button text",
+      "message": "Save"
+   },
+   "saveAllSettings": {
+      "description": "Save all settings button",
+      "message": "Save All Settings"
+   },
+   "saveSuccess": {
+      "description": "Settings save success notification",
+      "message": "Settings saved"
+   },
+   "saving": {
+      "description": "Saving status text",
+      "message": "Saving..."
+   },
+   "search": {
+      "description": "Search placeholder",
+      "message": "Search..."
+   },
+   "searchNodes": {
+      "description": "Search nodes placeholder",
+      "message": "Search nodes..."
+   },
+   "searchTemplates": {
+      "description": "Search templates setting name",
+      "message": "Search templates"
+   },
+   "searchTemplatesDesc": {
+      "description": "Search templates setting description",
+      "message": "When creating workflows, search existing templates first"
+   },
+   "searchWorkflows": {
+      "description": "Search workflows placeholder",
+      "message": "Search workflows..."
+   },
+   "searchingTemplates": {
+      "description": "Searching templates message",
+      "message": "Searching for matching templates"
+   },
+   "selectAll": {
+      "description": "Button to select all import options",
+      "message": "Select All"
+   },
+   "selectDataToImport": {
+      "description": "Header for import data selection",
+      "message": "Select Data to Import:"
+   },
+   "selectFile": {
+      "description": "Select file button text",
+      "message": "Select JSON File"
+   },
+   "selectLanguage": {
+      "description": "Language selector label",
+      "message": "Select Language:"
+   },
+   "selectModel": {
+      "description": "Model selector label",
+      "message": "Select Model:"
+   },
+   "selectWorkflowsToAdd": {
+      "description": "Workflow selector modal title",
+      "message": "Select Workflows to Add"
+   },
+   "services": {
+      "description": "Services",
+      "message": "Services"
+   },
+   "settings": {
+      "description": "Settings section header",
+      "message": "Settings"
+   },
+   "settingsChanged": {
+      "description": "Notification when settings are changed and page refresh is needed",
+      "message": "Settings have been changed, please refresh the page!"
+   },
+   "showLinks": {
+      "description": "Show links toggle text",
+      "message": "Show {count} links"
+   },
+   "showTemplates": {
+      "description": "Show templates setting name",
+      "message": "Show templates"
+   },
+   "showTemplatesDesc": {
+      "description": "Show templates setting description",
+      "message": "Show menu with list of templates to copy"
+   },
+   "showTemplatesDescription": {
+      "description": "Show templates widget option description",
+      "message": "Display the templates widget in the N8N interface"
+   },
+   "showTemplatesOption": {
+      "description": "Show templates widget option label",
+      "message": "Show templates widget"
+   },
+   "socialMedia": {
+      "description": "Social media link",
+      "message": "Social Media"
+   },
+   "status": {
+      "description": "Table column header for status",
+      "message": "Status"
+   },
+   "statusActive": {
+      "description": "Active status filter option",
+      "message": "Active"
+   },
+   "statusInactive": {
+      "description": "Inactive status filter option",
+      "message": "Inactive"
+   },
+   "stepActivateFeatures": {
+      "description": "Step 2 title",
+      "message": "Activate and enable Features"
+   },
+   "stepActivateFeaturesDesc": {
+      "description": "Step 2 description",
+      "message": "Turn on the features you want to use in the settings"
+   },
+   "stepConfigureApi": {
+      "description": "Step 1 title",
+      "message": "Configure API Keys"
+   },
+   "stepConfigureApiDesc": {
+      "description": "Step 1 description",
+      "message": "Set up your AI API keys (OpenAI, Anthropic, Openrouter) in the extension popup"
+   },
+   "stepStartCreating": {
+      "description": "Step 3 title",
+      "message": "Start Creating"
+   },
+   "stepStartCreatingDesc": {
+      "description": "Step 3 description",
+      "message": "Open n8n and start using the AI assistant and other tools"
+   },
+   "subscribeYoutubeChannel": {
+      "description": "Subscribe Youtube Channel",
+      "message": "Subscribe Youtube Channel"
+   },
+   "success": {
+      "description": "Success message",
+      "message": "Success"
+   },
+   "support": {
+      "description": "Support link",
+      "message": "Support"
+   },
+   "systemMessages": {
+      "description": "System messages group title",
+      "message": "System Messages"
+   },
+   "tabExecutions": {
+      "description": "Executions tab title",
+      "message": "Executions"
+   },
+   "tabN8nAPI": {
+      "description": "n8n API tab title",
+      "message": "n8n API"
+   },
+   "tabOptions": {
+      "description": "Options tab title",
+      "message": "Options"
+   },
+   "tabTools": {
+      "description": "Tools tab title",
+      "message": "Tools"
+   },
+   "tabWorkflows": {
+      "description": "Workflows tab title",
+      "message": "Workflows"
+   },
+   "tags": {
+      "description": "Tags column header",
+      "message": "Tags"
+   },
+   "tamperingDetected": {
+      "description": "Title for data tampering notification",
+      "message": "Cache data tampering detected"
+   },
+   "tamperingMessage": {
+      "description": "Message about tampering consequences",
+      "message": "All data has been cleared and settings reset!"
+   },
+   "templateCopiedSuccess": {
+      "description": "Template copy success notification",
+      "message": "The template has been successfully copied to the clipboard. Press Ctrl + V to paste the workflow."
+   },
+   "templateDownloadFailed": {
+      "description": "Template download failed message",
+      "message": "Failed to download"
+   },
+   "templateNotFound": {
+      "description": "Message when template is not found",
+      "message": "Template not found, creating with AI..."
+   },
+   "templateProcessingIssue": {
+      "description": "Template processing issue title",
+      "message": "Template Processing Issue"
+   },
+   "templateProcessingIssueDesc": {
+      "description": "Template processing issue description",
+      "message": "Could not automatically extract the workflow JSON from this template. The template content may need manual processing."
+   },
+   "templateSearchDisabled": {
+      "description": "Message when template search is disabled",
+      "message": "Template search disabled, creating with AI..."
+   },
+   "templateSelectorNotAvailable": {
+      "description": "Template selector not available error",
+      "message": "TemplateSelector not available"
+   },
+   "template_preview_title": {
+      "description": "Template preview page title",
+      "message": "Template Preview"
+   },
+   "templatesExport": {
+      "description": "Export template button",
+      "message": "Export Template"
+   },
+   "templatesImport": {
+      "description": "Import template button",
+      "message": "Import Template"
+   },
+   "templatesLoad": {
+      "description": "Load templates button",
+      "message": "Load Templates"
+   },
+   "templatesLoading": {
+      "description": "Templates loading message",
+      "message": "Loading templates..."
+   },
+   "templatesSearch": {
+      "description": "Search templates placeholder",
+      "message": "Search templates..."
+   },
+   "templatesSearchTitle": {
+      "description": "Templates search button tooltip",
+      "message": "Search templates"
+   },
+   "templatesTitle": {
+      "description": "Templates widget title",
+      "message": "Templates"
+   },
+   "testButton": {
+      "description": "Test button label",
+      "message": "Test"
+   },
+   "testFailed": {
+      "description": "Test failure message",
+      "message": "Test failed"
+   },
+   "testKey": {
+      "description": "Test button label",
+      "message": "Test"
+   },
+   "testSuccess": {
+      "description": "Test success message",
+      "message": "Test completed successfully"
+   },
+   "testingApiKey": {
+      "description": "API key testing process",
+      "message": "Testing API key..."
+   },
+   "testingN8nApiKey": {
+      "description": "N8N API key testing process",
+      "message": "Testing N8N API key..."
+   },
+   "timeEnd": {
+      "description": "Time End column header",
+      "message": "Time End"
+   },
+   "timeFrom": {
+      "description": "Time From filter placeholder",
+      "message": "Time From"
+   },
+   "timeStart": {
+      "description": "Time Start column header",
+      "message": "Time Start"
+   },
+   "timeTo": {
+      "description": "Time To filter placeholder",
+      "message": "Time To"
+   },
+   "toDisplayExecutionsList": {
+      "description": "Empty state message for executions",
+      "message": "To display a list of your workflows executions, connect to the"
+   },
+   "toDisplayWorkflowsList": {
+      "description": "Message for empty workflows state",
+      "message": "To display a list of your workflows, connect to the"
+   },
+   "totalWorkflows": {
+      "description": "Tooltip for total workflows metric",
+      "message": "Total workflows"
+   },
+   "trialExpired": {
+      "description": "Title for expired trial notification",
+      "message": "Trial period has ended"
+   },
+   "trialExpiredDesc": {
+      "description": "Expired trial description",
+      "message": "Purchase a license to unlock features"
+   },
+   "trialPeriodActive": {
+      "description": "Message about active trial period",
+      "message": "You have {days} days to test the features"
+   },
+   "trialPeriodDesc": {
+      "description": "Trial period description",
+      "message": "After which you'll need to purchase a license"
+   },
+   "tryOtherTopTools": {
+      "description": "Section header for other extensions promotion",
+      "message": "🚀 Try other top tools"
+   },
+   "tutorialVideoDesc": {
+      "description": "Tutorial video description",
+      "message": "Learn how to use all N8N Master features in this comprehensive tutorial"
+   },
+   "unableToCheck": {
+      "description": "Error when checking status failed",
+      "message": "Unable to check page status"
+   },
+   "unlockFullPower": {
+      "description": "Unlock full power button text",
+      "message": "Unlock Full Power"
+   },
+   "unlockFullPowerSubtitle": {
+      "description": "Unlock modal subtitle",
+      "message": "Enter your license key to activate all features"
+   },
+   "unlockFullPowerTitle": {
+      "description": "Unlock modal title",
+      "message": "Unlock Full Power"
+   },
+   "userAccount": {
+      "description": "User account link text",
+      "message": "Nitiweb Account - Managing your keys"
+   },
+   "variableCopiedToClipboard": {
+      "description": "Success message when variable is copied to clipboard",
+      "message": "The parameter was copied to the clipboard. Press Ctrl + V to paste it to the desired location."
+   },
+   "variableDeletedSuccessfully": {
+      "description": "Success message when variable is deleted",
+      "message": "Variable deleted successfully!"
+   },
+   "variableName": {
+      "description": "Variable name label",
+      "message": "Name"
+   },
+   "variableSavedSuccessfully": {
+      "description": "Success message when variable is saved",
+      "message": "Variable saved successfully!"
+   },
+   "variableValue": {
+      "description": "Variable value label",
+      "message": "Value"
+   },
+   "watchFullTutorial": {
+      "description": "Watch Full Tutorial section title",
+      "message": "🎥 Watch Full Tutorial"
+   },
+   "watchTutorial": {
+      "description": "Watch tutorial link text",
+      "message": "Watch tutorial"
+   },
+   "welcomeGotIt": {
+      "description": "Welcome page got it button",
+      "message": "Got it, thanks!"
+   },
+   "welcomeMessage": {
+      "description": "Welcome page message",
+      "message": "Thank you for installing N8N Master. Here's what's new in this version:"
+   },
+   "welcomeOpenSettings": {
+      "description": "Welcome page open settings button",
+      "message": "Open Settings"
+   },
+   "welcomeSubtitle": {
+      "description": "Welcome page subtitle",
+      "message": "Your productivity companion for n8n workflows"
+   },
+   "welcomeTitle": {
+      "description": "Welcome page title",
+      "message": "🎉 Welcome to N8N Master!"
+   },
+   "welcomeWatchTutorial": {
+      "description": "Welcome page watch tutorial button",
+      "message": "Watch tutorial"
+   },
+   "welcome_got_it": {
+      "description": "Welcome page got it button",
+      "message": "Got it, thanks!"
+   },
+   "welcome_message": {
+      "description": "Welcome page main message",
+      "message": "Thank you for installing N8N Master. Here's what's new in this version:"
+   },
+   "welcome_open_settings": {
+      "description": "Welcome page open settings button",
+      "message": "Open Options"
+   },
+   "welcome_subtitle": {
+      "description": "Welcome page subtitle",
+      "message": "Workflow Assistant"
+   },
+   "welcome_title": {
+      "description": "Welcome page main title",
+      "message": "🎉 Welcome to N8N Master!"
+   },
+   "welcome_watch_tutorial": {
+      "description": "Welcome page watch tutorial button",
+      "message": "Watch tutorial"
+   },
+   "whatsNew": {
+      "description": "What's New section title",
+      "message": "✨ What's New"
+   },
+   "wizardDailyLimitReached": {
+      "description": "Message shown when daily wizard usage limit is reached",
+      "message": "🚫 You have used up the limit of 10 requests per day to the AI. You can continue again tomorrow or buy a license to remove the limit."
+   },
+   "workflow": {
+      "description": "Singular form of workflow",
+      "message": "workflow"
+   },
+   "workflowAddedToProject": {
+      "description": "Success message when workflow is added to project",
+      "message": "added to project"
+   },
+   "workflowAlreadyExists": {
+      "description": "Error message when workflow already exists in project",
+      "message": "Workflow already exists in this project."
+   },
+   "workflowCopiedSuccess": {
+      "description": "Workflow copy success message",
+      "message": "Workflow copied to clipboard ($1 nodes). Use Ctrl+V to paste in n8n."
+   },
+   "workflowCreatedOnCanvas": {
+      "description": "Message when workflow is created on canvas",
+      "message": "Workflow successfully created on canvas!"
+   },
+   "workflowCreatedSuccess": {
+      "description": "Message when workflow is successfully created",
+      "message": "Workflow successfully created!"
+   },
+   "workflowCreatedSuccessfully": {
+      "description": "Success message when workflow is created",
+      "message": "Workflow created successfully!"
+   },
+   "workflowExecution": {
+      "description": "Workflow execution setting name",
+      "message": "Workflow Execution"
+   },
+   "workflowExecutionDesc": {
+      "description": "Workflow execution setting description",
+      "message": "Quickly copy data from the execution log"
+   },
+   "workflowExecutions": {
+      "description": "Executions tab title",
+      "message": "Workflow executions"
+   },
+   "workflowGeneration": {
+      "description": "Workflow generation feature name",
+      "message": "Workflow Generation"
+   },
+   "workflowGenerationDesc": {
+      "description": "Workflow generation feature description",
+      "message": "Create complete n8n workflows from natural language descriptions"
+   },
+   "workflowHistory": {
+      "description": "Workflow history feature name",
+      "message": "Workflow History"
+   },
+   "workflowHistoryDesc": {
+      "description": "Workflow history feature description",
+      "message": "Track and restore previous workflow versions with timestamps"
+   },
+   "workflowHistoryDescription": {
+      "description": "Subtitle for workflow history section",
+      "message": "All Workflow Versions"
+   },
+   "workflowHistoryInfo": {
+      "description": "Description text for workflow history section",
+      "message": "View and copy all workflow versions from history. This includes all saved versions across all workflows."
+   },
+   "workflowHistoryLoadFailed": {
+      "description": "Workflow history load failed message",
+      "message": "Failed to load workflow history"
+   },
+   "workflowHistorySectionTitle": {
+      "description": "Title for workflow history section",
+      "message": "Workflow History"
+   },
+   "workflowIdNotFound": {
+      "description": "Workflow ID not found error",
+      "message": "Could not determine workflow ID"
+   },
+   "workflowImportedSuccess": {
+      "description": "Workflow import success message",
+      "message": "Workflow imported successfully! ($1 nodes)"
+   },
+   "workflowInsertError": {
+      "description": "Workflow insertion error message",
+      "message": "Error inserting workflow"
+   },
+   "workflowInsertFailed": {
+      "description": "Workflow insertion failed message",
+      "message": "Failed to insert workflow automatically. Please try manual creation."
+   },
+   "workflowInsertedSuccess": {
+      "description": "Workflow insertion success message",
+      "message": "Workflow inserted successfully!"
+   },
+   "workflowModifiedSuccess": {
+      "description": "Message when workflow is successfully modified",
+      "message": "Workflow successfully modified"
+   },
+   "workflowRestoreFailed": {
+      "description": "Workflow restore failed message",
+      "message": "Failed to restore workflow from history"
+   },
+   "workflowWizardFinished": {
+      "description": "Message when workflow creation mode is finished",
+      "message": "Workflow creation mode finished. You can now ask regular questions."
+   },
+   "workflows": {
+      "description": "Plural form of workflow",
+      "message": "workflows"
+   },
+   "yourConnectedDomains": {
+      "description": "Title for connected domains section",
+      "message": "Your connected domains"
+   },
+   "yourWorkflowsFromConnectedApis": {
+      "description": "Title for workflows section",
+      "message": "Your workflows from connected APIs"
+   }
+}

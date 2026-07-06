@@ -29,8 +29,8 @@ from .pdf_parser import extract_text_from_pdf_bytes, extract_fields_from_pdf_tex
 class ZhaobiaoAdapter(BaseAdapter):
     """中国招标网 (www.zhaobiao.cn) 适配器"""
 
-    BASE_URL = "https://www.zhaobiao.cn"
-    SEARCH_URL = "https://www.zhaobiao.cn/search/result.html"
+    BASE_URL = "https://s.zhaobiao.cn"
+    SEARCH_URL = "https://s.zhaobiao.cn/s"
 
     # 广告类搜索关键词组合
     AD_KEYWORDS = [

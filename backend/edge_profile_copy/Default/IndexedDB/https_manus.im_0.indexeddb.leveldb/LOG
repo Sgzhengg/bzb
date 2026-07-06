@@ -1,0 +1,21 @@
+2026/07/01-14:42:56.115 306c Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_manus.im_0.indexeddb.leveldb/MANIFEST-000001
+2026/07/01-14:42:56.115 306c Recovering log #7
+2026/07/01-14:42:56.125 306c Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_manus.im_0.indexeddb.leveldb/000007.log 
+2026/07/01-15:22:35.623 306c Compacting 1@1 + 1@2 files
+2026/07/01-15:22:35.627 306c Generated table #10@1: 37 keys, 773 bytes
+2026/07/01-15:22:35.627 306c Compacted 1@1 + 1@2 files => 773 bytes
+2026/07/01-15:22:35.629 306c compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/07/01-15:22:35.630 306c Delete type=2 #5
+2026/07/01-15:22:35.630 306c Delete type=2 #8
+2026/07/01-16:29:44.290 306c Level-0 table #12: started
+2026/07/01-16:29:44.300 306c Level-0 table #12: 1065386 bytes OK
+2026/07/01-16:29:44.302 306c Delete type=0 #7
+2026/07/01-16:29:44.302 306c Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2026/07/01-16:29:44.302 306c Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x03\x02\x1f\x01\x16\x00n\x00p\x00W\x00g\x00g\x007\x009\x00p\x00G\x00D\x008\x00F\x00d\x004\x00F\x00n\x00t\x00T\x00r\x008\x00J\x00t\x00\x01-\x00n\x00p\x00W\x00g\x00g\x007\x009\x00p\x00G\x00D\x008\x00F\x00d\x004\x00F\x00n\x00t\x00T\x00r\x008\x00J\x00t\x00:\x00y\x00v\x00Y\x00O\x00H\x00P\x00n\x00v\x00M\x00Q\x002\x007\x00I\x00p\x00w\x00W\x00f\x00N\x00Z\x007\x002\x002' @ 11738 : 1
+2026/07/01-16:29:44.302 306c Compacting 1@1 + 1@2 files
+2026/07/01-16:29:44.308 306c Generated table #13@1: 672 keys, 131887 bytes
+2026/07/01-16:29:44.308 306c Compacted 1@1 + 1@2 files => 131887 bytes
+2026/07/01-16:29:44.308 306c compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/07/01-16:29:44.309 306c Delete type=2 #10
+2026/07/01-16:29:44.309 306c Delete type=2 #12
+2026/07/01-16:29:44.309 306c Manual compaction at level-1 from '\x00\x03\x02\x1f\x01\x16\x00n\x00p\x00W\x00g\x00g\x007\x009\x00p\x00G\x00D\x008\x00F\x00d\x004\x00F\x00n\x00t\x00T\x00r\x008\x00J\x00t\x00\x01-\x00n\x00p\x00W\x00g\x00g\x007\x009\x00p\x00G\x00D\x008\x00F\x00d\x004\x00F\x00n\x00t\x00T\x00r\x008\x00J\x00t\x00:\x00y\x00v\x00Y\x00O\x00H\x00P\x00n\x00v\x00M\x00Q\x002\x007\x00I\x00p\x00w\x00W\x00f\x00N\x00Z\x007\x002\x002' @ 11738 : 1 .. (end); will stop at (end)

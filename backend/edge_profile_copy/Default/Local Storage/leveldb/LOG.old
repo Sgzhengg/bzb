@@ -1,0 +1,28 @@
+2026/07/06-10:16:15.843 264 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\Local Storage\leveldb/MANIFEST-000001
+2026/07/06-10:16:15.850 264 Recovering log #13479
+2026/07/06-10:16:15.852 264 Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\Local Storage\leveldb/013479.log 
+2026/07/06-10:17:50.939 2c84 Level-0 table #13483: started
+2026/07/06-10:17:50.944 2c84 Level-0 table #13483: 83759 bytes OK
+2026/07/06-10:17:50.946 2c84 Delete type=0 #13479
+2026/07/06-10:18:30.688 2c84 Level-0 table #13485: started
+2026/07/06-10:18:30.695 2c84 Level-0 table #13485: 213734 bytes OK
+2026/07/06-10:18:30.697 2c84 Delete type=0 #13482
+2026/07/06-10:18:30.697 2c84 Compacting 4@0 + 3@1 files
+2026/07/06-10:18:30.728 2c84 Generated table #13486@0: 690 keys, 3347804 bytes
+2026/07/06-10:18:30.747 2c84 Generated table #13487@0: 5886 keys, 2114699 bytes
+2026/07/06-10:18:30.757 2c84 Generated table #13488@0: 2429 keys, 1096046 bytes
+2026/07/06-10:18:30.757 2c84 Compacted 4@0 + 3@1 files => 6558549 bytes
+2026/07/06-10:18:30.758 2c84 compacted to: files[ 0 3 5 0 0 0 0 ]
+2026/07/06-10:18:30.759 2c84 Delete type=2 #13466
+2026/07/06-10:18:30.759 2c84 Delete type=2 #13467
+2026/07/06-10:18:30.759 2c84 Delete type=2 #13476
+2026/07/06-10:18:30.759 2c84 Delete type=2 #13478
+2026/07/06-10:18:30.759 2c84 Delete type=2 #13480
+2026/07/06-10:18:30.759 2c84 Delete type=2 #13483
+2026/07/06-10:18:30.759 2c84 Delete type=2 #13485
+2026/07/06-10:22:24.873 2c84 Level-0 table #13490: started
+2026/07/06-10:22:24.879 2c84 Level-0 table #13490: 106055 bytes OK
+2026/07/06-10:22:24.880 52dc Current memtable full; waiting...
+2026/07/06-10:22:24.883 2c84 Delete type=0 #13484
+2026/07/06-10:22:24.888 2c84 Level-0 table #13492: started
+2026/07/06-10:22:24.895 2c84 Level-0 table #13492: 105579 bytes OK

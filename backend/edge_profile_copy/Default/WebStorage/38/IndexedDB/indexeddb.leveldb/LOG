@@ -1,0 +1,7 @@
+2025/12/05-13:47:29.876 328c Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\WebStorage\38\IndexedDB\indexeddb.leveldb/MANIFEST-000001
+2025/12/05-13:47:29.876 328c Recovering log #3
+2025/12/05-13:47:29.876 328c Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\WebStorage\38\IndexedDB\indexeddb.leveldb/000003.log 
+2025/12/05-13:55:52.575 6404 Level-0 table #5: started
+2025/12/05-13:55:52.577 6404 Level-0 table #5: 1210 bytes OK
+2025/12/05-13:55:52.578 6404 Delete type=0 #3
+2025/12/05-13:55:52.579 6404 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

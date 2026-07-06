@@ -1,0 +1,42 @@
+{
+   "action": {
+      "default_icon": {
+         "128": "icon128.plasmo.0350fe94.png",
+         "16": "icon16.plasmo.0408de89.png",
+         "32": "icon32.plasmo.90b273f8.png",
+         "48": "icon48.plasmo.4266c5d9.png",
+         "64": "icon64.plasmo.8a2ee38a.png"
+      },
+      "default_popup": "popup.html"
+   },
+   "author": "BingMapsExport",
+   "background": {
+      "service_worker": "background.bb7d6e33.js"
+   },
+   "content_scripts": [ {
+      "css": [ "leads.db380404.css" ],
+      "js": [ "leads.7e8f70f6.js" ],
+      "matches": [ "https://*.bing.com/*" ],
+      "run_at": "document_end"
+   } ],
+   "default_locale": "en",
+   "description": "__MSG_extensionDescription__",
+   "host_permissions": [ "https://*.bing.com/*" ],
+   "icons": {
+      "128": "icon128.plasmo.0350fe94.png",
+      "16": "icon16.plasmo.0408de89.png",
+      "32": "icon32.plasmo.90b273f8.png",
+      "48": "icon48.plasmo.4266c5d9.png",
+      "64": "icon64.plasmo.8a2ee38a.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyF9V+iPj8o/cyYaPmSRYqRmRjK9rbQUNY7WSkMIMAYkxQ7vbi8I9VezXrCrK/2q0JpqZKhX9Qbxwzh2LAWjAiEqDNAxbbxw7V2DzrhVxUTbkZiTuH7UBzuZGwciC74ppndVibwmm5ntHYLzyfpOXEtkLd+w3lqHo0XAmHog1QpodPU1R0QBURNXUytmQ89Gwa55aVNmzxztoxpkVJvrYfAR42606nr3b1CARimm/JmLCiRz3JhpKZSvZJhwPJEGefyDwfdfAWG5O5/RMbRl40K1azibYuDWlpJ9/32K1V/gL2USBihpUTEIVR13GaHJeua+y9PN78AS4B2LQEaljlQIDAQAB",
+   "manifest_version": 3,
+   "name": "__MSG_extensionName__",
+   "oauth2": {
+      "client_id": "1045436637864-151q0kc9rujekesg42r0o0nf7q8etgta.apps.googleusercontent.com",
+      "scopes": [ "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile" ]
+   },
+   "permissions": [ "storage", "identity" ],
+   "update_url": "https://edge.microsoft.com/extensionwebstorebase/v1/crx",
+   "version": "12.6.1"
+}

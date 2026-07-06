@@ -17,6 +17,8 @@ export function useOpportunityList(params = {}, queryOptions = {}) {
   return useQuery({
     queryKey: ["opportunities", params],
     queryFn: () => apiClient.get("/announcements", { params }),
+    staleTime: 0,
+    refetchOnMount: true,
     ...queryOptions,
   });
 }

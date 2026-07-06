@@ -1,0 +1,6 @@
+2026/01/05-14:12:45.684 3d8c Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_pytorch.org_0.indexeddb.leveldb since it was missing.
+2026/01/05-14:12:45.688 3d8c Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_pytorch.org_0.indexeddb.leveldb/MANIFEST-000001
+2026/01/05-15:18:44.696 3d8c Level-0 table #5: started
+2026/01/05-15:18:44.698 3d8c Level-0 table #5: 843 bytes OK
+2026/01/05-15:18:44.700 3d8c Delete type=0 #3
+2026/01/05-15:18:44.700 3d8c Manual compaction at level-0 from (begin) .. (end); will stop at (end)

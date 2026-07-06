@@ -1,0 +1,2282 @@
+{
+   "Variables": {
+      "description": "Tên mục menu \"Biến\"",
+      "message": "Biến"
+   },
+   "aboutSectionTitle": {
+      "description": "Tiêu đề phần Giới thiệu",
+      "message": "Giới thiệu về N8N Master"
+   },
+   "accountBlocked": {
+      "description": "Tiêu đề tài khoản bị khóa",
+      "message": "Tài khoản bị khóa"
+   },
+   "actions": {
+      "description": "Tiêu đề cột bảng cho các hành động",
+      "message": "Hành động"
+   },
+   "activate": {
+      "description": "Nút Kích hoạt",
+      "message": "KÍCH HOẠT"
+   },
+   "activateButton": {
+      "description": "Nút kích hoạt giấy phép",
+      "message": "Kích hoạt"
+   },
+   "activateExtension": {
+      "description": "Nút để kích hoạt tiện ích mở rộng trên trang n8n",
+      "message": "Kích hoạt"
+   },
+   "activating": {
+      "description": "Quy trình kích hoạt",
+      "message": "Đang kích hoạt..."
+   },
+   "activationDate": {
+      "description": "Nhãn ngày kích hoạt",
+      "message": "Ngày kích hoạt:"
+   },
+   "activationFailed": {
+      "description": "Thông báo trạng thái khi quá trình kích hoạt không thành công",
+      "message": "Kích hoạt không thành công"
+   },
+   "add": {
+      "description": "Văn bản nút Thêm",
+      "message": "Thêm"
+   },
+   "addVariable": {
+      "description": "Thêm văn bản nút biến",
+      "message": "+ Thêm"
+   },
+   "addVariableTitle": {
+      "description": "Tiêu đề cửa sổ pop-up Thêm biến",
+      "message": "Thêm biến"
+   },
+   "addWorkflow": {
+      "description": "Thêm văn bản nút quy trình làm việc",
+      "message": "+ Thêm"
+   },
+   "addedWorkflows": {
+      "description": "Văn bản cho các quy trình làm việc được thêm vào",
+      "message": "Thêm:"
+   },
+   "aiAgentWithTools": {
+      "description": "Thông báo cho trợ lý AI có các công cụ được kết nối",
+      "message": "Trợ lý AI \"{nodeName}\" với {toolCount} công cụ"
+   },
+   "aiApiKeys": {
+      "description": "Tùy chọn nhập khóa API Trí tuệ Nhân tạo",
+      "message": "Khóa API Trí tuệ Nhân tạo"
+   },
+   "aiChatAssistant": {
+      "description": "Tên tính năng Trợ lý trò chuyện AI",
+      "message": "Trợ lý trò chuyện AI"
+   },
+   "aiChatAssistantDesc": {
+      "description": "Mô tả tính năng trợ lý trò chuyện AI",
+      "message": "Hỏi về quy trình làm việc, nhận hỗ trợ và phân tích do AI cung cấp"
+   },
+   "aiErrorTrigger": {
+      "description": "Tên cài đặt cơ chế kích hoạt lỗi AI",
+      "message": "Cơ chế kích hoạt lỗi AI"
+   },
+   "aiErrorTriggerDesc": {
+      "description": "Mô tả cài đặt kích hoạt lỗi AI",
+      "message": "Phân tích lỗi tự động khi kiểm tra một nút trong cuộc trò chuyện"
+   },
+   "aiProvider": {
+      "description": "Tiêu đề phần Nhà cung cấp AI",
+      "message": "🧠 Nhà cung cấp AI"
+   },
+   "aiSectionTitle": {
+      "description": "Tiêu đề phần AI",
+      "message": "Cài đặt AI"
+   },
+   "aiTools": {
+      "description": "Tiêu đề phần Công cụ Trí tuệ Nhân tạo",
+      "message": "Công cụ Trí tuệ Nhân tạo"
+   },
+   "aiToolsDescription": {
+      "description": "Mô tả phần Công cụ AI",
+      "message": "Hơn 7.000 công cụ AI được chọn lọc để giúp bạn tăng tốc và tự động hóa các tác vụ."
+   },
+   "ailexDescription": {
+      "description": "Mô tả tiện ích mở rộng AiLex",
+      "message": "Trợ lý AI cá nhân của bạn trong trình duyệt. BYOK & Miễn phí"
+   },
+   "ailexTitle": {
+      "description": "Tiêu đề tiện ích mở rộng AiLex",
+      "message": "AiLex"
+   },
+   "allFeaturesUnlocked": {
+      "description": "Thông báo tất cả các tính năng đã được mở khóa",
+      "message": "Tất cả các tính năng cao cấp đã được mở khóa"
+   },
+   "allGroups": {
+      "description": "Tùy chọn lọc cho tất cả các nhóm",
+      "message": "Tất cả các nhóm"
+   },
+   "allNodesAddedToCanvas": {
+      "description": "Thông báo khi các nút được tự động thêm vào khung vẽ.",
+      "message": "Tất cả các nút đã được thêm vào khung vẽ của bạn."
+   },
+   "allSites": {
+      "description": "Tùy chọn lọc cho tất cả các trang web",
+      "message": "Tất cả các trang web"
+   },
+   "allStatuses": {
+      "description": "Tùy chọn lọc cho tất cả trạng thái",
+      "message": "Tất cả trạng thái"
+   },
+   "analyzingCode": {
+      "description": "Phân tích trạng thái mã",
+      "message": "Phân tích mã"
+   },
+   "analyzingWorkflow": {
+      "description": "Thông báo khi phân tích quy trình làm việc",
+      "message": "Phân tích quy trình làm việc"
+   },
+   "anthropicApiKey": {
+      "description": "Nhãn trường khóa API Anthropic",
+      "message": "Khóa API Anthropic"
+   },
+   "api": {
+      "description": "Liên kết văn bản API",
+      "message": "API"
+   },
+   "apiKey": {
+      "description": "Nhãn trường khóa API",
+      "message": "Khóa API:"
+   },
+   "apiKeyError": {
+      "description": "Lỗi khi kiểm tra khóa API",
+      "message": "Lỗi kiểm tra khóa API"
+   },
+   "apiKeyFromN8n": {
+      "description": "Văn bản liên kết cho trường nhập khóa API N8N",
+      "message": "Khóa API từ n8n"
+   },
+   "apiKeyInvalid": {
+      "description": "Trạng thái khóa API không hợp lệ",
+      "message": "Khóa API không hợp lệ"
+   },
+   "apiKeyTesting": {
+      "description": "Quy trình kiểm tra khóa API",
+      "message": "Kiểm tra..."
+   },
+   "apiKeyValid": {
+      "description": "Trạng thái API key hợp lệ",
+      "message": "API key hợp lệ và đang hoạt động!"
+   },
+   "apiKeys": {
+      "description": "Tiêu đề phần Khóa API",
+      "message": "🔑 Khóa API"
+   },
+   "appDescription": {
+      "description": "Mô tả ứng dụng",
+      "message": "Trợ lý AI cho tự động hóa quy trình làm việc n8n. Hỗ trợ các phiên bản tự lưu trữ, API AI (OpenAI, Anthropic) và mẫu"
+   },
+   "appName": {
+      "description": "Tên ứng dụng",
+      "message": "N8N Master - Trợ lý quy trình làm việc"
+   },
+   "appTitle": {
+      "description": "Tiêu đề ứng dụng trong tiêu đề",
+      "message": "N8N Master"
+   },
+   "askN8nMaster": {
+      "description": "Văn bản nút \"Hỏi N8N Master\"",
+      "message": "Hỏi N8N Master"
+   },
+   "autoPinAi": {
+      "description": "Tên cài đặt tự động ghim AI",
+      "message": "Tự động ghim AI"
+   },
+   "autoPinAiDesc": {
+      "description": "Mô tả cài đặt tự động ghim AI",
+      "message": "Phản hồi sau khi thực thi thành công AI Agent"
+   },
+   "autoPinHttp": {
+      "description": "Tên cài đặt tự động ghim HTTP",
+      "message": "Tự động ghim HTTP"
+   },
+   "autoPinHttpDesc": {
+      "description": "Mô tả cài đặt ghim HTTP tự động",
+      "message": "Phản hồi ghim sau khi thực thi thành công yêu cầu HTTP"
+   },
+   "autoPinSuccess": {
+      "description": "Thông báo thành công khi ghim tự động",
+      "message": "$1 phản hồi được ghim tự động!"
+   },
+   "autoSave": {
+      "description": "Tên cài đặt tự động lưu",
+      "message": "Tự động lưu"
+   },
+   "autoSaveDesc": {
+      "description": "Mô tả cài đặt tự động lưu",
+      "message": "Tự động lưu quy trình làm việc khi có thay đổi"
+   },
+   "autoSaveDescription": {
+      "description": "Mô tả tùy chọn tự động lưu quy trình làm việc",
+      "message": "Tự động lưu các thay đổi trong quy trình làm việc khi chỉnh sửa"
+   },
+   "autoSaveFailed": {
+      "description": "Thông báo lưu tự động không thành công",
+      "message": "Lưu tự động không thành công"
+   },
+   "autoSaveOption": {
+      "description": "Nhãn tùy chọn quy trình tự động lưu",
+      "message": "Quy trình tự động lưu"
+   },
+   "autoSavePin": {
+      "description": "Tên tính năng tự động lưu và ghim",
+      "message": "Tự động lưu và ghim"
+   },
+   "autoSavePinDesc": {
+      "description": "Mô tả tính năng tự động lưu và ghim",
+      "message": "Tự động lưu quy trình làm việc và ghim kết quả thực thi"
+   },
+   "bestForWorkflowGeneration": {
+      "description": "Văn bản trên huy hiệu cho biết nhà cung cấp AI tốt nhất cho việc tạo quy trình làm việc",
+      "message": "Tốt nhất cho việc tạo quy trình làm việc"
+   },
+   "blockedMessage": {
+      "description": "Thông báo tài khoản bị khóa",
+      "message": "Phát hiện nỗ lực can thiệp dữ liệu. Mua giấy phép để mở khóa tính năng."
+   },
+   "buyKeyButton": {
+      "description": "Nút mua khóa cấp phép",
+      "message": "Mua khóa"
+   },
+   "cachedWorkflows": {
+      "description": "Nhãn cho các quy trình làm việc được lưu trữ",
+      "message": "Các quy trình làm việc được lưu trữ:"
+   },
+   "cancel": {
+      "description": "Văn bản nút Hủy",
+      "message": "Hủy"
+   },
+   "cancelButton": {
+      "description": "Văn bản nút Hủy",
+      "message": "Hủy"
+   },
+   "chatAnalyzing": {
+      "description": "Phân tích tin nhắn trò chuyện",
+      "message": "Phân tích"
+   },
+   "chatAnalyzingError": {
+      "description": "Phân tích thông báo lỗi trong chat",
+      "message": "Phân tích lỗi"
+   },
+   "chatClearHistory": {
+      "description": "Bảng chú giải của nút \"Xóa lịch sử trò chuyện\"",
+      "message": "Xóa lịch sử trò chuyện"
+   },
+   "chatFullscreen": {
+      "description": "Bảng chú giải của nút trò chuyện toàn màn hình",
+      "message": "Mở rộng toàn màn hình"
+   },
+   "chatGenerating": {
+      "description": "Tin nhắn được tạo bởi chatbot",
+      "message": "Đang tạo..."
+   },
+   "chatNotAvailable": {
+      "description": "Lỗi không thể sử dụng trò chuyện",
+      "message": "Widget trò chuyện không khả dụng. Vui lòng mở cửa sổ trò chuyện thủ công trước."
+   },
+   "chatProcessing": {
+      "description": "Vị trí giữ chỗ cho xử lý chat",
+      "message": "Đang xử lý..."
+   },
+   "chatRequestCancelled": {
+      "description": "Thông báo khi người dùng hủy yêu cầu AI",
+      "message": "🛑 Yêu cầu đã bị người dùng hủy"
+   },
+   "chatThinking": {
+      "description": "Tin nhắn suy nghĩ",
+      "message": "Suy nghĩ"
+   },
+   "chatTitle": {
+      "description": "Tiêu đề widget trò chuyện",
+      "message": "N8N Master"
+   },
+   "chatWelcome": {
+      "description": "Dòng tin nhắn chào mừng trong chat 1",
+      "message": "Xin chào! Tôi là trợ lý N8N Master của bạn. Tôi có thể giúp bạn phân tích quy trình làm việc, tạo quy trình làm việc mới, tối ưu hóa các lệnh nhắc và trả lời các câu hỏi về cài đặt n8n của bạn."
+   },
+   "chatWelcome2": {
+      "description": "Dòng tin nhắn chào mừng trong chat, dòng 2",
+      "message": "Hãy thử hỏi: \"Quy trình làm việc này làm gì?\" hoặc \"Phân tích các nút đã chọn\""
+   },
+   "chatWelcomeHelp": {
+      "description": "Văn bản hướng dẫn chat với các câu hỏi mẫu",
+      "message": "Hãy thử hỏi: \"Quy trình làm việc này làm gì?\" hoặc \"Phân tích các nút đã chọn\""
+   },
+   "checking": {
+      "description": "Thông báo trạng thái kiểm tra",
+      "message": "Đang kiểm tra..."
+   },
+   "chooseColorFor": {
+      "description": "Tiêu đề của hộp thoại chọn màu (theo sau là tên dự án)",
+      "message": "Chọn màu cho"
+   },
+   "chromeStorageData": {
+      "description": "Tiêu đề danh mục cho dữ liệu lưu trữ Chrome",
+      "message": "Dữ liệu lưu trữ Chrome"
+   },
+   "chromeWebStore": {
+      "description": "Văn bản liên kết Cửa hàng Chrome",
+      "message": "Cửa hàng Chrome"
+   },
+   "clearHistory": {
+      "description": "Nút để xóa lịch sử quy trình làm việc",
+      "message": "Xóa lịch sử"
+   },
+   "clearSearch": {
+      "description": "Hướng dẫn cho nút xóa tìm kiếm",
+      "message": "Xóa tìm kiếm"
+   },
+   "clickToActivate": {
+      "description": "Thông báo biểu tượng nhắc người dùng kích hoạt",
+      "message": "Nhấp để kích hoạt tiện ích mở rộng"
+   },
+   "clickToCopy": {
+      "description": "Hướng dẫn cho các mục biến",
+      "message": "Nhấp để sao chép"
+   },
+   "clickToSelectAll": {
+      "description": "Nhấp để chọn tất cả (hướng dẫn)",
+      "message": "Nhấp để chọn tất cả"
+   },
+   "close": {
+      "description": "Văn bản nút Đóng",
+      "message": "Đóng"
+   },
+   "codeExplanation": {
+      "description": "Tiêu đề cho phần giải thích mã trong cuộc trò chuyện",
+      "message": "Giải thích mã:"
+   },
+   "commandAddNodes": {
+      "description": "Lệnh để thêm nút vào quy trình làm việc",
+      "message": "Thêm các nút đã chỉ định vào quy trình làm việc"
+   },
+   "commandCreateWorkflow": {
+      "description": "Lệnh để tạo quy trình làm việc mới",
+      "message": "Tạo quy trình làm việc mới"
+   },
+   "commandHelp": {
+      "description": "Lệnh để xem giải thích về quy trình làm việc",
+      "message": "Giải thích chức năng của quy trình làm việc này"
+   },
+   "commandRemoveNodes": {
+      "description": "Lệnh để xóa các nút",
+      "message": "Xóa các nút được chỉ định"
+   },
+   "commandReplaceNode": {
+      "description": "Lệnh để thay thế một nút",
+      "message": "Thay thế nút được chỉ định"
+   },
+   "commandUpdateNodes": {
+      "description": "Lệnh để cập nhật cài đặt nút",
+      "message": "Cập nhật cài đặt của các nút được chỉ định"
+   },
+   "confirmDeleteApiKey": {
+      "description": "Thông báo xác nhận khi xóa khóa API cho một tên miền",
+      "message": "Bạn có chắc chắn muốn xóa khóa API cho {domain} không?"
+   },
+   "confirmDeleteProject": {
+      "description": "Thông báo xác nhận khi xóa dự án",
+      "message": "Bạn có chắc chắn muốn xóa dự án \"{projectName}\"? Hành động này không thể hoàn tác."
+   },
+   "connectAPI": {
+      "description": "Nút để kết nối khóa API mới",
+      "message": "Kết nối API"
+   },
+   "connectN8NAPI": {
+      "description": "Tiêu đề cửa sổ pop-up cho việc kết nối API N8N mới",
+      "message": "Kết nối API N8N"
+   },
+   "connections": {
+      "description": "Văn bản về kết nối trong thống kê quy trình làm việc",
+      "message": "Kết nối"
+   },
+   "contextMenuAnalyzingCode": {
+      "description": "Văn bản hành động của menu ngữ cảnh cho việc phân tích mã",
+      "message": "Phân tích mã"
+   },
+   "contextMenuApiKeyNotConfigured": {
+      "description": "Lỗi menu ngữ cảnh khi khóa API chưa được cấu hình",
+      "message": "Khóa API chưa được cấu hình. Vui lòng thiết lập khóa API của bạn trong cài đặt tiện ích mở rộng."
+   },
+   "contextMenuApiRequestError": {
+      "description": "Tiền tố lỗi menu ngữ cảnh cho các lỗi API",
+      "message": "Lỗi yêu cầu API"
+   },
+   "contextMenuCodeExplained": {
+      "description": "Thông báo thành công của menu ngữ cảnh cho giải thích mã",
+      "message": "Giải thích mã đã được gửi vào chat!"
+   },
+   "contextMenuCodeGenerated": {
+      "description": "Thông báo thành công của menu ngữ cảnh cho việc tạo mã",
+      "message": "Mã đã được tạo và chèn thành công!"
+   },
+   "contextMenuCurlGenerated": {
+      "description": "Thông báo thành công trong menu ngữ cảnh cho việc tạo cURL",
+      "message": "cURL đã được tạo và chèn thành công!"
+   },
+   "contextMenuCurlSentToChat": {
+      "description": "Thông báo thành công của menu ngữ cảnh cho lệnh cURL đã được gửi đến chat",
+      "message": "Lệnh cURL đã được gửi đến chat!"
+   },
+   "contextMenuFixingJson": {
+      "description": "Văn bản hành động menu ngữ cảnh để sửa lỗi JSON",
+      "message": "Sửa lỗi JSON"
+   },
+   "contextMenuGeneratingCode": {
+      "description": "Văn bản hành động trong menu ngữ cảnh để tạo mã",
+      "message": "Tạo mã"
+   },
+   "contextMenuGeneratingCurl": {
+      "description": "Văn bản hành động menu ngữ cảnh để tạo yêu cầu cURL",
+      "message": "Tạo yêu cầu cURL"
+   },
+   "contextMenuGeneratingJson": {
+      "description": "Văn bản hành động menu ngữ cảnh để tạo JSON",
+      "message": "Tạo cấu trúc JSON"
+   },
+   "contextMenuGeneratingPrompt": {
+      "description": "Văn bản hành động trong menu ngữ cảnh để tạo lời nhắc",
+      "message": "Tạo lời nhắc"
+   },
+   "contextMenuJsonFixed": {
+      "description": "Thông báo thành công của menu ngữ cảnh khi sửa chữa JSON",
+      "message": "JSON đã được sửa chữa và chèn thành công!"
+   },
+   "contextMenuJsonGenerated": {
+      "description": "Thông báo thành công của menu ngữ cảnh cho việc tạo JSON",
+      "message": "JSON đã được tạo và chèn thành công!"
+   },
+   "contextMenuNoTextSelected": {
+      "description": "Lỗi menu ngữ cảnh khi không có văn bản được chọn.",
+      "message": "Không tìm thấy văn bản được chọn hoặc trường nhập liệu đang hoạt động."
+   },
+   "contextMenuOperationCompleted": {
+      "description": "Thông báo thành công mặc định trong menu ngữ cảnh",
+      "message": "Hoạt động đã hoàn thành thành công!"
+   },
+   "contextMenuOptimizingPrompt": {
+      "description": "Văn bản hành động trong menu ngữ cảnh cho lời nhắc tối ưu hóa",
+      "message": "Tối ưu hóa lời nhắc"
+   },
+   "contextMenuProcessing": {
+      "description": "Văn bản mặc định của menu ngữ cảnh",
+      "message": "Xử lý"
+   },
+   "contextMenuPromptGenerated": {
+      "description": "Thông báo thành công trong menu ngữ cảnh khi tạo lời nhắc",
+      "message": "Thông báo thành công khi tạo và chèn lời nhắc!"
+   },
+   "contextMenuPromptOptimized": {
+      "description": "Thông báo thành công trong menu ngữ cảnh cho việc tối ưu hóa thông báo",
+      "message": "Thông báo thành công về việc tối ưu hóa và chèn thành công!"
+   },
+   "contextMenuTools": {
+      "description": "Tên tính năng của công cụ menu ngữ cảnh",
+      "message": "Công cụ menu ngữ cảnh"
+   },
+   "contextMenuToolsDesc": {
+      "description": "Mô tả tính năng của công cụ menu ngữ cảnh",
+      "message": "Công cụ nhấp chuột phải cho tối ưu hóa mã, sửa lỗi JSON và nhiều tính năng khác"
+   },
+   "copied": {
+      "description": "Văn bản nút \"Đã sao chép\"",
+      "message": "Đã sao chép"
+   },
+   "copy": {
+      "description": "Văn bản nút Sao chép",
+      "message": "Sao chép"
+   },
+   "copyError": {
+      "description": "Thông báo lỗi sao chép",
+      "message": "Không thể sao chép"
+   },
+   "copyLink": {
+      "description": "Hướng dẫn công cụ của nút sao chép liên kết",
+      "message": "Sao chép liên kết"
+   },
+   "copyNodeFromTemplate": {
+      "description": "Bảng chú giải cho nút sao chép nút",
+      "message": "Sao chép nút từ mẫu"
+   },
+   "copySuccess": {
+      "description": "Thông báo sao chép thành công",
+      "message": "Đã sao chép vào khay nhớ tạm"
+   },
+   "copyToClipboard": {
+      "description": "Văn bản cho nút sao chép vào khay nhớ tạm của mẫu",
+      "message": "📋 Sao chép vào khay nhớ tạm"
+   },
+   "copy_json": {
+      "description": "Văn bản nút Sao chép JSON",
+      "message": "Sao chép JSON"
+   },
+   "createWorkflow": {
+      "description": "Vị trí nhập tin nhắn",
+      "message": "Nhập / để chọn lệnh"
+   },
+   "creatingCustomWorkflow": {
+      "description": "Thông báo hiển thị khi tạo quy trình làm việc tùy chỉnh",
+      "message": "Tạo quy trình làm việc tùy chỉnh"
+   },
+   "creatingWorkflow": {
+      "description": "Thông báo khi tạo quy trình làm việc",
+      "message": "Tạo quy trình làm việc"
+   },
+   "current": {
+      "description": "Nhãn cho phiên bản quy trình làm việc hiện tại trong lịch sử",
+      "message": "(hiện tại)"
+   },
+   "currentlyOpen": {
+      "description": "Văn bản hiển thị cho quy trình làm việc đang mở",
+      "message": "(đang mở)"
+   },
+   "dataIntegrityViolated": {
+      "description": "Thông báo vi phạm tính toàn vẹn dữ liệu",
+      "message": "Vi phạm tính toàn vẹn dữ liệu. Mua giấy phép để mở khóa các tính năng"
+   },
+   "delete": {
+      "description": "Văn bản nút Xóa",
+      "message": "Xóa"
+   },
+   "deleteVariable": {
+      "description": "Tiêu đề hộp thoại xóa biến",
+      "message": "Xóa biến"
+   },
+   "deleteVariableConfirm": {
+      "description": "Thông báo xác nhận xóa biến",
+      "message": "Bạn có chắc chắn muốn xóa biến này không? Hành động này không thể hoàn tác."
+   },
+   "deleteZone": {
+      "description": "Xóa văn bản vùng để kéo thả quy trình làm việc",
+      "message": "🗑️ Xóa"
+   },
+   "describeWorkflowChanges": {
+      "description": "Nơi để mô tả các thay đổi trong quy trình làm việc",
+      "message": "Mô tả những thay đổi cần thực hiện trong quy trình làm việc..."
+   },
+   "deselectAll": {
+      "description": "Nút để bỏ chọn tất cả các tùy chọn nhập",
+      "message": "Bỏ chọn tất cả"
+   },
+   "deviceId": {
+      "description": "Nhãn ID thiết bị",
+      "message": "ID thiết bị:"
+   },
+   "deviceInfo": {
+      "description": "Tiêu đề nhóm thông tin thiết bị",
+      "message": "Thông tin thiết bị"
+   },
+   "disableButton": {
+      "description": "Nút để tắt tiện ích mở rộng trên trang n8n",
+      "message": "Tắt"
+   },
+   "disconnect": {
+      "description": "Nút ngắt kết nối",
+      "message": "NGẮT KẾT NỐI"
+   },
+   "discountAvailable": {
+      "description": "Thông báo giảm giá trong cửa sổ thông báo giấy phép",
+      "message": "Bạn có thể mua với mức giảm giá 50%"
+   },
+   "documentation": {
+      "description": "Liên kết tài liệu",
+      "message": "Tài liệu"
+   },
+   "domain": {
+      "description": "Tiêu đề cột bảng cho domain",
+      "message": "Domain"
+   },
+   "done": {
+      "description": "Văn bản nút Hoàn thành",
+      "message": "Hoàn thành"
+   },
+   "download": {
+      "description": "Văn bản nút Tải xuống",
+      "message": "Tải xuống"
+   },
+   "downloadingTemplate": {
+      "description": "Tải xuống mẫu tin nhắn",
+      "message": "Tải xuống mẫu từ GitHub"
+   },
+   "dragWidget": {
+      "description": "Văn bản chú giải cho tay cầm kéo widget",
+      "message": "Kéo widget"
+   },
+   "edgeStore": {
+      "description": "Liên kết đến Cửa hàng Microsoft Edge",
+      "message": "Cửa hàng Microsoft Edge"
+   },
+   "editProjectName": {
+      "description": "Chỉnh sửa tiêu đề cửa sổ pop-up dự án",
+      "message": "Chỉnh sửa tên dự án"
+   },
+   "enableHistory": {
+      "description": "Bật cài đặt lịch sử",
+      "message": "Bật Lịch sử"
+   },
+   "enableHistoryDesc": {
+      "description": "Mô tả cài đặt lịch sử",
+      "message": "Theo dõi lịch sử quy trình làm việc và kích hoạt nút lịch sử"
+   },
+   "enableStreaming": {
+      "description": "Tên cài đặt phát trực tuyến",
+      "message": "Bật phát trực tuyến"
+   },
+   "enableStreamingDesc": {
+      "description": "Mô tả cài đặt phát trực tiếp",
+      "message": "Phản hồi chat được phát trực tiếp"
+   },
+   "enterLicenseKey": {
+      "description": "Vị trí nhập khóa cấp phép",
+      "message": "Nhập khóa cấp phép của bạn"
+   },
+   "enterProjectName": {
+      "description": "Vị trí nhập tên dự án",
+      "message": "Nhập tên dự án"
+   },
+   "enterVariableName": {
+      "description": "Vị trí nhập tên biến",
+      "message": "Nhập tên biến..."
+   },
+   "enterVariableValue": {
+      "description": "Vị trí nhập giá trị biến",
+      "message": "Nhập giá trị biến..."
+   },
+   "error": {
+      "description": "Thông báo lỗi",
+      "message": "Lỗi"
+   },
+   "errorAnalysisCurrentNode": {
+      "description": "Tiêu đề phần node hiện tại",
+      "message": "**NODE HIỆN TẠI:**"
+   },
+   "errorAnalysisErrorDetails": {
+      "description": "Tiêu đề phần chi tiết lỗi",
+      "message": "**CHI TIẾT LỖI:**"
+   },
+   "errorAnalysisInputData": {
+      "description": "Tiêu đề phần dữ liệu đầu vào",
+      "message": "**DỮ LIỆU ĐẦU VÀO:**"
+   },
+   "errorAnalysisInstructions": {
+      "description": "Hướng dẫn phân tích lỗi",
+      "message": "Vui lòng phân tích lỗi này và cung cấp: 1. Giải thích nguyên nhân gốc rễ 2. Giải pháp từng bước 3. Mẹo phòng ngừa 4. Các phương pháp thay thế (nếu có) Tập trung vào các giải pháp thực tiễn, có thể áp dụng cho các quy trình làm việc n8n."
+   },
+   "errorAnalysisLocation": {
+      "description": "Nhãn cho vị trí lỗi",
+      "message": "Vị trí"
+   },
+   "errorAnalysisMessage": {
+      "description": "Nhãn cho thông báo lỗi",
+      "message": "Thông báo"
+   },
+   "errorAnalysisNodeType": {
+      "description": "Nhãn cho loại nút",
+      "message": "Loại nút"
+   },
+   "errorAnalysisParameters": {
+      "description": "Nhãn cho tham số nút",
+      "message": "Tham số"
+   },
+   "errorAnalysisPromptTitle": {
+      "description": "Tiêu đề cho lời nhắc phân tích lỗi",
+      "message": "🚨 **YÊU CẦU PHÂN TÍCH LỖI TỰ ĐỘNG**"
+   },
+   "errorAnalysisRequest": {
+      "description": "Tiêu đề phần yêu cầu",
+      "message": "**YÊU CẦU:**"
+   },
+   "errorAnalysisTotalNodes": {
+      "description": "Nhãn cho số lượng nút tổng cộng",
+      "message": "Tổng số nút"
+   },
+   "errorAnalysisWorkflowContext": {
+      "description": "Tiêu đề phần bối cảnh quy trình làm việc",
+      "message": "**BỐI CẢNH QUY TRÌNH LÀM VIỆC:**"
+   },
+   "errorAnalysisWorkflowName": {
+      "description": "Nhãn cho tên quy trình làm việc",
+      "message": "Tên"
+   },
+   "errorConfigureApiKey": {
+      "description": "Thông báo lỗi khi khóa API chưa được cấu hình",
+      "message": "Vui lòng cấu hình khóa API của bạn trước"
+   },
+   "errorDeletingProject": {
+      "description": "Thông báo lỗi khi việc xóa dự án không thành công",
+      "message": "Lỗi khi xóa dự án"
+   },
+   "errorFailedToLoadTranslations": {
+      "description": "Thông báo lỗi khi quá trình tải bản dịch gặp sự cố",
+      "message": "Không thể tải bản dịch cho ngôn ngữ:"
+   },
+   "errorHttpStatus": {
+      "description": "Tiền tố thông báo lỗi cho các lỗi trạng thái HTTP",
+      "message": "Lỗi HTTP! Trạng thái:"
+   },
+   "errorInvalidIndexedDB": {
+      "description": "Thông báo lỗi khi phản hồi IndexedDB không hợp lệ",
+      "message": "Phản hồi IndexedDB không hợp lệ"
+   },
+   "errorLoadingVariables": {
+      "description": "Thông báo lỗi khi biến không thể tải được",
+      "message": "Lỗi khi tải biến"
+   },
+   "errorNoActiveTab": {
+      "description": "Thông báo lỗi khi không tìm thấy tab đang hoạt động",
+      "message": "Không tìm thấy tab đang hoạt động"
+   },
+   "errorNotLikelyN8nPage": {
+      "description": "Thông báo lỗi khi trang không phải là trang N8N",
+      "message": "Không phải trang N8N"
+   },
+   "errorSavingProjectName": {
+      "description": "Thông báo lỗi khi việc lưu tên dự án không thành công",
+      "message": "Lỗi khi lưu tên dự án"
+   },
+   "errorServerValidationFailed": {
+      "description": "Thông báo lỗi khi kiểm tra máy chủ không thành công",
+      "message": "Kiểm tra máy chủ không thành công"
+   },
+   "error_loading_template": {
+      "description": "Lỗi khi tải nội dung mẫu",
+      "message": "Lỗi khi tải mẫu:"
+   },
+   "errorsTodayClickToView": {
+      "description": "Hướng dẫn nhấp chuột cho chỉ số lỗi hôm nay",
+      "message": "Lỗi hôm nay - Nhấp để xem"
+   },
+   "execTime": {
+      "description": "Tiêu đề cột Thời gian thực thi",
+      "message": "Thời gian thực thi"
+   },
+   "executionsToday": {
+      "description": "Chú thích cho chỉ số thực thi hôm nay",
+      "message": "Thực thi hôm nay"
+   },
+   "explainCode": {
+      "description": "Nhãn trường giải thích mã",
+      "message": "Giải thích mã:"
+   },
+   "explore": {
+      "description": "Văn bản nút Khám phá",
+      "message": "Khám phá"
+   },
+   "exportApiKeys": {
+      "description": "Xuất khóa API",
+      "message": "Khóa API Trí tuệ Nhân tạo"
+   },
+   "exportButton": {
+      "description": "Văn bản nút Xuất",
+      "message": "Cài đặt xuất"
+   },
+   "exportDescription": {
+      "description": "Tiêu đề mô tả xuất khẩu",
+      "message": "Cấu hình xuất khẩu"
+   },
+   "exportInfo": {
+      "description": "Thông tin xuất khẩu",
+      "message": "Xuất các thiết lập mở rộng, khóa API và dữ liệu của bạn sang tệp JSON. Điều này bao gồm:"
+   },
+   "exportN8nKey": {
+      "description": "Xuất khóa N8N",
+      "message": "Khóa API N8N"
+   },
+   "exportOptions": {
+      "description": "Tùy chọn xuất",
+      "message": "Tùy chọn mở rộng"
+   },
+   "exportProjects": {
+      "description": "Xuất mục dự án",
+      "message": "Dự án địa phương từ IndexedDB"
+   },
+   "exportSectionTitle": {
+      "description": "Tiêu đề phần xuất",
+      "message": "Cài đặt xuất"
+   },
+   "exportSettings": {
+      "description": "Cài đặt xuất",
+      "message": "Cài đặt mở rộng"
+   },
+   "exportTemplates": {
+      "description": "Xuất mẫu mục",
+      "message": "Mẫu đầu ra từ IndexedDB"
+   },
+   "extensionIsActive": {
+      "description": "Thông báo biểu tượng khi phần mở rộng đang hoạt động",
+      "message": "Phần mở rộng đang hoạt động"
+   },
+   "extensionOptions": {
+      "description": "Tùy chọn nhập dữ liệu mở rộng",
+      "message": "Tùy chọn mở rộng"
+   },
+   "extensionPage": {
+      "description": "Liên kết trang mở rộng",
+      "message": "Trang mở rộng"
+   },
+   "extensionSettings": {
+      "description": "Tùy chọn nhập cài đặt tiện ích mở rộng",
+      "message": "Cài đặt tiện ích mở rộng"
+   },
+   "extensionUpdated": {
+      "description": "Cảnh báo cập nhật phần mở rộng",
+      "message": "Phần mở rộng đã được cập nhật. Vui lòng tải lại trang để tiếp tục sử dụng N8N Master."
+   },
+   "extensionVersion": {
+      "description": "Nhãn phiên bản mở rộng",
+      "message": "Phiên bản mở rộng:"
+   },
+   "failed": {
+      "description": "Văn bản nút Thất bại",
+      "message": "Thất bại"
+   },
+   "failedToAnalyzeWorkflow": {
+      "description": "Thông báo lỗi khi phân tích quy trình làm việc không thành công",
+      "message": "Không thể hoàn thành phân tích quy trình làm việc"
+   },
+   "failedToAnalyzeWorkflowGeneric": {
+      "description": "Thông báo lỗi chung khi phân tích quy trình làm việc không thành công",
+      "message": "Không thể phân tích quy trình làm việc"
+   },
+   "failedToCopyNode": {
+      "description": "Thông báo lỗi khi sao chép nút thất bại",
+      "message": "Không thể sao chép nút:"
+   },
+   "failedToCopyToClipboard": {
+      "description": "Thông báo lỗi khi sao chép vào khay nhớ tạm không thành công",
+      "message": "Không thể sao chép vào khay nhớ tạm"
+   },
+   "failedToCreateWorkflow": {
+      "description": "Thông báo lỗi khi việc tạo quy trình làm việc không thành công",
+      "message": "Không thể hoàn tất việc tạo quy trình làm việc"
+   },
+   "failedToCreateWorkflowGeneric": {
+      "description": "Thông báo lỗi chung khi việc tạo quy trình làm việc không thành công",
+      "message": "Không thể tạo quy trình làm việc"
+   },
+   "failedToDeleteVariable": {
+      "description": "Thông báo lỗi khi việc xóa biến không thành công",
+      "message": "Không thể xóa biến:"
+   },
+   "failedToDownloadTemplate": {
+      "description": "Không thể tải xuống thông báo mẫu",
+      "message": "Không thể tải xuống mẫu"
+   },
+   "failedToLoadNodes": {
+      "description": "Thông báo lỗi khi các nút không thể tải",
+      "message": "Không thể tải các nút"
+   },
+   "failedToLoadWorkflows": {
+      "description": "Thông báo lỗi khi việc tải các quy trình làm việc không thành công",
+      "message": "Không thể tải các quy trình làm việc. Vui lòng kiểm tra khóa API của bạn."
+   },
+   "failedToModifyWorkflow": {
+      "description": "Thông báo lỗi khi việc chỉnh sửa quy trình làm việc không thành công",
+      "message": "Không thể hoàn tất việc chỉnh sửa quy trình làm việc"
+   },
+   "failedToModifyWorkflowGeneric": {
+      "description": "Thông báo lỗi chung khi việc sửa đổi quy trình làm việc không thành công",
+      "message": "Không thể sửa đổi quy trình làm việc"
+   },
+   "failedToSaveVariable": {
+      "description": "Thông báo lỗi khi việc lưu biến thất bại",
+      "message": "Không thể lưu biến:"
+   },
+   "failedToValidateApiKey": {
+      "description": "Lỗi xác thực khóa API",
+      "message": "Không thể xác thực khóa API"
+   },
+   "featureAiChat": {
+      "description": "Tên tính năng trò chuyện AI",
+      "message": "Trợ lý trò chuyện AI"
+   },
+   "featureAiChatDesc": {
+      "description": "Mô tả tính năng trò chuyện AI",
+      "message": "Nhận hỗ trợ tạo quy trình làm việc với sự trợ giúp của trí tuệ nhân tạo"
+   },
+   "featureAutoSavePin": {
+      "description": "Tên tính năng Tự động lưu & Ghim",
+      "message": "Tự động lưu & Ghim"
+   },
+   "featureAutoSavePinDesc": {
+      "description": "Mô tả tính năng Tự động lưu & Ghim",
+      "message": "Tự động lưu trữ quy trình làm việc và ghim thực thi nút"
+   },
+   "featureLocalProjects": {
+      "description": "Tiêu đề tính năng Dự án địa phương",
+      "message": "Dự án địa phương"
+   },
+   "featureLocalProjectsDesc": {
+      "description": "Mô tả tính năng Dự án cục bộ",
+      "message": "Tổ chức quy trình làm việc trong các thư mục dự án tùy chỉnh"
+   },
+   "featureNodeSelector": {
+      "description": "Tiêu đề tính năng chọn nút",
+      "message": "Chọn nút"
+   },
+   "featureNodeSelectorDesc": {
+      "description": "Mô tả tính năng chọn nút",
+      "message": "Nhanh chóng sao chép các nút đã được cấu hình từ các quy trình làm việc khác"
+   },
+   "featureTemplates": {
+      "description": "Tiêu đề tính năng mẫu",
+      "message": "Mẫu"
+   },
+   "featureTemplatesDesc": {
+      "description": "Mô tả tính năng của các mẫu",
+      "message": "Truy cập các mẫu quy trình làm việc có sẵn"
+   },
+   "featureWorkflowHistory": {
+      "description": "Tiêu đề tính năng Lịch sử quy trình làm việc",
+      "message": "Lịch sử quy trình làm việc"
+   },
+   "featureWorkflowHistoryDesc": {
+      "description": "Mô tả tính năng Lịch sử quy trình làm việc",
+      "message": "Theo dõi và khôi phục các phiên bản trước đó của quy trình làm việc của bạn"
+   },
+   "features": {
+      "description": "Tiêu đề phần Tính năng",
+      "message": "Tính năng"
+   },
+   "filters": {
+      "description": "Nhãn phần Bộ lọc",
+      "message": "Bộ lọc"
+   },
+   "finishWorkflow": {
+      "description": "Thông báo khi quy trình làm việc hoàn thành",
+      "message": "✅ Hoàn thành quy trình làm việc"
+   },
+   "finished": {
+      "description": "Tiêu đề cột Hoàn thành",
+      "message": "Hoàn thành"
+   },
+   "fontDetectorDescription": {
+      "description": "Mô tả tiện ích mở rộng FontDetector Pro",
+      "message": "Một công cụ không thể thiếu cho các nhà thiết kế để phát hiện và tải xuống phông chữ cho trang web."
+   },
+   "fontDetectorTitle": {
+      "description": "Tiêu đề tiện ích mở rộng FontDetector Pro",
+      "message": "FontDetector Pro"
+   },
+   "footerText": {
+      "description": "Văn bản chân trang kèm hướng dẫn sử dụng",
+      "message": "Nhấp chuột phải vào bất kỳ trang nào để truy cập các công cụ N8N Master"
+   },
+   "foundPerfectTemplate": {
+      "description": "Thông báo tiêu đề khi tìm thấy mẫu khớp hoàn hảo",
+      "message": "Đã tìm thấy mẫu hoàn hảo!"
+   },
+   "fullyActivated": {
+      "description": "Trạng thái đã kích hoạt hoàn toàn",
+      "message": "✅ Đã kích hoạt hoàn toàn"
+   },
+   "generateCode": {
+      "description": "Tạo nhãn trường mã",
+      "message": "Tạo mã:"
+   },
+   "generateJSON": {
+      "description": "Tạo nhãn trường JSON",
+      "message": "Tạo JSON:"
+   },
+   "generatePrompt": {
+      "description": "Tạo nhãn trường lời nhắc",
+      "message": "Tạo lời nhắc:"
+   },
+   "generateWorkflow": {
+      "description": "Tạo nhãn trường quy trình làm việc",
+      "message": "Tạo quy trình làm việc:"
+   },
+   "generatedCurlCommand": {
+      "description": "Đầu đề cho lệnh cURL được tạo trong cuộc trò chuyện",
+      "message": "Lệnh cURL được tạo:"
+   },
+   "generatingCode": {
+      "description": "Trạng thái tạo mã",
+      "message": "Tạo mã"
+   },
+   "generatingCurl": {
+      "description": "Trạng thái yêu cầu cURL",
+      "message": "Tạo yêu cầu cURL"
+   },
+   "generatingCustomWorkflow": {
+      "description": "Tạo thông báo quy trình làm việc tùy chỉnh",
+      "message": "Tạo quy trình làm việc tùy chỉnh thay vì..."
+   },
+   "generatingPrompt": {
+      "description": "Trạng thái tạo lời nhắc",
+      "message": "Tạo lời nhắc"
+   },
+   "gettingStarted": {
+      "description": "Tiêu đề phần Bắt đầu",
+      "message": "🚀 Bắt đầu"
+   },
+   "group": {
+      "description": "Tiêu đề cột Nhóm",
+      "message": "Nhóm"
+   },
+   "hideLinks": {
+      "description": "Bật/tắt hiển thị liên kết",
+      "message": "Ẩn liên kết"
+   },
+   "hostDetected": {
+      "description": "Nhãn máy chủ đã phát hiện",
+      "message": "Đã phát hiện máy chủ:"
+   },
+   "howToFindApiKey": {
+      "description": "Tiêu đề cho phần hướng dẫn về khóa API",
+      "message": "Cách tìm khóa API?"
+   },
+   "importButton": {
+      "description": "Văn bản nút Nhập",
+      "message": "Cài đặt nhập"
+   },
+   "importDescription": {
+      "description": "Nhập tiêu đề mô tả",
+      "message": "Nhập cấu hình"
+   },
+   "importInfo": {
+      "description": "Thông tin về quá trình nhập",
+      "message": "Nhập các thiết lập đã xuất trước đó từ tệp JSON. Quá trình nhập sẽ kiểm tra cấu trúc và khôi phục cấu hình của bạn."
+   },
+   "importSectionTitle": {
+      "description": "Tiêu đề phần nhập",
+      "message": "Cài đặt nhập"
+   },
+   "importWarning": {
+      "description": "Thông báo cảnh báo khi nhập",
+      "message": "⚠️ Lưu ý: Nếu giấy phép chưa được kích hoạt, các thiết lập của tiện ích mở rộng sẽ không được nhập."
+   },
+   "incompleteReplacementBlocked": {
+      "description": "Thông báo khi việc thay thế không hoàn chỉnh bị chặn.",
+      "message": "Lỗi: Trí tuệ nhân tạo (AI) đã thực hiện việc thay thế không hoàn chỉnh (chỉ xóa). Việc thay thế bị chặn."
+   },
+   "incompleteReplacementError": {
+      "description": "Lỗi khi AI cố gắng thay thế nút không hoàn chỉnh",
+      "message": "Lỗi: Trí tuệ nhân tạo (AI) đã cố gắng thay thế không hoàn chỉnh (chỉ xóa mà không thêm). Vui lòng thử diễn đạt lại yêu cầu của bạn."
+   },
+   "indexedDbData": {
+      "description": "Tiêu đề danh mục cho dữ liệu IndexedDB",
+      "message": "Dữ liệu IndexedDB"
+   },
+   "install": {
+      "description": "Văn bản nút Cài đặt",
+      "message": "Cài đặt"
+   },
+   "instructionStep1": {
+      "description": "Bước đầu tiên trong hướng dẫn tạo khóa API",
+      "message": "Ở góc trái bên cạnh tên của bạn, nhấp vào ba chấm"
+   },
+   "instructionStep2": {
+      "description": "Bước thứ hai trong hướng dẫn tạo khóa API",
+      "message": "Nhấp vào Cài đặt, sau đó nhấp vào n8n API"
+   },
+   "instructionStep3": {
+      "description": "Bước thứ ba trong hướng dẫn tạo khóa API",
+      "message": "Nhấp vào \"Tạo khóa API\""
+   },
+   "instructionStep4": {
+      "description": "Bước thứ tư trong hướng dẫn tạo khóa API\"",
+      "message": "Chỉ định nhãn và đặt thời hạn hết hạn thành \"Không hết hạn\" và \"Lưu"
+   },
+   "instructionStep5": {
+      "description": "Bước thứ năm trong hướng dẫn tạo khóa API",
+      "message": "Sao chép khóa đã tạo ở đây và nhấp vào Lưu"
+   },
+   "keyFeatures": {
+      "description": "Tiêu đề phần Tính năng chính",
+      "message": "🚀 Tính năng chính"
+   },
+   "lang_en": {
+      "description": "Tên tiếng Anh",
+      "message": "Tiếng Anh"
+   },
+   "lang_es": {
+      "description": "Tên tiếng Tây Ban Nha",
+      "message": "Tiếng Tây Ban Nha"
+   },
+   "lang_ru": {
+      "description": "Tên tiếng Nga",
+      "message": "Tiếng Nga"
+   },
+   "language": {
+      "description": "Nhãn chọn ngôn ngữ",
+      "message": "Ngôn ngữ"
+   },
+   "languageSettings": {
+      "description": "Tiêu đề nhóm cài đặt ngôn ngữ",
+      "message": "Cài đặt ngôn ngữ"
+   },
+   "leaveReview": {
+      "description": "Để lại đánh giá",
+      "message": "Để lại đánh giá"
+   },
+   "licenseExpired": {
+      "description": "Thông báo giấy phép đã hết hạn",
+      "message": "Giấy phép đã hết hạn. Vui lòng kích hoạt lại trong cửa sổ popup của tiện ích mở rộng."
+   },
+   "licenseInfo": {
+      "description": "Tiêu đề nhóm thông tin giấy phép",
+      "message": "Thông tin giấy phép"
+   },
+   "licenseKey": {
+      "description": "Nhãn khóa cấp phép",
+      "message": "Khóa cấp phép:"
+   },
+   "licenseStatus": {
+      "description": "Nhãn trạng thái giấy phép",
+      "message": "Trạng thái giấy phép:"
+   },
+   "links": {
+      "description": "Tiêu đề nhóm liên kết",
+      "message": "Liên kết & Hỗ trợ"
+   },
+   "linksWorkflows": {
+      "description": "Nhãn trường Liên kết",
+      "message": "Liên kết"
+   },
+   "loading": {
+      "description": "Thông báo đang tải",
+      "message": "Đang tải..."
+   },
+   "loadingChangelog": {
+      "description": "Đang tải thông báo nhật ký thay đổi",
+      "message": "Đang tải nhật ký thay đổi..."
+   },
+   "loadingExecutions": {
+      "description": "Đang tải thông báo trạng thái cho các tác vụ",
+      "message": "Đang tải các tác vụ..."
+   },
+   "loadingHistory": {
+      "description": "Đang tải thông báo cho lịch sử quy trình làm việc",
+      "message": "Đang tải lịch sử quy trình làm việc..."
+   },
+   "loadingNodes": {
+      "description": "Đang tải thông báo cho các nút",
+      "message": "Đang tải các nút..."
+   },
+   "loadingText": {
+      "description": "Đang tải văn bản",
+      "message": "Đang tải..."
+   },
+   "loadingWorkflows": {
+      "description": "Đang tải thông báo trong quá trình lấy các quy trình làm việc",
+      "message": "Đang tải các quy trình làm việc..."
+   },
+   "loading_template": {
+      "description": "Đang tải nội dung mẫu",
+      "message": "Đang tải mẫu..."
+   },
+   "loading_workflow_preview": {
+      "description": "Đang tải văn bản bản xem trước quy trình làm việc",
+      "message": "Đang tải bản xem trước quy trình làm việc..."
+   },
+   "localChatAddress": {
+      "description": "Nhãn cho trường nhập địa chỉ endpoint chat cục bộ",
+      "message": "Địa chỉ chat cục bộ:"
+   },
+   "localLLMConfigureInstructions": {
+      "description": "Hướng dẫn cấu hình các điểm cuối mô hình ngôn ngữ lớn (LLM) cục bộ",
+      "message": "Cấu hình các điểm cuối trong Cài đặt → Tab AI"
+   },
+   "localLLMConfigured": {
+      "description": "Thông báo trạng thái khi Trí tuệ nhân tạo (AI) cục bộ đã được cấu hình",
+      "message": "✅ Trí tuệ nhân tạo (AI) cục bộ đã được cấu hình"
+   },
+   "localLLMOption": {
+      "description": "Tùy chọn nhà cung cấp LLM cục bộ trong cửa sổ bật lên",
+      "message": "Mô hình LM cục bộ"
+   },
+   "localLLMSection": {
+      "description": "Local LLM trong cửa sổ popup",
+      "message": "Tiêu đề phần Local LM"
+   },
+   "localLLMsTitle": {
+      "description": "Tiêu đề phần \"Mô hình ngôn ngữ lớn (LLM) địa phương",
+      "message": "Mô hình ngôn ngữ lớn (LLM) địa phương"
+   },
+   "localModelsAddress": {
+      "description": "Nhãn cho đầu vào điểm cuối mô hình cục bộ",
+      "message": "Địa chỉ mô hình cục bộ:"
+   },
+   "localProjects": {
+      "description": "Tên dự án địa phương",
+      "message": "Dự án địa phương"
+   },
+   "localProjectsDesc": {
+      "description": "Mô tả cài đặt dự án cục bộ",
+      "message": "Bật thư mục dự án trong cột bên trái"
+   },
+   "localVariables": {
+      "description": "Cài đặt tên biến cục bộ",
+      "message": "Biến cục bộ"
+   },
+   "localVariablesDesc": {
+      "description": "Mô tả cài đặt biến cục bộ",
+      "message": "Liên kết \"Variables\" trong menu sẽ cung cấp quyền truy cập vào một sổ tay chứa dữ liệu quan trọng. Phím tắt: Ctrl+Shift+V"
+   },
+   "mainSectionTitle": {
+      "description": "Tiêu đề phần chính",
+      "message": "Cài đặt chính"
+   },
+   "menuAI": {
+      "description": "Mục menu Trí tuệ nhân tạo",
+      "message": "Trí tuệ nhân tạo"
+   },
+   "menuAbout": {
+      "description": "Mục menu Giới thiệu",
+      "message": "Giới thiệu"
+   },
+   "menuExport": {
+      "description": "Mục menu Xuất",
+      "message": "Xuất"
+   },
+   "menuImport": {
+      "description": "Mục nhập khẩu",
+      "message": "Nhập khẩu"
+   },
+   "menuMain": {
+      "description": "Mục menu chính",
+      "message": "Trang chủ"
+   },
+   "menuWorkflowHistory": {
+      "description": "Mục menu cho phần lịch sử quy trình làm việc",
+      "message": "Lịch sử quy trình làm việc"
+   },
+   "modalSettingsDescription": {
+      "description": "Mô tả cài đặt cửa sổ pop-up",
+      "message": "Để cấu hình cài đặt N8N Master:"
+   },
+   "modalStep1": {
+      "description": "Bước 1 của hộp thoại",
+      "message": "Nhấp vào biểu tượng tiện ích mở rộng N8N Master trên thanh công cụ trình duyệt của bạn"
+   },
+   "modalStep2": {
+      "description": "Bước 2 của cửa sổ modal",
+      "message": "Cấu hình khóa API và kích hoạt tính năng"
+   },
+   "modalStep3": {
+      "description": "Bước 3 của hộp thoại",
+      "message": "Bắt đầu sử dụng các tính năng của N8N Master"
+   },
+   "modalTipText": {
+      "description": "Văn bản gợi ý trong hộp thoại",
+      "message": "Nếu bạn không thấy biểu tượng tiện ích mở rộng, hãy nhấp vào biểu tượng mảnh ghép (🧩) trên thanh công cụ và ghim N8N Master."
+   },
+   "modalTipTitle": {
+      "description": "Tiêu đề kiểu modal",
+      "message": "💡 Mẹo:"
+   },
+   "modifyingWorkflow": {
+      "description": "Thông báo khi chỉnh sửa quy trình làm việc",
+      "message": "Chỉnh sửa quy trình làm việc"
+   },
+   "n8nApiConfiguration": {
+      "description": "Phần cấu hình API N8N",
+      "message": "Cấu hình API N8N"
+   },
+   "n8nApiConfigurationDesc": {
+      "description": "Mô tả cấu hình API N8N",
+      "message": "Cấu hình khóa API N8N cho các tùy chọn đã chọn"
+   },
+   "n8nApiKey": {
+      "description": "Nhãn trường khóa API N8N",
+      "message": "Khóa API N8N"
+   },
+   "n8nApiKeyDescription": {
+      "description": "Mô tả trường khóa API của N8N",
+      "message": "Khóa API để truy cập các webhook và tự động hóa của N8N"
+   },
+   "n8nApiKeyNotConfigured": {
+      "description": "Thông báo lỗi khi khóa API N8N chưa được cấu hình",
+      "message": "Khóa API N8N chưa được cấu hình. Vui lòng cấu hình nó trong cài đặt tiện ích mở rộng."
+   },
+   "n8nApiKeyPlaceholder": {
+      "description": "Khóa API N8N (chỗ trống)",
+      "message": "Nhập khóa API N8N của bạn..."
+   },
+   "n8nApiKeyRemoved": {
+      "description": "Thông báo khóa API N8N đã bị xóa",
+      "message": "Khóa API đã bị xóa"
+   },
+   "n8nApiKeyRequired": {
+      "description": "Thông báo cảnh báo khi khóa API N8N được yêu cầu",
+      "message": "Yêu cầu khóa API N8N"
+   },
+   "n8nApiKeyRequiredMessage": {
+      "description": "Thông báo yêu cầu khóa API",
+      "message": "Để sao chép các nút từ các quy trình làm việc khác, vui lòng cấu hình khóa API N8N của bạn trong cài đặt tiện ích mở rộng."
+   },
+   "n8nApiKeyValid": {
+      "description": "Trạng thái khóa API N8N hợp lệ",
+      "message": "Khóa API N8N hợp lệ!"
+   },
+   "n8nApiSettings": {
+      "description": "Tiêu đề nhóm cài đặt API N8N",
+      "message": "Cài đặt API N8N"
+   },
+   "n8nApiUrl": {
+      "description": "Nhãn trường URL API N8N",
+      "message": "URL API N8N:"
+   },
+   "n8nApiUrlDescription": {
+      "description": "Mô tả trường URL API N8N",
+      "message": "Địa chỉ URL cơ sở cho API của phiên bản N8N của bạn"
+   },
+   "n8nMasterActivated": {
+      "description": "Trạng thái sau khi kích hoạt",
+      "message": "N8N Master đã được kích hoạt (làm mới trang để xem cuộc trò chuyện)"
+   },
+   "n8nMasterActivatedRefresh": {
+      "description": "Thông báo khi N8N Master được kích hoạt và cần làm mới trang.",
+      "message": "N8N Master đã được kích hoạt! Vui lòng làm mới trang để xem widget trò chuyện."
+   },
+   "n8nMasterActiveOnPage": {
+      "description": "Thông báo khi N8N Master được kích hoạt trên trang hiện tại",
+      "message": "N8N Master hiện đã hoạt động trên trang này"
+   },
+   "n8nMasterDisconnected": {
+      "description": "Thông báo khi N8N Master ngắt kết nối khỏi trang hiện tại",
+      "message": "N8N Master đã ngắt kết nối khỏi trang này"
+   },
+   "n8nMasterIsActive": {
+      "description": "Trạng thái khi N8N Master đang hoạt động",
+      "message": "N8N Master đang hoạt động trên trang này"
+   },
+   "n8nMasterLocalVariables": {
+      "description": "Hướng dẫn công cụ cho biểu tượng mở rộng của biến cục bộ",
+      "message": "N8N Master - Biến cục bộ"
+   },
+   "n8nMasterNotWorking": {
+      "description": "Trạng thái khi N8N Master không hoạt động",
+      "message": "N8N Master không hoạt động trên trang này"
+   },
+   "n8nMasterProcessing": {
+      "description": "Tên tiện ích mở rộng để xử lý thông báo",
+      "message": "N8N Master"
+   },
+   "n8nPageDetectedReady": {
+      "description": "Thông báo trạng thái khi trang N8N được phát hiện và sẵn sàng để kích hoạt",
+      "message": "Trang N8N đã được phát hiện - sẵn sàng để kích hoạt"
+   },
+   "n8nWorkflowDetected": {
+      "description": "Trạng thái khi trang quy trình làm việc được tìm thấy",
+      "message": "Trang quy trình làm việc N8N đã được phát hiện - sẵn sàng để kích hoạt"
+   },
+   "newProjectButton": {
+      "description": "Văn bản nút \"Thêm dự án mới\"",
+      "message": "📁 + Thêm dự án"
+   },
+   "next": {
+      "description": "Nút chuyển sang trang tiếp theo",
+      "message": "Tiếp theo"
+   },
+   "noActiveTab": {
+      "description": "Lỗi khi không có tab đang hoạt động",
+      "message": "Không tìm thấy tab đang hoạt động"
+   },
+   "noApiKeyForImport": {
+      "description": "Thông báo hiển thị khi không có khóa API được cấu hình để nhập các quy trình làm việc",
+      "message": "Để nhập các quy trình làm việc từ phiên bản N8N của bạn, vui lòng cấu hình khóa API N8N trong cài đặt tiện ích mở rộng."
+   },
+   "noAvailableWorkflows": {
+      "description": "Thông báo khi không có quy trình làm việc nào có sẵn để thêm.",
+      "message": "Không tìm thấy quy trình làm việc nào có sẵn. Tất cả các quy trình làm việc đều đã được thêm vào các dự án."
+   },
+   "noDomainsConnected": {
+      "description": "Thông báo khi không có tên miền nào được cấu hình",
+      "message": "Không có tên miền nào được kết nối"
+   },
+   "noGroup": {
+      "description": "Không có nhóm placeholder",
+      "message": "—"
+   },
+   "noHistoryAvailable": {
+      "description": "Thông báo khi quy trình làm việc không có lịch sử",
+      "message": "Chưa có lịch sử nào có sẵn"
+   },
+   "noNodesFound": {
+      "description": "Lỗi không tìm thấy nút",
+      "message": "Không tìm thấy nút nào trong quy trình làm việc"
+   },
+   "noNodesMatchSearch": {
+      "description": "Thông báo khi không có nút nào khớp với từ khóa tìm kiếm",
+      "message": "Không có nút nào khớp với từ khóa tìm kiếm"
+   },
+   "noOtherWorkflowsAvailable": {
+      "description": "Thông báo khi không có quy trình làm việc nào khác có sẵn",
+      "message": "Không có quy trình làm việc nào khác có sẵn.\u003Cbr/>Tạo thêm quy trình làm việc để sao chép các nút giữa chúng."
+   },
+   "noTags": {
+      "description": "Không có thẻ",
+      "message": "—"
+   },
+   "noVariablesFound": {
+      "description": "Thông báo khi tìm kiếm không trả về kết quả nào.",
+      "message": "Không tìm thấy biến nào khớp với tìm kiếm của bạn."
+   },
+   "noVariablesMatchingSearch": {
+      "description": "Thông báo khi không có biến nào khớp với từ khóa tìm kiếm.",
+      "message": "Không tìm thấy biến nào khớp với \"{{searchTerm}}\"."
+   },
+   "noVariablesYet": {
+      "description": "Thông báo khi không có biến nào tồn tại",
+      "message": "Chưa có biến nào. Nhấp vào \"+ Thêm biến\" để tạo biến đầu tiên của bạn."
+   },
+   "noWorkflowsFound": {
+      "description": "Thông báo khi không có quy trình làm việc nào có sẵn",
+      "message": "Không tìm thấy quy trình làm việc"
+   },
+   "noWorkflowsMatchSearch": {
+      "description": "Thông báo khi tìm kiếm không trả về kết quả nào.",
+      "message": "Không có quy trình làm việc nào khớp với tìm kiếm của bạn."
+   },
+   "nodeAnalysis": {
+      "description": "Tên tính năng phân tích nút",
+      "message": "Phân tích nút"
+   },
+   "nodeAnalysisDesc": {
+      "description": "Mô tả tính năng phân tích nút",
+      "message": "Phân tích các nút được chọn và thu thập thông tin chi tiết về cấu trúc quy trình làm việc"
+   },
+   "nodeCopiedSuccessfully": {
+      "description": "Thông báo thành công khi nút được sao chép",
+      "message": "Đã sao chép thành công và thêm vào quy trình làm việc!"
+   },
+   "nodeCopiedToClipboard": {
+      "description": "Thông báo khi nút được sao chép vào khay nhớ tạm",
+      "message": "Đã sao chép vào khay nhớ tạm. Sử dụng Ctrl+V để dán vào n8n."
+   },
+   "nodeCopy": {
+      "description": "Nút sao chép nút",
+      "message": "Sao chép nút"
+   },
+   "nodeCopySuccess": {
+      "description": "Thông báo thành công khi sao chép nút",
+      "message": "Đã sao chép nút thành công"
+   },
+   "nodeExecutionSelect": {
+      "description": "Tên cài đặt chọn thực thi nút",
+      "message": "Chọn thực thi nút"
+   },
+   "nodeExecutionSelectDesc": {
+      "description": "Node execution select setting description\".",
+      "message": "Khi chỉnh sửa đầu ra của một nút, bạn có thể chọn dữ liệu từ phần \"Executions"
+   },
+   "nodeNameCopiedToClipboard": {
+      "description": "Thông báo khi nút cụ thể được sao chép vào khay nhớ tạm",
+      "message": "Nút \"{nodeName}\" đã được sao chép vào khay nhớ tạm. Sử dụng Ctrl+V để dán vào n8n."
+   },
+   "nodePaste": {
+      "description": "Nút dán nút",
+      "message": "Dán nút"
+   },
+   "nodePasteSuccess": {
+      "description": "Thông báo thành công khi dán nút",
+      "message": "Đã dán nút thành công"
+   },
+   "nodeSelector": {
+      "description": "Tên cài đặt bộ chọn nút",
+      "message": "Bộ chọn nút"
+   },
+   "nodeSelectorDesc": {
+      "description": "Mô tả cài đặt bộ chọn nút",
+      "message": "Đối với mỗi nút có dấu \"+\", một bộ chọn được thêm vào để chọn các nút từ các quy trình làm việc của bạn"
+   },
+   "nodes": {
+      "description": "Hình thức số nhiều của số lượng nút trong lịch sử",
+      "message": "nodes"
+   },
+   "notN8nPage": {
+      "description": "Thông báo huy hiệu khi trang không phải là n8n",
+      "message": "Đây không phải là trang n8n"
+   },
+   "notN8nPageError": {
+      "description": "Lỗi khi trang không phải là N8N",
+      "message": "Đây không phải là trang n8n"
+   },
+   "notificationsDescription": {
+      "description": "Mô tả tùy chọn bật thông báo",
+      "message": "Hiển thị thông báo thành công và lỗi"
+   },
+   "notificationsOption": {
+      "description": "Nhãn tùy chọn bật thông báo",
+      "message": "Bật thông báo"
+   },
+   "of": {
+      "description": "Nhãn \"của\" trong phân trang",
+      "message": "của"
+   },
+   "openChatFirst": {
+      "description": "Mở tin nhắn đầu tiên trong trò chuyện.",
+      "message": "Vui lòng mở widget trò chuyện trước để xem tin nhắn AI."
+   },
+   "openSettings": {
+      "description": "Văn bản nút để mở cài đặt",
+      "message": "Mở Cài đặt"
+   },
+   "openSource": {
+      "description": "Tiêu đề phần Nguồn mở",
+      "message": "Nguồn mở"
+   },
+   "openSourceDescription": {
+      "description": "Mô tả phần mã nguồn mở",
+      "message": "Hơn 7.000 dự án mã nguồn mở để tổ chức các dự án của riêng bạn dựa trên các giải pháp có sẵn."
+   },
+   "openaiApiKey": {
+      "description": "Nhãn trường khóa API OpenAI",
+      "message": "Khóa API OpenAI"
+   },
+   "openrouterApiKey": {
+      "description": "Nhãn trường khóa API Openrouter",
+      "message": "Khóa API Openrouter"
+   },
+   "optimizePrompt": {
+      "description": "Tối ưu hóa nhãn trường lời nhắc",
+      "message": "Tối ưu hóa lời nhắc:"
+   },
+   "optionsPage": {
+      "description": "Liên kết văn bản trang Tùy chọn",
+      "message": "Tùy chọn"
+   },
+   "optionsPageHeader": {
+      "description": "Tiêu đề trang tùy chọn",
+      "message": "N8N Master"
+   },
+   "optionsPageTitle": {
+      "description": "Tiêu đề trang tùy chọn",
+      "message": "Cài đặt chính N8N"
+   },
+   "orText": {
+      "description": "Hoặc văn bản phân cách giữa các liên kết cửa hàng",
+      "message": "hoặc"
+   },
+   "outputTemplates": {
+      "description": "Tùy chọn nhập mẫu đầu ra",
+      "message": "Mẫu đầu ra"
+   },
+   "page": {
+      "description": "Nhãn trang trong phân trang",
+      "message": "Trang"
+   },
+   "pageStatus": {
+      "description": "Tiêu đề phần trạng thái trang",
+      "message": "🔍 Trạng thái trang"
+   },
+   "pinData": {
+      "description": "Tiêu đề dữ liệu Pin",
+      "message": "Dữ liệu Pin"
+   },
+   "pinned": {
+      "description": "Hộp thoại thông tin biểu tượng đã ghim",
+      "message": "Đã ghim"
+   },
+   "pinnedData": {
+      "description": "Tiêu đề cửa sổ popup dữ liệu ghim",
+      "message": "Dữ liệu ghim"
+   },
+   "placeholderExplainCode": {
+      "description": "Khu vực văn bản để giải thích mã",
+      "message": "Thông báo hệ thống tùy chỉnh để giải thích mã..."
+   },
+   "placeholderGenerateCode": {
+      "description": "Khu vực nhập văn bản để tạo mã",
+      "message": "Thông báo hệ thống tùy chỉnh cho việc tạo mã..."
+   },
+   "placeholderGenerateJson": {
+      "description": "Khu vực nhập văn bản để tạo JSON",
+      "message": "Thông báo hệ thống tùy chỉnh cho việc tạo JSON..."
+   },
+   "placeholderGeneratePrompt": {
+      "description": "Khu vực nhập văn bản để tạo lời nhắc",
+      "message": "Thông báo hệ thống tùy chỉnh cho việc tạo lời nhắc..."
+   },
+   "placeholderGenerateWorkflow": {
+      "description": "Khu vực nhập văn bản để tạo quy trình làm việc",
+      "message": "Thông báo hệ thống tùy chỉnh cho việc tạo quy trình làm việc..."
+   },
+   "placeholderOptimize": {
+      "description": "Khu vực nhập văn bản cho lời nhắc tối ưu hóa",
+      "message": "Thông báo hệ thống tùy chỉnh cho quá trình tối ưu hóa..."
+   },
+   "pleaseEnterApiKey": {
+      "description": "Thông báo khi không nhập khóa API",
+      "message": "Vui lòng nhập khóa API"
+   },
+   "pleaseEnterN8nApiKey": {
+      "description": "Thông báo khi khóa API N8N không được nhập",
+      "message": "Vui lòng nhập khóa API N8N"
+   },
+   "popupTitle": {
+      "description": "Tiêu đề cửa sổ bật lên",
+      "message": "Cài đặt chính N8N"
+   },
+   "popup_language": {
+      "description": "Nhãn chọn ngôn ngữ trong cửa sổ popup",
+      "message": "Ngôn ngữ"
+   },
+   "popup_settings": {
+      "description": "Tiêu đề phần Cài đặt trong cửa sổ popup",
+      "message": "⚙️ Cài đặt"
+   },
+   "previous": {
+      "description": "Nút Trang trước",
+      "message": "Trước"
+   },
+   "privacyPolicy": {
+      "description": "Liên kết văn bản chính sách bảo mật",
+      "message": "Chính sách bảo mật"
+   },
+   "proceedingCustomWorkflow": {
+      "description": "Tiến hành tạo tin nhắn quy trình làm việc tùy chỉnh",
+      "message": "Tiến hành tạo quy trình làm việc tùy chỉnh"
+   },
+   "projectNameAlreadyExists": {
+      "description": "Lỗi xác thực khi tên dự án đã tồn tại",
+      "message": "Dự án có tên này đã tồn tại"
+   },
+   "projectNameCannotBeEmpty": {
+      "description": "Lỗi xác thực khi tên dự án để trống",
+      "message": "Tên dự án không được để trống"
+   },
+   "projectNamePlaceholder": {
+      "description": "Vị trí nhập tên dự án trong biểu mẫu",
+      "message": "Tên dự án..."
+   },
+   "projectsCreate": {
+      "description": "Nút Tạo dự án",
+      "message": "Tạo dự án"
+   },
+   "projectsDelete": {
+      "description": "Nút Xóa dự án",
+      "message": "Xóa dự án"
+   },
+   "projectsExport": {
+      "description": "Nút xuất khẩu dự án",
+      "message": "Dự án xuất khẩu"
+   },
+   "projectsImport": {
+      "description": "Nút Nhập dự án",
+      "message": "Nhập dự án"
+   },
+   "projectsName": {
+      "description": "Trường tên dự án",
+      "message": "Tên dự án"
+   },
+   "purchaseLicenseToUnlock": {
+      "description": "Văn bản nút \"Mua giấy phép\"",
+      "message": "Mua giấy phép để mở khóa các tính năng"
+   },
+   "rateUs": {
+      "description": "Văn bản liên kết \"Đánh giá chúng tôi\"",
+      "message": "Đánh giá chúng tôi"
+   },
+   "refreshHistory": {
+      "description": "Nút để làm mới lịch sử quy trình làm việc",
+      "message": "Lịch sử làm mới"
+   },
+   "rememberDialog": {
+      "description": "Nhớ tên cài đặt hộp thoại",
+      "message": "Nhớ hộp thoại"
+   },
+   "rememberDialogDesc": {
+      "description": "Lưu lại mô tả cài đặt cửa sổ trò chuyện",
+      "message": "Lưu lại cửa sổ trò chuyện cho từng quy trình làm việc"
+   },
+   "requiresN8nApiKey": {
+      "description": "Thông báo hiển thị khi khóa API N8N được yêu cầu cho một tính năng",
+      "message": "Để kích hoạt tùy chọn này, trước tiên hãy nhập"
+   },
+   "reset": {
+      "description": "Văn bản nút Đặt lại",
+      "message": "Đặt lại"
+   },
+   "resetSuccess": {
+      "description": "Thông báo thành công khi đặt lại cài đặt",
+      "message": "Đặt lại cài đặt"
+   },
+   "reviewRequestButton": {
+      "description": "Văn bản nút yêu cầu đánh giá trong chat",
+      "message": "⭐ Để lại đánh giá"
+   },
+   "reviewRequestProductHunt": {
+      "description": "Nội dung yêu cầu hỗ trợ trên Product Hunt trong cuộc trò chuyện",
+      "message": "Và ủng hộ chúng tôi trên Product Hunt"
+   },
+   "reviewRequestProductHuntButton": {
+      "description": "Văn bản nút cho hỗ trợ Product Hunt trong chat",
+      "message": "🚀 Product Hunt"
+   },
+   "reviewRequestText": {
+      "description": "Nội dung tin nhắn yêu cầu đánh giá trong chat",
+      "message": "Vui lòng để lại đánh giá về chúng tôi trên Google Web Store"
+   },
+   "reviewRequestTitle": {
+      "description": "Tiêu đề cho tin nhắn yêu cầu đánh giá trong cuộc trò chuyện",
+      "message": "🌟 Bạn có thích tiện ích mở rộng này không?"
+   },
+   "reviewSubtitle": {
+      "description": "Tiêu đề phụ của phần đánh giá",
+      "message": "Để lại đánh giá"
+   },
+   "reviewTitle": {
+      "description": "Đánh giá tiêu đề khối",
+      "message": "Bạn có thích tiện ích mở rộng này không? 😊"
+   },
+   "salesPilotDescription": {
+      "description": "Mô tả tiện ích mở rộng SalesPilot AI",
+      "message": "Trợ lý AI để phân tích các chỉ số quan trọng của trang web cho mục đích quảng bá SEO."
+   },
+   "salesPilotTitle": {
+      "description": "Tiêu đề tiện ích mở rộng SalesPilot AI",
+      "message": "SalesPilot AI"
+   },
+   "save": {
+      "description": "Văn bản nút Lưu",
+      "message": "Lưu"
+   },
+   "saveAllSettings": {
+      "description": "Nút Lưu tất cả cài đặt",
+      "message": "Lưu tất cả cài đặt"
+   },
+   "saveSuccess": {
+      "description": "Thông báo lưu cài đặt thành công",
+      "message": "Cài đặt đã được lưu"
+   },
+   "saving": {
+      "description": "Trạng thái lưu",
+      "message": "Đang lưu..."
+   },
+   "search": {
+      "description": "Tìm kiếm (chỗ trống)",
+      "message": "Tìm kiếm..."
+   },
+   "searchNodes": {
+      "description": "Nơi đặt nút tìm kiếm",
+      "message": "Tìm kiếm nút..."
+   },
+   "searchTemplates": {
+      "description": "Tên cài đặt mẫu tìm kiếm",
+      "message": "Tìm kiếm mẫu"
+   },
+   "searchTemplatesDesc": {
+      "description": "Mô tả cài đặt tìm kiếm mẫu",
+      "message": "Khi tạo quy trình làm việc, hãy tìm kiếm các mẫu có sẵn trước tiên"
+   },
+   "searchWorkflows": {
+      "description": "Nơi đặt nội dung cho quy trình tìm kiếm",
+      "message": "Tìm kiếm quy trình làm việc..."
+   },
+   "searchingTemplates": {
+      "description": "Tìm kiếm thông báo mẫu",
+      "message": "Tìm kiếm các mẫu phù hợp"
+   },
+   "selectAll": {
+      "description": "Nút để chọn tất cả các tùy chọn nhập",
+      "message": "Chọn tất cả"
+   },
+   "selectDataToImport": {
+      "description": "Tiêu đề cho việc chọn dữ liệu nhập",
+      "message": "Chọn dữ liệu để nhập:"
+   },
+   "selectFile": {
+      "description": "Văn bản nút Chọn tệp",
+      "message": "Chọn tệp JSON"
+   },
+   "selectLanguage": {
+      "description": "Nhãn chọn ngôn ngữ",
+      "message": "Chọn ngôn ngữ:"
+   },
+   "selectModel": {
+      "description": "Nhãn chọn mẫu",
+      "message": "Chọn mẫu:"
+   },
+   "selectWorkflowsToAdd": {
+      "description": "Tiêu đề hộp thoại chọn quy trình làm việc",
+      "message": "Chọn quy trình làm việc để thêm"
+   },
+   "services": {
+      "description": "Dịch vụ",
+      "message": "Dịch vụ"
+   },
+   "settings": {
+      "description": "Tiêu đề phần Cài đặt",
+      "message": "Cài đặt"
+   },
+   "settingsChanged": {
+      "description": "Thông báo khi cài đặt được thay đổi và cần làm mới trang",
+      "message": "Cài đặt đã được thay đổi, vui lòng làm mới trang!"
+   },
+   "showLinks": {
+      "description": "Hiển thị văn bản chuyển đổi liên kết",
+      "message": "Hiển thị {count} liên kết"
+   },
+   "showTemplates": {
+      "description": "Hiển thị tên cài đặt mẫu",
+      "message": "Hiển thị mẫu"
+   },
+   "showTemplatesDesc": {
+      "description": "Hiển thị mô tả cài đặt mẫu",
+      "message": "Hiển thị menu với danh sách các mẫu để sao chép"
+   },
+   "showTemplatesDescription": {
+      "description": "Mô tả tùy chọn hiển thị widget mẫu",
+      "message": "Hiển thị widget mẫu trong giao diện N8N"
+   },
+   "showTemplatesOption": {
+      "description": "Nhãn tùy chọn widget mẫu",
+      "message": "Hiển thị widget mẫu"
+   },
+   "socialMedia": {
+      "description": "Liên kết mạng xã hội",
+      "message": "Mạng xã hội"
+   },
+   "status": {
+      "description": "Tiêu đề cột bảng cho trạng thái",
+      "message": "Trạng thái"
+   },
+   "statusActive": {
+      "description": "Tùy chọn bộ lọc trạng thái hoạt động",
+      "message": "Hoạt động"
+   },
+   "statusInactive": {
+      "description": "Tùy chọn bộ lọc trạng thái không hoạt động",
+      "message": "Không hoạt động"
+   },
+   "stepActivateFeatures": {
+      "description": "Tiêu đề Bước 2",
+      "message": "Kích hoạt và bật các tính năng"
+   },
+   "stepActivateFeaturesDesc": {
+      "description": "Mô tả Bước 2",
+      "message": "Bật các tính năng bạn muốn sử dụng trong cài đặt"
+   },
+   "stepConfigureApi": {
+      "description": "Bước 1 tiêu đề",
+      "message": "Cấu hình khóa API"
+   },
+   "stepConfigureApiDesc": {
+      "description": "Mô tả Bước 1",
+      "message": "Cài đặt khóa API AI (OpenAI, Anthropic, Openrouter) trong cửa sổ popup của tiện ích mở rộng"
+   },
+   "stepStartCreating": {
+      "description": "Bước 3: Tiêu đề",
+      "message": "Bắt đầu tạo"
+   },
+   "stepStartCreatingDesc": {
+      "description": "Mô tả Bước 3",
+      "message": "Mở n8n và bắt đầu sử dụng trợ lý AI và các công cụ khác"
+   },
+   "subscribeYoutubeChannel": {
+      "description": "Đăng ký kênh YouTube",
+      "message": "Đăng ký kênh YouTube"
+   },
+   "success": {
+      "description": "Thông báo thành công",
+      "message": "Thành công"
+   },
+   "support": {
+      "description": "Liên kết hỗ trợ",
+      "message": "Hỗ trợ"
+   },
+   "systemMessages": {
+      "description": "Tiêu đề nhóm thông báo hệ thống",
+      "message": "Thông báo hệ thống"
+   },
+   "tabExecutions": {
+      "description": "Tiêu đề tab Thực thi",
+      "message": "Thực thi"
+   },
+   "tabN8nAPI": {
+      "description": "Tiêu đề tab n8n API",
+      "message": "n8n API"
+   },
+   "tabOptions": {
+      "description": "Tiêu đề tab Tùy chọn",
+      "message": "Tùy chọn"
+   },
+   "tabTools": {
+      "description": "Tiêu đề tab Công cụ",
+      "message": "Công cụ"
+   },
+   "tabWorkflows": {
+      "description": "Tiêu đề tab Quy trình làm việc",
+      "message": "Quy trình làm việc"
+   },
+   "tags": {
+      "description": "Tiêu đề cột Thẻ",
+      "message": "Thẻ"
+   },
+   "tamperingDetected": {
+      "description": "Tiêu đề thông báo về sự can thiệp vào dữ liệu",
+      "message": "Phát hiện sự can thiệp vào dữ liệu bộ nhớ đệm"
+   },
+   "tamperingMessage": {
+      "description": "Thông báo về hậu quả của việc can thiệp",
+      "message": "Tất cả dữ liệu đã được xóa và cài đặt đã được đặt lại!"
+   },
+   "templateCopiedSuccess": {
+      "description": "Thông báo sao chép mẫu thành công",
+      "message": "Mẫu đã được sao chép thành công vào khay nhớ tạm. Nhấn Ctrl + V để dán quy trình làm việc."
+   },
+   "templateDownloadFailed": {
+      "description": "Thông báo lỗi tải xuống mẫu",
+      "message": "Không thể tải xuống"
+   },
+   "templateNotFound": {
+      "description": "Thông báo khi không tìm thấy mẫu",
+      "message": "Không tìm thấy mẫu, đang tạo bằng AI..."
+   },
+   "templateProcessingIssue": {
+      "description": "Tiêu đề vấn đề xử lý mẫu",
+      "message": "Vấn đề xử lý mẫu"
+   },
+   "templateProcessingIssueDesc": {
+      "description": "Mô tả vấn đề xử lý mẫu",
+      "message": "Không thể tự động trích xuất tệp JSON của quy trình làm việc từ mẫu này. Nội dung của mẫu có thể cần xử lý thủ công."
+   },
+   "templateSearchDisabled": {
+      "description": "Thông báo khi tính năng tìm kiếm mẫu bị vô hiệu hóa",
+      "message": "Tính năng tìm kiếm mẫu đã bị vô hiệu hóa, đang tạo bằng AI..."
+   },
+   "templateSelectorNotAvailable": {
+      "description": "Lỗi Template selector không khả dụng",
+      "message": "TemplateSelector không khả dụng"
+   },
+   "template_preview_title": {
+      "description": "Tiêu đề trang xem trước mẫu",
+      "message": "Xem trước mẫu"
+   },
+   "templatesExport": {
+      "description": "Nút mẫu xuất",
+      "message": "Mẫu xuất"
+   },
+   "templatesImport": {
+      "description": "Nút Nhập mẫu",
+      "message": "Nhập mẫu"
+   },
+   "templatesLoad": {
+      "description": "Nút Tải mẫu",
+      "message": "Tải mẫu"
+   },
+   "templatesLoading": {
+      "description": "Thông báo đang tải các mẫu",
+      "message": "Đang tải các mẫu..."
+   },
+   "templatesSearch": {
+      "description": "Vị trí đặt mẫu tìm kiếm",
+      "message": "Tìm kiếm mẫu..."
+   },
+   "templatesSearchTitle": {
+      "description": "Hướng dẫn công cụ tìm kiếm mẫu",
+      "message": "Tìm kiếm mẫu"
+   },
+   "templatesTitle": {
+      "description": "Tiêu đề widget mẫu",
+      "message": "Mẫu"
+   },
+   "testButton": {
+      "description": "Nhãn nút kiểm tra",
+      "message": "Kiểm tra"
+   },
+   "testFailed": {
+      "description": "Thông báo thất bại của kiểm tra",
+      "message": "Kiểm tra thất bại"
+   },
+   "testKey": {
+      "description": "Nhãn nút kiểm tra",
+      "message": "Kiểm tra"
+   },
+   "testSuccess": {
+      "description": "Thông báo thành công của kiểm tra",
+      "message": "Kiểm tra đã hoàn tất thành công"
+   },
+   "testingApiKey": {
+      "description": "Quy trình kiểm tra khóa API",
+      "message": "Kiểm tra khóa API..."
+   },
+   "testingN8nApiKey": {
+      "description": "Quy trình kiểm tra khóa API N8N",
+      "message": "Kiểm tra khóa API N8N..."
+   },
+   "timeEnd": {
+      "description": "Tiêu đề cột Thời gian kết thúc",
+      "message": "Thời gian kết thúc"
+   },
+   "timeFrom": {
+      "description": "Vị trí đặt bộ lọc \"Thời gian từ\"",
+      "message": "Thời gian từ"
+   },
+   "timeStart": {
+      "description": "Tiêu đề cột Thời gian bắt đầu",
+      "message": "Thời gian bắt đầu"
+   },
+   "timeTo": {
+      "description": "Thời gian để lọc placeholder",
+      "message": "Thời gian để"
+   },
+   "toDisplayExecutionsList": {
+      "description": "Thông báo trạng thái trống cho các lần thực thi",
+      "message": "Để hiển thị danh sách các lần thực thi workflow của bạn, hãy kết nối với"
+   },
+   "toDisplayWorkflowsList": {
+      "description": "Thông báo cho trạng thái quy trình làm việc trống",
+      "message": "Để hiển thị danh sách các quy trình làm việc của bạn, hãy kết nối với"
+   },
+   "totalWorkflows": {
+      "description": "Hộp thoại thông tin cho chỉ số tổng số quy trình làm việc",
+      "message": "Tổng số quy trình làm việc"
+   },
+   "trialExpired": {
+      "description": "Tiêu đề thông báo hết hạn dùng thử",
+      "message": "Thời gian dùng thử đã kết thúc"
+   },
+   "trialExpiredDesc": {
+      "description": "Mô tả phiên bản dùng thử đã hết hạn",
+      "message": "Mua giấy phép để mở khóa các tính năng"
+   },
+   "trialPeriodActive": {
+      "description": "Thông báo về thời gian dùng thử đang hoạt động",
+      "message": "Bạn có {days} ngày để thử nghiệm các tính năng"
+   },
+   "trialPeriodDesc": {
+      "description": "Mô tả về thời gian dùng thử",
+      "message": "Sau đó, bạn sẽ cần mua giấy phép"
+   },
+   "tryOtherTopTools": {
+      "description": "Tiêu đề phần cho quảng cáo các tiện ích mở rộng khác",
+      "message": "🚀 Thử các công cụ hàng đầu khác"
+   },
+   "tutorialVideoDesc": {
+      "description": "Mô tả video hướng dẫn",
+      "message": "Học cách sử dụng tất cả các tính năng của N8N Master trong hướng dẫn chi tiết này"
+   },
+   "unableToCheck": {
+      "description": "Lỗi khi kiểm tra trạng thái không thành công",
+      "message": "Không thể kiểm tra trạng thái trang"
+   },
+   "unlockFullPower": {
+      "description": "Văn bản nút mở khóa toàn bộ sức mạnh",
+      "message": "⚡ Mở khóa toàn bộ sức mạnh"
+   },
+   "unlockFullPowerSubtitle": {
+      "description": "Mở khóa phụ đề trong cửa sổ pop-up",
+      "message": "Nhập khóa cấp phép của bạn để kích hoạt tất cả tính năng"
+   },
+   "unlockFullPowerTitle": {
+      "description": "Mở khóa tiêu đề cửa sổ pop-up",
+      "message": "Mở khóa toàn bộ sức mạnh"
+   },
+   "userAccount": {
+      "description": "Liên kết tài khoản người dùng",
+      "message": "Tài khoản Nitiweb - Quản lý khóa của bạn"
+   },
+   "variableCopiedToClipboard": {
+      "description": "Thông báo thành công khi biến được sao chép vào khay nhớ tạm",
+      "message": "Tham số đã được sao chép vào khay nhớ tạm. Nhấn Ctrl + V để dán nó vào vị trí mong muốn."
+   },
+   "variableDeletedSuccessfully": {
+      "description": "Thông báo thành công khi biến được xóa",
+      "message": "Biến đã được xóa thành công!"
+   },
+   "variableName": {
+      "description": "Nhãn tên biến",
+      "message": "Tên"
+   },
+   "variableSavedSuccessfully": {
+      "description": "Thông báo thành công khi biến được lưu",
+      "message": "Biến đã được lưu thành công!"
+   },
+   "variableValue": {
+      "description": "Nhãn giá trị biến đổi",
+      "message": "Giá trị"
+   },
+   "watchFullTutorial": {
+      "description": "Tiêu đề phần \"Xem toàn bộ hướng dẫn\"",
+      "message": "🎥 Xem toàn bộ hướng dẫn"
+   },
+   "watchTutorial": {
+      "description": "Xem liên kết hướng dẫn",
+      "message": "Xem hướng dẫn"
+   },
+   "welcomeGotIt": {
+      "description": "Nút \"Đã hiểu\" trên trang chào mừng",
+      "message": "Đã hiểu, cảm ơn!"
+   },
+   "welcomeMessage": {
+      "description": "Thông báo trên trang chào mừng",
+      "message": "Cảm ơn bạn đã cài đặt N8N Master. Dưới đây là những điểm mới trong phiên bản này:"
+   },
+   "welcomeOpenSettings": {
+      "description": "Nút mở cài đặt trang chào mừng",
+      "message": "Mở Cài đặt"
+   },
+   "welcomeSubtitle": {
+      "description": "Tiêu đề phụ trang chào mừng",
+      "message": "Trợ thủ đắc lực cho quy trình làm việc n8n"
+   },
+   "welcomeTitle": {
+      "description": "Tiêu đề trang chào mừng",
+      "message": "🎉 Chào mừng đến với N8N Master!"
+   },
+   "welcomeWatchTutorial": {
+      "description": "Nút xem hướng dẫn trên trang chào mừng",
+      "message": "Xem hướng dẫn"
+   },
+   "welcome_got_it": {
+      "description": "Nút \"Đã hiểu\" trên trang chào mừng",
+      "message": "Đã hiểu, cảm ơn!"
+   },
+   "welcome_message": {
+      "description": "Thông báo chính trên trang chào mừng",
+      "message": "Cảm ơn bạn đã cài đặt N8N Master. Dưới đây là những điểm mới trong phiên bản này:"
+   },
+   "welcome_open_settings": {
+      "description": "Trang chào mừng - Nút mở cài đặt",
+      "message": "Mở tùy chọn"
+   },
+   "welcome_subtitle": {
+      "description": "Tiêu đề phụ trang chào mừng",
+      "message": "Trợ lý Quy trình Làm việc"
+   },
+   "welcome_title": {
+      "description": "Tiêu đề chính của trang chào mừng",
+      "message": "🎉 Chào mừng đến với N8N Master!"
+   },
+   "welcome_watch_tutorial": {
+      "description": "Nút xem hướng dẫn trên trang chào mừng",
+      "message": "Xem hướng dẫn"
+   },
+   "whatsNew": {
+      "description": "Tiêu đề phần Cập nhật mới",
+      "message": "✨ Cập nhật mới"
+   },
+   "wizardDailyLimitReached": {
+      "description": "Thông báo hiển thị khi đạt giới hạn sử dụng hàng ngày của trợ lý ảo.",
+      "message": "🚫 Bạn đã sử dụng hết giới hạn 10 yêu cầu mỗi ngày đối với AI. Bạn có thể tiếp tục vào ngày mai hoặc mua giấy phép để loại bỏ giới hạn."
+   },
+   "workflow": {
+      "description": "Hình thức số ít của quy trình làm việc",
+      "message": "Quy trình làm việc"
+   },
+   "workflowAddedToProject": {
+      "description": "Thông báo thành công khi quy trình làm việc được thêm vào dự án",
+      "message": "Thêm vào dự án"
+   },
+   "workflowAlreadyExists": {
+      "description": "Thông báo lỗi khi quy trình làm việc đã tồn tại trong dự án.",
+      "message": "Quy trình làm việc đã tồn tại trong dự án này."
+   },
+   "workflowCopiedSuccess": {
+      "description": "Thông báo thành công khi sao chép quy trình làm việc",
+      "message": "Quy trình làm việc đã được sao chép vào khay nhớ tạm ($1 nodes). Sử dụng Ctrl+V để dán vào n8n."
+   },
+   "workflowCreatedOnCanvas": {
+      "description": "Thông báo khi quy trình làm việc được tạo trên canvas",
+      "message": "Quy trình làm việc đã được tạo thành công trên canvas!"
+   },
+   "workflowCreatedSuccess": {
+      "description": "Thông báo khi quy trình làm việc được tạo thành công",
+      "message": "Quy trình làm việc đã được tạo thành công!"
+   },
+   "workflowCreatedSuccessfully": {
+      "description": "Thông báo thành công khi quy trình làm việc được tạo",
+      "message": "Quy trình làm việc đã được tạo thành công!"
+   },
+   "workflowExecution": {
+      "description": "Tên cài đặt thực thi quy trình làm việc",
+      "message": "Thực thi quy trình làm việc"
+   },
+   "workflowExecutionDesc": {
+      "description": "Mô tả cài đặt thực thi quy trình làm việc",
+      "message": "Sao chép nhanh dữ liệu từ nhật ký thực thi"
+   },
+   "workflowExecutions": {
+      "description": "Tiêu đề tab Thực thi",
+      "message": "Thực thi quy trình làm việc"
+   },
+   "workflowGeneration": {
+      "description": "Tên tính năng tạo quy trình làm việc",
+      "message": "Tạo quy trình làm việc"
+   },
+   "workflowGenerationDesc": {
+      "description": "Mô tả tính năng tạo quy trình làm việc",
+      "message": "Tạo các quy trình làm việc n8n hoàn chỉnh từ mô tả bằng ngôn ngữ tự nhiên"
+   },
+   "workflowHistory": {
+      "description": "Tên tính năng Lịch sử quy trình làm việc",
+      "message": "Lịch sử quy trình làm việc"
+   },
+   "workflowHistoryDesc": {
+      "description": "Mô tả tính năng lịch sử quy trình làm việc",
+      "message": "Theo dõi và khôi phục các phiên bản trước của quy trình làm việc kèm theo dấu thời gian"
+   },
+   "workflowHistoryDescription": {
+      "description": "Tiêu đề phụ cho phần lịch sử quy trình làm việc",
+      "message": "Tất cả các phiên bản quy trình làm việc"
+   },
+   "workflowHistoryInfo": {
+      "description": "Văn bản mô tả cho phần lịch sử quy trình làm việc",
+      "message": "Xem và sao chép tất cả các phiên bản quy trình làm việc từ lịch sử. Điều này bao gồm tất cả các phiên bản đã lưu trên tất cả các quy trình làm việc."
+   },
+   "workflowHistoryLoadFailed": {
+      "description": "Thông báo lỗi khi tải lịch sử quy trình làm việc",
+      "message": "Không thể tải lịch sử quy trình làm việc"
+   },
+   "workflowHistorySectionTitle": {
+      "description": "Tiêu đề cho phần lịch sử quy trình làm việc",
+      "message": "Lịch sử quy trình làm việc"
+   },
+   "workflowIdNotFound": {
+      "description": "Lỗi không tìm thấy ID quy trình làm việc",
+      "message": "Không thể xác định ID quy trình làm việc"
+   },
+   "workflowImportedSuccess": {
+      "description": "Thông báo thành công khi nhập quy trình làm việc",
+      "message": "Quy trình làm việc đã được nhập thành công! ($1 nút)"
+   },
+   "workflowInsertError": {
+      "description": "Thông báo lỗi khi chèn workflow",
+      "message": "Lỗi khi chèn workflow"
+   },
+   "workflowInsertFailed": {
+      "description": "Thông báo lỗi khi chèn quy trình làm việc",
+      "message": "Không thể chèn quy trình làm việc tự động. Vui lòng thử tạo thủ công."
+   },
+   "workflowInsertedSuccess": {
+      "description": "Thông báo thành công khi chèn quy trình làm việc",
+      "message": "Quy trình làm việc đã được chèn thành công!"
+   },
+   "workflowModifiedSuccess": {
+      "description": "Thông báo khi quy trình làm việc được sửa đổi thành công",
+      "message": "Quy trình làm việc đã được sửa đổi thành công"
+   },
+   "workflowRestoreFailed": {
+      "description": "Thông báo lỗi khôi phục quy trình làm việc",
+      "message": "Không thể khôi phục quy trình làm việc từ lịch sử"
+   },
+   "workflowWizardFinished": {
+      "description": "Thông báo khi chế độ tạo quy trình làm việc đã hoàn tất",
+      "message": "Chế độ tạo quy trình làm việc đã hoàn tất. Bạn có thể đặt các câu hỏi thông thường."
+   },
+   "workflows": {
+      "description": "Hình thức số nhiều của quy trình làm việc",
+      "message": "Quy trình làm việc"
+   },
+   "yourConnectedDomains": {
+      "description": "Tiêu đề cho phần các tên miền đã kết nối",
+      "message": "Các tên miền đã kết nối"
+   },
+   "yourWorkflowsFromConnectedApis": {
+      "description": "Tiêu đề cho phần quy trình làm việc",
+      "message": "Các quy trình làm việc từ các API kết nối"
+   }
+}

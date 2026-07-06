@@ -1,0 +1,9 @@
+2026/07/06-10:22:25.478 71f4 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\Sync Data\LevelDB/MANIFEST-000001
+2026/07/06-10:22:25.482 71f4 Recovering log #1083
+2026/07/06-10:22:25.483 71f4 Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\Sync Data\LevelDB/001083.log 
+2026/07/06-15:06:13.486 5244 Level-0 table #1087: started
+2026/07/06-15:06:13.490 5244 Level-0 table #1087: 89626 bytes OK
+2026/07/06-15:06:13.492 5244 Delete type=0 #1083
+2026/07/06-17:59:25.119 3418 Level-0 table #1089: started
+2026/07/06-17:59:25.122 3418 Level-0 table #1089: 86011 bytes OK
+2026/07/06-17:59:25.123 3418 Delete type=0 #1086

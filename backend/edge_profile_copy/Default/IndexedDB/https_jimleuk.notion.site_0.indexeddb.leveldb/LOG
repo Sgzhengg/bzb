@@ -1,0 +1,18 @@
+2025/12/06-19:33:44.076 33d4 Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_jimleuk.notion.site_0.indexeddb.leveldb since it was missing.
+2025/12/06-19:33:44.081 33d4 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_jimleuk.notion.site_0.indexeddb.leveldb/MANIFEST-000001
+2025/12/06-19:33:44.442 2d54 Level-0 table #5: started
+2025/12/06-19:33:44.445 2d54 Level-0 table #5: 2656 bytes OK
+2025/12/06-19:33:44.447 2d54 Delete type=0 #3
+2025/12/06-19:33:44.447 2d54 Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/12/06-19:36:27.557 33d4 Level-0 table #7: started
+2025/12/06-19:36:27.561 33d4 Level-0 table #7: 242 bytes OK
+2025/12/06-19:36:27.564 33d4 Delete type=0 #4
+2025/12/06-19:36:27.564 33d4 Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2025/12/06-19:36:27.564 33d4 Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x00\x00\x002\x02\x06\x01\x00\x00\x00\x00\x00\x00\x00\x00' @ 196 : 0
+2025/12/06-19:36:27.565 33d4 Compacting 1@1 + 1@2 files
+2025/12/06-19:36:27.567 33d4 Generated table #8@1: 55 keys, 1033 bytes
+2025/12/06-19:36:27.567 33d4 Compacted 1@1 + 1@2 files => 1033 bytes
+2025/12/06-19:36:27.569 33d4 compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/12/06-19:36:27.569 33d4 Delete type=2 #5
+2025/12/06-19:36:27.569 33d4 Delete type=2 #7
+2025/12/06-19:36:27.570 33d4 Manual compaction at level-1 from '\x00\x00\x00\x002\x02\x06\x01\x00\x00\x00\x00\x00\x00\x00\x00' @ 196 : 0 .. (end); will stop at (end)

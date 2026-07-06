@@ -23,9 +23,65 @@ OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
+async def _save_to_db(items: list):
+    """将采集结果保存到数据库 announcements 表。"""
+    from datetime import datetime, date as datetype
+    from app.db.session import AsyncSessionLocal
+    from app.models.announcement import Announcement
+    from sqlalchemy import select
+
+    inserted = 0
+    async with AsyncSessionLocal() as db:
+        for item in items:
+            title = item.get("title", "")
+            # 按标题去重
+            existing = await db.execute(select(Announcement).where(Announcement.title == title))
+            if existing.scalar_one_or_none():
+                continue
+
+            # 解析日期
+            pub_date_str = item.get("publish_date", "")
+            deadline_str = item.get("deadline", "")
+            try:
+                announce_date = datetype.fromisoformat(pub_date_str[:10]) if pub_date_str else datetype.today()
+            except:
+                announce_date = datetype.today()
+            try:
+                deadline = datetime.fromisoformat(deadline_str) if deadline_str else datetime.now()
+            except:
+                deadline = datetime.now()
+
+            purchaser_name = item.get("purchaser", "")
+            purchaser_level = "地市公司" if "分公司" in purchaser_name else "省公司"
+
+            ann = Announcement(
+                title=title,
+                industry=purchaser_name,
+                province="广东",
+                city=item.get("location", ""),
+                project_category=item.get("project_category", ""),
+                procurement_method=item.get("notice_type", "公开询比"),
+                budget=float(item.get("budget", 0) or 0),
+                source_url=item.get("source_url", ""),
+                announce_date=announce_date,
+                deadline=deadline,
+                bid_date=announce_date,  # 暂用公告日期
+                purchaser_level=purchaser_level,
+                remark=item.get("notice_type", ""),
+            )
+            db.add(ann)
+            inserted += 1
+
+        await db.commit()
+    print(f"   💾 数据库: 新增 {inserted} 条")
+
+
+
 async def main():
     all_results = []
     
+    from app.services.keyword_filter import filter_advertisement_projects
+
     async with ZhaobiaoCrawler(max_pages=3) as crawler:
         for category, keywords in TRACK_KEYWORDS.items():
             print(f"\n{'='*60}")
@@ -37,13 +93,21 @@ async def main():
                     items = await crawler.search(kw)
                     print(f"   📋 列表: {len(items)} 条广东移动相关")
                     
-                    # 抓取详情
+                    # 抓取详情 + 二次过滤
                     for item in items:
                         detail = await crawler.fetch_detail(item)
                         if detail:
-                            detail.project_category = category
-                            all_results.append(detail)
-                            print(f"   ✅ {detail.title[:50]}...")
+                            # 使用 keyword_filter 做二次精准过滤
+                            filter_result = filter_advertisement_projects(
+                                detail.title or "",
+                                getattr(detail, 'raw_text', '') or ""
+                            )
+                            if filter_result.get("is_ad"):
+                                detail.project_category = filter_result.get("category") or category
+                                all_results.append(detail)
+                                print(f"   ✅ {detail.title[:50]}...")
+                            else:
+                                print(f"   ⏭️ 跳过(非广告): {detail.title[:50]}...")
                 except Exception as e:
                     print(f"   ❌ {kw}: {e}")
     
@@ -65,10 +129,13 @@ async def main():
     outpath = os.path.join(OUTPUT_DIR, "gd_mobile_tracks.json")
     with open(outpath, 'w', encoding='utf-8') as f:
         json.dump({"total": len(output), "items": output}, f, ensure_ascii=False, indent=2)
-    
+
+    # 同时保存到数据库
+    await _save_to_db(output)
+
     print(f"\n{'='*60}")
-    print(f"🎉 完成！共 {len(output)} 条")
-    print(f"💾 保存到: {outpath}")
+    print(f"🎉 完成！共 {len(output)} 条 (已保存JSON + 数据库)")
+    print(f"💾 JSON: {outpath}")
     
     # 按赛道统计
     from collections import Counter

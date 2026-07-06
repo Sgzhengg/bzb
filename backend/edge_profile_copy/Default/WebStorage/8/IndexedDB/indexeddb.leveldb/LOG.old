@@ -1,0 +1,15 @@
+2026/04/22-16:42:19.763 3244 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\WebStorage\8\IndexedDB\indexeddb.leveldb/MANIFEST-000001
+2026/04/22-16:42:19.763 3244 Recovering log #11
+2026/04/22-16:42:19.764 3244 Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\WebStorage\8\IndexedDB\indexeddb.leveldb/000011.log 
+2026/04/22-16:42:42.073 3dbc Level-0 table #16: started
+2026/04/22-16:42:42.077 3dbc Level-0 table #16: 204192 bytes OK
+2026/04/22-16:42:42.078 3dbc Delete type=0 #11
+2026/04/22-16:42:42.079 3dbc Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2026/04/22-16:42:42.079 3dbc Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x01\x01"\x04\x02\x01\x04\x00l\x00o\x00o\x00m\x03\x00\x80\xed\xacE\xdbyB\x00\x01$\x008\x004\x00e\x003\x005\x003\x004\x006\x00-\x001\x005\x003\x008\x00-\x004\x00f\x006\x00e\x00-\x008\x00f\x002\x001\x00-\x006\x004\x00a\x002\x007\x000\x000\x005\x00d\x005\x000\x00b' @ 31316 : 1
+2026/04/22-16:42:42.079 3dbc Compacting 1@1 + 1@2 files
+2026/04/22-16:42:42.082 3dbc Generated table #17@1: 1613 keys, 112621 bytes
+2026/04/22-16:42:42.083 3dbc Compacted 1@1 + 1@2 files => 112621 bytes
+2026/04/22-16:42:42.084 3dbc compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/04/22-16:42:42.084 3dbc Delete type=2 #13
+2026/04/22-16:42:42.084 3dbc Delete type=2 #16
+2026/04/22-16:42:42.084 3dbc Manual compaction at level-1 from '\x00\x01\x01"\x04\x02\x01\x04\x00l\x00o\x00o\x00m\x03\x00\x80\xed\xacE\xdbyB\x00\x01$\x008\x004\x00e\x003\x005\x003\x004\x006\x00-\x001\x005\x003\x008\x00-\x004\x00f\x006\x00e\x00-\x008\x00f\x002\x001\x00-\x006\x004\x00a\x002\x007\x000\x000\x005\x00d\x005\x000\x00b' @ 31316 : 1 .. (end); will stop at (end)

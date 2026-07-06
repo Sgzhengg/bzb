@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "http://localhost:8000/api/v1",
-  timeout: 10000,
+  baseURL: "http://localhost:8000/api/v1",
+  timeout: 15000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -207,6 +207,24 @@ export async function getDashboardStats() {
       ? announcements.value?.items || []
       : [],
   };
+}
+
+// ============================================================
+// 预算抓取 API（zhaobiao.cn 登录后自动提取）
+// ============================================================
+
+/**
+ * 启动预算抓取任务
+ */
+export async function startBudgetScrape() {
+  return apiClient.post("/announcements/scrape-budget/start");
+}
+
+/**
+ * 查询抓取进度
+ */
+export async function getBudgetScrapeStatus() {
+  return apiClient.get("/announcements/scrape-budget/status");
 }
 
 // ============================================================

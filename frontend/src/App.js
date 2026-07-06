@@ -11,6 +11,7 @@ import PurchaserProfile from "./pages/PurchaserProfile";
 import RelationManagement from "./pages/RelationManagement";
 import CityCompare from "./pages/CityCompare";
 import Settings from "./pages/Settings";
+import WinningResults from "./pages/WinningResults";
 import "./App.css";
 
 // 创建 React Query 客户端
@@ -47,8 +48,7 @@ function App() {
               <Route path="/opportunities/:id" element={<AnnouncementDetail />} />
               <Route path="/purchaser-profile" element={<PurchaserProfile />} />
               <Route path="/client-relations" element={<RelationManagement />} />
-              <Route path="/region-compare" element={<CityCompare />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/region-compare" element={<CityCompare />} />            <Route path="/winning-results" element={<WinningResults />} />              <Route path="/settings" element={<Settings />} />
             </Route>
           </Routes>
         </BrowserRouter>

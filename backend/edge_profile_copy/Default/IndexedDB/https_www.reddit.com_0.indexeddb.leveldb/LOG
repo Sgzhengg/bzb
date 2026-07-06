@@ -1,0 +1,12 @@
+2026/04/07-12:58:16.205 4dac Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_www.reddit.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/04/07-12:58:16.205 4dac Recovering log #11
+2026/04/07-12:58:16.207 4dac Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_www.reddit.com_0.indexeddb.leveldb/000011.log 
+2026/04/07-14:25:09.633 14b4 Level-0 table #16: started
+2026/04/07-14:25:09.641 14b4 Level-0 table #16: 933553 bytes OK
+2026/04/07-14:25:09.643 14b4 Delete type=0 #11
+2026/04/07-16:41:40.527 14b4 Compacting 1@1 + 1@2 files
+2026/04/07-16:41:40.531 14b4 Generated table #17@1: 108 keys, 4677 bytes
+2026/04/07-16:41:40.531 14b4 Compacted 1@1 + 1@2 files => 4677 bytes
+2026/04/07-16:41:40.533 14b4 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/04/07-16:41:40.534 14b4 Delete type=2 #13
+2026/04/07-16:41:40.534 14b4 Delete type=2 #16

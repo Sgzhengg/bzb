@@ -1,0 +1,15 @@
+2026/03/10-14:24:49.213 3524 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_ap-northeast-1.run.claw.cloud_0.indexeddb.leveldb/MANIFEST-000001
+2026/03/10-14:24:49.213 3524 Recovering log #19
+2026/03/10-14:24:49.216 3524 Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_ap-northeast-1.run.claw.cloud_0.indexeddb.leveldb/000019.log 
+2026/03/10-14:25:03.665 3524 Level-0 table #24: started
+2026/03/10-14:25:03.669 3524 Level-0 table #24: 134941 bytes OK
+2026/03/10-14:25:03.671 3524 Delete type=0 #19
+2026/03/10-14:25:03.671 3524 Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2026/03/10-14:25:03.671 3524 Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x01\x01 \x03\x00\x10,\xb8f\xcdyB\x00\x01D\x00a\x00p\x00i\x00s\x00|\x00h\x00t\x00t\x00p\x00s\x00:\x00/\x00/\x00a\x00p\x00-\x00n\x00o\x00r\x00t\x00h\x00e\x00a\x00s\x00t\x00-\x001\x00.\x00r\x00u\x00n\x00.\x00c\x00l\x00a\x00w\x00.\x00c\x00l\x00o\x00u\x00d\x00/\x00a\x00p\x00i\x00/\x00p\x00l\x00a\x00t\x00f\x00o\x00r\x00m\x00/\x00g\x00e\x00t\x00A\x00p\x00p\x00C\x00o\x00n\x00f\x00i\x00g' @ 24700 : 1
+2026/03/10-14:25:03.671 3524 Compacting 1@1 + 1@2 files
+2026/03/10-14:25:03.674 3524 Generated table #25@1: 284 keys, 28963 bytes
+2026/03/10-14:25:03.674 3524 Compacted 1@1 + 1@2 files => 28963 bytes
+2026/03/10-14:25:03.675 3524 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/03/10-14:25:03.675 3524 Delete type=2 #21
+2026/03/10-14:25:03.675 3524 Delete type=2 #24
+2026/03/10-14:25:03.676 3524 Manual compaction at level-1 from '\x00\x01\x01 \x03\x00\x10,\xb8f\xcdyB\x00\x01D\x00a\x00p\x00i\x00s\x00|\x00h\x00t\x00t\x00p\x00s\x00:\x00/\x00/\x00a\x00p\x00-\x00n\x00o\x00r\x00t\x00h\x00e\x00a\x00s\x00t\x00-\x001\x00.\x00r\x00u\x00n\x00.\x00c\x00l\x00a\x00w\x00.\x00c\x00l\x00o\x00u\x00d\x00/\x00a\x00p\x00i\x00/\x00p\x00l\x00a\x00t\x00f\x00o\x00r\x00m\x00/\x00g\x00e\x00t\x00A\x00p\x00p\x00C\x00o\x00n\x00f\x00i\x00g' @ 24700 : 1 .. (end); will stop at (end)

@@ -1,0 +1,15 @@
+2026/01/14-14:58:46.005 7b7c Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_auto-brain-n8n.zeabur.app_0.indexeddb.leveldb/MANIFEST-000001
+2026/01/14-14:58:46.005 7b7c Recovering log #7
+2026/01/14-14:58:46.006 7b7c Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_auto-brain-n8n.zeabur.app_0.indexeddb.leveldb/000007.log 
+2026/01/14-14:58:48.031 7b7c Level-0 table #12: started
+2026/01/14-14:58:48.036 7b7c Level-0 table #12: 209 bytes OK
+2026/01/14-14:58:48.040 7b7c Delete type=0 #7
+2026/01/14-14:58:48.041 7b7c Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2026/01/14-14:58:48.041 7b7c Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x00\x00\x00\x06' @ 61 : 1
+2026/01/14-14:58:48.041 7b7c Compacting 1@1 + 1@2 files
+2026/01/14-14:58:48.044 7b7c Generated table #13@1: 21 keys, 698 bytes
+2026/01/14-14:58:48.044 7b7c Compacted 1@1 + 1@2 files => 698 bytes
+2026/01/14-14:58:48.046 7b7c compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/01/14-14:58:48.046 7b7c Delete type=2 #9
+2026/01/14-14:58:48.046 7b7c Delete type=2 #12
+2026/01/14-14:58:48.047 7b7c Manual compaction at level-1 from '\x00\x00\x00\x00\x06' @ 61 : 1 .. (end); will stop at (end)

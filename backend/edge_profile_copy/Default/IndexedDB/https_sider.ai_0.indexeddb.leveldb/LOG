@@ -1,0 +1,6 @@
+2025/11/26-11:57:53.116 664 Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_sider.ai_0.indexeddb.leveldb since it was missing.
+2025/11/26-11:57:53.121 664 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_sider.ai_0.indexeddb.leveldb/MANIFEST-000001
+2025/11/26-11:57:58.445 740 Level-0 table #5: started
+2025/11/26-11:57:58.447 740 Level-0 table #5: 3553 bytes OK
+2025/11/26-11:57:58.448 740 Delete type=0 #3
+2025/11/26-11:57:58.449 740 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

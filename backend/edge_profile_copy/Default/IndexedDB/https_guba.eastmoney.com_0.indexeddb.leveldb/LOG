@@ -1,0 +1,6 @@
+2026/02/24-14:43:30.621 3c58 Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_guba.eastmoney.com_0.indexeddb.leveldb since it was missing.
+2026/02/24-14:43:30.625 3c58 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_guba.eastmoney.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/02/24-14:43:33.335 3c58 Level-0 table #5: started
+2026/02/24-14:43:33.337 3c58 Level-0 table #5: 373 bytes OK
+2026/02/24-14:43:33.339 3c58 Delete type=0 #3
+2026/02/24-14:43:33.339 3c58 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

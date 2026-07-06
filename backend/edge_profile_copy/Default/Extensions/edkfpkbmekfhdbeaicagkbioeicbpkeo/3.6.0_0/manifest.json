@@ -1,0 +1,45 @@
+{
+   "action": {
+      "default_icon": {
+         "128": "icons/icon128.png",
+         "16": "icons/icon16.png",
+         "48": "icons/icon48.png"
+      },
+      "default_popup": "popup.html"
+   },
+   "author": "Eugene Orel",
+   "background": {
+      "service_worker": "background.js"
+   },
+   "content_scripts": [ {
+      "js": [ "modules/i18n-manager.js", "modules/unified-database-manager.js", "modules/template-selector.js", "modules/github-downloader.js", "modules/template-workflow-helper.js", "modules/code-copy-handler.js", "modules/output-manager.js", "modules/testStepMonitor.js", "modules/n8n-api-client.js", "modules/node-copy-manager.js", "modules/local-projects-manager.js", "modules/local-variables-manager.js", "modules/dialog-manager.js", "modules/node-context-analyzer.js", "modules/n8n-workflow-ai-tools.js", "content.js" ],
+      "matches": [ "\u003Call_urls>" ]
+   } ],
+   "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'"
+   },
+   "default_locale": "en",
+   "description": "__MSG_appDescription__",
+   "homepage_url": "https://nitiweb.net/extensions/privacy-policy-n8n.html",
+   "host_permissions": [ "https://*.n8n.cloud/*", "https://api.openai.com/*", "https://api.anthropic.com/*", "https://openrouter.ai/*", "https://consoleai.org/*", "https://*/*", "http://*/*" ],
+   "icons": {
+      "128": "icons/icon128.png",
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr3xypdc8P4r7FvK1IFOosNqPbKHX5jmKfbkr52Y24MgHn9Al/dHGdGMiSLcJfxYVegbAyKAGxZJjI/MLFHebIezDSYffOqG1EQE1v4bkJP37D+wXv8LjVnulh7JPGhmyqbayswidf6ZkMgNYYHsXzK80vZ/LEAOL7F46/dOZIw0a+4xAHnikpiomk/HYy61UEmz9Vw59tyUB7i6MLqWGApNqEWClT4P2FZfu6NT/PyTUYN5y2Jqt5WBk/nXU7Jq2dyh3JhOtkY9gMb108pk+FhJoIXCa0Es6nfFCuxbaWmST8xLun9SsyYqN1NETRSTum9YzXgJzjqioEwicdfwucQIDAQAB",
+   "manifest_version": 3,
+   "name": "__MSG_appName__",
+   "options_ui": {
+      "open_in_tab": true,
+      "page": "options/options.html"
+   },
+   "permissions": [ "storage", "activeTab", "contextMenus", "scripting", "alarms", "tabs" ],
+   "short_name": "N8N Master",
+   "update_url": "https://edge.microsoft.com/extensionwebstorebase/v1/crx",
+   "version": "3.6.0",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "icons/*", "lib/*", "templates.json", "images/*", "welcome.html", "welcome.css", "template-preview.html", "template-preview.js", "welcome.js", "_locales/*/messages.json", "modules/i18n-manager.js", "modules/github-downloader.js", "modules/n8n-canvas-injector.js", "modules/n8n-workflow-ai-tools.js" ]
+   } ]
+}

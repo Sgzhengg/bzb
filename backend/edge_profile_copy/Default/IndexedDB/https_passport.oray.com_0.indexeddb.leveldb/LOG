@@ -1,0 +1,29 @@
+2026/03/03-12:57:13.484 6ac0 Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_passport.oray.com_0.indexeddb.leveldb since it was missing.
+2026/03/03-12:57:13.488 6ac0 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_passport.oray.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/03/03-12:57:13.653 6ae4 Level-0 table #5: started
+2026/03/03-12:57:13.655 6ae4 Level-0 table #5: 2064 bytes OK
+2026/03/03-12:57:13.657 6ae4 Delete type=0 #3
+2026/03/03-12:57:13.657 6ae4 Manual compaction at level-0 from '\x00\x02\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x03\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/03/03-12:57:29.024 5f68 Level-0 table #7: started
+2026/03/03-12:57:29.026 5f68 Level-0 table #7: 1091 bytes OK
+2026/03/03-12:57:29.029 5f68 Delete type=0 #4
+2026/03/03-12:57:29.029 6ae4 Manual compaction at level-0 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/03/03-12:57:31.765 6ac0 Level-0 table #9: started
+2026/03/03-12:57:31.767 6ac0 Level-0 table #9: 261 bytes OK
+2026/03/03-12:57:31.769 6ac0 Delete type=0 #6
+2026/03/03-12:57:31.769 6ac0 Manual compaction at level-0 from (begin) .. (end); will stop at '\x00\x00\x00\x002\x02\x0b\x01\x00\x00\x00\x00\x00\x00\x00\x00' @ 201 : 0
+2026/03/03-12:57:31.769 6ac0 Compacting 1@0 + 1@1 files
+2026/03/03-12:57:31.770 6ac0 Generated table #10@0: 23 keys, 662 bytes
+2026/03/03-12:57:31.770 6ac0 Compacted 1@0 + 1@1 files => 662 bytes
+2026/03/03-12:57:31.772 6ac0 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/03/03-12:57:31.772 6ac0 Delete type=2 #7
+2026/03/03-12:57:31.772 6ac0 Delete type=2 #9
+2026/03/03-12:57:31.772 6ac0 Manual compaction at level-0 from '\x00\x00\x00\x002\x02\x0b\x01\x00\x00\x00\x00\x00\x00\x00\x00' @ 201 : 0 .. (end); will stop at (end)
+2026/03/03-12:57:31.772 6ac0 Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x00\x00\x00\xc9\x1b\x00h\x00t\x00t\x00p\x00s\x00_\x00p\x00a\x00s\x00s\x00p\x00o\x00r\x00t\x00.\x00o\x00r\x00a\x00y\x00.\x00c\x00o\x00m\x00_\x000\x00@\x001\x1e\x00f\x00e\x00i\x00l\x00i\x00n\x00_\x00i\x00n\x00d\x00e\x00x\x00e\x00d\x00d\x00b\x00_\x001\x007\x007\x002\x005\x001\x003\x008\x004\x009\x000\x002\x000' @ 181 : 0
+2026/03/03-12:57:31.772 6ac0 Compacting 1@1 + 1@2 files
+2026/03/03-12:57:31.774 6ac0 Generated table #11@1: 28 keys, 773 bytes
+2026/03/03-12:57:31.774 6ac0 Compacted 1@1 + 1@2 files => 773 bytes
+2026/03/03-12:57:31.775 6ac0 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/03/03-12:57:31.775 6ac0 Delete type=2 #5
+2026/03/03-12:57:31.775 6ac0 Delete type=2 #10
+2026/03/03-12:57:31.775 6ac0 Manual compaction at level-1 from '\x00\x00\x00\x00\xc9\x1b\x00h\x00t\x00t\x00p\x00s\x00_\x00p\x00a\x00s\x00s\x00p\x00o\x00r\x00t\x00.\x00o\x00r\x00a\x00y\x00.\x00c\x00o\x00m\x00_\x000\x00@\x001\x1e\x00f\x00e\x00i\x00l\x00i\x00n\x00_\x00i\x00n\x00d\x00e\x00x\x00e\x00d\x00d\x00b\x00_\x001\x007\x007\x002\x005\x001\x003\x008\x004\x009\x000\x002\x000' @ 181 : 0 .. (end); will stop at (end)

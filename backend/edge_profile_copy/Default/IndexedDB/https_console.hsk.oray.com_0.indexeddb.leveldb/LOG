@@ -1,0 +1,6 @@
+2026/03/03-14:20:27.502 6ac0 Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_console.hsk.oray.com_0.indexeddb.leveldb since it was missing.
+2026/03/03-14:20:27.506 6ac0 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_console.hsk.oray.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/03/03-17:05:35.299 6ac0 Level-0 table #5: started
+2026/03/03-17:05:35.301 6ac0 Level-0 table #5: 1374 bytes OK
+2026/03/03-17:05:35.303 6ac0 Delete type=0 #3
+2026/03/03-17:05:35.303 6ac0 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

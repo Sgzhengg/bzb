@@ -1,0 +1,6 @@
+2026/01/04-13:34:40.004 5ed8 Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_www.lightxeditor.com_0.indexeddb.leveldb since it was missing.
+2026/01/04-13:34:40.008 5ed8 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_www.lightxeditor.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/01/04-17:03:01.635 5ed8 Level-0 table #5: started
+2026/01/04-17:03:01.639 5ed8 Level-0 table #5: 1983 bytes OK
+2026/01/04-17:03:01.642 5ed8 Delete type=0 #3
+2026/01/04-17:03:01.642 5ed8 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

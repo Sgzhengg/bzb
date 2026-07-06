@@ -1,0 +1,6 @@
+2026/01/16-17:35:46.624 178c Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_earth.google.com_0.indexeddb.leveldb since it was missing.
+2026/01/16-17:35:46.629 178c Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_earth.google.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/01/16-17:35:47.320 2d4c Level-0 table #5: started
+2026/01/16-17:35:47.324 2d4c Level-0 table #5: 5046 bytes OK
+2026/01/16-17:35:47.328 2d4c Delete type=0 #3
+2026/01/16-17:35:47.328 178c Manual compaction at level-0 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)

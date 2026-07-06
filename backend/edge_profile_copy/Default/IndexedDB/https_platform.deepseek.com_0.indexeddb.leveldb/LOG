@@ -1,0 +1,14 @@
+2026/07/06-10:42:19.794 3418 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_platform.deepseek.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/07/06-10:42:19.794 3418 Recovering log #187
+2026/07/06-10:42:19.794 3418 Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_platform.deepseek.com_0.indexeddb.leveldb/000187.log 
+2026/07/06-10:42:19.798 71f4 Level-0 table #192: started
+2026/07/06-10:42:19.800 71f4 Level-0 table #192: 823 bytes OK
+2026/07/06-10:42:19.802 71f4 Delete type=0 #187
+2026/07/06-10:42:19.802 3418 Manual compaction at level-0 from '\x00A\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00B\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/07/06-10:42:19.802 3418 Manual compaction at level-1 from '\x00A\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00B\x00\x00\x00' @ 0 : 0; will stop at '\x00A\x00\x00\xc8 \x00l\x00o\x00c\x00a\x00l\x00-\x00f\x00o\x00r\x00a\x00g\x00e\x00-\x00d\x00e\x00t\x00e\x00c\x00t\x00-\x00b\x00l\x00o\x00b\x00-\x00s\x00u\x00p\x00p\x00o\x00r\x00t' @ 6779 : 0
+2026/07/06-10:42:19.802 3418 Compacting 1@1 + 1@2 files
+2026/07/06-10:42:19.804 3418 Generated table #193@1: 8 keys, 305 bytes
+2026/07/06-10:42:19.804 3418 Compacted 1@1 + 1@2 files => 305 bytes
+2026/07/06-10:42:19.804 3418 compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/07/06-10:42:19.805 3418 Delete type=2 #192
+2026/07/06-10:42:19.805 3418 Manual compaction at level-1 from '\x00A\x00\x00\xc8 \x00l\x00o\x00c\x00a\x00l\x00-\x00f\x00o\x00r\x00a\x00g\x00e\x00-\x00d\x00e\x00t\x00e\x00c\x00t\x00-\x00b\x00l\x00o\x00b\x00-\x00s\x00u\x00p\x00p\x00o\x00r\x00t' @ 6779 : 0 .. '\x00B\x00\x00\x00' @ 0 : 0; will stop at (end)

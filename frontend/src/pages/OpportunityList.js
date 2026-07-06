@@ -7,10 +7,11 @@ import {
 import {
   ReloadOutlined, SearchOutlined,
   ThunderboltOutlined, ClearOutlined, LinkOutlined,
-  StarOutlined, StarFilled,
+  StarOutlined, StarFilled, DollarOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { useOpportunityList, useFetchAnnouncements, useToggleFavorite } from "../services/apiHooks";
+import { useOpportunityList, useFetchAnnouncements } from "../services/apiHooks";
+import { toggleFavorite, startBudgetScrape, getBudgetScrapeStatus } from "../services/api";
 
 const { Title, Text } = Typography;
 
@@ -77,6 +78,9 @@ function OpportunityList() {
   const [filterMethod, setFilterMethod] = useState("");
   const [filterProbability, setFilterProbability] = useState("");
   const [budgetRange, setBudgetRange] = useState([0, 1000]);
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [scraping, setScraping] = useState(false);
+  const [scrapeMsg, setScrapeMsg] = useState("");
 
   // 构建查询参数
   const params = useMemo(() => {
@@ -89,16 +93,16 @@ function OpportunityList() {
       budget_min: budgetRange[0] || undefined,
       budget_max: budgetRange[1] || undefined,
       search: searchText || undefined,
+      favorites_only: showFavorites || undefined,
     };
     // 清除 undefined 值
     Object.keys(result).forEach(k => result[k] === undefined && delete result[k]);
     return result;
-  }, [filterLevel, filterCategory, filterMethod, filterProbability, budgetRange, searchText]);
+  }, [filterLevel, filterCategory, filterMethod, filterProbability, budgetRange, searchText, showFavorites]);
 
   // 使用 React Query hooks
   const { data: response, isLoading, refetch } = useOpportunityList(params);
   const fetchMutation = useFetchAnnouncements();
-  const toggleFavoriteMutation = useToggleFavorite();
 
   const data = response?.items || [];
 
@@ -120,6 +124,32 @@ function OpportunityList() {
     setFilterProbability("");
     setBudgetRange([0, 1000]);
     setSearchText("");
+  };
+
+  // 预算抓取
+  const handleScrapeBudget = async () => {
+    try {
+      setScraping(true);
+      setScrapeMsg("正在启动...");
+      const res = await startBudgetScrape();
+      if (!res.ok) { message.warning(res.message); setScraping(false); return; }
+      const timer = setInterval(async () => {
+        try {
+          const s = await getBudgetScrapeStatus();
+          setScrapeMsg(s.message);
+          if (s.status === "done") {
+            clearInterval(timer);
+            setScraping(false);
+            message.success("预算数据已更新！");
+            refetch();
+          } else if (s.status === "failed") {
+            clearInterval(timer);
+            setScraping(false);
+            message.error(s.message);
+          }
+        } catch { clearInterval(timer); setScraping(false); }
+      }, 3000);
+    } catch { message.error("启动失败"); setScraping(false); }
   };
 
   // 表格列定义 — 对齐「致合项目查询汇总」Excel 模板
@@ -188,11 +218,18 @@ function OpportunityList() {
       dataIndex: "source_url",
       key: "source_url",
       width: 80,
-      render: (url) => url && url.startsWith("http") ? (
-        <a href={url} target="_blank" rel="noopener noreferrer">
-          <LinkOutlined /> 查看
-        </a>
-      ) : <Text type="secondary">—</Text>,
+      render: (url, record) => (
+        <Space size={0}>
+          <a onClick={() => navigate(`/opportunities/${record.id}`)}>
+            详情
+          </a>
+          {url && url.startsWith("http") && (
+            <a href={url} target="_blank" rel="noopener noreferrer" style={{marginLeft: 8}}>
+              <LinkOutlined /> 原文
+            </a>
+          )}
+        </Space>
+      ),
     },
     {
       title: "报名截止日期",
@@ -214,14 +251,14 @@ function OpportunityList() {
       dataIndex: "registration_fee",
       key: "registration_fee",
       width: 85,
-      render: (val) => val ? <Text>¥{val}</Text> : <Text type="secondary">—</Text>,
+      render: (val) => val ? <Text>¥{val}</Text> : <Text>无</Text>,
     },
     {
       title: "保证金",
       dataIndex: "deposit",
       key: "deposit",
       width: 90,
-      render: (val) => val ? <Text>¥{val.toLocaleString()}</Text> : <Text type="secondary">—</Text>,
+      render: (val) => val ? <Text>¥{val.toLocaleString()}</Text> : <Text>无</Text>,
     },
     {
       title: "推荐指数",
@@ -256,6 +293,32 @@ function OpportunityList() {
         />
       ),
     },
+    {
+      title: "关注",
+      dataIndex: "is_favorited",
+      key: "favorite",
+      width: 65,
+      fixed: "right",
+      render: (val, record) => (
+        <Tooltip title={val ? "取消关注" : "添加关注"}>
+          <Button
+            type="text"
+            size="small"
+            icon={val ? <StarFilled style={{ color: "#faad14" }} /> : <StarOutlined />}
+            onClick={async (e) => {
+              e.stopPropagation();
+              try {
+                const result = await toggleFavorite(record.id);
+                message.success(result.message);
+                refetch();
+              } catch {
+                message.error("操作失败");
+              }
+            }}
+          />
+        </Tooltip>
+      ),
+    },
   ], []);
 
   return (
@@ -270,12 +333,26 @@ function OpportunityList() {
         <Col>
           <Space>
             <Button
+              type={showFavorites ? "primary" : "default"}
+              icon={showFavorites ? <StarFilled /> : <StarOutlined />}
+              onClick={() => setShowFavorites(!showFavorites)}
+            >
+              {showFavorites ? "我的收藏" : "仅看收藏"}
+            </Button>
+            <Button
               type="primary"
               icon={<ReloadOutlined />}
               loading={fetchMutation.isLoading}
               onClick={handleRefresh}
             >
               刷新采集
+            </Button>
+            <Button
+              icon={<DollarOutlined />}
+              loading={scraping}
+              onClick={handleScrapeBudget}
+            >
+              {scraping ? (scrapeMsg || "抓取中...") : "刷新预算"}
             </Button>
             <Button icon={<ClearOutlined />} onClick={handleReset}>
               重置筛选
@@ -350,8 +427,8 @@ function OpportunityList() {
 
       {/* 数据表格 */}
       <Card>
-        <Spin spinning={loading}>
-          {data.length === 0 && !loading ? (
+        <Spin spinning={isLoading}>
+          {data.length === 0 && !isLoading ? (
             <Empty description="暂无匹配的招标公告" />
           ) : (
             <Table

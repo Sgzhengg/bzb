@@ -1,0 +1,2282 @@
+{
+   "Variables": {
+      "description": "Nama item menu Variabel",
+      "message": "Variabel"
+   },
+   "aboutSectionTitle": {
+      "description": "Tentang judul bagian",
+      "message": "Tentang N8N Master"
+   },
+   "accountBlocked": {
+      "description": "Judul akun yang diblokir",
+      "message": "Akun Diblokir"
+   },
+   "actions": {
+      "description": "Header kolom tabel untuk aksi",
+      "message": "Aksi"
+   },
+   "activate": {
+      "description": "Tombol Aktifkan",
+      "message": "AKTIFKAN"
+   },
+   "activateButton": {
+      "description": "Aktifkan tombol lisensi",
+      "message": "Aktifkan"
+   },
+   "activateExtension": {
+      "description": "Tombol untuk mengaktifkan ekstensi di halaman n8n",
+      "message": "Aktifkan"
+   },
+   "activating": {
+      "description": "Proses aktivasi",
+      "message": "Mengaktifkan..."
+   },
+   "activationDate": {
+      "description": "Label tanggal aktivasi",
+      "message": "Tanggal Aktivasi:"
+   },
+   "activationFailed": {
+      "description": "Pesan status saat aktivasi gagal",
+      "message": "Aktivasi gagal"
+   },
+   "add": {
+      "description": "Menambahkan teks tombol",
+      "message": "Menambahkan"
+   },
+   "addVariable": {
+      "description": "Tambahkan teks tombol variabel",
+      "message": "+ Tambah"
+   },
+   "addVariableTitle": {
+      "description": "Tambahkan judul modal variabel",
+      "message": "Tambahkan Variabel"
+   },
+   "addWorkflow": {
+      "description": "Tambahkan teks tombol alur kerja",
+      "message": "+ Tambah"
+   },
+   "addedWorkflows": {
+      "description": "Teks penghitung untuk alur kerja yang ditambahkan",
+      "message": "Ditambahkan:"
+   },
+   "aiAgentWithTools": {
+      "description": "Pesan untuk agen AI dengan alat yang terhubung",
+      "message": "Agen AI \"{nodeName}\" dengan alat {toolCount}"
+   },
+   "aiApiKeys": {
+      "description": "Opsi impor kunci API AI",
+      "message": "Kunci API AI"
+   },
+   "aiChatAssistant": {
+      "description": "Nama fitur asisten obrolan AI",
+      "message": "Asisten Obrolan AI"
+   },
+   "aiChatAssistantDesc": {
+      "description": "Deskripsi fitur asisten obrolan AI",
+      "message": "Ajukan pertanyaan tentang alur kerja, dapatkan bantuan dan analisis bertenaga AI"
+   },
+   "aiErrorTrigger": {
+      "description": "Nama pengaturan pemicu kesalahan AI",
+      "message": "Pemicu Kesalahan AI"
+   },
+   "aiErrorTriggerDesc": {
+      "description": "Deskripsi pengaturan pemicu kesalahan AI",
+      "message": "Analisis kesalahan otomatis saat menguji simpul dalam obrolan"
+   },
+   "aiProvider": {
+      "description": "tajuk bagian penyedia AI",
+      "message": "🧠 Penyedia AI"
+   },
+   "aiSectionTitle": {
+      "description": "Judul bagian AI",
+      "message": "Pengaturan AI"
+   },
+   "aiTools": {
+      "description": "Judul Bagian Alat AI",
+      "message": "Alat AI"
+   },
+   "aiToolsDescription": {
+      "description": "Deskripsi bagian Alat AI",
+      "message": "Lebih dari 7.000 alat AI yang dipilih untuk mempercepat dan mengotomatisasi tugas Anda."
+   },
+   "ailexDescription": {
+      "description": "Deskripsi ekstensi AiLex",
+      "message": "Agen AI pribadi Anda di browser. BYOK & Gratis"
+   },
+   "ailexTitle": {
+      "description": "Judul ekstensi AiLex",
+      "message": "AiLex"
+   },
+   "allFeaturesUnlocked": {
+      "description": "Semua fitur tidak terkunci pesan",
+      "message": "Semua fitur premium tidak terkunci"
+   },
+   "allGroups": {
+      "description": "Opsi penyaringan untuk semua grup",
+      "message": "Semua grup"
+   },
+   "allNodesAddedToCanvas": {
+      "description": "Pesan ketika node secara otomatis ditambahkan ke kanvas",
+      "message": "Semua node telah ditambahkan ke kanvas Anda."
+   },
+   "allSites": {
+      "description": "Opsi filter untuk semua situs",
+      "message": "Semua situs"
+   },
+   "allStatuses": {
+      "description": "Opsi filter untuk semua status",
+      "message": "Semua status"
+   },
+   "analyzingCode": {
+      "description": "Menganalisis status kode",
+      "message": "menganalisis kode"
+   },
+   "analyzingWorkflow": {
+      "description": "Pesan saat menganalisis alur kerja",
+      "message": "Menganalisis alur kerja"
+   },
+   "anthropicApiKey": {
+      "description": "Label bidang kunci API Antropik",
+      "message": "Kunci API Antropik"
+   },
+   "api": {
+      "description": "API link text",
+      "message": "API"
+   },
+   "apiKey": {
+      "description": "Label bidang kunci API",
+      "message": "Kunci API:"
+   },
+   "apiKeyError": {
+      "description": "Kesalahan pengujian kunci API",
+      "message": "Kesalahan pengujian kunci API"
+   },
+   "apiKeyFromN8n": {
+      "description": "Teks tautan untuk input kunci API N8N",
+      "message": "Kunci API dari n8n"
+   },
+   "apiKeyInvalid": {
+      "description": "Status kunci API tidak valid",
+      "message": "Kunci API tidak valid"
+   },
+   "apiKeyTesting": {
+      "description": "Proses pengujian kunci API",
+      "message": "Pengujian..."
+   },
+   "apiKeyValid": {
+      "description": "Status kunci API yang valid",
+      "message": "Kunci API valid dan berfungsi!"
+   },
+   "apiKeys": {
+      "description": "Tajuk bagian kunci API",
+      "message": "🔑 Kunci API"
+   },
+   "appDescription": {
+      "description": "Deskripsi aplikasi",
+      "message": "Asisten AI untuk otomatisasi alur kerja n8n. Bekerja dengan instance yang dihosting sendiri, API AI (OpenAI, Anthropic), dan templat"
+   },
+   "appName": {
+      "description": "Nama aplikasi",
+      "message": "N8N Master - Asisten Alur Kerja"
+   },
+   "appTitle": {
+      "description": "Judul aplikasi di header",
+      "message": "N8N Master"
+   },
+   "askN8nMaster": {
+      "description": "Teks tombol Tanyakan N8N Master",
+      "message": "Tanyakan N8N MASTER"
+   },
+   "autoPinAi": {
+      "description": "Nama pengaturan Auto pin AI",
+      "message": "Auto pin AI"
+   },
+   "autoPinAiDesc": {
+      "description": "Deskripsi pengaturan pin AI otomatis",
+      "message": "Respons pin setelah eksekusi Agen AI berhasil"
+   },
+   "autoPinHttp": {
+      "description": "Nama pengaturan pin otomatis HTTP",
+      "message": "Pin otomatis HTTP"
+   },
+   "autoPinHttpDesc": {
+      "description": "Deskripsi pengaturan HTTP pin otomatis",
+      "message": "Respons pin setelah eksekusi Permintaan HTTP berhasil"
+   },
+   "autoPinSuccess": {
+      "description": "Pesan keberhasilan pin otomatis",
+      "message": "Respons $1 disematkan secara otomatis!"
+   },
+   "autoSave": {
+      "description": "Nama pengaturan penyimpanan otomatis",
+      "message": "Simpan Otomatis"
+   },
+   "autoSaveDesc": {
+      "description": "Deskripsi pengaturan penyimpanan otomatis",
+      "message": "Menyimpan alur kerja secara otomatis saat perubahan dilakukan"
+   },
+   "autoSaveDescription": {
+      "description": "Deskripsi opsi penyimpanan alur kerja otomatis",
+      "message": "Menyimpan perubahan alur kerja secara otomatis saat mengedit"
+   },
+   "autoSaveFailed": {
+      "description": "Pesan penyimpanan otomatis gagal",
+      "message": "Penyimpanan otomatis gagal"
+   },
+   "autoSaveOption": {
+      "description": "Label opsi alur kerja penyimpanan otomatis",
+      "message": "Alur kerja penyimpanan otomatis"
+   },
+   "autoSavePin": {
+      "description": "Nama fitur simpan dan pin otomatis",
+      "message": "Simpan Otomatis & Pin Otomatis"
+   },
+   "autoSavePinDesc": {
+      "description": "Deskripsi fitur simpan dan pin otomatis",
+      "message": "Menyimpan alur kerja dan hasil eksekusi pin secara otomatis"
+   },
+   "bestForWorkflowGeneration": {
+      "description": "Teks lencana yang menunjukkan penyedia AI terbaik untuk pembuatan alur kerja",
+      "message": "Terbaik untuk pembuatan alur kerja"
+   },
+   "blockedMessage": {
+      "description": "Pesan akun diblokir",
+      "message": "Upaya perusakan data terdeteksi. Beli lisensi untuk membuka kunci fitur."
+   },
+   "buyKeyButton": {
+      "description": "Tombol Beli kunci lisensi",
+      "message": "Beli Kunci"
+   },
+   "cachedWorkflows": {
+      "description": "Label alur kerja yang di-cache",
+      "message": "Alur kerja yang di-cache:"
+   },
+   "cancel": {
+      "description": "Teks tombol Batal",
+      "message": "Batal"
+   },
+   "cancelButton": {
+      "description": "Teks tombol Batal",
+      "message": "Batal"
+   },
+   "chatAnalyzing": {
+      "description": "Pesan analisis obrolan",
+      "message": "Menganalisis"
+   },
+   "chatAnalyzingError": {
+      "description": "Pesan kesalahan analisis obrolan",
+      "message": "Menganalisis kesalahan"
+   },
+   "chatClearHistory": {
+      "description": "Tooltip tombol hapus riwayat obrolan",
+      "message": "Hapus riwayat obrolan"
+   },
+   "chatFullscreen": {
+      "description": "Tooltip tombol layar penuh Obrolan",
+      "message": "Perluas ke layar penuh"
+   },
+   "chatGenerating": {
+      "description": "Membuat pesan obrolan",
+      "message": "Menghasilkan..."
+   },
+   "chatNotAvailable": {
+      "description": "Obrolan tidak tersedia",
+      "message": "Widget obrolan tidak tersedia. Silakan buka obrolan secara manual terlebih dahulu. Kesalahan"
+   },
+   "chatProcessing": {
+      "description": "Tempat penampung pemrosesan obrolan",
+      "message": "Memproses..."
+   },
+   "chatRequestCancelled": {
+      "description": "Pesan ketika pengguna membatalkan permintaan AI",
+      "message": "🛑 Permintaan dibatalkan oleh pengguna"
+   },
+   "chatThinking": {
+      "description": "Mengobrol pesan berpikir",
+      "message": "Berpikir"
+   },
+   "chatTitle": {
+      "description": "Judul widget obrolan",
+      "message": "N8N Master"
+   },
+   "chatWelcome": {
+      "description": "Pesan selamat datang obrolan baris 1",
+      "message": "Hai, saya adalah asisten N8N Master Anda. Saya dapat membantu Anda menganalisis alur kerja, membuat alur kerja baru, mengoptimalkan petunjuk, dan menjawab pertanyaan tentang pengaturan n8n Anda."
+   },
+   "chatWelcome2": {
+      "description": "Baris pesan selamat datang obrolan 2",
+      "message": "Coba tanyakan: \"Apa yang dilakukan alur kerja ini?\" atau \"Menganalisis node yang dipilih\""
+   },
+   "chatWelcomeHelp": {
+      "description": "Teks bantuan selamat datang di obrolan dengan contoh pertanyaan",
+      "message": "Coba tanyakan: \"Apa yang dilakukan alur kerja ini?\" atau \"Analisis node yang dipilih\""
+   },
+   "checking": {
+      "description": "Memeriksa pesan status",
+      "message": "Memeriksa..."
+   },
+   "chooseColorFor": {
+      "description": "Awalan judul modal pemilih warna (diikuti dengan nama proyek)",
+      "message": "Memilih warna untuk"
+   },
+   "chromeStorageData": {
+      "description": "Tajuk kategori untuk data penyimpanan Chrome",
+      "message": "Data Penyimpanan Chrome"
+   },
+   "chromeWebStore": {
+      "description": "Teks tautan Toko Web Chrome",
+      "message": "Toko Web Chrome"
+   },
+   "clearHistory": {
+      "description": "Tombol untuk menghapus riwayat alur kerja",
+      "message": "Hapus Riwayat"
+   },
+   "clearSearch": {
+      "description": "Keterangan alat untuk tombol hapus pencarian",
+      "message": "Hapus pencarian"
+   },
+   "clickToActivate": {
+      "description": "Pesan badge yang meminta pengguna untuk mengaktifkan",
+      "message": "Klik untuk mengaktifkan ekstensi"
+   },
+   "clickToCopy": {
+      "description": "Keterangan alat untuk item variabel",
+      "message": "Klik untuk menyalin"
+   },
+   "clickToSelectAll": {
+      "description": "Klik untuk memilih semua keterangan alat",
+      "message": "Klik untuk memilih semua"
+   },
+   "close": {
+      "description": "Teks tombol Tutup",
+      "message": "Tutup"
+   },
+   "codeExplanation": {
+      "description": "Tajuk untuk penjelasan kode dalam obrolan",
+      "message": "Penjelasan Kode:"
+   },
+   "commandAddNodes": {
+      "description": "Perintah untuk menambahkan node ke alur kerja",
+      "message": "Menambahkan node yang ditentukan ke alur kerja"
+   },
+   "commandCreateWorkflow": {
+      "description": "Perintah untuk membuat alur kerja baru",
+      "message": "Buat alur kerja baru"
+   },
+   "commandHelp": {
+      "description": "Perintah untuk mendapatkan penjelasan alur kerja",
+      "message": "Jelaskan apa yang dilakukan alur kerja ini"
+   },
+   "commandRemoveNodes": {
+      "description": "Perintah untuk menghapus node",
+      "message": "Menghapus node yang ditentukan"
+   },
+   "commandReplaceNode": {
+      "description": "Perintah untuk mengganti simpul",
+      "message": "Mengganti simpul yang ditentukan"
+   },
+   "commandUpdateNodes": {
+      "description": "Perintah untuk memperbarui pengaturan node",
+      "message": "Perbarui pengaturan node tertentu"
+   },
+   "confirmDeleteApiKey": {
+      "description": "Pesan konfirmasi saat menghapus kunci API untuk sebuah domain",
+      "message": "Apakah Anda yakin ingin menghapus kunci API untuk {domain}?"
+   },
+   "confirmDeleteProject": {
+      "description": "Pesan konfirmasi saat menghapus proyek",
+      "message": "Apakah Anda yakin ingin menghapus proyek \"{nama proyek}\"? Tindakan ini tidak dapat dibatalkan."
+   },
+   "connectAPI": {
+      "description": "Tombol untuk menghubungkan kunci API baru",
+      "message": "Hubungkan API"
+   },
+   "connectN8NAPI": {
+      "description": "Judul modal untuk menghubungkan API N8N baru",
+      "message": "Hubungkan API N8N"
+   },
+   "connections": {
+      "description": "Teks koneksi dalam statistik alur kerja",
+      "message": "koneksi"
+   },
+   "contextMenuAnalyzingCode": {
+      "description": "Teks tindakan menu konteks untuk menganalisis kode",
+      "message": "menganalisis kode"
+   },
+   "contextMenuApiKeyNotConfigured": {
+      "description": "Kesalahan menu konteks ketika kunci API tidak dikonfigurasi",
+      "message": "Kunci API tidak dikonfigurasi. Silakan atur kunci API Anda di pengaturan ekstensi."
+   },
+   "contextMenuApiRequestError": {
+      "description": "Awalan kesalahan menu konteks untuk kesalahan API",
+      "message": "Kesalahan Permintaan API"
+   },
+   "contextMenuCodeExplained": {
+      "description": "Pesan sukses menu konteks untuk penjelasan kode",
+      "message": "Penjelasan kode terkirim ke obrolan!"
+   },
+   "contextMenuCodeGenerated": {
+      "description": "Pesan sukses menu konteks untuk pembuatan kode",
+      "message": "Kode berhasil dibuat dan disisipkan!"
+   },
+   "contextMenuCurlGenerated": {
+      "description": "Pesan keberhasilan menu konteks untuk pembuatan cURL",
+      "message": "cURL dibuat dan berhasil disisipkan!"
+   },
+   "contextMenuCurlSentToChat": {
+      "description": "Pesan sukses menu konteks untuk cURL yang dikirim ke obrolan",
+      "message": "perintah cURL terkirim ke obrolan!"
+   },
+   "contextMenuFixingJson": {
+      "description": "Teks tindakan menu konteks untuk memperbaiki JSON",
+      "message": "memperbaiki JSON"
+   },
+   "contextMenuGeneratingCode": {
+      "description": "Teks tindakan menu konteks untuk menghasilkan kode",
+      "message": "menghasilkan kode"
+   },
+   "contextMenuGeneratingCurl": {
+      "description": "Teks tindakan menu konteks untuk membuat cURL",
+      "message": "membuat permintaan cURL"
+   },
+   "contextMenuGeneratingJson": {
+      "description": "Teks tindakan menu konteks untuk menghasilkan JSON",
+      "message": "membuat struktur JSON"
+   },
+   "contextMenuGeneratingPrompt": {
+      "description": "Teks tindakan menu konteks untuk menghasilkan prompt",
+      "message": "menghasilkan prompt"
+   },
+   "contextMenuJsonFixed": {
+      "description": "Pesan keberhasilan menu konteks untuk perbaikan JSON",
+      "message": "JSON telah diperbaiki dan berhasil disisipkan!"
+   },
+   "contextMenuJsonGenerated": {
+      "description": "Pesan keberhasilan menu konteks untuk pembuatan JSON",
+      "message": "JSON berhasil dibuat dan disisipkan!"
+   },
+   "contextMenuNoTextSelected": {
+      "description": "Kesalahan menu konteks saat tidak ada teks yang dipilih",
+      "message": "Tidak ada teks yang dipilih atau bidang input aktif yang ditemukan."
+   },
+   "contextMenuOperationCompleted": {
+      "description": "Pesan sukses default menu konteks",
+      "message": "Operasi berhasil diselesaikan!"
+   },
+   "contextMenuOptimizingPrompt": {
+      "description": "Teks tindakan menu konteks untuk mengoptimalkan prompt",
+      "message": "mengoptimalkan prompt"
+   },
+   "contextMenuProcessing": {
+      "description": "Teks pemrosesan default menu konteks",
+      "message": "pemrosesan"
+   },
+   "contextMenuPromptGenerated": {
+      "description": "Pesan sukses menu konteks untuk pembuatan prompt",
+      "message": "Prompt dibuat dan berhasil disisipkan!"
+   },
+   "contextMenuPromptOptimized": {
+      "description": "Pesan keberhasilan menu konteks untuk pengoptimalan prompt",
+      "message": "Prompt dioptimalkan dan berhasil disisipkan!"
+   },
+   "contextMenuTools": {
+      "description": "Nama fitur alat menu konteks",
+      "message": "Alat Menu Konteks"
+   },
+   "contextMenuToolsDesc": {
+      "description": "Deskripsi fitur alat menu konteks",
+      "message": "Klik kanan alat untuk pengoptimalan kode, perbaikan JSON, dan lainnya"
+   },
+   "copied": {
+      "description": "Teks tombol yang disalin",
+      "message": "Disalin"
+   },
+   "copy": {
+      "description": "Salin teks tombol",
+      "message": "Salin"
+   },
+   "copyError": {
+      "description": "Pemberitahuan kesalahan penyalinan",
+      "message": "Gagal menyalin"
+   },
+   "copyLink": {
+      "description": "Teks bantuan tombol Salin tautan",
+      "message": "Salin tautan"
+   },
+   "copyNodeFromTemplate": {
+      "description": "Keterangan alat untuk tombol salin simpul",
+      "message": "Salin simpul dari templat"
+   },
+   "copySuccess": {
+      "description": "Pemberitahuan keberhasilan penyalinan",
+      "message": "Disalin ke papan klip"
+   },
+   "copyToClipboard": {
+      "description": "Tombol salin ke papan klip",
+      "message": "📋 Salin ke papan klip"
+   },
+   "copy_json": {
+      "description": "Salin teks tombol JSON",
+      "message": "Salin JSON"
+   },
+   "createWorkflow": {
+      "description": "Tempat penampung masukan obrolan",
+      "message": "Masukkan / untuk memilih perintah"
+   },
+   "creatingCustomWorkflow": {
+      "description": "Pesan yang ditampilkan saat membuat alur kerja khusus",
+      "message": "Membuat alur kerja khusus"
+   },
+   "creatingWorkflow": {
+      "description": "Pesan saat membuat alur kerja",
+      "message": "Membuat alur kerja"
+   },
+   "current": {
+      "description": "Label untuk versi alur kerja saat ini dalam riwayat",
+      "message": "(saat ini)"
+   },
+   "currentlyOpen": {
+      "description": "Teks yang ditampilkan untuk alur kerja yang sedang terbuka",
+      "message": "(saat ini terbuka)"
+   },
+   "dataIntegrityViolated": {
+      "description": "Pesan pelanggaran integritas data",
+      "message": "Integritas data terganggu. Beli lisensi untuk mengaktifkan fitur"
+   },
+   "delete": {
+      "description": "Hapus teks tombol",
+      "message": "Hapus"
+   },
+   "deleteVariable": {
+      "description": "Hapus judul modal variabel",
+      "message": "Hapus Variabel"
+   },
+   "deleteVariableConfirm": {
+      "description": "Pesan konfirmasi penghapusan variabel",
+      "message": "Apakah Anda yakin ingin menghapus variabel ini? Tindakan ini tidak dapat dibatalkan."
+   },
+   "deleteZone": {
+      "description": "Hapus teks zona untuk menyeret alur kerja",
+      "message": "🗑️ Hapus"
+   },
+   "describeWorkflowChanges": {
+      "description": "Tempat penampung untuk menjelaskan perubahan alur kerja",
+      "message": "Jelaskan apa yang perlu diubah dalam alur kerja..."
+   },
+   "deselectAll": {
+      "description": "Tombol untuk membatalkan pilihan semua opsi impor",
+      "message": "Batalkan Semua"
+   },
+   "deviceId": {
+      "description": "Label ID Perangkat",
+      "message": "ID Perangkat:"
+   },
+   "deviceInfo": {
+      "description": "Judul grup info perangkat",
+      "message": "Informasi Perangkat"
+   },
+   "disableButton": {
+      "description": "Tombol untuk menonaktifkan ekstensi di halaman n8n",
+      "message": "Nonaktifkan"
+   },
+   "disconnect": {
+      "description": "Tombol Lepas",
+      "message": "LEPASKAN"
+   },
+   "discountAvailable": {
+      "description": "Pesan pemberitahuan diskon di jendela lisensi",
+      "message": "Anda dapat membeli dengan diskon 50%"
+   },
+   "documentation": {
+      "description": "Tautan dokumentasi",
+      "message": "Dokumentasi"
+   },
+   "domain": {
+      "description": "Judul kolom tabel untuk domain",
+      "message": "Domain"
+   },
+   "done": {
+      "description": "Teks tombol Selesai",
+      "message": "Selesai"
+   },
+   "download": {
+      "description": "Teks tombol unduh",
+      "message": "Unduh"
+   },
+   "downloadingTemplate": {
+      "description": "Mengunduh pesan templat",
+      "message": "Mengunduh templat dari GitHub"
+   },
+   "dragWidget": {
+      "description": "Teks keterangan alat untuk pegangan seret widget",
+      "message": "Seret widget"
+   },
+   "edgeStore": {
+      "description": "Teks tautan Microsoft Edge Store",
+      "message": "Microsoft Edge Store"
+   },
+   "editProjectName": {
+      "description": "Edit judul modal proyek",
+      "message": "Edit Nama Proyek"
+   },
+   "enableHistory": {
+      "description": "Aktifkan nama pengaturan riwayat",
+      "message": "Aktifkan Riwayat"
+   },
+   "enableHistoryDesc": {
+      "description": "Aktifkan deskripsi pengaturan riwayat",
+      "message": "Lacak riwayat alur kerja dan aktifkan tombol riwayat"
+   },
+   "enableStreaming": {
+      "description": "Aktifkan nama pengaturan streaming",
+      "message": "Aktifkan Streaming"
+   },
+   "enableStreamingDesc": {
+      "description": "Mengaktifkan deskripsi pengaturan streaming",
+      "message": "Tanggapan obrolan dialirkan"
+   },
+   "enterLicenseKey": {
+      "description": "Tempat penampung masukan kunci lisensi",
+      "message": "Masukkan kunci lisensi Anda"
+   },
+   "enterProjectName": {
+      "description": "Tempat penampung masukan nama proyek",
+      "message": "Masukkan nama proyek"
+   },
+   "enterVariableName": {
+      "description": "Tempat penampung masukan nama variabel",
+      "message": "Masukkan nama variabel..."
+   },
+   "enterVariableValue": {
+      "description": "Tempat penampung masukan nilai variabel",
+      "message": "Memasukkan nilai variabel..."
+   },
+   "error": {
+      "description": "Pesan kesalahan",
+      "message": "Kesalahan"
+   },
+   "errorAnalysisCurrentNode": {
+      "description": "Judul bagian node saat ini",
+      "message": "**NODE SAAT INI:**"
+   },
+   "errorAnalysisErrorDetails": {
+      "description": "Judul bagian detail kesalahan",
+      "message": "**RINCIAN KESALAHAN:**"
+   },
+   "errorAnalysisInputData": {
+      "description": "Judul bagian data masukan",
+      "message": "**DATA MASUKAN:**"
+   },
+   "errorAnalysisInstructions": {
+      "description": "Petunjuk untuk analisis kesalahan",
+      "message": "Mohon analisis kesalahan ini dan berikan:\n1. Penjelasan akar masalah\n2. Solusi langkah demi langkah\n3. Kiat-kiat pencegahan\n4. Pendekatan alternatif jika ada\n\nFokus pada solusi praktis dan dapat ditindaklanjuti untuk alur kerja n8n."
+   },
+   "errorAnalysisLocation": {
+      "description": "Label untuk lokasi kesalahan",
+      "message": "Lokasi"
+   },
+   "errorAnalysisMessage": {
+      "description": "Label untuk pesan kesalahan",
+      "message": "Pesan"
+   },
+   "errorAnalysisNodeType": {
+      "description": "Label untuk jenis node",
+      "message": "Jenis Node"
+   },
+   "errorAnalysisParameters": {
+      "description": "Label untuk parameter simpul",
+      "message": "Parameter"
+   },
+   "errorAnalysisPromptTitle": {
+      "description": "Judul untuk permintaan analisis kesalahan",
+      "message": "🚨 ** PERMINTAAN ANALISIS KESALAHAN OTOMATIS**"
+   },
+   "errorAnalysisRequest": {
+      "description": "Minta judul bagian",
+      "message": "**PERMINTAAN:**"
+   },
+   "errorAnalysisTotalNodes": {
+      "description": "Label untuk jumlah total node",
+      "message": "Total Node"
+   },
+   "errorAnalysisWorkflowContext": {
+      "description": "Judul bagian konteks alur kerja",
+      "message": "**Konteks alur kerja:**"
+   },
+   "errorAnalysisWorkflowName": {
+      "description": "Label untuk nama alur kerja",
+      "message": "Nama"
+   },
+   "errorConfigureApiKey": {
+      "description": "Pesan kesalahan saat kunci API tidak dikonfigurasi",
+      "message": "Harap konfigurasikan kunci API Anda terlebih dahulu"
+   },
+   "errorDeletingProject": {
+      "description": "Pesan kesalahan saat penghapusan proyek gagal",
+      "message": "Kesalahan menghapus proyek"
+   },
+   "errorFailedToLoadTranslations": {
+      "description": "Pesan kesalahan saat pemuatan terjemahan gagal",
+      "message": "Gagal memuat terjemahan untuk bahasa:"
+   },
+   "errorHttpStatus": {
+      "description": "Awalan pesan kesalahan untuk kesalahan status HTTP",
+      "message": "Kesalahan HTTP! status:"
+   },
+   "errorInvalidIndexedDB": {
+      "description": "Pesan kesalahan saat respons IndexedDB tidak valid",
+      "message": "Respons IndexedDB tidak valid"
+   },
+   "errorLoadingVariables": {
+      "description": "Pesan kesalahan saat variabel gagal dimuat",
+      "message": "Kesalahan memuat variabel"
+   },
+   "errorNoActiveTab": {
+      "description": "Pesan kesalahan saat tidak ditemukan tab aktif",
+      "message": "Tidak ditemukan tab aktif"
+   },
+   "errorNotLikelyN8nPage": {
+      "description": "Pesan kesalahan ketika halaman bukan halaman N8N",
+      "message": "Bukan halaman N8N"
+   },
+   "errorSavingProjectName": {
+      "description": "Pesan kesalahan saat menyimpan nama proyek gagal",
+      "message": "Kesalahan menyimpan nama proyek"
+   },
+   "errorServerValidationFailed": {
+      "description": "Pesan kesalahan saat validasi server gagal",
+      "message": "Validasi server gagal"
+   },
+   "error_loading_template": {
+      "description": "Kesalahan memuat teks template",
+      "message": "Kesalahan memuat template:"
+   },
+   "errorsTodayClickToView": {
+      "description": "Petunjuk tooltip untuk metrik kesalahan hari ini dengan instruksi klik",
+      "message": "Kesalahan hari ini - Klik untuk melihat"
+   },
+   "execTime": {
+      "description": "Kolom header Waktu Eksekusi",
+      "message": "Waktu Eksekusi"
+   },
+   "executionsToday": {
+      "description": "Tooltip untuk metrik eksekusi hari ini",
+      "message": "Eksekusi hari ini"
+   },
+   "explainCode": {
+      "description": "Jelaskan label bidang kode",
+      "message": "Jelaskan Kode:"
+   },
+   "explore": {
+      "description": "Teks tombol Jelajahi",
+      "message": "Jelajahi"
+   },
+   "exportApiKeys": {
+      "description": "Ekspor item kunci API",
+      "message": "Kunci API AI"
+   },
+   "exportButton": {
+      "description": "Teks tombol ekspor",
+      "message": "Pengaturan Ekspor"
+   },
+   "exportDescription": {
+      "description": "Judul deskripsi ekspor",
+      "message": "Konfigurasi Ekspor"
+   },
+   "exportInfo": {
+      "description": "Mengekspor teks informasi",
+      "message": "Mengekspor pengaturan ekstensi, kunci API, dan data Anda ke file JSON. Ini termasuk:"
+   },
+   "exportN8nKey": {
+      "description": "Ekspor item kunci N8N",
+      "message": "Kunci API N8N"
+   },
+   "exportOptions": {
+      "description": "Item opsi ekspor",
+      "message": "Opsi Ekstensi"
+   },
+   "exportProjects": {
+      "description": "Item proyek ekspor",
+      "message": "Proyek Lokal dari IndexedDB"
+   },
+   "exportSectionTitle": {
+      "description": "Judul bagian ekspor",
+      "message": "Pengaturan Ekspor"
+   },
+   "exportSettings": {
+      "description": "Item pengaturan ekspor",
+      "message": "Pengaturan Ekstensi"
+   },
+   "exportTemplates": {
+      "description": "Ekspor item templat",
+      "message": "Templat Keluaran dari IndexedDB"
+   },
+   "extensionIsActive": {
+      "description": "Pesan badge saat extensi aktif",
+      "message": "Extensi aktif"
+   },
+   "extensionOptions": {
+      "description": "Opsi impor opsi ekstensi",
+      "message": "Opsi Ekstensi"
+   },
+   "extensionPage": {
+      "description": "Tautan halaman ekstensi",
+      "message": "Halaman Ekstensi"
+   },
+   "extensionSettings": {
+      "description": "Opsi impor pengaturan ekstensi",
+      "message": "Pengaturan Ekstensi"
+   },
+   "extensionUpdated": {
+      "description": "Peringatan ekstensi diperbarui",
+      "message": "Ekstensi telah diperbarui. Silakan muat ulang halaman untuk melanjutkan penggunaan N8N Master."
+   },
+   "extensionVersion": {
+      "description": "Label versi ekstensi",
+      "message": "Versi Ekstensi:"
+   },
+   "failed": {
+      "description": "Teks tombol gagal",
+      "message": "Gagal"
+   },
+   "failedToAnalyzeWorkflow": {
+      "description": "Pesan kesalahan saat analisis alur kerja gagal",
+      "message": "Gagal menyelesaikan analisis alur kerja"
+   },
+   "failedToAnalyzeWorkflowGeneric": {
+      "description": "Pesan kesalahan umum saat analisis alur kerja gagal",
+      "message": "Gagal menganalisis alur kerja"
+   },
+   "failedToCopyNode": {
+      "description": "Pesan kesalahan saat penyalinan simpul gagal",
+      "message": "Gagal menyalin simpul:"
+   },
+   "failedToCopyToClipboard": {
+      "description": "Pesan kesalahan saat penyalinan ke papan klip gagal",
+      "message": "Gagal menyalin ke papan klip"
+   },
+   "failedToCreateWorkflow": {
+      "description": "Pesan kesalahan saat pembuatan alur kerja gagal",
+      "message": "Gagal menyelesaikan pembuatan alur kerja"
+   },
+   "failedToCreateWorkflowGeneric": {
+      "description": "Pesan kesalahan umum saat pembuatan alur kerja gagal",
+      "message": "Gagal membuat alur kerja"
+   },
+   "failedToDeleteVariable": {
+      "description": "Pesan kesalahan saat penghapusan variabel gagal",
+      "message": "Gagal menghapus variabel:"
+   },
+   "failedToDownloadTemplate": {
+      "description": "Gagal mengunduh pesan templat",
+      "message": "Gagal mengunduh templat"
+   },
+   "failedToLoadNodes": {
+      "description": "Pesan kesalahan saat node gagal dimuat",
+      "message": "Gagal memuat node"
+   },
+   "failedToLoadWorkflows": {
+      "description": "Pesan kesalahan saat memuat alur kerja gagal",
+      "message": "Gagal memuat alur kerja. Silakan periksa kunci API Anda."
+   },
+   "failedToModifyWorkflow": {
+      "description": "Pesan kesalahan saat modifikasi alur kerja gagal",
+      "message": "Gagal menyelesaikan modifikasi alur kerja"
+   },
+   "failedToModifyWorkflowGeneric": {
+      "description": "Pesan kesalahan umum saat modifikasi alur kerja gagal",
+      "message": "Gagal memodifikasi alur kerja"
+   },
+   "failedToSaveVariable": {
+      "description": "Pesan kesalahan saat penyimpanan variabel gagal",
+      "message": "Gagal menyimpan variabel:"
+   },
+   "failedToValidateApiKey": {
+      "description": "Kesalahan validasi kunci API",
+      "message": "Gagal memvalidasi kunci API"
+   },
+   "featureAiChat": {
+      "description": "Judul fitur Obrolan AI",
+      "message": "Asisten Obrolan AI"
+   },
+   "featureAiChatDesc": {
+      "description": "Deskripsi fitur AI Chat",
+      "message": "Dapatkan bantuan untuk membuat alur kerja dengan bantuan bertenaga AI"
+   },
+   "featureAutoSavePin": {
+      "description": "Judul fitur Simpan & Sematkan Otomatis",
+      "message": "Simpan & Sematkan Otomatis"
+   },
+   "featureAutoSavePinDesc": {
+      "description": "Deskripsi fitur Simpan & Sematkan Otomatis",
+      "message": "Penyimpanan alur kerja otomatis dan penyematan eksekusi simpul"
+   },
+   "featureLocalProjects": {
+      "description": "Judul fitur Proyek Lokal",
+      "message": "Proyek Lokal"
+   },
+   "featureLocalProjectsDesc": {
+      "description": "Deskripsi fitur Proyek Lokal",
+      "message": "Mengatur alur kerja di folder proyek khusus"
+   },
+   "featureNodeSelector": {
+      "description": "Judul fitur pemilih simpul",
+      "message": "Pemilih simpul"
+   },
+   "featureNodeSelectorDesc": {
+      "description": "Deskripsi fitur pemilih node",
+      "message": "Menyalin node yang dikonfigurasi dengan cepat dari alur kerja lain"
+   },
+   "featureTemplates": {
+      "description": "Judul fitur templat",
+      "message": "Templat"
+   },
+   "featureTemplatesDesc": {
+      "description": "Deskripsi fitur templat",
+      "message": "Mengakses templat alur kerja yang telah dibuat sebelumnya"
+   },
+   "featureWorkflowHistory": {
+      "description": "Judul fitur Riwayat Alur Kerja",
+      "message": "Riwayat Alur Kerja"
+   },
+   "featureWorkflowHistoryDesc": {
+      "description": "Deskripsi fitur Riwayat Alur Kerja",
+      "message": "Melacak dan memulihkan versi sebelumnya dari alur kerja Anda"
+   },
+   "features": {
+      "description": "Tajuk bagian fitur",
+      "message": "Fitur"
+   },
+   "filters": {
+      "description": "Label bagian filter",
+      "message": "Filter"
+   },
+   "finishWorkflow": {
+      "description": "Pesan saat alur kerja selesai",
+      "message": "✅ Selesaikan alur kerja"
+   },
+   "finished": {
+      "description": "Header kolom Selesai",
+      "message": "Selesai"
+   },
+   "fontDetectorDescription": {
+      "description": "Deskripsi ekstensi FontDetector Pro",
+      "message": "Alat yang sangat diperlukan bagi para desainer untuk mendeteksi dan mengunduh font untuk situs web."
+   },
+   "fontDetectorTitle": {
+      "description": "Judul ekstensi FontDetector Pro",
+      "message": "FontDetector Pro"
+   },
+   "footerText": {
+      "description": "Teks footer dengan petunjuk penggunaan",
+      "message": "Klik kanan pada halaman mana pun untuk mengakses alat bantu N8N Master"
+   },
+   "foundPerfectTemplate": {
+      "description": "Pesan header ketika template yang cocok ditemukan",
+      "message": "Menemukan Templat yang Sempurna!"
+   },
+   "fullyActivated": {
+      "description": "Status diaktifkan sepenuhnya",
+      "message": "✅ Diaktifkan Sepenuhnya"
+   },
+   "generateCode": {
+      "description": "Menghasilkan label bidang kode",
+      "message": "Menghasilkan Kode:"
+   },
+   "generateJSON": {
+      "description": "Menghasilkan label bidang JSON",
+      "message": "Menghasilkan JSON:"
+   },
+   "generatePrompt": {
+      "description": "Menghasilkan label bidang prompt",
+      "message": "Hasilkan Prompt:"
+   },
+   "generateWorkflow": {
+      "description": "Membuat label bidang alur kerja",
+      "message": "Menghasilkan Alur Kerja:"
+   },
+   "generatedCurlCommand": {
+      "description": "Header untuk perintah cURL yang dihasilkan dalam obrolan",
+      "message": "Perintah cURL yang dihasilkan:"
+   },
+   "generatingCode": {
+      "description": "Menghasilkan status kode",
+      "message": "menghasilkan kode"
+   },
+   "generatingCurl": {
+      "description": "Membuat status permintaan cURL",
+      "message": "membuat permintaan cURL"
+   },
+   "generatingCustomWorkflow": {
+      "description": "Membuat pesan alur kerja khusus",
+      "message": "Membuat alur kerja khusus sebagai gantinya..."
+   },
+   "generatingPrompt": {
+      "description": "Menghasilkan status prompt",
+      "message": "menghasilkan prompt"
+   },
+   "gettingStarted": {
+      "description": "Judul bagian Memulai",
+      "message": "🚀 Memulai"
+   },
+   "group": {
+      "description": "Header kolom grup",
+      "message": "Grup"
+   },
+   "hideLinks": {
+      "description": "Toggle teks sembunyikan tautan",
+      "message": "Sembunyikan tautan"
+   },
+   "hostDetected": {
+      "description": "Label host terdeteksi",
+      "message": "Host terdeteksi:"
+   },
+   "howToFindApiKey": {
+      "description": "Judul untuk bagian petunjuk kunci API",
+      "message": "Bagaimana cara menemukan kunci API?"
+   },
+   "importButton": {
+      "description": "Impor teks tombol",
+      "message": "Pengaturan Impor"
+   },
+   "importDescription": {
+      "description": "Impor judul deskripsi",
+      "message": "Konfigurasi Impor"
+   },
+   "importInfo": {
+      "description": "Mengimpor teks informasi",
+      "message": "Mengimpor pengaturan yang diekspor sebelumnya dari file JSON. Impor akan memvalidasi struktur dan memulihkan konfigurasi Anda."
+   },
+   "importSectionTitle": {
+      "description": "Impor judul bagian",
+      "message": "Pengaturan Impor"
+   },
+   "importWarning": {
+      "description": "Pesan peringatan impor",
+      "message": "⚠️ Catatan: Jika lisensi tidak diaktifkan, pengaturan ekstensi tidak akan diimpor."
+   },
+   "incompleteReplacementBlocked": {
+      "description": "Pesan ketika penggantian tidak lengkap diblokir",
+      "message": "Kesalahan: AI melakukan penggantian yang tidak lengkap (hanya penghapusan). Penggantian diblokir."
+   },
+   "incompleteReplacementError": {
+      "description": "Kesalahan saat AI mencoba penggantian node yang tidak lengkap",
+      "message": "Kesalahan: AI mencoba penggantian yang tidak lengkap (hanya penghapusan tanpa penambahan). Silakan coba ulangi permintaan Anda."
+   },
+   "indexedDbData": {
+      "description": "Tajuk kategori untuk data IndexedDB",
+      "message": "Data IndexedDB"
+   },
+   "install": {
+      "description": "Teks tombol instal",
+      "message": "Instal"
+   },
+   "instructionStep1": {
+      "description": "Langkah pertama dalam petunjuk kunci API",
+      "message": "Di sudut kiri sebelah nama Anda, klik pada tiga titik"
+   },
+   "instructionStep2": {
+      "description": "Langkah kedua dalam petunjuk kunci API",
+      "message": "Klik pada Pengaturan, lalu pada n8n API"
+   },
+   "instructionStep3": {
+      "description": "Langkah ketiga dalam petunjuk pembuatan kunci API",
+      "message": "Klik Buat Kunci API"
+   },
+   "instructionStep4": {
+      "description": "",
+      "message": "Tentukan label dan atur periode kedaluwarsa menjadi \"Tanpa kedaluwarsa\" pada langkah keempat dalam petunjuk kunci API."
+   },
+   "instructionStep5": {
+      "description": "Langkah kelima dalam petunjuk kunci API",
+      "message": "Salin kunci yang telah dibuat di sini dan klik Simpan"
+   },
+   "keyFeatures": {
+      "description": "Judul bagian Fitur Utama",
+      "message": "🚀 Fitur Utama"
+   },
+   "lang_en": {
+      "description": "Nama dalam bahasa Inggris",
+      "message": "Bahasa Inggris"
+   },
+   "lang_es": {
+      "description": "Nama bahasa Spanyol",
+      "message": "Español"
+   },
+   "lang_ru": {
+      "description": "Nama bahasa Rusia",
+      "message": "Bahasa Rusia"
+   },
+   "language": {
+      "description": "Label pemilih bahasa",
+      "message": "Bahasa"
+   },
+   "languageSettings": {
+      "description": "Judul grup pengaturan bahasa",
+      "message": "Pengaturan Bahasa"
+   },
+   "leaveReview": {
+      "description": "Tinggalkan ulasan",
+      "message": "Tinggalkan ulasan"
+   },
+   "licenseExpired": {
+      "description": "Pesan lisensi kedaluwarsa",
+      "message": "Lisensi kedaluwarsa. Silakan aktifkan kembali di popup ekstensi."
+   },
+   "licenseInfo": {
+      "description": "Judul grup info lisensi",
+      "message": "Informasi Lisensi"
+   },
+   "licenseKey": {
+      "description": "Label kunci lisensi",
+      "message": "Kunci Lisensi:"
+   },
+   "licenseStatus": {
+      "description": "Label status lisensi",
+      "message": "Status Lisensi:"
+   },
+   "links": {
+      "description": "Tautan judul grup",
+      "message": "Tautan & Dukungan"
+   },
+   "linksWorkflows": {
+      "description": "Label bidang tautan",
+      "message": "Tautan"
+   },
+   "loading": {
+      "description": "Memuat pesan",
+      "message": "Memuat..."
+   },
+   "loadingChangelog": {
+      "description": "Memuat pesan log perubahan",
+      "message": "Memuat log perubahan..."
+   },
+   "loadingExecutions": {
+      "description": "Memuat pesan status untuk eksekusi",
+      "message": "Memuat eksekusi..."
+   },
+   "loadingHistory": {
+      "description": "Memuat pesan untuk riwayat alur kerja",
+      "message": "Memuat riwayat alur kerja..."
+   },
+   "loadingNodes": {
+      "description": "Memuat pesan untuk node",
+      "message": "Memuat node..."
+   },
+   "loadingText": {
+      "description": "Memuat teks",
+      "message": "Memuat..."
+   },
+   "loadingWorkflows": {
+      "description": "Memuat pesan saat mengambil alur kerja",
+      "message": "Memuat alur kerja..."
+   },
+   "loading_template": {
+      "description": "Memuat teks templat",
+      "message": "Memuat template..."
+   },
+   "loading_workflow_preview": {
+      "description": "Memuat teks pratinjau alur kerja",
+      "message": "Memuat pratinjau alur kerja..."
+   },
+   "localChatAddress": {
+      "description": "Label untuk input titik akhir obrolan lokal",
+      "message": "Alamat obrolan lokal:"
+   },
+   "localLLMConfigureInstructions": {
+      "description": "Petunjuk untuk mengonfigurasi titik akhir LLM Lokal",
+      "message": "Konfigurasikan titik akhir di Pengaturan → tab AI"
+   },
+   "localLLMConfigured": {
+      "description": "Pesan status saat LLM Lokal dikonfigurasi",
+      "message": "✅ LM Lokal dikonfigurasi"
+   },
+   "localLLMOption": {
+      "description": "Opsi penyedia LLM lokal dalam popup",
+      "message": "LM Lokal (Model)"
+   },
+   "localLLMSection": {
+      "description": "Tajuk bagian LLM Lokal dalam popup",
+      "message": "Tajuk bagian LM Lokal"
+   },
+   "localLLMsTitle": {
+      "description": "Judul bagian LLM lokal dalam opsi",
+      "message": "LLM lokal"
+   },
+   "localModelsAddress": {
+      "description": "Label untuk input titik akhir model lokal",
+      "message": "Alamat model lokal:"
+   },
+   "localProjects": {
+      "description": "Nama pengaturan proyek lokal",
+      "message": "Proyek lokal"
+   },
+   "localProjectsDesc": {
+      "description": "Deskripsi pengaturan proyek lokal",
+      "message": "Aktifkan folder proyek di kolom kiri"
+   },
+   "localVariables": {
+      "description": "Nama pengaturan variabel lokal",
+      "message": "Variabel lokal"
+   },
+   "localVariablesDesc": {
+      "description": "Deskripsi pengaturan variabel lokal",
+      "message": "Tautan Variabel dalam menu akan memberikan akses ke buku catatan untuk data penting. Tombol pintas: Ctrl+Shift+V"
+   },
+   "mainSectionTitle": {
+      "description": "Judul bagian utama",
+      "message": "Pengaturan Utama"
+   },
+   "menuAI": {
+      "description": "AI menu item",
+      "message": "AI"
+   },
+   "menuAbout": {
+      "description": "Tentang item menu",
+      "message": "Tentang"
+   },
+   "menuExport": {
+      "description": "Ekspor item menu",
+      "message": "Ekspor"
+   },
+   "menuImport": {
+      "description": "",
+      "message": "Impor item menu"
+   },
+   "menuMain": {
+      "description": "Main menu item",
+      "message": "Main"
+   },
+   "menuWorkflowHistory": {
+      "description": "Item menu untuk bagian riwayat alur kerja",
+      "message": "Riwayat Alur Kerja"
+   },
+   "modalSettingsDescription": {
+      "description": "Deskripsi pengaturan modal",
+      "message": "Untuk mengonfigurasi pengaturan N8N Master:"
+   },
+   "modalStep1": {
+      "description": "Teks langkah modal 1",
+      "message": "Klik ikon ekstensi N8N Master di bilah alat peramban Anda"
+   },
+   "modalStep2": {
+      "description": "Teks langkah 2 modal",
+      "message": "Konfigurasikan kunci API Anda dan aktifkan fitur"
+   },
+   "modalStep3": {
+      "description": "Teks langkah 3 modal",
+      "message": "Mulai menggunakan fitur N8N Master"
+   },
+   "modalTipText": {
+      "description": "Teks tip modal",
+      "message": "Jika Anda tidak melihat ikon ekstensi, klik potongan puzzle (🧩) pada toolbar Anda dan sematkan N8N Master."
+   },
+   "modalTipTitle": {
+      "description": "Judul kiat modal",
+      "message": "💡 Kiat:"
+   },
+   "modifyingWorkflow": {
+      "description": "Pesan saat memodifikasi alur kerja",
+      "message": "Memodifikasi alur kerja"
+   },
+   "n8nApiConfiguration": {
+      "description": "Bagian konfigurasi API N8N",
+      "message": "Konfigurasi API N8N"
+   },
+   "n8nApiConfigurationDesc": {
+      "description": "Deskripsi konfigurasi API N8N",
+      "message": "Konfigurasikan kunci API N8N untuk opsi yang dipilih"
+   },
+   "n8nApiKey": {
+      "description": "Label bidang kunci API N8N",
+      "message": "Kunci API N8N"
+   },
+   "n8nApiKeyDescription": {
+      "description": "Deskripsi bidang kunci API N8N",
+      "message": "Kunci API untuk mengakses webhook dan otomatisasi N8N"
+   },
+   "n8nApiKeyNotConfigured": {
+      "description": "Pesan kesalahan saat kunci API N8N tidak dikonfigurasi",
+      "message": "Kunci API N8N tidak dikonfigurasi. Silakan konfigurasikan di pengaturan ekstensi."
+   },
+   "n8nApiKeyPlaceholder": {
+      "description": "Tempat penampung kunci API N8N",
+      "message": "Masukkan kunci API N8N Anda..."
+   },
+   "n8nApiKeyRemoved": {
+      "description": "Pesan kunci API N8N telah dihapus",
+      "message": "Kunci API telah dihapus"
+   },
+   "n8nApiKeyRequired": {
+      "description": "Pesan peringatan ketika kunci API N8N diperlukan",
+      "message": "Kunci API N8N diperlukan untuk"
+   },
+   "n8nApiKeyRequiredMessage": {
+      "description": "Pesan untuk dialog diperlukan kunci API",
+      "message": "Untuk menyalin node dari alur kerja lain, konfigurasikan kunci API N8N Anda di pengaturan ekstensi."
+   },
+   "n8nApiKeyValid": {
+      "description": "Status kunci API N8N yang valid",
+      "message": "Kunci API N8N valid!"
+   },
+   "n8nApiSettings": {
+      "description": "Judul grup pengaturan API N8N",
+      "message": "Pengaturan API N8N"
+   },
+   "n8nApiUrl": {
+      "description": "Label bidang URL API N8N",
+      "message": "URL API N8N:"
+   },
+   "n8nApiUrlDescription": {
+      "description": "Deskripsi bidang URL API N8N",
+      "message": "URL dasar untuk API instance N8N Anda"
+   },
+   "n8nMasterActivated": {
+      "description": "Status setelah aktivasi",
+      "message": "N8N Master diaktifkan (segarkan halaman untuk melihat obrolan)"
+   },
+   "n8nMasterActivatedRefresh": {
+      "description": "Pemberitahuan ketika N8N Master diaktifkan dan penyegaran halaman diperlukan",
+      "message": "N8N Master diaktifkan! Refresh halaman untuk melihat widget obrolan."
+   },
+   "n8nMasterActiveOnPage": {
+      "description": "Pemberitahuan ketika N8N Master diaktifkan di halaman saat ini",
+      "message": "N8N Master sekarang aktif di halaman ini"
+   },
+   "n8nMasterDisconnected": {
+      "description": "Pemberitahuan ketika N8N Master terputus dari halaman saat ini",
+      "message": "N8N Master terputus dari halaman ini"
+   },
+   "n8nMasterIsActive": {
+      "description": "Status saat N8N Master aktif",
+      "message": "N8N Master aktif di halaman ini"
+   },
+   "n8nMasterLocalVariables": {
+      "description": "Tooltip ikon ekstensi untuk variabel lokal",
+      "message": "N8N Master - Variabel Lokal"
+   },
+   "n8nMasterNotWorking": {
+      "description": "Status ketika N8N Master tidak berfungsi",
+      "message": "N8N Master tidak berfungsi di halaman ini"
+   },
+   "n8nMasterProcessing": {
+      "description": "Nama ekstensi untuk memproses pemberitahuan",
+      "message": "N8N Master"
+   },
+   "n8nPageDetectedReady": {
+      "description": "Pesan status saat halaman N8N terdeteksi dan siap diaktifkan",
+      "message": "Halaman N8N terdeteksi - siap diaktifkan"
+   },
+   "n8nWorkflowDetected": {
+      "description": "Status saat halaman alur kerja ditemukan",
+      "message": "Halaman alur kerja N8N terdeteksi - siap untuk diaktifkan"
+   },
+   "newProjectButton": {
+      "description": "Teks tombol tambah proyek baru",
+      "message": "📁 + Tambah proyek"
+   },
+   "next": {
+      "description": "Tombol Halaman Berikutnya",
+      "message": "Selanjutnya"
+   },
+   "noActiveTab": {
+      "description": "Kesalahan saat tidak ada tab aktif",
+      "message": "Tidak ditemukan tab aktif"
+   },
+   "noApiKeyForImport": {
+      "description": "Pesan yang ditampilkan saat tidak ada kunci API yang dikonfigurasi untuk mengimpor alur kerja",
+      "message": "Untuk mengimpor alur kerja dari instance N8N Anda, silakan konfigurasikan kunci API N8N Anda di pengaturan ekstensi."
+   },
+   "noAvailableWorkflows": {
+      "description": "Pesan ketika tidak ada alur kerja yang tersedia untuk ditambahkan",
+      "message": "Tidak ditemukan alur kerja yang tersedia. Semua alur kerja sudah ada di dalam proyek."
+   },
+   "noDomainsConnected": {
+      "description": "Pesan yang ditampilkan saat tidak ada domain yang dikonfigurasi",
+      "message": "Tidak ada domain yang terhubung"
+   },
+   "noGroup": {
+      "description": "Tidak ada tempat penampung grup",
+      "message": "—"
+   },
+   "noHistoryAvailable": {
+      "description": "Pesan ketika alur kerja tidak memiliki riwayat",
+      "message": "Belum ada riwayat yang tersedia"
+   },
+   "noNodesFound": {
+      "description": "Kesalahan tidak ada node yang ditemukan",
+      "message": "Tidak ada node yang ditemukan dalam alur kerja"
+   },
+   "noNodesMatchSearch": {
+      "description": "Pesan ketika tidak ada node yang cocok dengan istilah pencarian",
+      "message": "Tidak ada node yang cocok dengan pencarian"
+   },
+   "noOtherWorkflowsAvailable": {
+      "description": "Pesan ketika tidak ada alur kerja lain yang tersedia",
+      "message": "Tidak ada alur kerja lain yang tersedia.\u003Cbr/>Buat lebih banyak alur kerja untuk menyalin node di antara mereka."
+   },
+   "noTags": {
+      "description": "Tempat penempatan tag",
+      "message": "—"
+   },
+   "noVariablesFound": {
+      "description": "Pesan ketika pencarian tidak memberikan hasil",
+      "message": "Tidak ditemukan variabel yang cocok dengan pencarian Anda."
+   },
+   "noVariablesMatchingSearch": {
+      "description": "Pesan ketika tidak ada variabel yang cocok dengan istilah pencarian",
+      "message": "Tidak ada variabel yang ditemukan yang cocok dengan \"{{searchTerm}}\"."
+   },
+   "noVariablesYet": {
+      "description": "Pesan ketika tidak ada variabel",
+      "message": "Belum ada variabel. Klik \"+ Tambah variabel\" untuk membuat variabel pertama Anda."
+   },
+   "noWorkflowsFound": {
+      "description": "Pesan ketika tidak ada alur kerja yang tersedia",
+      "message": "Tidak ada alur kerja yang ditemukan"
+   },
+   "noWorkflowsMatchSearch": {
+      "description": "Pesan ketika pencarian tidak memberikan hasil",
+      "message": "Tidak ada alur kerja yang cocok dengan pencarian Anda."
+   },
+   "nodeAnalysis": {
+      "description": "Nama fitur analisis simpul",
+      "message": "Analisis Simpul"
+   },
+   "nodeAnalysisDesc": {
+      "description": "Deskripsi fitur analisis node",
+      "message": "Menganalisis node yang dipilih dan mendapatkan wawasan tentang struktur alur kerja"
+   },
+   "nodeCopiedSuccessfully": {
+      "description": "Pesan sukses saat node disalin",
+      "message": "berhasil disalin dan ditambahkan ke alur kerja!"
+   },
+   "nodeCopiedToClipboard": {
+      "description": "Pesan ketika node disalin ke clipboard",
+      "message": "disalin ke clipboard. Gunakan Ctrl+V untuk menempelkan n8n."
+   },
+   "nodeCopy": {
+      "description": "Tombol Salin node",
+      "message": "Salin Node"
+   },
+   "nodeCopySuccess": {
+      "description": "Pesan keberhasilan penyalinan simpul",
+      "message": "Simpul berhasil disalin"
+   },
+   "nodeExecutionSelect": {
+      "description": "Nama pengaturan eksekusi node pilih",
+      "message": "Pilih eksekusi node"
+   },
+   "nodeExecutionSelectDesc": {
+      "description": "Eksekusi node pilih deskripsi pengaturan",
+      "message": "Saat mengedit output node, Anda dapat memilih data dari Eksekusi"
+   },
+   "nodeNameCopiedToClipboard": {
+      "description": "Pesan ketika node tertentu disalin ke clipboard",
+      "message": "Node \"{nodeName}\" disalin ke clipboard. Gunakan Ctrl+V untuk menempelkan di n8n."
+   },
+   "nodePaste": {
+      "description": "Tombol tempelkan simpul",
+      "message": "Tempelkan Simpul"
+   },
+   "nodePasteSuccess": {
+      "description": "Pesan keberhasilan penempelan node",
+      "message": "Node berhasil disisipkan"
+   },
+   "nodeSelector": {
+      "description": "Nama pengaturan pemilih simpul",
+      "message": "Pemilih simpul"
+   },
+   "nodeSelectorDesc": {
+      "description": "Deskripsi pengaturan pemilih node",
+      "message": "Untuk setiap node dengan \"+\", pemilih ditambahkan untuk memilih node dari alur kerja Anda"
+   },
+   "nodes": {
+      "description": "Bentuk jamak dari jumlah node dalam sejarah",
+      "message": "node"
+   },
+   "notN8nPage": {
+      "description": "Pesan badge saat halaman bukan n8n",
+      "message": "Ini bukan halaman n8n"
+   },
+   "notN8nPageError": {
+      "description": "Kesalahan saat halaman bukan N8N",
+      "message": "Ini bukan halaman n8n"
+   },
+   "notificationsDescription": {
+      "description": "Aktifkan deskripsi opsi notifikasi",
+      "message": "Tampilkan notifikasi keberhasilan dan kesalahan"
+   },
+   "notificationsOption": {
+      "description": "Aktifkan label opsi notifikasi",
+      "message": "Aktifkan notifikasi"
+   },
+   "of": {
+      "description": "Label \"dari\" dalam paginasi",
+      "message": "dari"
+   },
+   "openChatFirst": {
+      "description": "Buka pesan obrolan terlebih dahulu",
+      "message": "Buka widget obrolan terlebih dahulu untuk melihat pesan AI."
+   },
+   "openSettings": {
+      "description": "Teks tombol untuk membuka pengaturan",
+      "message": "Buka Pengaturan"
+   },
+   "openSource": {
+      "description": "Judul Bagian Sumber Terbuka",
+      "message": "Sumber Terbuka"
+   },
+   "openSourceDescription": {
+      "description": "Deskripsi bagian Sumber Terbuka",
+      "message": "Lebih dari 7.000 proyek sumber terbuka untuk mengorganisir proyek Anda sendiri berdasarkan solusi siap pakai."
+   },
+   "openaiApiKey": {
+      "description": "Label bidang kunci API OpenAI",
+      "message": "Kunci API OpenAI"
+   },
+   "openrouterApiKey": {
+      "description": "Label bidang kunci API Openrouter",
+      "message": "Kunci API Openrouter"
+   },
+   "optimizePrompt": {
+      "description": "Optimalkan label bidang prompt",
+      "message": "Optimalkan Prompt:"
+   },
+   "optionsPage": {
+      "description": "Teks tautan halaman opsi",
+      "message": "Opsi"
+   },
+   "optionsPageHeader": {
+      "description": "Tajuk halaman opsi",
+      "message": "N8N Master"
+   },
+   "optionsPageTitle": {
+      "description": "Judul halaman opsi",
+      "message": "Pengaturan Utama N8N"
+   },
+   "orText": {
+      "description": "Atau teks pembatas di antara tautan toko",
+      "message": "atau"
+   },
+   "outputTemplates": {
+      "description": "Opsi impor templat keluaran",
+      "message": "Templat Keluaran"
+   },
+   "page": {
+      "description": "Label halaman dalam paginasi",
+      "message": "Halaman"
+   },
+   "pageStatus": {
+      "description": "Tajuk bagian status halaman",
+      "message": "🔍 Status Halaman"
+   },
+   "pinData": {
+      "description": "Pin data modal title",
+      "message": "Pin Data"
+   },
+   "pinned": {
+      "description": "Teks bantuan ikon dijepit",
+      "message": "Dijepit"
+   },
+   "pinnedData": {
+      "description": "Judul Modal Data yang Dipasang",
+      "message": "Data yang Dipasang"
+   },
+   "placeholderExplainCode": {
+      "description": "Tempat penampung untuk menjelaskan area teks kode",
+      "message": "Pesan sistem khusus untuk penjelasan kode..."
+   },
+   "placeholderGenerateCode": {
+      "description": "Tempat penampung untuk menghasilkan area teks kode",
+      "message": "Pesan sistem khusus untuk pembuatan kode..."
+   },
+   "placeholderGenerateJson": {
+      "description": "Tempat penampung untuk menghasilkan area teks JSON",
+      "message": "Pesan sistem khusus untuk pembuatan JSON..."
+   },
+   "placeholderGeneratePrompt": {
+      "description": "Tempat penampung untuk menghasilkan area teks cepat",
+      "message": "Pesan sistem khusus untuk pembuatan prompt..."
+   },
+   "placeholderGenerateWorkflow": {
+      "description": "Tempat penampung untuk menghasilkan area teks alur kerja",
+      "message": "Pesan sistem khusus untuk pembuatan alur kerja..."
+   },
+   "placeholderOptimize": {
+      "description": "Tempat penampung untuk mengoptimalkan area teks cepat",
+      "message": "Pesan sistem khusus untuk pengoptimalan..."
+   },
+   "pleaseEnterApiKey": {
+      "description": "Pesan ketika kunci API tidak dimasukkan",
+      "message": "Masukkan kunci API"
+   },
+   "pleaseEnterN8nApiKey": {
+      "description": "Pesan ketika kunci API N8N tidak dimasukkan",
+      "message": "Masukkan kunci API N8N"
+   },
+   "popupTitle": {
+      "description": "Judul jendela sembulan",
+      "message": "Pengaturan Utama N8N"
+   },
+   "popup_language": {
+      "description": "Label pemilih bahasa dalam popup",
+      "message": "Bahasa"
+   },
+   "popup_settings": {
+      "description": "Judul bagian Pengaturan dalam popup",
+      "message": "⚙️ Pengaturan"
+   },
+   "previous": {
+      "description": "Tombol Halaman Sebelumnya",
+      "message": "Sebelumnya"
+   },
+   "privacyPolicy": {
+      "description": "Teks tautan kebijakan privasi",
+      "message": "Kebijakan Privasi"
+   },
+   "proceedingCustomWorkflow": {
+      "description": "Melanjutkan dengan pesan alur kerja khusus",
+      "message": "Melanjutkan dengan pembuatan alur kerja khusus"
+   },
+   "projectNameAlreadyExists": {
+      "description": "Kesalahan validasi ketika nama proyek sudah ada",
+      "message": "Proyek dengan nama ini sudah ada"
+   },
+   "projectNameCannotBeEmpty": {
+      "description": "Kesalahan validasi saat nama proyek kosong",
+      "message": "Nama proyek tidak boleh kosong"
+   },
+   "projectNamePlaceholder": {
+      "description": "Tempat penampung masukan nama proyek dalam formulir",
+      "message": "Nama proyek..."
+   },
+   "projectsCreate": {
+      "description": "Tombol buat proyek",
+      "message": "Buat Proyek"
+   },
+   "projectsDelete": {
+      "description": "Tombol hapus proyek",
+      "message": "Hapus Proyek"
+   },
+   "projectsExport": {
+      "description": "Tombol ekspor proyek",
+      "message": "Ekspor Proyek"
+   },
+   "projectsImport": {
+      "description": "Tombol impor proyek",
+      "message": "Impor Proyek"
+   },
+   "projectsName": {
+      "description": "Bidang nama proyek",
+      "message": "Nama Proyek"
+   },
+   "purchaseLicenseToUnlock": {
+      "description": "Teks tombol beli lisensi",
+      "message": "Beli lisensi untuk membuka fitur"
+   },
+   "rateUs": {
+      "description": "Teks tautan \"Berikan ulasan\"",
+      "message": "Berikan ulasan"
+   },
+   "refreshHistory": {
+      "description": "Tombol untuk menyegarkan riwayat alur kerja",
+      "message": "Segarkan Riwayat"
+   },
+   "rememberDialog": {
+      "description": "Ingat nama pengaturan dialog",
+      "message": "Ingat Dialog"
+   },
+   "rememberDialogDesc": {
+      "description": "Mengingat deskripsi pengaturan dialog",
+      "message": "Menyimpan dialog obrolan untuk setiap alur kerja"
+   },
+   "requiresN8nApiKey": {
+      "description": "Pesan yang ditampilkan saat kunci API N8N diperlukan untuk suatu fitur",
+      "message": "Untuk mengaktifkan opsi ini, pertama masukkan"
+   },
+   "reset": {
+      "description": "Teks tombol Reset",
+      "message": "Reset"
+   },
+   "resetSuccess": {
+      "description": "Pemberitahuan keberhasilan pengaturan ulang pengaturan",
+      "message": "Pengaturan ulang pengaturan"
+   },
+   "reviewRequestButton": {
+      "description": "Tombol teks untuk permintaan ulasan dalam obrolan",
+      "message": "Tinggalkan ulasan"
+   },
+   "reviewRequestProductHunt": {
+      "description": "Teks untuk permintaan dukungan Perburuan Produk dalam obrolan",
+      "message": "Dan dukung kami di Perburuan Produk"
+   },
+   "reviewRequestProductHuntButton": {
+      "description": "Teks tombol untuk dukungan Perburuan Produk dalam obrolan",
+      "message": "🚀 Perburuan Produk"
+   },
+   "reviewRequestText": {
+      "description": "Teks untuk pesan permintaan ulasan dalam obrolan",
+      "message": "Silakan tinggalkan ulasan tentang kami di Google Web Store"
+   },
+   "reviewRequestTitle": {
+      "description": "Judul untuk pesan permintaan ulasan dalam obrolan",
+      "message": "🌟 Apakah Anda menyukai ekstensi ini?"
+   },
+   "reviewSubtitle": {
+      "description": "Tinjau subtitle blokir",
+      "message": "Tinggalkan ulasan"
+   },
+   "reviewTitle": {
+      "description": "Tinjau judul blok",
+      "message": "Apakah Anda menyukai ekstensi ini? 😊"
+   },
+   "salesPilotDescription": {
+      "description": "Deskripsi ekstensi AI SalesPilot",
+      "message": "Asisten AI untuk menganalisis metrik situs web yang penting untuk promosi SEO."
+   },
+   "salesPilotTitle": {
+      "description": "Judul ekstensi SalesPilot AI",
+      "message": "SalesPilot AI"
+   },
+   "save": {
+      "description": "Teks tombol Simpan",
+      "message": "Simpan"
+   },
+   "saveAllSettings": {
+      "description": "Tombol simpan semua pengaturan",
+      "message": "Simpan Semua Pengaturan"
+   },
+   "saveSuccess": {
+      "description": "Pengaturan menyimpan notifikasi keberhasilan",
+      "message": "Pengaturan tersimpan"
+   },
+   "saving": {
+      "description": "Teks status penyimpanan",
+      "message": "Menyimpan..."
+   },
+   "search": {
+      "description": "Tempat penampung pencarian",
+      "message": "Cari..."
+   },
+   "searchNodes": {
+      "description": "Penampung simpul pencarian",
+      "message": "Simpul pencarian..."
+   },
+   "searchTemplates": {
+      "description": "Cari nama pengaturan templat",
+      "message": "Cari templat"
+   },
+   "searchTemplatesDesc": {
+      "description": "Deskripsi pengaturan templat pencarian",
+      "message": "Saat membuat alur kerja, cari templat yang sudah ada terlebih dahulu"
+   },
+   "searchWorkflows": {
+      "description": "Tempat penampung alur kerja pencarian",
+      "message": "Alur kerja pencarian..."
+   },
+   "searchingTemplates": {
+      "description": "Mencari pesan templat",
+      "message": "Mencari templat yang cocok"
+   },
+   "selectAll": {
+      "description": "Tombol untuk memilih semua opsi impor",
+      "message": "Pilih Semua"
+   },
+   "selectDataToImport": {
+      "description": "Header untuk pemilihan data impor",
+      "message": "Pilih Data untuk Diimpor:"
+   },
+   "selectFile": {
+      "description": "Pilih teks tombol file",
+      "message": "Pilih File JSON"
+   },
+   "selectLanguage": {
+      "description": "Label pemilih bahasa",
+      "message": "Pilih Bahasa:"
+   },
+   "selectModel": {
+      "description": "Label pemilih model",
+      "message": "Pilih Model:"
+   },
+   "selectWorkflowsToAdd": {
+      "description": "Judul modal pemilih alur kerja",
+      "message": "Pilih Alur Kerja yang Akan Ditambah"
+   },
+   "services": {
+      "description": "Layanan",
+      "message": "Layanan"
+   },
+   "settings": {
+      "description": "Tajuk bagian pengaturan",
+      "message": "Pengaturan"
+   },
+   "settingsChanged": {
+      "description": "Pemberitahuan saat pengaturan diubah dan perlu refresh halaman",
+      "message": "Pengaturan telah diubah, silakan refresh halaman!"
+   },
+   "showLinks": {
+      "description": "Toggle teks tautan",
+      "message": "Tampilkan {count} tautan"
+   },
+   "showTemplates": {
+      "description": "Tampilkan nama pengaturan templat",
+      "message": "Tampilkan templat"
+   },
+   "showTemplatesDesc": {
+      "description": "Menampilkan deskripsi pengaturan templat",
+      "message": "Menampilkan menu dengan daftar templat yang akan disalin"
+   },
+   "showTemplatesDescription": {
+      "description": "Menampilkan deskripsi opsi widget templat",
+      "message": "Menampilkan widget templat di antarmuka N8N"
+   },
+   "showTemplatesOption": {
+      "description": "Tampilkan label opsi widget templat",
+      "message": "Tampilkan widget templat"
+   },
+   "socialMedia": {
+      "description": "Tautan media sosial",
+      "message": "Media Sosial"
+   },
+   "status": {
+      "description": "Header kolom tabel untuk status",
+      "message": "Status"
+   },
+   "statusActive": {
+      "description": "Opsi filter status aktif",
+      "message": "Aktif"
+   },
+   "statusInactive": {
+      "description": "Opsi filter status tidak aktif",
+      "message": "Tidak Aktif"
+   },
+   "stepActivateFeatures": {
+      "description": "Judul Langkah 2",
+      "message": "Aktifkan dan aktifkan Fitur"
+   },
+   "stepActivateFeaturesDesc": {
+      "description": "Deskripsi Langkah 2",
+      "message": "Aktifkan fitur yang ingin Anda gunakan dalam pengaturan"
+   },
+   "stepConfigureApi": {
+      "description": "Judul Langkah 1",
+      "message": "Konfigurasi Kunci API"
+   },
+   "stepConfigureApiDesc": {
+      "description": "Deskripsi Langkah 1",
+      "message": "Siapkan kunci API AI Anda (OpenAI, Anthropic, Openrouter) di popup ekstensi"
+   },
+   "stepStartCreating": {
+      "description": "Judul Langkah 3",
+      "message": "Mulai Membuat"
+   },
+   "stepStartCreatingDesc": {
+      "description": "Deskripsi Langkah 3",
+      "message": "Buka n8n dan mulai menggunakan asisten AI dan alat lainnya"
+   },
+   "subscribeYoutubeChannel": {
+      "description": "Berlangganan Saluran Youtube",
+      "message": "Berlangganan Saluran Youtube"
+   },
+   "success": {
+      "description": "Pesan sukses",
+      "message": "Berhasil"
+   },
+   "support": {
+      "description": "Tautan dukungan",
+      "message": "Dukungan"
+   },
+   "systemMessages": {
+      "description": "Judul grup pesan sistem",
+      "message": "Pesan Sistem"
+   },
+   "tabExecutions": {
+      "description": "Judul tab Eksekusi",
+      "message": "Eksekusi"
+   },
+   "tabN8nAPI": {
+      "description": "n8n API tab title",
+      "message": "n8n API"
+   },
+   "tabOptions": {
+      "description": "Judul tab Opsi",
+      "message": "Opsi"
+   },
+   "tabTools": {
+      "description": "Judul tab Alat",
+      "message": "Alat"
+   },
+   "tabWorkflows": {
+      "description": "Judul tab Alur Kerja",
+      "message": "Alur Kerja"
+   },
+   "tags": {
+      "description": "Header kolom Tag",
+      "message": "Tag"
+   },
+   "tamperingDetected": {
+      "description": "Judul untuk notifikasi gangguan data",
+      "message": "Terdeteksi adanya gangguan pada data cache"
+   },
+   "tamperingMessage": {
+      "description": "Pesan tentang konsekuensi gangguan",
+      "message": "Semua data telah dihapus dan pengaturan diatur ulang!"
+   },
+   "templateCopiedSuccess": {
+      "description": "Pemberitahuan keberhasilan penyalinan templat",
+      "message": "Templat telah berhasil disalin ke clipboard. Tekan Ctrl + V untuk menempelkan alur kerja."
+   },
+   "templateDownloadFailed": {
+      "description": "Pesan gagal mengunduh templat",
+      "message": "Gagal mengunduh"
+   },
+   "templateNotFound": {
+      "description": "Pesan saat template tidak ditemukan",
+      "message": "Templat tidak ditemukan, membuat dengan AI..."
+   },
+   "templateProcessingIssue": {
+      "description": "Judul masalah pemrosesan templat",
+      "message": "Masalah Pemrosesan Templat"
+   },
+   "templateProcessingIssueDesc": {
+      "description": "Deskripsi masalah pemrosesan templat",
+      "message": "Tidak dapat secara otomatis mengekstrak JSON alur kerja dari templat ini. Konten templat mungkin perlu diproses secara manual."
+   },
+   "templateSearchDisabled": {
+      "description": "Pesan saat pencarian templat dinonaktifkan",
+      "message": "Pencarian templat dinonaktifkan, membuat dengan AI..."
+   },
+   "templateSelectorNotAvailable": {
+      "description": "Kesalahan pemilih template tidak tersedia",
+      "message": "TemplateSelector tidak tersedia"
+   },
+   "template_preview_title": {
+      "description": "Judul halaman pratinjau templat",
+      "message": "Pratinjau Templat"
+   },
+   "templatesExport": {
+      "description": "Tombol ekspor template",
+      "message": "Ekspor Template"
+   },
+   "templatesImport": {
+      "description": "Tombol impor templat",
+      "message": "Impor Templat"
+   },
+   "templatesLoad": {
+      "description": "Tombol Muat Template",
+      "message": "Muat Template"
+   },
+   "templatesLoading": {
+      "description": "Pesan pemuatan templat",
+      "message": "Memuat templat..."
+   },
+   "templatesSearch": {
+      "description": "Tempat penampung templat pencarian",
+      "message": "Cari templat..."
+   },
+   "templatesSearchTitle": {
+      "description": "Tooltip tombol pencarian templat",
+      "message": "Cari templat"
+   },
+   "templatesTitle": {
+      "description": "Judul widget templat",
+      "message": "Templat"
+   },
+   "testButton": {
+      "description": "Label tombol uji",
+      "message": "Uji"
+   },
+   "testFailed": {
+      "description": "Pesan kegagalan tes",
+      "message": "Tes gagal"
+   },
+   "testKey": {
+      "description": "Label tombol uji",
+      "message": "Uji"
+   },
+   "testSuccess": {
+      "description": "Pesan keberhasilan tes",
+      "message": "Tes berhasil diselesaikan"
+   },
+   "testingApiKey": {
+      "description": "Proses pengujian kunci API",
+      "message": "Menguji kunci API..."
+   },
+   "testingN8nApiKey": {
+      "description": "Proses pengujian kunci API N8N",
+      "message": "Menguji kunci API N8N..."
+   },
+   "timeEnd": {
+      "description": "Judul kolom Akhir Waktu",
+      "message": "Akhir Waktu"
+   },
+   "timeFrom": {
+      "description": "Tempat penempatan filter Waktu Dari",
+      "message": "Waktu Dari"
+   },
+   "timeStart": {
+      "description": "Kolom Header Waktu Mulai",
+      "message": "Waktu Mulai"
+   },
+   "timeTo": {
+      "description": "Waktu Untuk filter placeholder",
+      "message": "Waktu Untuk"
+   },
+   "toDisplayExecutionsList": {
+      "description": "Pesan keadaan kosong untuk eksekusi",
+      "message": "Untuk menampilkan daftar eksekusi alur kerja Anda, hubungkan ke"
+   },
+   "toDisplayWorkflowsList": {
+      "description": "Pesan untuk status alur kerja kosong",
+      "message": "Untuk menampilkan daftar alur kerja Anda, hubungkan ke"
+   },
+   "totalWorkflows": {
+      "description": "Petunjuk untuk metrik total alur kerja",
+      "message": "Total alur kerja"
+   },
+   "trialExpired": {
+      "description": "Judul untuk pemberitahuan uji coba berakhir",
+      "message": "Masa uji coba telah berakhir"
+   },
+   "trialExpiredDesc": {
+      "description": "Deskripsi uji coba yang kedaluwarsa",
+      "message": "Beli lisensi untuk membuka kunci fitur"
+   },
+   "trialPeriodActive": {
+      "description": "Pesan tentang masa uji coba aktif",
+      "message": "Anda memiliki {hari} hari untuk menguji fitur"
+   },
+   "trialPeriodDesc": {
+      "description": "Deskripsi masa percobaan",
+      "message": "Setelah itu, Anda perlu membeli lisensi"
+   },
+   "tryOtherTopTools": {
+      "description": "Tajuk bagian untuk promosi ekstensi lainnya",
+      "message": "🚀 Coba alat bantu utama lainnya"
+   },
+   "tutorialVideoDesc": {
+      "description": "Deskripsi video tutorial",
+      "message": "Pelajari cara menggunakan semua fitur N8N Master dalam tutorial komprehensif ini"
+   },
+   "unableToCheck": {
+      "description": "Kesalahan saat memeriksa status gagal",
+      "message": "Tidak dapat memeriksa status halaman"
+   },
+   "unlockFullPower": {
+      "description": "Buka kunci teks tombol daya penuh",
+      "message": "⚡ Buka Kunci Daya Penuh"
+   },
+   "unlockFullPowerSubtitle": {
+      "description": "Buka kunci subtitle modal",
+      "message": "Masukkan kunci lisensi Anda untuk mengaktifkan semua fitur"
+   },
+   "unlockFullPowerTitle": {
+      "description": "Buka kunci judul modal",
+      "message": "Buka Kunci Daya Penuh"
+   },
+   "userAccount": {
+      "description": "Tautan teks akun pengguna",
+      "message": "Akun Nitiweb - Mengelola kunci Anda"
+   },
+   "variableCopiedToClipboard": {
+      "description": "Pesan sukses saat variabel disalin ke papan klip",
+      "message": "Parameter disalin ke clipboard. Tekan Ctrl + V untuk menempelkannya ke lokasi yang diinginkan."
+   },
+   "variableDeletedSuccessfully": {
+      "description": "Pesan sukses saat variabel dihapus",
+      "message": "Variabel berhasil dihapus!"
+   },
+   "variableName": {
+      "description": "Label nama variabel",
+      "message": "Nama"
+   },
+   "variableSavedSuccessfully": {
+      "description": "Pesan sukses saat variabel disimpan",
+      "message": "Variabel berhasil disimpan!"
+   },
+   "variableValue": {
+      "description": "Label nilai variabel",
+      "message": "Nilai"
+   },
+   "watchFullTutorial": {
+      "description": "Judul bagian Tonton Tutorial Lengkap",
+      "message": "🎥 Tonton Tutorial Lengkap"
+   },
+   "watchTutorial": {
+      "description": "Menonton teks tautan tutorial",
+      "message": "Menonton tutorial"
+   },
+   "welcomeGotIt": {
+      "description": "Halaman selamat datang mendapatkan tombolnya",
+      "message": "Mengerti, terima kasih!"
+   },
+   "welcomeMessage": {
+      "description": "Pesan halaman selamat datang",
+      "message": "Terima kasih telah menginstal N8N Master. Inilah yang baru dalam versi ini:"
+   },
+   "welcomeOpenSettings": {
+      "description": "Tombol pengaturan terbuka halaman selamat datang",
+      "message": "Buka Pengaturan"
+   },
+   "welcomeSubtitle": {
+      "description": "Subjudul halaman selamat datang",
+      "message": "Pendamping produktivitas Anda untuk alur kerja n8n"
+   },
+   "welcomeTitle": {
+      "description": "Judul halaman selamat datang",
+      "message": "🎉 Selamat datang di N8N Master!"
+   },
+   "welcomeWatchTutorial": {
+      "description": "Tombol menonton tutorial halaman selamat datang",
+      "message": "Menonton tutorial"
+   },
+   "welcome_got_it": {
+      "description": "Halaman selamat datang mendapatkan tombolnya",
+      "message": "Mengerti, terima kasih!"
+   },
+   "welcome_message": {
+      "description": "Pesan utama halaman selamat datang",
+      "message": "Terima kasih telah menginstal N8N Master. Inilah yang baru dalam versi ini:"
+   },
+   "welcome_open_settings": {
+      "description": "Tombol pengaturan terbuka halaman selamat datang",
+      "message": "Buka Opsi"
+   },
+   "welcome_subtitle": {
+      "description": "Subjudul halaman selamat datang",
+      "message": "Asisten Alur Kerja"
+   },
+   "welcome_title": {
+      "description": "Judul utama halaman selamat datang",
+      "message": "🎉 Selamat datang di N8N Master!"
+   },
+   "welcome_watch_tutorial": {
+      "description": "Tombol menonton tutorial halaman selamat datang",
+      "message": "Menonton tutorial"
+   },
+   "whatsNew": {
+      "description": "Judul bagian Apa yang Baru",
+      "message": "✨ Apa yang Baru"
+   },
+   "wizardDailyLimitReached": {
+      "description": "Pesan yang ditampilkan ketika batas penggunaan wizard harian tercapai",
+      "message": "🚫 Anda telah menggunakan batas 10 permintaan per hari ke AI. Anda dapat melanjutkannya lagi besok atau membeli lisensi untuk menghapus batas tersebut."
+   },
+   "workflow": {
+      "description": "Bentuk tunggal dari alur kerja",
+      "message": "alur kerja"
+   },
+   "workflowAddedToProject": {
+      "description": "Pesan sukses ketika alur kerja ditambahkan ke proyek",
+      "message": "ditambahkan ke proyek"
+   },
+   "workflowAlreadyExists": {
+      "description": "Pesan kesalahan ketika alur kerja sudah ada di proyek",
+      "message": "Alur kerja sudah ada di proyek ini."
+   },
+   "workflowCopiedSuccess": {
+      "description": "Pesan keberhasilan penyalinan alur kerja",
+      "message": "Alur kerja disalin ke clipboard ($1 node). Gunakan Ctrl+V untuk menempelkan di n8n."
+   },
+   "workflowCreatedOnCanvas": {
+      "description": "Pesan saat alur kerja dibuat di atas kanvas",
+      "message": "Alur kerja berhasil dibuat di atas kanvas!"
+   },
+   "workflowCreatedSuccess": {
+      "description": "Pesan saat alur kerja berhasil dibuat",
+      "message": "Alur kerja berhasil dibuat!"
+   },
+   "workflowCreatedSuccessfully": {
+      "description": "Pesan sukses saat alur kerja dibuat",
+      "message": "Alur kerja berhasil dibuat!"
+   },
+   "workflowExecution": {
+      "description": "Nama pengaturan eksekusi alur kerja",
+      "message": "Eksekusi Alur Kerja"
+   },
+   "workflowExecutionDesc": {
+      "description": "Deskripsi pengaturan eksekusi alur kerja",
+      "message": "Menyalin data dengan cepat dari log eksekusi"
+   },
+   "workflowExecutions": {
+      "description": "Judul tab Eksekusi",
+      "message": "Eksekusi alur kerja"
+   },
+   "workflowGeneration": {
+      "description": "Nama fitur pembuatan alur kerja",
+      "message": "Pembuatan Alur Kerja"
+   },
+   "workflowGenerationDesc": {
+      "description": "Deskripsi fitur pembuatan alur kerja",
+      "message": "Buat alur kerja n8n lengkap dari deskripsi bahasa alami"
+   },
+   "workflowHistory": {
+      "description": "Nama fitur riwayat alur kerja",
+      "message": "Riwayat Alur Kerja"
+   },
+   "workflowHistoryDesc": {
+      "description": "Deskripsi fitur riwayat alur kerja",
+      "message": "Melacak dan memulihkan versi alur kerja sebelumnya dengan stempel waktu"
+   },
+   "workflowHistoryDescription": {
+      "description": "Subtitle untuk bagian riwayat alur kerja",
+      "message": "Semua Versi Alur Kerja"
+   },
+   "workflowHistoryInfo": {
+      "description": "Teks deskripsi untuk bagian riwayat alur kerja",
+      "message": "Melihat dan menyalin semua versi alur kerja dari riwayat. Ini termasuk semua versi yang disimpan di semua alur kerja."
+   },
+   "workflowHistoryLoadFailed": {
+      "description": "Pesan gagal memuat riwayat alur kerja",
+      "message": "Gagal memuat riwayat alur kerja"
+   },
+   "workflowHistorySectionTitle": {
+      "description": "Judul untuk bagian riwayat alur kerja",
+      "message": "Riwayat Alur Kerja"
+   },
+   "workflowIdNotFound": {
+      "description": "Kesalahan ID alur kerja tidak ditemukan",
+      "message": "Tidak dapat menentukan ID alur kerja"
+   },
+   "workflowImportedSuccess": {
+      "description": "Pesan keberhasilan impor alur kerja",
+      "message": "Alur kerja berhasil diimpor! ($ 1 node)"
+   },
+   "workflowInsertError": {
+      "description": "Pesan kesalahan penyisipan alur kerja",
+      "message": "Kesalahan memasukkan alur kerja"
+   },
+   "workflowInsertFailed": {
+      "description": "Pesan kegagalan penyisipan alur kerja",
+      "message": "Gagal memasukkan alur kerja secara otomatis. Silakan coba pembuatan manual."
+   },
+   "workflowInsertedSuccess": {
+      "description": "Pesan keberhasilan penyisipan alur kerja",
+      "message": "Alur kerja berhasil disisipkan!"
+   },
+   "workflowModifiedSuccess": {
+      "description": "Pesan saat alur kerja berhasil dimodifikasi",
+      "message": "Alur kerja berhasil dimodifikasi"
+   },
+   "workflowRestoreFailed": {
+      "description": "Pesan pemulihan alur kerja gagal",
+      "message": "Gagal memulihkan alur kerja dari riwayat"
+   },
+   "workflowWizardFinished": {
+      "description": "Pesan saat mode pembuatan alur kerja selesai",
+      "message": "Mode pembuatan alur kerja selesai. Anda sekarang dapat mengajukan pertanyaan biasa."
+   },
+   "workflows": {
+      "description": "Bentuk jamak dari alur kerja",
+      "message": "alur kerja"
+   },
+   "yourConnectedDomains": {
+      "description": "Judul untuk bagian domain yang terhubung",
+      "message": "Domain yang terhubung"
+   },
+   "yourWorkflowsFromConnectedApis": {
+      "description": "Judul untuk bagian alur kerja",
+      "message": "Alur kerja Anda dari API yang terhubung"
+   }
+}

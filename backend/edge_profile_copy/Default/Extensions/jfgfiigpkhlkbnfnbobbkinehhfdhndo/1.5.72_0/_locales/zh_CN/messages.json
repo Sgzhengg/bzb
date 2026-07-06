@@ -1,0 +1,26 @@
+{
+   "contextCustom": {
+      "message": "自定义"
+   },
+   "contextExplain": {
+      "message": "解释"
+   },
+   "contextRephrase": {
+      "message": "改述"
+   },
+   "contextSummarize": {
+      "message": "总结"
+   },
+   "contextTranslate": {
+      "message": "翻译"
+   },
+   "extDescription": {
+      "message": "使用本地运行的 AI 模型来辅助您的网络浏览。"
+   },
+   "extName": {
+      "message": "Page Assist - 本地 AI 模型的 Web UI"
+   },
+   "openSidePanelToChat": {
+      "message": "打开侧边栏进行对话"
+   }
+}

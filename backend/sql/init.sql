@@ -120,6 +120,7 @@ CREATE TABLE historical_awards (
     contract_end        DATE,                                         -- 合同结束日期
     is_continuous       BOOLEAN         NOT NULL DEFAULT FALSE,       -- 是否连续中标
     continuous_count    INTEGER         DEFAULT 0,                    -- 连续中标次数
+    source_url          VARCHAR(1000)   DEFAULT '',                   -- 中标公告原始链接
     created_at          TIMESTAMP       NOT NULL DEFAULT NOW(),
     updated_at          TIMESTAMP       NOT NULL DEFAULT NOW(),
 

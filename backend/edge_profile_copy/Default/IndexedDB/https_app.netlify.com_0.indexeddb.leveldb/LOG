@@ -1,0 +1,42 @@
+2025/12/17-16:30:55.032 49bc Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_app.netlify.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/12/17-16:30:55.033 49bc Recovering log #58
+2025/12/17-16:30:55.034 49bc Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_app.netlify.com_0.indexeddb.leveldb/000058.log 
+2025/12/17-16:31:04.371 49bc Compacting 1@1 + 1@2 files
+2025/12/17-16:31:04.378 49bc Generated table #61@1: 312 keys, 67789 bytes
+2025/12/17-16:31:04.378 49bc Compacted 1@1 + 1@2 files => 67789 bytes
+2025/12/17-16:31:04.379 49bc compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/12/17-16:31:04.379 49bc Delete type=2 #57
+2025/12/17-16:31:04.379 49bc Delete type=2 #59
+2025/12/17-16:31:07.784 49c8 Level-0 table #63: started
+2025/12/17-16:31:07.790 49c8 Level-0 table #63: 209934 bytes OK
+2025/12/17-16:31:07.792 49c8 Delete type=0 #58
+2025/12/17-16:31:07.792 49b4 Manual compaction at level-0 from '\x00\x16\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x17\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/12/17-16:31:07.793 49f0 Level-0 table #65: started
+2025/12/17-16:31:07.795 49f0 Level-0 table #65: 578 bytes OK
+2025/12/17-16:31:07.796 49f0 Delete type=0 #62
+2025/12/17-16:31:07.796 49b4 Manual compaction at level-0 from '\x00\x17\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x18\x00\x00\x00' @ 0 : 0; will stop at '\x00\x17\x00\x00\x05' @ 26286 : 1
+2025/12/17-16:31:07.796 49b4 Compacting 1@0 + 1@1 files
+2025/12/17-16:31:07.798 49b4 Generated table #66@0: 452 keys, 8417 bytes
+2025/12/17-16:31:07.798 49b4 Compacted 1@0 + 1@1 files => 8417 bytes
+2025/12/17-16:31:07.798 49b4 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/12/17-16:31:07.799 49b4 Delete type=2 #65
+2025/12/17-16:31:07.799 49b4 Manual compaction at level-0 from '\x00\x17\x00\x00\x05' @ 26286 : 1 .. '\x00\x18\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/12/17-16:31:27.470 49bc Compacting 1@1 + 1@2 files
+2025/12/17-16:31:27.477 49bc Generated table #67@1: 318 keys, 8965 bytes
+2025/12/17-16:31:27.477 49bc Compacted 1@1 + 1@2 files => 8965 bytes
+2025/12/17-16:31:27.478 49bc compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/12/17-16:31:27.478 49bc Delete type=2 #61
+2025/12/17-16:31:27.478 49bc Delete type=2 #63
+2025/12/17-16:31:27.478 49bc Delete type=2 #66
+2025/12/17-17:30:04.032 49c8 Level-0 table #69: started
+2025/12/17-17:30:04.037 49c8 Level-0 table #69: 432545 bytes OK
+2025/12/17-17:30:04.038 49c8 Delete type=0 #64
+2025/12/17-17:30:04.039 49c8 Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2025/12/17-17:30:04.039 49c8 Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x0d\x01\x02\x03\x00\xf0\xa1\xf3\xb6\xb2yB' @ 26700 : 1
+2025/12/17-17:30:04.039 49c8 Compacting 1@1 + 1@2 files
+2025/12/17-17:30:04.042 49c8 Generated table #70@1: 332 keys, 10052 bytes
+2025/12/17-17:30:04.042 49c8 Compacted 1@1 + 1@2 files => 10052 bytes
+2025/12/17-17:30:04.043 49c8 compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/12/17-17:30:04.043 49c8 Delete type=2 #67
+2025/12/17-17:30:04.043 49c8 Delete type=2 #69
+2025/12/17-17:30:04.043 49c8 Manual compaction at level-1 from '\x00\x0d\x01\x02\x03\x00\xf0\xa1\xf3\xb6\xb2yB' @ 26700 : 1 .. (end); will stop at (end)

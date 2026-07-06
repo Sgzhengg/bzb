@@ -1,0 +1,7 @@
+2026/05/09-17:06:31.639 1968 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_bailian.console.aliyun.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/05/09-17:06:31.639 1968 Recovering log #3
+2026/05/09-17:06:31.643 1968 Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_bailian.console.aliyun.com_0.indexeddb.leveldb/000003.log 
+2026/05/09-17:58:48.248 3280 Level-0 table #5: started
+2026/05/09-17:58:48.257 3280 Level-0 table #5: 206493 bytes OK
+2026/05/09-17:58:48.260 3280 Delete type=0 #3
+2026/05/09-17:58:48.261 3280 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

@@ -31,6 +31,7 @@ class HistoricalAward(Base):
     contract_end = Column(Date, nullable=True, comment="合同结束日期")
     is_continuous = Column(Boolean, nullable=False, default=False, comment="是否连续中标")
     continuous_count = Column(Integer, default=0, comment="连续中标次数")
+    source_url = Column(String(1000), default="", comment="中标公告原始链接")
     created_at = Column(DateTime, server_default=func.now(), nullable=False)
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
@@ -59,6 +60,7 @@ class HistoricalAward(Base):
             "contract_end": self.contract_end.isoformat() if self.contract_end else None,
             "is_continuous": self.is_continuous,
             "continuous_count": self.continuous_count,
+            "source_url": self.source_url or "",
         }
 
     def __repr__(self):

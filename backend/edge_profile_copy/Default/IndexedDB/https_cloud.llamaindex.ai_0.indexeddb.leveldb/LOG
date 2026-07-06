@@ -1,0 +1,13 @@
+2026/01/05-11:31:24.363 3d8c Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_cloud.llamaindex.ai_0.indexeddb.leveldb/MANIFEST-000001
+2026/01/05-11:31:24.364 3d8c Recovering log #4
+2026/01/05-11:31:24.364 3d8c Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_cloud.llamaindex.ai_0.indexeddb.leveldb/000004.log 
+2026/01/05-11:31:24.381 7520 Level-0 table #8: started
+2026/01/05-11:31:24.384 7520 Level-0 table #8: 2103 bytes OK
+2026/01/05-11:31:24.385 7520 Delete type=0 #4
+2026/01/05-11:31:24.385 77d8 Manual compaction at level-0 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/01/05-11:32:50.654 3d8c Compacting 1@1 + 1@2 files
+2026/01/05-11:32:50.660 3d8c Generated table #9@1: 39 keys, 1190 bytes
+2026/01/05-11:32:50.660 3d8c Compacted 1@1 + 1@2 files => 1190 bytes
+2026/01/05-11:32:50.663 3d8c compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/01/05-11:32:50.664 3d8c Delete type=2 #5
+2026/01/05-11:32:50.664 3d8c Delete type=2 #8

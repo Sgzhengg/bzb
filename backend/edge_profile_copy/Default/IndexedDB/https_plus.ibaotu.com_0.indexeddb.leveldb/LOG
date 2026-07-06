@@ -1,0 +1,18 @@
+2025/12/31-11:21:59.165 6ec8 Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_plus.ibaotu.com_0.indexeddb.leveldb since it was missing.
+2025/12/31-11:21:59.169 6ec8 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_plus.ibaotu.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/12/31-11:21:59.187 31e8 Level-0 table #5: started
+2025/12/31-11:21:59.190 31e8 Level-0 table #5: 1087 bytes OK
+2025/12/31-11:21:59.192 31e8 Delete type=0 #3
+2025/12/31-11:21:59.192 4e14 Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/12/31-11:22:01.205 6ec8 Level-0 table #7: started
+2025/12/31-11:22:01.207 6ec8 Level-0 table #7: 242 bytes OK
+2025/12/31-11:22:01.210 6ec8 Delete type=0 #4
+2025/12/31-11:22:01.210 6ec8 Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2025/12/31-11:22:01.210 6ec8 Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x00\x00\x002\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00' @ 66 : 0
+2025/12/31-11:22:01.210 6ec8 Compacting 1@1 + 1@2 files
+2025/12/31-11:22:01.212 6ec8 Generated table #8@1: 5 keys, 237 bytes
+2025/12/31-11:22:01.213 6ec8 Compacted 1@1 + 1@2 files => 237 bytes
+2025/12/31-11:22:01.214 6ec8 compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/12/31-11:22:01.214 6ec8 Delete type=2 #5
+2025/12/31-11:22:01.214 6ec8 Delete type=2 #7
+2025/12/31-11:22:01.215 6ec8 Manual compaction at level-1 from '\x00\x00\x00\x002\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00' @ 66 : 0 .. (end); will stop at (end)

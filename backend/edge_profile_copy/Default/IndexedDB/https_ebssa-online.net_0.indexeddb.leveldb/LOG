@@ -1,0 +1,6 @@
+2026/01/16-16:31:59.980 178c Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_ebssa-online.net_0.indexeddb.leveldb since it was missing.
+2026/01/16-16:31:59.983 178c Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_ebssa-online.net_0.indexeddb.leveldb/MANIFEST-000001
+2026/01/16-16:32:23.624 419c Level-0 table #5: started
+2026/01/16-16:32:23.625 419c Level-0 table #5: 11785 bytes OK
+2026/01/16-16:32:23.627 419c Delete type=0 #3
+2026/01/16-16:32:23.627 419c Manual compaction at level-0 from (begin) .. (end); will stop at (end)

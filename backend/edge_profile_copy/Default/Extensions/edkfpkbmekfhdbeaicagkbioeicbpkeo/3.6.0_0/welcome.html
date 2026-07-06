@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N8N Master - What's New</title>
+    <link rel="stylesheet" href="welcome.css">
+    <script src="modules/i18n-manager.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo-section">
+                <img src="icons/icon128.png" alt="N8N Master" class="logo">
+                <div class="title-section">
+                    <h1>N8N Master</h1>
+                    <p class="subtitle" data-i18n="welcome_subtitle">Workflow Assistant</p>
+                </div>
+            </div>
+            <div class="version-info">
+                <span class="version-badge" id="currentVersion">Loading...</span>
+                <span class="update-date" id="updateDate">Updated: August 27, 2025</span>
+            </div>
+        </header>
+
+        <!-- Welcome Message -->
+        <section class="welcome-section">
+            <h2 id="welcomeTitle" data-i18n="welcome_title">🎉 Welcome to N8N Master!</h2>
+            <p id="welcomeMessage" data-i18n="welcome_message">Thank you for installing N8N Master. Here's what's new in this version:</p>
+        </section>
+
+        <!-- What's New Section -->
+        <section class="whats-new">
+            <h3 data-i18n="whatsNew">✨ What's New</h3>
+            <div id="changelogContent" class="changelog-content">
+                <!-- Content will be loaded dynamically -->
+                <div class="loading" data-i18n="loadingChangelog">Loading changelog...</div>
+            </div>
+        </section>
+
+        <!-- Tutorial Video Section (for first install) -->
+        <section class="tutorial-video" id="tutorialVideo" style="display: none;">
+            <h3 data-i18n="watchFullTutorial">🎥 Watch Full Tutorial</h3>
+            <div class="video-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/q0ms5ygtW0c?si=d1D-AnLtu35x03C9"
+                    title="N8N Master Tutorial"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <p class="video-description" data-i18n="tutorialVideoDesc">Learn how to use all N8N Master features in this comprehensive tutorial</p>
+        </section>
+
+        <!-- Features Overview (for first install) -->
+        <section class="features-overview" id="featuresOverview" style="display: none;">
+            <h3 data-i18n="keyFeatures">🚀 Key Features</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h4 data-i18n="featureAiChat">AI Chat Assistant</h4>
+                    <p data-i18n="featureAiChatDesc">Get help creating workflows with AI-powered assistance</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <h4 data-i18n="featureLocalProjects">Local Projects</h4>
+                    <p data-i18n="featureLocalProjectsDesc">Organize workflows in custom project folders</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h4 data-i18n="featureWorkflowHistory">Workflow History</h4>
+                    <p data-i18n="featureWorkflowHistoryDesc">Track and restore previous versions of your workflows</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h4 data-i18n="featureAutoSavePin">Auto Save & Pin</h4>
+                    <p data-i18n="featureAutoSavePinDesc">Automatic workflow saving and node execution pinning</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h4 data-i18n="featureTemplates">Templates</h4>
+                    <p data-i18n="featureTemplatesDesc">Access pre-built workflow templates</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h4 data-i18n="featureNodeSelector">Node selector</h4>
+                    <p data-i18n="featureNodeSelectorDesc">Quickly copy configured nodes from other workflows</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Getting Started -->
+        <section class="getting-started">
+            <h3 data-i18n="gettingStarted">🚀 Getting Started</h3>
+            <div class="steps">
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                        <h4 data-i18n="stepConfigureApi">Configure API Keys</h4>
+                        <p data-i18n="stepConfigureApiDesc">Set up your AI API keys (OpenAI, Anthropic, Openrouter) in the extension popup</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <h4 data-i18n="stepActivateFeatures">Activate and enable Features</h4>
+                        <p data-i18n="stepActivateFeaturesDesc">Turn on the features you want to use in the settings</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                        <h4 data-i18n="stepStartCreating">Start Creating</h4>
+                        <p data-i18n="stepStartCreatingDesc">Open n8n and start using the AI assistant and other tools</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="actions">
+            <button class="btn btn-primary" id="openOptions">
+                <span class="btn-icon">⚙️</span>
+                <span data-i18n="welcome_open_settings">Open Options</span>
+            </button>
+            <button class="btn btn-secondary" id="viewDocs">
+                <span class="btn-icon">🎥</span>
+                <span data-i18n="welcome_watch_tutorial">Watch tutorial</span>
+            </button>
+            <button class="btn btn-secondary" id="closeWelcome">
+                <span class="btn-icon">✅</span>
+                <span data-i18n="welcome_got_it">Got it, thanks!</span>
+            </button>
+        </section>
+
+    </div>
+
+    <script src="welcome.js"></script>
+</body>
+</html> 

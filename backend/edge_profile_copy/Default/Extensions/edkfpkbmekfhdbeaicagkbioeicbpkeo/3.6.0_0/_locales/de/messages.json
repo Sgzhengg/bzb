@@ -1,0 +1,2282 @@
+{
+   "Variables": {
+      "description": "Variablen",
+      "message": "Name des Menüpunkts Variablen"
+   },
+   "aboutSectionTitle": {
+      "description": "Über Titel des Abschnitts",
+      "message": "Über N8N Master"
+   },
+   "accountBlocked": {
+      "description": "Titel des gesperrten Kontos",
+      "message": "Gesperrtes Konto"
+   },
+   "actions": {
+      "description": "Tabellenspaltenüberschrift für Aktionen",
+      "message": "Aktionen"
+   },
+   "activate": {
+      "description": "Schaltfläche Aktivieren",
+      "message": "ACTIVATE"
+   },
+   "activateButton": {
+      "description": "Lizenz aktivieren",
+      "message": "Schaltfläche Aktivieren"
+   },
+   "activateExtension": {
+      "description": "Schaltfläche zum Aktivieren der Erweiterung auf der n8n-Seite",
+      "message": "Aktivieren"
+   },
+   "activating": {
+      "description": "Aktivierungsprozess",
+      "message": "Aktivieren..."
+   },
+   "activationDate": {
+      "description": "Etikett für das Aktivierungsdatum",
+      "message": "Aktivierungsdatum:"
+   },
+   "activationFailed": {
+      "description": "Statusmeldung bei fehlgeschlagener Aktivierung",
+      "message": "Aktivierung fehlgeschlagen"
+   },
+   "add": {
+      "description": "Schaltflächentext hinzufügen",
+      "message": "Hinzufügen"
+   },
+   "addVariable": {
+      "description": "Text der Schaltfläche \"Variable hinzufügen",
+      "message": "+ Hinzufügen"
+   },
+   "addVariableTitle": {
+      "description": "Variable hinzufügen modaler Titel",
+      "message": "Variable hinzufügen"
+   },
+   "addWorkflow": {
+      "description": "Workflow-Schaltflächentext hinzufügen",
+      "message": "+ Hinzufügen"
+   },
+   "addedWorkflows": {
+      "description": "Zählertext für hinzugefügte Workflows",
+      "message": "Hinzugefügt:"
+   },
+   "aiAgentWithTools": {
+      "description": "Nachricht für AI Agent mit angeschlossenen Tools",
+      "message": "AI Agent \"{nodeName}\" mit {toolCount} tools"
+   },
+   "aiApiKeys": {
+      "description": "AI-API-Schlüssel Importoption",
+      "message": "AI-API-Schlüssel"
+   },
+   "aiChatAssistant": {
+      "description": "KI-Chat-Assistent Funktionsname",
+      "message": "KI-Chat-Assistent"
+   },
+   "aiChatAssistantDesc": {
+      "description": "KI-Chat-Assistent Funktionsbeschreibung",
+      "message": "Fragen zu Arbeitsabläufen stellen, KI-gestützte Hilfe und Analysen erhalten"
+   },
+   "aiErrorTrigger": {
+      "description": "AI-Fehlerauslöser-Einstellungsname",
+      "message": "AI-Fehlerauslöser"
+   },
+   "aiErrorTriggerDesc": {
+      "description": "AI-Fehlerauslöser-Einstellungsbeschreibung",
+      "message": "Automatische Fehleranalyse beim Testen eines Knotens im Chat"
+   },
+   "aiProvider": {
+      "description": "AI-Anbieter Abschnittsüberschrift",
+      "message": "🧠 AI-Anbieter"
+   },
+   "aiSectionTitle": {
+      "description": "AI-Abschnittstitel",
+      "message": "AI-Einstellungen"
+   },
+   "aiTools": {
+      "description": "Abschnittstitel „KI-Tools“",
+      "message": "KI-Tools"
+   },
+   "aiToolsDescription": {
+      "description": "Beschreibung des Abschnitts „KI-Tools”",
+      "message": "Über 7.000 KI-Tools zur Beschleunigung und Automatisierung Ihrer Aufgaben."
+   },
+   "ailexDescription": {
+      "description": "AiLex Erweiterung Beschreibung",
+      "message": "Ihr persönlicher KI-Agent im Browser. BYOK & Free"
+   },
+   "ailexTitle": {
+      "description": "AiLex extension title",
+      "message": "AiLex"
+   },
+   "allFeaturesUnlocked": {
+      "description": "Alle Funktionen sind freigeschaltet Nachricht",
+      "message": "Alle Premiumfunktionen sind freigeschaltet"
+   },
+   "allGroups": {
+      "description": "Filteroption für alle Gruppen",
+      "message": "Alle Gruppen"
+   },
+   "allNodesAddedToCanvas": {
+      "description": "Meldung, wenn Knoten automatisch zum Canvas hinzugefügt werden",
+      "message": "Alle Knoten wurden zu Ihrem Canvas hinzugefügt."
+   },
+   "allSites": {
+      "description": "Filteroption für alle Websites",
+      "message": "Alle Websites"
+   },
+   "allStatuses": {
+      "description": "Filteroption für alle Status",
+      "message": "Alle Status"
+   },
+   "analyzingCode": {
+      "description": "Analyse des Codestatus",
+      "message": "Analyse des Codes"
+   },
+   "analyzingWorkflow": {
+      "description": "Nachricht bei der Analyse von Arbeitsabläufen",
+      "message": "Analyse von Arbeitsabläufen"
+   },
+   "anthropicApiKey": {
+      "description": "Anthropischer API-Schlüssel Feldbezeichnung",
+      "message": "Anthropischer API-Schlüssel"
+   },
+   "api": {
+      "description": "API-Link-Text",
+      "message": "API"
+   },
+   "apiKey": {
+      "description": "Bezeichnung des API-Schlüsselfeldes",
+      "message": "API-Schlüssel:"
+   },
+   "apiKeyError": {
+      "description": "Fehler beim Testen des API-Schlüssels",
+      "message": "Fehler beim Testen des API-Schlüssels"
+   },
+   "apiKeyFromN8n": {
+      "description": "Linktext für die Eingabe des N8N-API-Schlüssels",
+      "message": "API-Schlüssel von n8n"
+   },
+   "apiKeyInvalid": {
+      "description": "Ungültiger API-Schlüssel-Status",
+      "message": "Ungültiger API-Schlüssel"
+   },
+   "apiKeyTesting": {
+      "description": "API-Schlüssel-Testverfahren",
+      "message": "Testen..."
+   },
+   "apiKeyValid": {
+      "description": "Status des gültigen API-Schlüssels",
+      "message": "Der API-Schlüssel ist gültig und funktioniert!"
+   },
+   "apiKeys": {
+      "description": "API-Schlüssel Abschnittsüberschrift",
+      "message": "🔑 API-Schlüssel"
+   },
+   "appDescription": {
+      "description": "Anwendungsbeschreibung",
+      "message": "KI-Assistent für die Automatisierung von n8n-Workflows. Arbeitet mit selbst gehosteten Instanzen, KI-APIs (OpenAI, Anthropic) und Vorlagen"
+   },
+   "appName": {
+      "description": "Anwendungsname",
+      "message": "N8N Master - Workflow Assistant"
+   },
+   "appTitle": {
+      "description": "Titel der Anwendung in der Kopfzeile",
+      "message": "N8N Master"
+   },
+   "askN8nMaster": {
+      "description": "Text der Schaltfläche N8N Master fragen",
+      "message": "ASK N8N MASTER"
+   },
+   "autoPinAi": {
+      "description": "Auto-Pin AI Einstellungsname",
+      "message": "Auto-Pin AI"
+   },
+   "autoPinAiDesc": {
+      "description": "Beschreibung der Auto-Pin-AI-Einstellung",
+      "message": "Pin-Reaktion nach erfolgreicher Ausführung des AI-Agenten"
+   },
+   "autoPinHttp": {
+      "description": "Auto-Pin HTTP Einstellungsname",
+      "message": "Auto-Pin HTTP"
+   },
+   "autoPinHttpDesc": {
+      "description": "Auto-Pin HTTP-Einstellungsbeschreibung",
+      "message": "Pin-Antwort nach erfolgreicher HTTP-Request-Ausführung"
+   },
+   "autoPinSuccess": {
+      "description": "Auto-Pin Erfolgsmeldung",
+      "message": "$1 Antwort automatisch angeheftet!"
+   },
+   "autoSave": {
+      "description": "Automatisches Speichern des Einstellungsnamens",
+      "message": "Automatisches Speichern"
+   },
+   "autoSaveDesc": {
+      "description": "Beschreibung der Einstellung \"Automatisch speichern",
+      "message": "Workflow automatisch speichern, wenn Änderungen vorgenommen werden"
+   },
+   "autoSaveDescription": {
+      "description": "Beschreibung der Option Automatisches Speichern von Workflows",
+      "message": "Workflow-Änderungen während der Bearbeitung automatisch speichern"
+   },
+   "autoSaveFailed": {
+      "description": "Automatisches Speichern fehlgeschlagen",
+      "message": "Meldung Automatisches Speichern fehlgeschlagen"
+   },
+   "autoSaveOption": {
+      "description": "Etikett der Option Arbeitsabläufe automatisch speichern",
+      "message": "Arbeitsabläufe automatisch speichern"
+   },
+   "autoSavePin": {
+      "description": "Automatisches Speichern und Anheften von Funktionsnamen",
+      "message": "Automatisches Speichern und automatisches Anheften"
+   },
+   "autoSavePinDesc": {
+      "description": "Beschreibung der Funktion \"Automatisches Speichern und Anheften",
+      "message": "Automatisches Speichern von Workflows und Anheften von Ausführungsergebnissen"
+   },
+   "bestForWorkflowGeneration": {
+      "description": "Text des Abzeichens, das den besten KI-Anbieter für Workflow-Generierung angibt",
+      "message": "Bester Anbieter für Workflow-Generierung"
+   },
+   "blockedMessage": {
+      "description": "Meldung \"Konto gesperrt",
+      "message": "Versuch der Datenmanipulation erkannt. Kaufen Sie eine Lizenz, um Funktionen freizuschalten."
+   },
+   "buyKeyButton": {
+      "description": "Schaltfläche Lizenzschlüssel kaufen",
+      "message": "Schlüssel kaufen"
+   },
+   "cachedWorkflows": {
+      "description": "Etikett für zwischengespeicherte Arbeitsabläufe",
+      "message": "Zwischengespeicherte Arbeitsabläufe:"
+   },
+   "cancel": {
+      "description": "Text der Schaltfläche Abbrechen",
+      "message": "Abbrechen"
+   },
+   "cancelButton": {
+      "description": "Text der Schaltfläche „Abbrechen“",
+      "message": "Abbrechen"
+   },
+   "chatAnalyzing": {
+      "description": "Chat Analyse der Nachricht",
+      "message": "Analysieren"
+   },
+   "chatAnalyzingError": {
+      "description": "Chat Fehlermeldung analysieren",
+      "message": "Fehler analysieren"
+   },
+   "chatClearHistory": {
+      "description": "Tooltip der Schaltfläche Chat-Verlauf löschen",
+      "message": "Chat-Verlauf löschen"
+   },
+   "chatFullscreen": {
+      "description": "Tooltip der Chat-Vollbild-Schaltfläche",
+      "message": "Auf Vollbild erweitern"
+   },
+   "chatGenerating": {
+      "description": "Chat generiert Nachricht",
+      "message": "Erzeugen..."
+   },
+   "chatNotAvailable": {
+      "description": "Fehler: Chat nicht verfügbar",
+      "message": "Chat-Widget nicht verfügbar. Bitte öffnen Sie den Chat zuerst manuell."
+   },
+   "chatProcessing": {
+      "description": "Chat-Verarbeitung Platzhalter",
+      "message": "Verarbeitung..."
+   },
+   "chatRequestCancelled": {
+      "description": "Nachricht, wenn der Benutzer den AI-Antrag storniert",
+      "message": "🛑 Antrag vom Benutzer storniert"
+   },
+   "chatThinking": {
+      "description": "Chat denken Nachricht",
+      "message": "Denken"
+   },
+   "chatTitle": {
+      "description": "Chat-Widget-Titel",
+      "message": "N8N Master"
+   },
+   "chatWelcome": {
+      "description": "Chat-Begrüßungsnachricht Zeile 1",
+      "message": "Hallo! Ich bin Ihr N8N Master-Assistent. Ich kann Ihnen helfen, Arbeitsabläufe zu analysieren, neue Arbeitsabläufe zu erstellen, Eingabeaufforderungen zu optimieren und Fragen zu Ihrer n8n-Einrichtung zu beantworten."
+   },
+   "chatWelcome2": {
+      "description": "Chat-Begrüßungsnachricht Zeile 2",
+      "message": "Versuchen Sie zu fragen: \"Was macht dieser Arbeitsablauf?\" oder \"Analysiere ausgewählte Knoten\""
+   },
+   "chatWelcomeHelp": {
+      "description": "Chat-Hilfetext mit Beispielfragen",
+      "message": "Versuchen Sie zu fragen: \"Was macht dieser Workflow?\" oder \"Analysiere ausgewählte Knoten\""
+   },
+   "checking": {
+      "description": "Prüfen der Statusmeldung",
+      "message": "Prüfen..."
+   },
+   "chooseColorFor": {
+      "description": "",
+      "message": "Wählen Sie die Farbe für den modalen Titel des Farbwählers (gefolgt vom Projektnamen)"
+   },
+   "chromeStorageData": {
+      "description": "Kategoriekopf für Chrome-Speicherdaten",
+      "message": "Chrome-Speicherdaten"
+   },
+   "chromeWebStore": {
+      "description": "Chrome Web Store-Linktext",
+      "message": "Chrome Web Store"
+   },
+   "clearHistory": {
+      "description": "Schaltfläche zum Löschen des Workflowverlaufs",
+      "message": "Verlauf löschen"
+   },
+   "clearSearch": {
+      "description": "Tooltip für Schaltfläche Suche löschen",
+      "message": "Suche löschen"
+   },
+   "clickToActivate": {
+      "description": "Hinweis, der den Benutzer zur Aktivierung auffordert",
+      "message": "Klicken Sie hier, um die Erweiterung zu aktivieren"
+   },
+   "clickToCopy": {
+      "description": "Tooltip für variable Elemente",
+      "message": "Zum Kopieren anklicken"
+   },
+   "clickToSelectAll": {
+      "description": "Klicken, um alles auszuwählen Tooltip",
+      "message": "Klicken, um alles auszuwählen"
+   },
+   "close": {
+      "description": "Text der Schaltfläche Schließen",
+      "message": "Schließen"
+   },
+   "codeExplanation": {
+      "description": "Kopfzeile für Code-Erklärung im Chat",
+      "message": "Code-Erklärung:"
+   },
+   "commandAddNodes": {
+      "description": "Befehl zum Hinzufügen von Knoten zum Workflow",
+      "message": "Hinzufügen der angegebenen Knoten zum Workflow"
+   },
+   "commandCreateWorkflow": {
+      "description": "Befehl zum Erstellen eines neuen Workflows",
+      "message": "Erstellen eines neuen Workflows"
+   },
+   "commandHelp": {
+      "description": "Befehl, um eine Erklärung des Arbeitsablaufs zu erhalten",
+      "message": "Erklären Sie, was dieser Arbeitsablauf tut"
+   },
+   "commandRemoveNodes": {
+      "description": "Befehl zum Entfernen von Knoten",
+      "message": "Entfernen der angegebenen Knoten"
+   },
+   "commandReplaceNode": {
+      "description": "Befehl zum Ersetzen eines Knotens",
+      "message": "Ersetzen des angegebenen Knotens"
+   },
+   "commandUpdateNodes": {
+      "description": "Befehl zum Aktualisieren der Knoteneinstellungen",
+      "message": "Einstellungen der angegebenen Knoten aktualisieren"
+   },
+   "confirmDeleteApiKey": {
+      "description": "Bestätigungsmeldung beim Löschen des API-Schlüssels für eine Domain",
+      "message": "Sind Sie sicher, dass Sie den API-Schlüssel für {domain} löschen möchten?"
+   },
+   "confirmDeleteProject": {
+      "description": "Bestätigungsmeldung beim Löschen eines Projekts",
+      "message": "Sind Sie sicher, dass Sie das Projekt \"{Projektname}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+   },
+   "connectAPI": {
+      "description": "Schaltfläche zum Verbinden eines neuen API-Schlüssels",
+      "message": "API verbinden"
+   },
+   "connectN8NAPI": {
+      "description": "Modaler Titel zum Verbinden der neuen N8N-API",
+      "message": "N8N-API verbinden"
+   },
+   "connections": {
+      "description": "Verbindungen Text in Workflow-Statistiken",
+      "message": "Verbindungen"
+   },
+   "contextMenuAnalyzingCode": {
+      "description": "Kontextmenü Aktionstext zum Analysieren von Code",
+      "message": "Code analysieren"
+   },
+   "contextMenuApiKeyNotConfigured": {
+      "description": "Fehler im Kontextmenü, wenn der API-Schlüssel nicht konfiguriert ist",
+      "message": "API-Schlüssel nicht konfiguriert. Bitte richten Sie Ihren API-Schlüssel in den Erweiterungseinstellungen ein."
+   },
+   "contextMenuApiRequestError": {
+      "description": "Kontextmenü-Fehlerpräfix für API-Fehler",
+      "message": "API-Anfragefehler"
+   },
+   "contextMenuCodeExplained": {
+      "description": "Kontextmenü Erfolgsmeldung für Code-Erklärung",
+      "message": "Code-Erklärung an Chat gesendet!"
+   },
+   "contextMenuCodeGenerated": {
+      "description": "Kontextmenü Erfolgsmeldung für die Codegenerierung",
+      "message": "Code generiert und erfolgreich eingefügt!"
+   },
+   "contextMenuCurlGenerated": {
+      "description": "Erfolgsmeldung im Kontextmenü für die cURL-Generierung",
+      "message": "cURL generiert und erfolgreich eingefügt!"
+   },
+   "contextMenuCurlSentToChat": {
+      "description": "Kontextmenü Erfolgsmeldung für cURL an Chat gesendet",
+      "message": "cURL-Befehl an den Chat gesendet!"
+   },
+   "contextMenuFixingJson": {
+      "description": "Kontextmenü-Aktionstext für JSON reparieren",
+      "message": "JSON reparieren"
+   },
+   "contextMenuGeneratingCode": {
+      "description": "Kontextmenü Aktionstext für Codegenerierung",
+      "message": "Codegenerierung"
+   },
+   "contextMenuGeneratingCurl": {
+      "description": "Kontextmenü-Aktionstext zum Generieren von cURL",
+      "message": "cURL-Anfrage generieren"
+   },
+   "contextMenuGeneratingJson": {
+      "description": "Kontextmenü-Aktionstext für die JSON-Erzeugung",
+      "message": "Erstellung einer JSON-Struktur"
+   },
+   "contextMenuGeneratingPrompt": {
+      "description": "Kontextmenü-Aktionstext für Eingabeaufforderung erzeugen",
+      "message": "Eingabeaufforderung erzeugen"
+   },
+   "contextMenuJsonFixed": {
+      "description": "Kontextmenü Erfolgsmeldung für JSON Fixierung",
+      "message": "JSON repariert und erfolgreich eingefügt!"
+   },
+   "contextMenuJsonGenerated": {
+      "description": "Kontextmenü Erfolgsmeldung für JSON-Generierung",
+      "message": "JSON generiert und erfolgreich eingefügt!"
+   },
+   "contextMenuNoTextSelected": {
+      "description": "Fehler im Kontextmenü, wenn kein Text ausgewählt ist",
+      "message": "Kein Text ausgewählt oder aktives Eingabefeld gefunden."
+   },
+   "contextMenuOperationCompleted": {
+      "description": "Standard-Erfolgsmeldung im Kontextmenü",
+      "message": "Operation erfolgreich abgeschlossen!"
+   },
+   "contextMenuOptimizingPrompt": {
+      "description": "Kontextmenü-Aktionstext zur Optimierung der Eingabeaufforderung",
+      "message": "Eingabeaufforderung optimieren"
+   },
+   "contextMenuProcessing": {
+      "description": "Kontextmenü Standardverarbeitungstext",
+      "message": "Verarbeitung"
+   },
+   "contextMenuPromptGenerated": {
+      "description": "Kontextmenü Erfolgsmeldung für Prompt-Generierung",
+      "message": "Prompt erzeugt und erfolgreich eingefügt!"
+   },
+   "contextMenuPromptOptimized": {
+      "description": "Kontextmenü Erfolgsmeldung für Prompt-Optimierung",
+      "message": "Eingabeaufforderung optimiert und erfolgreich eingefügt!"
+   },
+   "contextMenuTools": {
+      "description": "Kontextmenü Werkzeuge Funktionsname",
+      "message": "Kontextmenü Werkzeuge"
+   },
+   "contextMenuToolsDesc": {
+      "description": "Beschreibung der Tools im Kontextmenü",
+      "message": "Rechtsklick-Tools zur Code-Optimierung, JSON-Fixierung und mehr"
+   },
+   "copied": {
+      "description": "Kopierter Schaltflächentext",
+      "message": "Kopiert"
+   },
+   "copy": {
+      "description": "Text der Schaltfläche kopieren",
+      "message": "Kopieren"
+   },
+   "copyError": {
+      "description": "Kopierfehlermeldung",
+      "message": "Kopieren fehlgeschlagen"
+   },
+   "copyLink": {
+      "description": "Tooltip der Schaltfläche „Link kopieren“",
+      "message": "Link kopieren"
+   },
+   "copyNodeFromTemplate": {
+      "description": "Tooltip für Schaltfläche Knoten kopieren",
+      "message": "Knoten aus Vorlage kopieren"
+   },
+   "copySuccess": {
+      "description": "Erfolgsmeldung kopieren",
+      "message": "In die Zwischenablage kopiert"
+   },
+   "copyToClipboard": {
+      "description": "Text für Vorlage in die Zwischenablage kopieren Schaltfläche",
+      "message": "📋 In die Zwischenablage kopieren"
+   },
+   "copy_json": {
+      "description": "JSON-Schaltflächentext kopieren",
+      "message": "JSON kopieren"
+   },
+   "createWorkflow": {
+      "description": "Chat-Eingabeplatzhalter",
+      "message": "Einen Arbeitsablauf erstellen..."
+   },
+   "creatingCustomWorkflow": {
+      "description": "Meldung, die beim Erstellen eines benutzerdefinierten Workflows angezeigt wird",
+      "message": "Erstellen eines benutzerdefinierten Workflows"
+   },
+   "creatingWorkflow": {
+      "description": "Meldung beim Erstellen des Workflows",
+      "message": "Workflow erstellen"
+   },
+   "current": {
+      "description": "Kennzeichnung der aktuellen Workflow-Version in der Historie",
+      "message": "(aktuell)"
+   },
+   "currentlyOpen": {
+      "description": "Text, der für den aktuell geöffneten Workflow angezeigt wird",
+      "message": "(aktuell geöffnet)"
+   },
+   "dataIntegrityViolated": {
+      "description": "Meldung zur Verletzung der Datenintegrität",
+      "message": "Datenintegrität verletzt. Kaufen Sie eine Lizenz, um Funktionen freizuschalten"
+   },
+   "delete": {
+      "description": "Text der Schaltfläche Löschen",
+      "message": "Löschen"
+   },
+   "deleteVariable": {
+      "description": "Variable löschen modaler Titel",
+      "message": "Variable löschen"
+   },
+   "deleteVariableConfirm": {
+      "description": "Variable löschen Bestätigungsmeldung",
+      "message": "Sind Sie sicher, dass Sie diese Variable löschen wollen? Diese Aktion kann nicht rückgängig gemacht werden."
+   },
+   "deleteZone": {
+      "description": "Zonentext beim Ziehen von Workflows löschen",
+      "message": "🗑️ Löschen"
+   },
+   "describeWorkflowChanges": {
+      "description": "Platzhalter für die Beschreibung von Workflow-Änderungen",
+      "message": "Beschreiben Sie, was im Workflow geändert werden muss..."
+   },
+   "deselectAll": {
+      "description": "Schaltfläche zum Abwählen aller Importoptionen",
+      "message": "Alle abwählen"
+   },
+   "deviceId": {
+      "description": "Geräte-ID-Etikett",
+      "message": "Geräte-ID:"
+   },
+   "deviceInfo": {
+      "description": "Titel der Geräteinformationsgruppe",
+      "message": "Geräteinformationen"
+   },
+   "disableButton": {
+      "description": "Schaltfläche zum Deaktivieren der Erweiterung auf der n8n-Seite",
+      "message": "Deaktivieren"
+   },
+   "disconnect": {
+      "description": "Trennen-Taste",
+      "message": "DISCONNECT"
+   },
+   "discountAvailable": {
+      "description": "Rabattbenachrichtigung im Lizenzmodal",
+      "message": "Sie können mit einem Rabatt von 50 % kaufen"
+   },
+   "documentation": {
+      "description": "Documentation link",
+      "message": "Dokumentation"
+   },
+   "domain": {
+      "description": "Tabellenspaltenüberschrift für Domäne",
+      "message": "Domäne"
+   },
+   "done": {
+      "description": "Erledigt",
+      "message": "Text der Schaltfläche Erledigt"
+   },
+   "download": {
+      "description": "Text der Schaltfläche Herunterladen",
+      "message": "Herunterladen"
+   },
+   "downloadingTemplate": {
+      "description": "Nachricht über das Herunterladen der Vorlage",
+      "message": "Herunterladen der Vorlage von GitHub"
+   },
+   "dragWidget": {
+      "description": "Tooltip-Text für Widget-Ziehgriff",
+      "message": "Widget ziehen"
+   },
+   "edgeStore": {
+      "description": "Microsoft Edge Store-Linktext",
+      "message": "Microsoft Edge Store"
+   },
+   "editProjectName": {
+      "description": "Modaltitel des Projekts bearbeiten",
+      "message": "Projektname bearbeiten"
+   },
+   "enableHistory": {
+      "description": "Name der Verlaufseinstellung aktivieren",
+      "message": "Verlauf aktivieren"
+   },
+   "enableHistoryDesc": {
+      "description": "Beschreibung der Verlaufseinstellung aktivieren",
+      "message": "Workflow-Verlauf verfolgen und Schaltfläche Verlauf aktivieren"
+   },
+   "enableStreaming": {
+      "description": "Name der Streaming-Einstellung aktivieren",
+      "message": "Streaming aktivieren"
+   },
+   "enableStreamingDesc": {
+      "description": "Beschreibung der Einstellung \"Streaming aktivieren",
+      "message": "Chat-Antworten werden gestreamt"
+   },
+   "enterLicenseKey": {
+      "description": "Platzhalter für die Eingabe des Lizenzschlüssels",
+      "message": "Geben Sie Ihren Lizenzschlüssel ein"
+   },
+   "enterProjectName": {
+      "description": "Platzhalter für den Projektnamen",
+      "message": "Eingabe des Projektnamens"
+   },
+   "enterVariableName": {
+      "description": "Platzhalter für Variablennamen eingeben",
+      "message": "Variablennamen eingeben..."
+   },
+   "enterVariableValue": {
+      "description": "Platzhalter für Variablenwerteingabe",
+      "message": "Variablenwert eingeben..."
+   },
+   "error": {
+      "description": "Fehlermeldung",
+      "message": "Fehler"
+   },
+   "errorAnalysisCurrentNode": {
+      "description": "Titel des aktuellen Knotenabschnitts",
+      "message": "**AKTUELLER KNODE:**"
+   },
+   "errorAnalysisErrorDetails": {
+      "description": "Titel des Abschnitts Fehlerdetails",
+      "message": "**FEHLERDETAILS:**"
+   },
+   "errorAnalysisInputData": {
+      "description": "Titel des Abschnitts Eingabedaten",
+      "message": "**EINGABEDATEN:**"
+   },
+   "errorAnalysisInstructions": {
+      "description": "Anleitung zur Fehleranalyse",
+      "message": "Bitte analysieren Sie diesen Fehler und geben Sie an:\n1. Erklärung der Grundursache\n2. Schritt-für-Schritt-Lösung\n3. Tipps zur Vorbeugung\n4. Alternative Ansätze, falls zutreffend\n\nFokus auf praktische, umsetzbare Lösungen für n8n Arbeitsabläufe."
+   },
+   "errorAnalysisLocation": {
+      "description": "Label für Fehlerort",
+      "message": "Standort"
+   },
+   "errorAnalysisMessage": {
+      "description": "Label für Fehlermeldung",
+      "message": "Meldung"
+   },
+   "errorAnalysisNodeType": {
+      "description": "Bezeichnung für Knotentyp",
+      "message": "Knotentyp"
+   },
+   "errorAnalysisParameters": {
+      "description": "Label für Knotenparameter",
+      "message": "Parameter"
+   },
+   "errorAnalysisPromptTitle": {
+      "description": "Titel für Fehleranalyseabfrage",
+      "message": "🚨 **AUTOMATISCHE FEHLERANALYSE-ABFRAGE**"
+   },
+   "errorAnalysisRequest": {
+      "description": "Request section title",
+      "message": "**REQUEST:**"
+   },
+   "errorAnalysisTotalNodes": {
+      "description": "Label für Gesamtknotenanzahl",
+      "message": "Total Nodes"
+   },
+   "errorAnalysisWorkflowContext": {
+      "description": "Titel des Workflow-Kontextabschnitts",
+      "message": "**WORKFLOW-KONTEXT:**"
+   },
+   "errorAnalysisWorkflowName": {
+      "description": "Label für Workflow-Name",
+      "message": "Name"
+   },
+   "errorConfigureApiKey": {
+      "description": "Fehlermeldung, wenn der API-Schlüssel nicht konfiguriert ist",
+      "message": "Bitte konfigurieren Sie zuerst Ihren API-Schlüssel"
+   },
+   "errorDeletingProject": {
+      "description": "Fehlermeldung bei fehlgeschlagener Projektlöschung",
+      "message": "Fehler beim Löschen von Projekten"
+   },
+   "errorFailedToLoadTranslations": {
+      "description": "Fehlermeldung, wenn das Laden der Übersetzung fehlschlägt",
+      "message": "Übersetzungen für Sprache konnten nicht geladen werden:"
+   },
+   "errorHttpStatus": {
+      "description": "Präfix der Fehlermeldung für HTTP-Statusfehler",
+      "message": "HTTP-Fehler! status:"
+   },
+   "errorInvalidIndexedDB": {
+      "description": "Fehlermeldung, wenn IndexedDB-Antwort ungültig ist",
+      "message": "Ungültige IndexedDB-Antwort"
+   },
+   "errorLoadingVariables": {
+      "description": "Fehlermeldung, wenn Variablen nicht geladen werden können",
+      "message": "Fehler beim Laden von Variablen"
+   },
+   "errorNoActiveTab": {
+      "description": "Fehlermeldung, wenn keine aktive Registerkarte gefunden wird",
+      "message": "Keine aktive Registerkarte gefunden"
+   },
+   "errorNotLikelyN8nPage": {
+      "description": "Fehlermeldung, wenn die Seite unwahrscheinlich eine N8N-Seite ist",
+      "message": "Unwahrscheinliche N8N-Seite"
+   },
+   "errorSavingProjectName": {
+      "description": "Fehlermeldung beim Speichern des Projektnamens schlägt fehl",
+      "message": "Fehler beim Speichern des Projektnamens"
+   },
+   "errorServerValidationFailed": {
+      "description": "Fehlermeldung bei fehlgeschlagener Servervalidierung",
+      "message": "Servervalidierung fehlgeschlagen"
+   },
+   "error_loading_template": {
+      "description": "Fehler beim Laden des Vorlagentextes",
+      "message": "Fehler beim Laden der Vorlage:"
+   },
+   "errorsTodayClickToView": {
+      "description": "Tooltip für die Metrik „Fehler heute“ mit Klickanweisung",
+      "message": "Fehler heute – Zum Anzeigen klicken"
+   },
+   "execTime": {
+      "description": "Spaltenüberschrift „Ausführungszeit“",
+      "message": "Exec Time"
+   },
+   "executionsToday": {
+      "description": "Tooltip für die Metrik „Hinrichtungen heute“",
+      "message": "Hinrichtungen heute"
+   },
+   "explainCode": {
+      "description": "Feldbeschriftung Code erläutern",
+      "message": "Code erläutern:"
+   },
+   "explore": {
+      "description": "Text der Schaltfläche „Entdecken“",
+      "message": "Entdecken"
+   },
+   "exportApiKeys": {
+      "description": "Element API-Schlüssel exportieren",
+      "message": "AI API-Schlüssel"
+   },
+   "exportButton": {
+      "description": "Text der Schaltfläche exportieren",
+      "message": "Einstellungen exportieren"
+   },
+   "exportDescription": {
+      "description": "Beschreibung exportieren Titel",
+      "message": "Konfiguration exportieren"
+   },
+   "exportInfo": {
+      "description": "Exportieren von Informationstext",
+      "message": "Exportieren Sie Ihre Erweiterungseinstellungen, API-Schlüssel und Daten in eine JSON-Datei. Dies beinhaltet:"
+   },
+   "exportN8nKey": {
+      "description": "N8N-Schlüsselelement exportieren",
+      "message": "N8N-API-Schlüssel"
+   },
+   "exportOptions": {
+      "description": "Exportoptionen Punkt",
+      "message": "Erweiterung Optionen"
+   },
+   "exportProjects": {
+      "description": "Projekte exportieren",
+      "message": "Lokale Projekte aus IndexedDB"
+   },
+   "exportSectionTitle": {
+      "description": "Titel des Abschnitts exportieren",
+      "message": "Einstellungen exportieren"
+   },
+   "exportSettings": {
+      "description": "Einstellungen exportieren",
+      "message": "Erweiterung Einstellungen"
+   },
+   "exportTemplates": {
+      "description": "Element Vorlagen exportieren",
+      "message": "Vorlagen aus IndexedDB ausgeben"
+   },
+   "extensionIsActive": {
+      "description": "Badge-Meldung, wenn die Erweiterung aktiv ist",
+      "message": "Die Erweiterung ist aktiv"
+   },
+   "extensionOptions": {
+      "description": "Erweiterungsoptionen Importoption",
+      "message": "Erweiterungsoptionen"
+   },
+   "extensionPage": {
+      "description": "Extension page link",
+      "message": "Extension Page"
+   },
+   "extensionSettings": {
+      "description": "Importoption für Erweiterungseinstellungen",
+      "message": "Erweiterungseinstellungen"
+   },
+   "extensionUpdated": {
+      "description": "Warnung zur Aktualisierung der Erweiterung",
+      "message": "Die Erweiterung wurde aktualisiert. Bitte laden Sie die Seite neu, um N8N Master weiter zu verwenden."
+   },
+   "extensionVersion": {
+      "description": "Bezeichnung der Erweiterungsversion",
+      "message": "Version der Erweiterung:"
+   },
+   "failed": {
+      "description": "Fehlgeschlagen",
+      "message": "Text der Schaltfläche Fehlgeschlagen"
+   },
+   "failedToAnalyzeWorkflow": {
+      "description": "Fehlermeldung bei fehlgeschlagener Workflow-Analyse",
+      "message": "Workflow-Analyse konnte nicht abgeschlossen werden"
+   },
+   "failedToAnalyzeWorkflowGeneric": {
+      "description": "Allgemeine Fehlermeldung, wenn die Workflow-Analyse fehlschlägt",
+      "message": "Analyse des Workflows fehlgeschlagen"
+   },
+   "failedToCopyNode": {
+      "description": "Fehlermeldung bei fehlgeschlagener Knotenkopie",
+      "message": "Das Kopieren des Knotens ist fehlgeschlagen:"
+   },
+   "failedToCopyToClipboard": {
+      "description": "Fehlermeldung bei fehlgeschlagenem Kopieren in die Zwischenablage",
+      "message": "Kopieren in die Zwischenablage fehlgeschlagen"
+   },
+   "failedToCreateWorkflow": {
+      "description": "Fehlermeldung, wenn die Erstellung des Workflows fehlschlägt",
+      "message": "Die Erstellung des Workflows konnte nicht abgeschlossen werden"
+   },
+   "failedToCreateWorkflowGeneric": {
+      "description": "Allgemeine Fehlermeldung, wenn die Erstellung des Workflows fehlschlägt",
+      "message": "Workflow konnte nicht erstellt werden"
+   },
+   "failedToDeleteVariable": {
+      "description": "Fehlermeldung bei fehlgeschlagenem Löschen der Variablen",
+      "message": "Variable konnte nicht gelöscht werden:"
+   },
+   "failedToDownloadTemplate": {
+      "description": "Meldung \"Vorlage konnte nicht heruntergeladen werden",
+      "message": "Vorlage konnte nicht heruntergeladen werden"
+   },
+   "failedToLoadNodes": {
+      "description": "Fehlermeldung, wenn Knoten nicht geladen werden können",
+      "message": "Knoten konnten nicht geladen werden"
+   },
+   "failedToLoadWorkflows": {
+      "description": "Fehlermeldung, wenn das Laden von Workflows fehlschlägt",
+      "message": "Workflows konnten nicht geladen werden. Bitte überprüfen Sie Ihren API-Schlüssel."
+   },
+   "failedToModifyWorkflow": {
+      "description": "Fehlermeldung bei fehlgeschlagener Änderung des Workflows",
+      "message": "Änderung des Workflows konnte nicht abgeschlossen werden"
+   },
+   "failedToModifyWorkflowGeneric": {
+      "description": "Allgemeine Fehlermeldung, wenn die Änderung des Workflows fehlschlägt",
+      "message": "Änderung des Workflows fehlgeschlagen"
+   },
+   "failedToSaveVariable": {
+      "description": "Fehlermeldung bei fehlgeschlagener Variablenspeicherung",
+      "message": "Variable konnte nicht gespeichert werden:"
+   },
+   "failedToValidateApiKey": {
+      "description": "Fehler bei der Validierung des API-Schlüssels",
+      "message": "Fehler bei der Validierung des API-Schlüssels"
+   },
+   "featureAiChat": {
+      "description": "AI-Chat-Funktionstitel",
+      "message": "AI-Chat-Assistent"
+   },
+   "featureAiChatDesc": {
+      "description": "Beschreibung der KI-Chat-Funktion",
+      "message": "Hilfe bei der Erstellung von Workflows mit KI-gestützter Unterstützung"
+   },
+   "featureAutoSavePin": {
+      "description": "Titel der Funktion Automatisches Speichern und Anheften",
+      "message": "Automatisches Speichern und Anheften"
+   },
+   "featureAutoSavePinDesc": {
+      "description": "Beschreibung der Funktion \"Automatisches Speichern und Anheften",
+      "message": "Automatisches Speichern des Workflows und Anheften der Knotenausführung"
+   },
+   "featureLocalProjects": {
+      "description": "Lokale Projekte Featuretitel",
+      "message": "Lokale Projekte"
+   },
+   "featureLocalProjectsDesc": {
+      "description": "Beschreibung der Funktion \"Lokale Projekte",
+      "message": "Organisieren von Arbeitsabläufen in benutzerdefinierten Projektordnern"
+   },
+   "featureNodeSelector": {
+      "description": "Knotenwähler Merkmalstitel",
+      "message": "Knotenwähler"
+   },
+   "featureNodeSelectorDesc": {
+      "description": "Funktionsbeschreibung des Knotenselektors",
+      "message": "Schnelles Kopieren von konfigurierten Knoten aus anderen Workflows"
+   },
+   "featureTemplates": {
+      "description": "Schablonen Merkmalstitel",
+      "message": "Schablonen"
+   },
+   "featureTemplatesDesc": {
+      "description": "Beschreibung der Funktion Vorlagen",
+      "message": "Zugriff auf vorgefertigte Workflow-Vorlagen"
+   },
+   "featureWorkflowHistory": {
+      "description": "Workflow-Historie Funktionstitel",
+      "message": "Workflow-Historie"
+   },
+   "featureWorkflowHistoryDesc": {
+      "description": "Beschreibung der Funktion Workflow-Historie",
+      "message": "Verfolgen und Wiederherstellen früherer Versionen Ihrer Arbeitsabläufe"
+   },
+   "features": {
+      "description": "Merkmale Abschnittsüberschrift",
+      "message": "Merkmale"
+   },
+   "filters": {
+      "description": "Filter-Abschnittsbezeichnung",
+      "message": "Filter"
+   },
+   "finishWorkflow": {
+      "description": "Nachricht, wenn der Workflow beendet ist",
+      "message": "✅ Workflow beenden"
+   },
+   "finished": {
+      "description": "Fertig Spaltenüberschrift",
+      "message": "Fertig"
+   },
+   "fontDetectorDescription": {
+      "description": "FontDetector Pro Erweiterung Beschreibung",
+      "message": "Ein unentbehrliches Werkzeug für Designer, um Schriftarten für Websites zu erkennen und herunterzuladen."
+   },
+   "fontDetectorTitle": {
+      "description": "FontDetector Pro Erweiterung Titel",
+      "message": "FontDetector Pro"
+   },
+   "footerText": {
+      "description": "Fußzeilentext mit Anwendungshinweisen",
+      "message": "Klicken Sie mit der rechten Maustaste auf eine beliebige Seite, um auf die N8N-Master-Tools zuzugreifen"
+   },
+   "foundPerfectTemplate": {
+      "description": "Header-Meldung, wenn eine perfekte Vorlage gefunden wird",
+      "message": "Perfekte Vorlage gefunden!"
+   },
+   "fullyActivated": {
+      "description": "Vollständig aktivierter Status",
+      "message": "✅ Vollständig aktiviert"
+   },
+   "generateCode": {
+      "description": "Code generieren Feldbezeichnung",
+      "message": "Code generieren:"
+   },
+   "generateJSON": {
+      "description": "JSON-Feldbezeichnung generieren",
+      "message": "JSON generieren:"
+   },
+   "generatePrompt": {
+      "description": "Prompt-Feldbeschriftung generieren",
+      "message": "Eingabeaufforderung generieren:"
+   },
+   "generateWorkflow": {
+      "description": "Workflow-Feldbeschriftung generieren",
+      "message": "Workflow generieren:"
+   },
+   "generatedCurlCommand": {
+      "description": "Header für generierten cURL-Befehl im Chat",
+      "message": "Erstellter cURL-Befehl:"
+   },
+   "generatingCode": {
+      "description": "Code-Status generieren",
+      "message": "Code generieren"
+   },
+   "generatingCurl": {
+      "description": "Status der cURL-Anfrage generieren",
+      "message": "cURL-Anfrage generieren"
+   },
+   "generatingCustomWorkflow": {
+      "description": "Benutzerdefinierten Workflow generieren Nachricht",
+      "message": "Stattdessen benutzerdefinierten Workflow generieren..."
+   },
+   "generatingPrompt": {
+      "description": "Promptstatus generieren",
+      "message": "Prompt generieren"
+   },
+   "gettingStarted": {
+      "description": "Erste Schritte Abschnittstitel",
+      "message": "🚀 Erste Schritte"
+   },
+   "group": {
+      "description": "Spaltenüberschrift „Gruppe“",
+      "message": "Gruppe"
+   },
+   "hideLinks": {
+      "description": "Links ausblenden Text umschalten",
+      "message": "Links ausblenden"
+   },
+   "hostDetected": {
+      "description": "Host detected label",
+      "message": "Host erkannt:"
+   },
+   "howToFindApiKey": {
+      "description": "Titel für den Abschnitt mit Anweisungen zum API-Schlüssel",
+      "message": "Wie finde ich den API-Schlüssel?"
+   },
+   "importButton": {
+      "description": "Text der Schaltfläche importieren",
+      "message": "Einstellungen importieren"
+   },
+   "importDescription": {
+      "description": "Import description title",
+      "message": "Import Configuration"
+   },
+   "importInfo": {
+      "description": "Informationstext importieren",
+      "message": "Importieren Sie zuvor exportierte Einstellungen aus einer JSON-Datei. Der Import wird die Struktur validieren und Ihre Konfiguration wiederherstellen."
+   },
+   "importSectionTitle": {
+      "description": "Titel des Abschnitts importieren",
+      "message": "Einstellungen importieren"
+   },
+   "importWarning": {
+      "description": "Import Warnmeldung",
+      "message": "⚠️ Hinweis: Wenn die Lizenz nicht aktiviert ist, werden die Erweiterungseinstellungen nicht importiert."
+   },
+   "incompleteReplacementBlocked": {
+      "description": "Meldung, wenn die unvollständige Ersetzung blockiert ist",
+      "message": "Fehler: AI hat unvollständigen Austausch durchgeführt (nur Entfernung). Ersetzung blockiert."
+   },
+   "incompleteReplacementError": {
+      "description": "Fehler, wenn KI versucht, unvollständige Knoten zu ersetzen",
+      "message": "Fehler: AI hat versucht, unvollständig zu ersetzen (nur Entfernen ohne Hinzufügen). Bitte versuchen Sie, Ihre Anfrage neu zu formulieren."
+   },
+   "indexedDbData": {
+      "description": "Kategoriekopf für IndexedDB-Daten",
+      "message": "IndexedDB-Daten"
+   },
+   "install": {
+      "description": "Text der Schaltfläche „Installieren“",
+      "message": "Installieren"
+   },
+   "instructionStep1": {
+      "description": "Erster Schritt in den Anweisungen zum API-Schlüssel",
+      "message": "Klicken Sie in der linken Ecke neben Ihrem Namen auf die drei Punkte"
+   },
+   "instructionStep2": {
+      "description": "Zweiter Schritt in den Anweisungen zum API-Schlüssel",
+      "message": "Klicken Sie auf „Einstellungen“ und dann auf „n8n API“"
+   },
+   "instructionStep3": {
+      "description": "Dritter Schritt in den Anweisungen zum API-Schlüssel",
+      "message": "Klicken Sie auf „API-Schlüssel erstellen“"
+   },
+   "instructionStep4": {
+      "description": "Vierter Schritt in den Anweisungen zum API-Schlüssel",
+      "message": "Geben Sie die Bezeichnung an und legen Sie die Ablaufdauer auf „Keine Ablaufdauer“ fest und „Speichern“"
+   },
+   "instructionStep5": {
+      "description": "Fünfter Schritt in den Anweisungen zum API-Schlüssel",
+      "message": "Kopieren Sie den erstellten Schlüssel hier und klicken Sie auf „Speichern“"
+   },
+   "keyFeatures": {
+      "description": "Titel des Abschnitts Hauptmerkmale",
+      "message": "🚀 Hauptmerkmale"
+   },
+   "lang_en": {
+      "description": "Name in englischer Sprache",
+      "message": "Englisch"
+   },
+   "lang_es": {
+      "description": "Name in spanischer Sprache",
+      "message": "Español"
+   },
+   "lang_ru": {
+      "description": "Name in russischer Sprache",
+      "message": "Russisch"
+   },
+   "language": {
+      "description": "Bezeichnung der Sprachauswahl",
+      "message": "Sprache"
+   },
+   "languageSettings": {
+      "description": "Titel der Gruppe Spracheinstellungen",
+      "message": "Spracheinstellungen"
+   },
+   "leaveReview": {
+      "description": "Eine Bewertung hinterlassen",
+      "message": "Eine Bewertung hinterlassen"
+   },
+   "licenseExpired": {
+      "description": "Meldung \"Lizenz abgelaufen",
+      "message": "Die Lizenz ist abgelaufen. Bitte reaktivieren Sie sie im Popup-Fenster der Erweiterung."
+   },
+   "licenseInfo": {
+      "description": "Titel der Lizenzinfo-Gruppe",
+      "message": "Lizenzinformationen"
+   },
+   "licenseKey": {
+      "description": "Lizenzschlüssel-Etikett",
+      "message": "Lizenzschlüssel:"
+   },
+   "licenseStatus": {
+      "description": "Etikett für den Lizenzstatus",
+      "message": "Lizenzstatus:"
+   },
+   "links": {
+      "description": "Links Gruppentitel",
+      "message": "Links & Support"
+   },
+   "linksWorkflows": {
+      "description": "Feldbezeichnung „Links“",
+      "message": "Links"
+   },
+   "loading": {
+      "description": "Lademeldung",
+      "message": "Laden..."
+   },
+   "loadingChangelog": {
+      "description": "Meldung zum Laden des Änderungsprotokolls",
+      "message": "Changelog wird geladen..."
+   },
+   "loadingExecutions": {
+      "description": "Statusmeldung für Ausführungen wird geladen",
+      "message": "Ausführungen werden geladen..."
+   },
+   "loadingHistory": {
+      "description": "Meldung für Workflow-Historie laden",
+      "message": "Laden der Workflow-Historie..."
+   },
+   "loadingNodes": {
+      "description": "Lademeldung für Knoten",
+      "message": "Knoten laden..."
+   },
+   "loadingText": {
+      "description": "Text laden",
+      "message": "Laden..."
+   },
+   "loadingWorkflows": {
+      "description": "Lademeldung beim Abrufen von Workflows",
+      "message": "Laden von Workflows..."
+   },
+   "loading_template": {
+      "description": "Laden des Vorlagentextes",
+      "message": "Vorlage laden..."
+   },
+   "loading_workflow_preview": {
+      "description": "Laden des Workflow-Vorschautextes",
+      "message": "Workflow-Vorschau laden..."
+   },
+   "localChatAddress": {
+      "description": "Label für die Eingabe des lokalen Chat-Endpunkts",
+      "message": "Lokale Chat-Adresse:"
+   },
+   "localLLMConfigureInstructions": {
+      "description": "Anweisungen zur Konfiguration lokaler LLM-Endpunkte",
+      "message": "Konfigurieren Sie die Endpunkte unter Einstellungen → Registerkarte AI"
+   },
+   "localLLMConfigured": {
+      "description": "Statusmeldung, wenn lokales LLM konfiguriert ist",
+      "message": "✅ Lokales LM konfiguriert"
+   },
+   "localLLMOption": {
+      "description": "Lokaler LLM-Anbieter Option im Popup",
+      "message": "Lokales LM (Modell)"
+   },
+   "localLLMSection": {
+      "description": "Lokale LLM Abschnittsüberschrift im Popup",
+      "message": "Lokale LM"
+   },
+   "localLLMsTitle": {
+      "description": "Lokale LLMs Abschnittstitel in Optionen",
+      "message": "Lokale LLMs"
+   },
+   "localModelsAddress": {
+      "description": "Label für lokale Modelle Endpunkteingang",
+      "message": "Adresse der lokalen Modelle:"
+   },
+   "localProjects": {
+      "description": "Lokale Projekte Einstellung Name",
+      "message": "Lokale Projekte"
+   },
+   "localProjectsDesc": {
+      "description": "Beschreibung der Einstellung Lokale Projekte",
+      "message": "Aktivieren Sie die Projektordner in der linken Spalte"
+   },
+   "localVariables": {
+      "description": "Lokale Variablen Einstellungsname",
+      "message": "Lokale Variablen"
+   },
+   "localVariablesDesc": {
+      "description": "Beschreibung der lokalen Variableneinstellungen",
+      "message": "Der Link Variablen im Menü ermöglicht den Zugriff auf ein Notizbuch für wichtige Daten. Hotkey: Strg+Umschalt+V"
+   },
+   "mainSectionTitle": {
+      "description": "Titel des Hauptabschnitts",
+      "message": "Haupteinstellungen"
+   },
+   "menuAI": {
+      "description": "",
+      "message": "Menüpunkt AI"
+   },
+   "menuAbout": {
+      "description": "Über Menüpunkt",
+      "message": "Über"
+   },
+   "menuExport": {
+      "description": "Exportieren",
+      "message": "Menüpunkt Exportieren"
+   },
+   "menuImport": {
+      "description": "Import menu item",
+      "message": "Import"
+   },
+   "menuMain": {
+      "description": "Hauptmenüpunkt",
+      "message": "Haupt"
+   },
+   "menuWorkflowHistory": {
+      "description": "Menüpunkt für den Abschnitt Workflow-Historie",
+      "message": "Workflow-Historie"
+   },
+   "modalSettingsDescription": {
+      "description": "Modale Einstellungen Beschreibung",
+      "message": "So konfigurieren Sie die Einstellungen des N8N-Masters:"
+   },
+   "modalStep1": {
+      "description": "Modaler Schritt 1 Text",
+      "message": "Klicken Sie auf das Symbol der N8N Master-Erweiterung in der Symbolleiste Ihres Browsers"
+   },
+   "modalStep2": {
+      "description": "Modaler Schritt 2 Text",
+      "message": "Konfigurieren Sie Ihre API-Schlüssel und aktivieren Sie Funktionen"
+   },
+   "modalStep3": {
+      "description": "Modaler Schritt 3-Text",
+      "message": "Starten Sie die Verwendung von N8N Master-Funktionen"
+   },
+   "modalTipText": {
+      "description": "Modaler Hinweistext",
+      "message": "Wenn Sie das Erweiterungssymbol nicht sehen, klicken Sie auf das Puzzlestück (🧩) in der Symbolleiste und wählen Sie N8N Master."
+   },
+   "modalTipTitle": {
+      "description": "Modaler Tipptitel",
+      "message": "💡 Tipp:"
+   },
+   "modifyingWorkflow": {
+      "description": "Meldung beim Ändern des Workflows",
+      "message": "Ändern des Workflows"
+   },
+   "n8nApiConfiguration": {
+      "description": "Abschnitt N8N-API-Konfiguration",
+      "message": "N8N-API-Konfiguration"
+   },
+   "n8nApiConfigurationDesc": {
+      "description": "N8N-API-Konfigurationsbeschreibung",
+      "message": "N8N-API-Schlüssel für ausgewählte Optionen konfigurieren"
+   },
+   "n8nApiKey": {
+      "description": "N8N API-Schlüssel Feldbezeichnung",
+      "message": "N8N API-Schlüssel"
+   },
+   "n8nApiKeyDescription": {
+      "description": "N8N API-Schlüssel Feldbeschreibung",
+      "message": "API-Schlüssel für den Zugriff auf N8N-Webhooks und -Automatisierung"
+   },
+   "n8nApiKeyNotConfigured": {
+      "description": "Fehlermeldung, wenn der N8N-API-Schlüssel nicht konfiguriert ist",
+      "message": "N8N-API-Schlüssel nicht konfiguriert. Bitte konfigurieren Sie ihn in den Erweiterungseinstellungen."
+   },
+   "n8nApiKeyPlaceholder": {
+      "description": "N8N API-Schlüssel Platzhalter",
+      "message": "Geben Sie Ihren N8N-API-Schlüssel ein..."
+   },
+   "n8nApiKeyRemoved": {
+      "description": "N8N-API-Schlüssel entfernt Meldung",
+      "message": "API-Schlüssel wurde entfernt"
+   },
+   "n8nApiKeyRequired": {
+      "description": "Warnmeldung, wenn N8N-API-Schlüssel erforderlich ist",
+      "message": "N8N-API-Schlüssel erforderlich für"
+   },
+   "n8nApiKeyRequiredMessage": {
+      "description": "Meldung für Dialogfeld \"API-Schlüssel erforderlich",
+      "message": "Um Knoten aus anderen Workflows zu kopieren, konfigurieren Sie bitte Ihren N8N-API-Schlüssel in den Erweiterungseinstellungen."
+   },
+   "n8nApiKeyValid": {
+      "description": "Status des gültigen N8N-API-Schlüssels",
+      "message": "N8N-API-Schlüssel ist gültig!"
+   },
+   "n8nApiSettings": {
+      "description": "N8N-API-Einstellungen Gruppentitel",
+      "message": "N8N-API-Einstellungen"
+   },
+   "n8nApiUrl": {
+      "description": "N8N API URL Feldbezeichnung",
+      "message": "N8N API URL:"
+   },
+   "n8nApiUrlDescription": {
+      "description": "N8N API URL Feldbeschreibung",
+      "message": "Basis-URL für Ihre N8N-Instanz API"
+   },
+   "n8nMasterActivated": {
+      "description": "Status nach Aktivierung",
+      "message": "N8N Master aktiviert (Seite aktualisieren, um Chat zu sehen)"
+   },
+   "n8nMasterActivatedRefresh": {
+      "description": "Benachrichtigung, wenn N8N Master aktiviert ist und eine Aktualisierung der Seite erforderlich ist",
+      "message": "N8N Master aktiviert! Aktualisieren Sie die Seite, um das Chat-Widget zu sehen."
+   },
+   "n8nMasterActiveOnPage": {
+      "description": "Benachrichtigung, wenn N8N Master auf der aktuellen Seite aktiviert ist",
+      "message": "N8N Master ist jetzt auf dieser Seite aktiv"
+   },
+   "n8nMasterDisconnected": {
+      "description": "Benachrichtigung, wenn N8N-Master von der aktuellen Seite getrennt wird",
+      "message": "N8N-Master wird von dieser Seite getrennt"
+   },
+   "n8nMasterIsActive": {
+      "description": "Status, wenn N8N Master aktiv ist",
+      "message": "N8N Master ist auf dieser Seite aktiv"
+   },
+   "n8nMasterLocalVariables": {
+      "description": "Erweiterung Symbol Tooltip für lokale Variablen",
+      "message": "N8N Master - Lokale Variablen"
+   },
+   "n8nMasterNotWorking": {
+      "description": "Status, wenn N8N Master nicht funktioniert",
+      "message": "N8N Master funktioniert nicht auf dieser Seite"
+   },
+   "n8nMasterProcessing": {
+      "description": "Name der Nebenstelle für die Bearbeitung von Meldungen",
+      "message": "N8N Master"
+   },
+   "n8nPageDetectedReady": {
+      "description": "Statusmeldung, wenn die N8N-Seite erkannt wurde und bereit zur Aktivierung ist",
+      "message": "N8N-Seite erkannt - bereit zur Aktivierung"
+   },
+   "n8nWorkflowDetected": {
+      "description": "Status, wenn Workflow-Seite gefunden wird",
+      "message": "N8N-Workflow-Seite gefunden - bereit zur Aktivierung"
+   },
+   "newProjectButton": {
+      "description": "Neues Projekt hinzufügen Schaltflächentext",
+      "message": "📁 + Projekt hinzufügen"
+   },
+   "next": {
+      "description": "Schaltfläche „Nächste Seite“",
+      "message": "Weiter"
+   },
+   "noActiveTab": {
+      "description": "Fehler, wenn keine aktive Registerkarte",
+      "message": "Keine aktive Registerkarte gefunden"
+   },
+   "noApiKeyForImport": {
+      "description": "Meldung, die angezeigt wird, wenn kein API-Schlüssel für den Import von Workflows konfiguriert ist",
+      "message": "Um Workflows aus Ihrer N8N-Instanz zu importieren, konfigurieren Sie bitte Ihren N8N-API-Schlüssel in den Erweiterungseinstellungen."
+   },
+   "noAvailableWorkflows": {
+      "description": "Meldung, wenn keine Arbeitsabläufe zum Hinzufügen verfügbar sind",
+      "message": "Keine verfügbaren Arbeitsabläufe gefunden. Alle Arbeitsabläufe sind bereits in Projekten enthalten."
+   },
+   "noDomainsConnected": {
+      "description": "Meldung, wenn keine Domains konfiguriert sind",
+      "message": "Keine Domains verbunden"
+   },
+   "noGroup": {
+      "description": "Kein Platzhalter für Gruppen",
+      "message": "—"
+   },
+   "noHistoryAvailable": {
+      "description": "Meldung, wenn der Workflow keinen Verlauf hat",
+      "message": "Noch kein Verlauf verfügbar"
+   },
+   "noNodesFound": {
+      "description": "Fehler \"Keine Knoten gefunden",
+      "message": "Keine Knoten im Workflow gefunden"
+   },
+   "noNodesMatchSearch": {
+      "description": "Meldung, wenn keine Knoten dem Suchbegriff entsprechen",
+      "message": "Keine Knoten entsprechen der Suche"
+   },
+   "noOtherWorkflowsAvailable": {
+      "description": "Meldung, wenn keine anderen Arbeitsabläufe verfügbar sind",
+      "message": "Keine anderen Arbeitsabläufe verfügbar.\u003Cbr/>Erstellen Sie weitere Arbeitsabläufe, um Knoten zwischen ihnen zu kopieren."
+   },
+   "noTags": {
+      "description": "Keine Tags-Platzhalter",
+      "message": "—"
+   },
+   "noVariablesFound": {
+      "description": "Meldung, wenn die Suche keine Ergebnisse liefert",
+      "message": "Es wurden keine Variablen gefunden, die Ihrer Suche entsprechen."
+   },
+   "noVariablesMatchingSearch": {
+      "description": "Meldung, wenn keine Variablen mit dem Suchbegriff übereinstimmen",
+      "message": "Keine Variablen zu \"{{Suchbegriff}}\" gefunden."
+   },
+   "noVariablesYet": {
+      "description": "Meldung, wenn keine Variablen vorhanden sind",
+      "message": "Noch keine Variablen. Klicken Sie auf \"+ Variable hinzufügen\", um Ihre erste Variable zu erstellen."
+   },
+   "noWorkflowsFound": {
+      "description": "Meldung, wenn keine Workflows verfügbar sind",
+      "message": "Keine Workflows gefunden"
+   },
+   "noWorkflowsMatchSearch": {
+      "description": "Nachricht, wenn die Suche keine Ergebnisse liefert",
+      "message": "Keine Workflows entsprechen Ihrer Suche."
+   },
+   "nodeAnalysis": {
+      "description": "Name des Knotenanalyse-Merkmals",
+      "message": "Knotenanalyse"
+   },
+   "nodeAnalysisDesc": {
+      "description": "Beschreibung der Knotenanalysefunktion",
+      "message": "Analysieren Sie ausgewählte Knoten und erhalten Sie Einblicke in die Workflow-Struktur"
+   },
+   "nodeCopiedSuccessfully": {
+      "description": "Erfolgsmeldung, wenn der Knoten kopiert wurde",
+      "message": "erfolgreich kopiert und zum Workflow hinzugefügt!"
+   },
+   "nodeCopiedToClipboard": {
+      "description": "Meldung, wenn der Knoten in die Zwischenablage kopiert wird",
+      "message": "in die Zwischenablage kopiert. Verwenden Sie Strg+V zum Einfügen in n8n."
+   },
+   "nodeCopy": {
+      "description": "Knoten kopieren",
+      "message": "Schaltfläche Knoten kopieren"
+   },
+   "nodeCopySuccess": {
+      "description": "Erfolgsmeldung Knotenkopie",
+      "message": "Knoten erfolgreich kopiert"
+   },
+   "nodeExecutionSelect": {
+      "description": "Name der Einstellung für die Auswahl der Knotenausführung",
+      "message": "Auswahl der Knotenausführung"
+   },
+   "nodeExecutionSelectDesc": {
+      "description": "Knotenausführung auswählen auswählen",
+      "message": "Wenn Sie eine Knotenausgabe bearbeiten, können Sie Daten aus der Einstellungsbeschreibung Ausführungen"
+   },
+   "nodeNameCopiedToClipboard": {
+      "description": "Meldung, wenn ein bestimmter Knoten in die Zwischenablage kopiert wird",
+      "message": "Knoten \"{KnotenName}\" in die Zwischenablage kopiert. Verwenden Sie Strg+V zum Einfügen in n8n."
+   },
+   "nodePaste": {
+      "description": "Knoten einfügen",
+      "message": "Schaltfläche Knoten einfügen"
+   },
+   "nodePasteSuccess": {
+      "description": "Erfolgsmeldung zum Einfügen des Knotens",
+      "message": "Knoten erfolgreich eingefügt"
+   },
+   "nodeSelector": {
+      "description": "Knotenwähler-Einstellungsname",
+      "message": "Knotenwähler"
+   },
+   "nodeSelectorDesc": {
+      "description": "Beschreibung der Knotenselektoreinstellungen",
+      "message": "Für jeden Knoten mit \"+\" wird ein Selektor hinzugefügt, um Knoten aus Ihren Arbeitsabläufen auszuwählen"
+   },
+   "nodes": {
+      "description": "Pluralform von node count in history",
+      "message": "nodes"
+   },
+   "notN8nPage": {
+      "description": "Badge-Meldung, wenn die Seite keine n8n-Seite ist",
+      "message": "Dies ist keine n8n-Seite"
+   },
+   "notN8nPageError": {
+      "description": "Fehler, wenn die Seite nicht N8N ist",
+      "message": "Dies ist keine n8n-Seite"
+   },
+   "notificationsDescription": {
+      "description": "Beschreibung der Option Benachrichtigungen aktivieren",
+      "message": "Erfolgs- und Fehlerbenachrichtigungen anzeigen"
+   },
+   "notificationsOption": {
+      "description": "Benachrichtigungen aktivieren",
+      "message": "Beschriftung der Option Benachrichtigungen aktivieren"
+   },
+   "of": {
+      "description": "Von-Bezeichnung in der Paginierung",
+      "message": "von"
+   },
+   "openChatFirst": {
+      "description": "Chat öffnen erste Nachricht",
+      "message": "Bitte öffne zuerst das Chat-Widget, um AI-Nachrichten zu sehen."
+   },
+   "openSettings": {
+      "description": "Schaltflächentext zum Öffnen der Einstellungen",
+      "message": "Einstellungen öffnen"
+   },
+   "openSource": {
+      "description": "Open Source Abschnittstitel",
+      "message": "Open Source"
+   },
+   "openSourceDescription": {
+      "description": "Beschreibung des Bereichs „Open Source“",
+      "message": "Über 7.000 Open-Source-Projekte zur Organisation Ihrer eigenen Projekte auf Basis vorgefertigter Lösungen."
+   },
+   "openaiApiKey": {
+      "description": "OpenAI API-Schlüssel Feldbezeichnung",
+      "message": "OpenAI API-Schlüssel"
+   },
+   "openrouterApiKey": {
+      "description": "Openrouter API Schlüssel Feldbezeichnung",
+      "message": "Openrouter API Schlüssel"
+   },
+   "optimizePrompt": {
+      "description": "Optimize prompt field label",
+      "message": "Eingabeaufforderung optimieren:"
+   },
+   "optionsPage": {
+      "description": "Optionen Seite Linktext",
+      "message": "Optionen"
+   },
+   "optionsPageHeader": {
+      "description": "Optionen",
+      "message": "Kopfzeile der Seite N8N Master"
+   },
+   "optionsPageTitle": {
+      "description": "Optionen Seitentitel",
+      "message": "N8N Master-Einstellungen"
+   },
+   "orText": {
+      "description": "Oder Trenntext zwischen den Ladenlinks",
+      "message": "oder"
+   },
+   "outputTemplates": {
+      "description": "Importoption für Ausgabevorlagen",
+      "message": "Ausgabevorlagen"
+   },
+   "page": {
+      "description": "Seitenbezeichnung in der Paginierung",
+      "message": "Seite"
+   },
+   "pageStatus": {
+      "description": "Seitenstatus",
+      "message": "🔍 Abschnittsüberschrift Seitenstatus"
+   },
+   "pinData": {
+      "description": "Daten-Pin-Titel",
+      "message": "Daten-Pin"
+   },
+   "pinned": {
+      "description": "Tooltip zum Symbol „Angeheftet“",
+      "message": "Angeheftet"
+   },
+   "pinnedData": {
+      "description": "Titel des Modals „Angeheftete Daten“",
+      "message": "Angeheftete Daten"
+   },
+   "placeholderExplainCode": {
+      "description": "Platzhalter für Code-Erklärungstextfeld",
+      "message": "Benutzerdefinierte Systemmeldung für Code-Erklärung..."
+   },
+   "placeholderGenerateCode": {
+      "description": "Platzhalter für Codegenerierung Textarea",
+      "message": "Benutzerdefinierte Systemmeldung für die Codegenerierung..."
+   },
+   "placeholderGenerateJson": {
+      "description": "Platzhalter für JSON-Textarea generieren",
+      "message": "Benutzerdefinierte Systemmeldung für JSON-Generierung..."
+   },
+   "placeholderGeneratePrompt": {
+      "description": "Platzhalter für Prompt-Textarea erzeugen",
+      "message": "Benutzerdefinierte Systemmeldung für die Prompt-Generierung..."
+   },
+   "placeholderGenerateWorkflow": {
+      "description": "Platzhalter für Workflow-Textfeld generieren",
+      "message": "Benutzerdefinierte Systemnachricht für die Workflow-Generierung..."
+   },
+   "placeholderOptimize": {
+      "description": "Platzhalter für Optimierungsaufforderungstextarea",
+      "message": "Benutzerdefinierte Systemmeldung für die Optimierung..."
+   },
+   "pleaseEnterApiKey": {
+      "description": "Meldung, wenn der API-Schlüssel nicht eingegeben wird",
+      "message": "Bitte geben Sie einen API-Schlüssel ein"
+   },
+   "pleaseEnterN8nApiKey": {
+      "description": "Meldung, wenn kein N8N-API-Schlüssel eingegeben wird",
+      "message": "Bitte geben Sie einen N8N-API-Schlüssel ein"
+   },
+   "popupTitle": {
+      "description": "Titel des Popup-Fensters",
+      "message": "N8N Master-Einstellungen"
+   },
+   "popup_language": {
+      "description": "Sprachauswahl im Popup-Fenster",
+      "message": "Sprache"
+   },
+   "popup_settings": {
+      "description": "Titel des Abschnitts Einstellungen im Popup",
+      "message": "⚙️ Einstellungen"
+   },
+   "previous": {
+      "description": "Zurück-Schaltfläche",
+      "message": "Zurück"
+   },
+   "privacyPolicy": {
+      "description": "Linktext zur Datenschutzrichtlinie",
+      "message": "Datenschutzerklärung"
+   },
+   "proceedingCustomWorkflow": {
+      "description": "Fortfahren mit einer benutzerdefinierten Workflow-Nachricht",
+      "message": "Fortfahren mit der Erstellung eines benutzerdefinierten Workflows"
+   },
+   "projectNameAlreadyExists": {
+      "description": "Validierungsfehler, wenn der Projektname bereits existiert",
+      "message": "Ein Projekt mit diesem Namen existiert bereits"
+   },
+   "projectNameCannotBeEmpty": {
+      "description": "Validierungsfehler, wenn der Projektname leer ist",
+      "message": "Projektname kann nicht leer sein"
+   },
+   "projectNamePlaceholder": {
+      "description": "Projektname Eingabeplatzhalter im Formular",
+      "message": "Projektname..."
+   },
+   "projectsCreate": {
+      "description": "Projekt erstellen",
+      "message": "Schaltfläche Projekt erstellen"
+   },
+   "projectsDelete": {
+      "description": "Schaltfläche Projekt löschen",
+      "message": "Projekt löschen"
+   },
+   "projectsExport": {
+      "description": "Projekt exportieren",
+      "message": "Schaltfläche Projekt exportieren"
+   },
+   "projectsImport": {
+      "description": "Projekt importieren",
+      "message": "Schaltfläche Projekt importieren"
+   },
+   "projectsName": {
+      "description": "Projektname",
+      "message": "Feld Projektname"
+   },
+   "purchaseLicenseToUnlock": {
+      "description": "Text der Schaltfläche „Lizenz kaufen“",
+      "message": "Kaufen Sie eine Lizenz, um Funktionen freizuschalten"
+   },
+   "rateUs": {
+      "description": "Linktext „Bewerten Sie uns“",
+      "message": "Bewerten Sie uns"
+   },
+   "refreshHistory": {
+      "description": "Schaltfläche zum Aktualisieren des Workflowverlaufs",
+      "message": "Verlauf aktualisieren"
+   },
+   "rememberDialog": {
+      "description": "Dialog-Einstellungsname merken",
+      "message": "Dialog merken"
+   },
+   "rememberDialogDesc": {
+      "description": "Beschreibung der Dialog-Einstellung speichern",
+      "message": "Speichert den Chat-Dialog für jeden Arbeitsablauf"
+   },
+   "requiresN8nApiKey": {
+      "description": "Meldung, die angezeigt wird, wenn für eine Funktion ein N8N-API-Schlüssel erforderlich ist",
+      "message": "Um diese Option zu aktivieren, geben Sie zunächst Folgendes ein:"
+   },
+   "reset": {
+      "description": "Text der Zurücksetzen-Schaltfläche",
+      "message": "Zurücksetzen"
+   },
+   "resetSuccess": {
+      "description": "Einstellungen zurücksetzen Erfolgsmeldung",
+      "message": "Einstellungen zurücksetzen"
+   },
+   "reviewRequestButton": {
+      "description": "Buttontext für Bewertungsanfrage im Chat",
+      "message": "⭐ Bewertung hinterlassen"
+   },
+   "reviewRequestProductHunt": {
+      "description": "Text für Product Hunt-Supportanfrage im Chat",
+      "message": "Und unterstützen Sie uns auf Product Hunt"
+   },
+   "reviewRequestProductHuntButton": {
+      "description": "Buttontext für Product Hunt Support im Chat",
+      "message": "🚀 Product Hunt"
+   },
+   "reviewRequestText": {
+      "description": "Text für Bewertungsanfrage Nachricht im Chat",
+      "message": "Bitte hinterlassen Sie eine Bewertung über uns auf Google Web Store"
+   },
+   "reviewRequestTitle": {
+      "description": "Titel für die Nachricht über den Überprüfungsantrag im Chat",
+      "message": "🌟 Gefällt dir diese Erweiterung?"
+   },
+   "reviewSubtitle": {
+      "description": "Review block subtitle",
+      "message": "Eine Bewertung hinterlassen"
+   },
+   "reviewTitle": {
+      "description": "Blocktitel überprüfen",
+      "message": "Gefällt Ihnen diese Erweiterung? 😊"
+   },
+   "salesPilotDescription": {
+      "description": "SalesPilot AI Erweiterung Beschreibung",
+      "message": "KI-Assistent zur Analyse wichtiger Website-Metriken für die SEO-Förderung."
+   },
+   "salesPilotTitle": {
+      "description": "SalesPilot AI Erweiterung Titel",
+      "message": "SalesPilot AI"
+   },
+   "save": {
+      "description": "Text der Schaltfläche Speichern",
+      "message": "Speichern"
+   },
+   "saveAllSettings": {
+      "description": "Alle Einstellungen speichern",
+      "message": "Schaltfläche Alle Einstellungen speichern"
+   },
+   "saveSuccess": {
+      "description": "Einstellungen speichern Erfolgsmeldung",
+      "message": "Einstellungen gespeichert"
+   },
+   "saving": {
+      "description": "Statustext zum Speichern",
+      "message": "Speichern..."
+   },
+   "search": {
+      "description": "Suche Platzhalter",
+      "message": "Suche..."
+   },
+   "searchNodes": {
+      "description": "Suchknoten Platzhalter",
+      "message": "Knotenpunkte suchen..."
+   },
+   "searchTemplates": {
+      "description": "Suchvorlagen Einstellungsname",
+      "message": "Suchvorlagen"
+   },
+   "searchTemplatesDesc": {
+      "description": "Beschreibung der Einstellung Vorlagen suchen",
+      "message": "Bei der Erstellung von Workflows zuerst nach vorhandenen Vorlagen suchen"
+   },
+   "searchWorkflows": {
+      "description": "Such-Workflows Platzhalter",
+      "message": "Arbeitsabläufe durchsuchen..."
+   },
+   "searchingTemplates": {
+      "description": "Nachricht über die Suche nach Vorlagen",
+      "message": "Suche nach passenden Vorlagen"
+   },
+   "selectAll": {
+      "description": "Schaltfläche zur Auswahl aller Importoptionen",
+      "message": "Alle auswählen"
+   },
+   "selectDataToImport": {
+      "description": "Kopfzeile für die Auswahl der zu importierenden Daten",
+      "message": "Wählen Sie die zu importierenden Daten aus:"
+   },
+   "selectFile": {
+      "description": "Text der Schaltfläche Datei auswählen",
+      "message": "JSON-Datei auswählen"
+   },
+   "selectLanguage": {
+      "description": "Sprachauswahl-Etikett",
+      "message": "Sprache auswählen:"
+   },
+   "selectModel": {
+      "description": "Modellauswahl-Etikett",
+      "message": "Modell auswählen:"
+   },
+   "selectWorkflowsToAdd": {
+      "description": "Modaltitel des Workflow-Auswahlmenüs",
+      "message": "Hinzufügende Workflows auswählen"
+   },
+   "services": {
+      "description": "Dienstleistungen",
+      "message": "Dienstleistungen"
+   },
+   "settings": {
+      "description": "Einstellungen Abschnittsüberschrift",
+      "message": "Einstellungen"
+   },
+   "settingsChanged": {
+      "description": "Benachrichtigung, wenn die Einstellungen geändert wurden und eine Aktualisierung der Seite erforderlich ist",
+      "message": "Die Einstellungen wurden geändert, bitte aktualisieren Sie die Seite!"
+   },
+   "showLinks": {
+      "description": "Links anzeigen/ausblenden",
+      "message": "{count} Links anzeigen"
+   },
+   "showTemplates": {
+      "description": "Vorlagen anzeigen Einstellungsname",
+      "message": "Vorlagen anzeigen"
+   },
+   "showTemplatesDesc": {
+      "description": "Beschreibung der Vorlageneinstellungen anzeigen",
+      "message": "Menü mit Liste der zu kopierenden Vorlagen anzeigen"
+   },
+   "showTemplatesDescription": {
+      "description": "Beschreibung der Option Vorlagen-Widget anzeigen",
+      "message": "Anzeigen des Vorlagen-Widgets in der N8N-Schnittstelle"
+   },
+   "showTemplatesOption": {
+      "description": "Vorlagen-Widget-Optionsetikett anzeigen",
+      "message": "Vorlagen-Widget anzeigen"
+   },
+   "socialMedia": {
+      "description": "Soziale Medien Link",
+      "message": "Soziale Medien"
+   },
+   "status": {
+      "description": "Tabellenspaltenüberschrift für Status",
+      "message": "Status"
+   },
+   "statusActive": {
+      "description": "Filteroption für den Status „Aktiv“",
+      "message": "Aktiv"
+   },
+   "statusInactive": {
+      "description": "Filteroption für den Status „Inaktiv“",
+      "message": "Inaktiv"
+   },
+   "stepActivateFeatures": {
+      "description": "Schritt 2 Titel",
+      "message": "Aktivieren und Aktivieren von Funktionen"
+   },
+   "stepActivateFeaturesDesc": {
+      "description": "Schritt 2 Beschreibung",
+      "message": "Aktivieren Sie die gewünschten Funktionen in den Einstellungen"
+   },
+   "stepConfigureApi": {
+      "description": "Schritt 1 Titel",
+      "message": "API-Schlüssel konfigurieren"
+   },
+   "stepConfigureApiDesc": {
+      "description": "Schritt 1 Beschreibung",
+      "message": "Richten Sie Ihre KI-API-Schlüssel (OpenAI, Anthropic, Openrouter) im Erweiterungs-Popup ein"
+   },
+   "stepStartCreating": {
+      "description": "Schritt 3 Titel",
+      "message": "Erstellen beginnen"
+   },
+   "stepStartCreatingDesc": {
+      "description": "Schritt 3 Beschreibung",
+      "message": "Öffnen Sie n8n und verwenden Sie den KI-Assistenten und andere Tools"
+   },
+   "subscribeYoutubeChannel": {
+      "description": "Youtube-Kanal abonnieren",
+      "message": "Youtube-Kanal abonnieren"
+   },
+   "success": {
+      "description": "Erfolgsmeldung",
+      "message": "Erfolg"
+   },
+   "support": {
+      "description": "Support-Link",
+      "message": "Support"
+   },
+   "systemMessages": {
+      "description": "Gruppentitel Systemnachrichten",
+      "message": "Systemnachrichten"
+   },
+   "tabExecutions": {
+      "description": "Registerkarte „Hinrichtungen“",
+      "message": "Hinrichtungen"
+   },
+   "tabN8nAPI": {
+      "description": "n8n API Registerkarte Titel",
+      "message": "n8n API"
+   },
+   "tabOptions": {
+      "description": "Registerkarte „Optionen“",
+      "message": "Optionen"
+   },
+   "tabTools": {
+      "description": "Registerkarte „Werkzeuge“",
+      "message": "Werkzeuge"
+   },
+   "tabWorkflows": {
+      "description": "Registerkarte „Workflows“",
+      "message": "Workflows"
+   },
+   "tags": {
+      "description": "Tags-Spaltenüberschrift",
+      "message": "Tags"
+   },
+   "tamperingDetected": {
+      "description": "Titel für Datenmanipulationsmeldung",
+      "message": "Cache-Datenmanipulation erkannt"
+   },
+   "tamperingMessage": {
+      "description": "Meldung über die Folgen von Manipulationen",
+      "message": "Alle Daten wurden gelöscht und die Einstellungen zurückgesetzt!"
+   },
+   "templateCopiedSuccess": {
+      "description": "Erfolgsmeldung beim Kopieren der Vorlage",
+      "message": "Die Vorlage wurde erfolgreich in die Zwischenablage kopiert. Drücken Sie Strg + V, um den Workflow einzufügen."
+   },
+   "templateDownloadFailed": {
+      "description": "Meldung über fehlgeschlagenen Vorlagen-Download",
+      "message": "Download fehlgeschlagen"
+   },
+   "templateNotFound": {
+      "description": "Meldung, wenn die Vorlage nicht gefunden wird",
+      "message": "Vorlage nicht gefunden, Erstellung mit AI..."
+   },
+   "templateProcessingIssue": {
+      "description": "Template Processing Issue Titel",
+      "message": "Template Processing Issue"
+   },
+   "templateProcessingIssueDesc": {
+      "description": "Beschreibung des Problems bei der Verarbeitung von Vorlagen",
+      "message": "Das JSON des Workflows konnte nicht automatisch aus dieser Vorlage extrahiert werden. Der Inhalt der Vorlage muss möglicherweise manuell bearbeitet werden."
+   },
+   "templateSearchDisabled": {
+      "description": "Meldung, wenn die Vorlagensuche deaktiviert ist",
+      "message": "Vorlagensuche deaktiviert, Erstellung mit AI..."
+   },
+   "templateSelectorNotAvailable": {
+      "description": "Fehler TemplateSelector nicht verfügbar",
+      "message": "TemplateSelector nicht verfügbar"
+   },
+   "template_preview_title": {
+      "description": "Titel der Vorlagenseite",
+      "message": "Vorlagenvorschau"
+   },
+   "templatesExport": {
+      "description": "Vorlage exportieren",
+      "message": "Schaltfläche Vorlage exportieren"
+   },
+   "templatesImport": {
+      "description": "Vorlage importieren",
+      "message": "Schaltfläche Vorlage importieren"
+   },
+   "templatesLoad": {
+      "description": "Vorlagen laden",
+      "message": "Schaltfläche Vorlagen laden"
+   },
+   "templatesLoading": {
+      "description": "Meldung zum Laden von Vorlagen",
+      "message": "Vorlagen werden geladen..."
+   },
+   "templatesSearch": {
+      "description": "Suchvorlagen Platzhalter",
+      "message": "Vorlagen suchen..."
+   },
+   "templatesSearchTitle": {
+      "description": "Tooltip der Suchschaltfläche für Vorlagen",
+      "message": "Suchvorlagen"
+   },
+   "templatesTitle": {
+      "description": "Vorlagen Widget-Titel",
+      "message": "Vorlagen"
+   },
+   "testButton": {
+      "description": "Test",
+      "message": "Prüfen"
+   },
+   "testFailed": {
+      "description": "Testfehlermeldung",
+      "message": "Test fehlgeschlagen"
+   },
+   "testKey": {
+      "description": "Test",
+      "message": "Prüfen"
+   },
+   "testSuccess": {
+      "description": "Erfolgsmeldung des Tests",
+      "message": "Test erfolgreich abgeschlossen"
+   },
+   "testingApiKey": {
+      "description": "API-Schlüssel-Testverfahren",
+      "message": "Testen des API-Schlüssels..."
+   },
+   "testingN8nApiKey": {
+      "description": "N8N-API-Schlüssel-Testverfahren",
+      "message": "Testen des N8N-API-Schlüssels..."
+   },
+   "timeEnd": {
+      "description": "Spaltenüberschrift „Zeitende“",
+      "message": "Zeitende"
+   },
+   "timeFrom": {
+      "description": "Zeit von Filterplatzhalter",
+      "message": "Zeit von"
+   },
+   "timeStart": {
+      "description": "Spaltenüberschrift „Zeit Start“",
+      "message": "Zeit Start"
+   },
+   "timeTo": {
+      "description": "Zeit für Filterplatzhalter",
+      "message": "Zeit für"
+   },
+   "toDisplayExecutionsList": {
+      "description": "Leere Statusmeldung für Ausführungen",
+      "message": "Um eine Liste Ihrer Workflow-Ausführungen anzuzeigen, verbinden Sie sich mit dem"
+   },
+   "toDisplayWorkflowsList": {
+      "description": "Meldung für leeren Workflow-Status",
+      "message": "Um eine Liste Ihrer Workflows anzuzeigen, verbinden Sie sich mit dem"
+   },
+   "totalWorkflows": {
+      "description": "Tooltip für die Metrik „Gesamt-Workflows“",
+      "message": "Gesamt-Workflows"
+   },
+   "trialExpired": {
+      "description": "Titel für Benachrichtigung über abgelaufene Probezeit",
+      "message": "Probezeit ist beendet"
+   },
+   "trialExpiredDesc": {
+      "description": "Beschreibung der abgelaufenen Testversion",
+      "message": "Kaufen Sie eine Lizenz, um Funktionen freizuschalten"
+   },
+   "trialPeriodActive": {
+      "description": "Meldung über aktive Testphase",
+      "message": "Sie haben {Tage} Tage, um die Funktionen zu testen"
+   },
+   "trialPeriodDesc": {
+      "description": "Beschreibung der Testphase",
+      "message": "Danach müssen Sie eine Lizenz erwerben"
+   },
+   "tryOtherTopTools": {
+      "description": "Abschnittsüberschrift für andere Erweiterungen Werbung",
+      "message": "🚀 Versuchen Sie andere Top-Tools"
+   },
+   "tutorialVideoDesc": {
+      "description": "Beschreibung des Tutorial-Videos",
+      "message": "Erfahren Sie in diesem umfassenden Tutorial, wie Sie alle Funktionen des N8N Master nutzen können"
+   },
+   "unableToCheck": {
+      "description": "Fehler bei Statusprüfung fehlgeschlagen",
+      "message": "Seitenstatus kann nicht geprüft werden"
+   },
+   "unlockFullPower": {
+      "description": "Text der Taste Volle Leistung freischalten",
+      "message": "⚡ Volle Leistung freischalten"
+   },
+   "unlockFullPowerSubtitle": {
+      "description": "Modalen Untertitel freischalten",
+      "message": "Geben Sie Ihren Lizenzschlüssel ein, um alle Funktionen zu aktivieren"
+   },
+   "unlockFullPowerTitle": {
+      "description": "Modalen Titel freischalten",
+      "message": "Volle Leistung freischalten"
+   },
+   "userAccount": {
+      "description": "Linktext für Benutzerkonto",
+      "message": "Nitiweb-Konto – Verwalten Ihrer Schlüssel"
+   },
+   "variableCopiedToClipboard": {
+      "description": "Erfolgsmeldung, wenn die Variable in die Zwischenablage kopiert wurde",
+      "message": "Der Parameter wurde in die Zwischenablage kopiert. Drücken Sie Strg + V, um ihn an der gewünschten Stelle einzufügen."
+   },
+   "variableDeletedSuccessfully": {
+      "description": "Erfolgsmeldung beim Löschen der Variable",
+      "message": "Variable erfolgreich gelöscht!"
+   },
+   "variableName": {
+      "description": "Bezeichnung der Variablen",
+      "message": "Name"
+   },
+   "variableSavedSuccessfully": {
+      "description": "Erfolgsmeldung, wenn die Variable gespeichert wurde",
+      "message": "Variable erfolgreich gespeichert!"
+   },
+   "variableValue": {
+      "description": "Variable value label",
+      "message": "Value"
+   },
+   "watchFullTutorial": {
+      "description": "Titel des Abschnitts Vollständiges Tutorial ansehen",
+      "message": "🎥 Vollständiges Tutorial ansehen"
+   },
+   "watchTutorial": {
+      "description": "Linktext zum Tutorial ansehen",
+      "message": "Tutorial ansehen"
+   },
+   "welcomeGotIt": {
+      "description": "Willkommensseite hat die Schaltfläche",
+      "message": "Ich hab's, danke!"
+   },
+   "welcomeMessage": {
+      "description": "Meldung auf der Willkommensseite",
+      "message": "Vielen Dank für die Installation von N8N Master. In dieser Version gibt es folgende Neuerungen:"
+   },
+   "welcomeOpenSettings": {
+      "description": "Willkommensseite Einstellungen öffnen Schaltfläche",
+      "message": "Einstellungen öffnen"
+   },
+   "welcomeSubtitle": {
+      "description": "Untertitel der Willkommensseite",
+      "message": "Ihr Produktivitätsbegleiter für n8n-Workflows"
+   },
+   "welcomeTitle": {
+      "description": "Titel der Willkommensseite",
+      "message": "🎉 Willkommen bei N8N Master!"
+   },
+   "welcomeWatchTutorial": {
+      "description": "Willkommensseite Schaltfläche Tutorial ansehen",
+      "message": "Tutorial ansehen"
+   },
+   "welcome_got_it": {
+      "description": "Willkommensseite hat die Schaltfläche",
+      "message": "Ich hab's, danke!"
+   },
+   "welcome_message": {
+      "description": "Hauptmeldung auf der Willkommensseite",
+      "message": "Vielen Dank für die Installation von N8N Master. Hier finden Sie die Neuerungen dieser Version:"
+   },
+   "welcome_open_settings": {
+      "description": "Willkommensseite öffnen Schaltfläche Einstellungen",
+      "message": "Optionen öffnen"
+   },
+   "welcome_subtitle": {
+      "description": "Untertitel der Willkommensseite",
+      "message": "Workflow Assistant"
+   },
+   "welcome_title": {
+      "description": "Haupttitel der Willkommensseite",
+      "message": "🎉 Willkommen bei N8N Master!"
+   },
+   "welcome_watch_tutorial": {
+      "description": "Willkommensseite Schaltfläche Tutorial ansehen",
+      "message": "Tutorial ansehen"
+   },
+   "whatsNew": {
+      "description": "Titel des Abschnitts Was ist neu",
+      "message": "✨ Was ist neu"
+   },
+   "wizardDailyLimitReached": {
+      "description": "Meldung, wenn das tägliche Nutzungslimit des Assistenten erreicht ist",
+      "message": "🚫 Sie haben das Limit von 10 Anfragen pro Tag an die KI ausgeschöpft. Sie können morgen wieder fortfahren oder eine Lizenz kaufen, um das Limit aufzuheben."
+   },
+   "workflow": {
+      "description": "Singularform von Workflow",
+      "message": "Workflow"
+   },
+   "workflowAddedToProject": {
+      "description": "Erfolgsmeldung, wenn der Workflow zum Projekt hinzugefügt wird",
+      "message": "zum Projekt hinzugefügt"
+   },
+   "workflowAlreadyExists": {
+      "description": "Fehlermeldung, wenn der Workflow bereits im Projekt vorhanden ist",
+      "message": "Workflow existiert bereits in diesem Projekt."
+   },
+   "workflowCopiedSuccess": {
+      "description": "Workflow kopieren Erfolgsmeldung",
+      "message": "Arbeitsablauf in die Zwischenablage kopiert ($1-Knoten). Verwenden Sie Strg+V zum Einfügen in n8n."
+   },
+   "workflowCreatedOnCanvas": {
+      "description": "Meldung, wenn der Workflow auf der Leinwand erstellt wurde",
+      "message": "Workflow erfolgreich im Canvas erstellt!"
+   },
+   "workflowCreatedSuccess": {
+      "description": "Nachricht, wenn der Workflow erfolgreich erstellt wurde",
+      "message": "Workflow erfolgreich erstellt!"
+   },
+   "workflowCreatedSuccessfully": {
+      "description": "Erfolgsmeldung bei Erstellung des Workflows",
+      "message": "Workflow erfolgreich erstellt!"
+   },
+   "workflowExecution": {
+      "description": "Name der Workflow-Ausführungseinstellung",
+      "message": "Workflow-Ausführung"
+   },
+   "workflowExecutionDesc": {
+      "description": "Beschreibung der Workflow-Ausführungseinstellungen",
+      "message": "Schnelles Kopieren von Daten aus dem Ausführungsprotokoll"
+   },
+   "workflowExecutions": {
+      "description": "Registerkarte „Ausführungen“",
+      "message": "Workflow-Ausführungen"
+   },
+   "workflowGeneration": {
+      "description": "Workflow-Generierungsmerkmal Name",
+      "message": "Workflow-Generierung"
+   },
+   "workflowGenerationDesc": {
+      "description": "Workflow-Generierung Funktionsbeschreibung",
+      "message": "Erstellen kompletter n8n-Workflows aus natürlichsprachlichen Beschreibungen"
+   },
+   "workflowHistory": {
+      "description": "Workflow-Historie Merkmalname",
+      "message": "Workflow-Historie"
+   },
+   "workflowHistoryDesc": {
+      "description": "Beschreibung der Funktion Workflow-Historie",
+      "message": "Verfolgen und Wiederherstellen früherer Workflow-Versionen mit Zeitstempeln"
+   },
+   "workflowHistoryDescription": {
+      "description": "Untertitel für den Abschnitt Workflow-Historie",
+      "message": "Alle Workflow-Versionen"
+   },
+   "workflowHistoryInfo": {
+      "description": "Beschreibungstext für den Abschnitt Workflow-Verlauf",
+      "message": "Anzeigen und Kopieren aller Workflow-Versionen aus dem Verlauf. Dies schließt alle gespeicherten Versionen über alle Workflows hinweg ein."
+   },
+   "workflowHistoryLoadFailed": {
+      "description": "Meldung, dass das Laden der Workflow-Historie fehlgeschlagen ist",
+      "message": "Workflow-Historie konnte nicht geladen werden"
+   },
+   "workflowHistorySectionTitle": {
+      "description": "Titel für Abschnitt Workflow-Historie",
+      "message": "Workflow-Historie"
+   },
+   "workflowIdNotFound": {
+      "description": "Fehler Workflow-ID nicht gefunden",
+      "message": "Workflow-ID konnte nicht ermittelt werden"
+   },
+   "workflowImportedSuccess": {
+      "description": "Erfolgsmeldung zum Workflow-Import",
+      "message": "Workflow erfolgreich importiert! ($1 Knoten)"
+   },
+   "workflowInsertError": {
+      "description": "Fehlermeldung beim Einfügen des Workflows",
+      "message": "Fehler beim Einfügen des Workflows"
+   },
+   "workflowInsertFailed": {
+      "description": "Meldung: Workflow-Einfügung fehlgeschlagen",
+      "message": "Der Workflow konnte nicht automatisch eingefügt werden. Bitte versuchen Sie die manuelle Erstellung."
+   },
+   "workflowInsertedSuccess": {
+      "description": "Erfolgsmeldung beim Einfügen des Workflows",
+      "message": "Workflow erfolgreich eingefügt!"
+   },
+   "workflowModifiedSuccess": {
+      "description": "Nachricht, wenn der Workflow erfolgreich geändert wurde",
+      "message": "Workflow erfolgreich geändert"
+   },
+   "workflowRestoreFailed": {
+      "description": "Meldung Workflowwiederherstellung fehlgeschlagen",
+      "message": "Wiederherstellung des Workflows aus der Historie fehlgeschlagen"
+   },
+   "workflowWizardFinished": {
+      "description": "Nachricht, wenn der Workflow-Erstellungsmodus beendet ist",
+      "message": "Workflow-Erstellungsmodus beendet. Sie können nun reguläre Fragen stellen."
+   },
+   "workflows": {
+      "description": "Pluralform von Workflow",
+      "message": "Workflows"
+   },
+   "yourConnectedDomains": {
+      "description": "Titel für den Abschnitt „Verbundene Domains“",
+      "message": "Ihre verbundenen Domains"
+   },
+   "yourWorkflowsFromConnectedApis": {
+      "description": "Titel für den Abschnitt „Workflows“",
+      "message": "Ihre Workflows aus verbundenen APIs"
+   }
+}

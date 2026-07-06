@@ -1,0 +1,29 @@
+{
+   "contextCustom": {
+      "message": "Benutzerdefiniert"
+   },
+   "contextExplain": {
+      "message": "Erklären"
+   },
+   "contextRephrase": {
+      "message": "Umformulieren"
+   },
+   "contextSummarize": {
+      "message": "Zusammenfassen"
+   },
+   "contextTranslate": {
+      "message": "Übersetzen"
+   },
+   "extDescription": {
+      "message": "Nutzen Sie Ihre lokal laufenden KI-Modelle, um Sie beim Surfen im Web zu unterstützen."
+   },
+   "extName": {
+      "message": "Page Assist - Eine Web-Benutzeroberfläche für lokale KI-Modelle"
+   },
+   "openOptionToChat": {
+      "message": "Web-Benutzeroberfläche zum Chatten öffnen"
+   },
+   "openSidePanelToChat": {
+      "message": "Seitenleiste zum Chatten öffnen"
+   }
+}

@@ -1,0 +1,427 @@
+{
+   "extDesc": {
+      "message": "Web data extraction tool with an easy point-and-click interface for modern web"
+   },
+   "extName": {
+      "message": "$webScraper$ - Free Web Scraping",
+      "placeholders": {
+         "webScraper": {
+            "content": "Web Scraper"
+         }
+      }
+   },
+   "extNameDev": {
+      "message": "$webScraper$ - Free Web Scraping",
+      "placeholders": {
+         "webScraper": {
+            "content": "Web Scraper Dev"
+         }
+      }
+   },
+   "wizard_accessWizardSitemaps": {
+      "message": "Access wizard $sitemaps$",
+      "placeholders": {
+         "sitemaps": {
+            "content": "Sitemaps"
+         }
+      }
+   },
+   "wizard_addImages": {
+      "message": "Add images"
+   },
+   "wizard_addMoreText": {
+      "message": "Add more text"
+   },
+   "wizard_analyzingPageContent": {
+      "message": "Analyzing page content..."
+   },
+   "wizard_analyzingUrlsWithAi": {
+      "message": "Analyzing $1 URLs with AI (average wait 15-30s)",
+      "placeholders": {
+         "count": {
+            "content": "$1"
+         }
+      }
+   },
+   "wizard_andMore": {
+      "message": "And more..."
+   },
+   "wizard_areMoreItemsLoadedAfterScrolling": {
+      "message": "Are more items loaded after scrolling?"
+   },
+   "wizard_automateExtractionInCloud": {
+      "message": "Automate extraction in $webScraperCloud$",
+      "placeholders": {
+         "webScraperCloud": {
+            "content": "Web Scraper Cloud"
+         }
+      }
+   },
+   "wizard_automateInCloud": {
+      "message": "Automate in Cloud"
+   },
+   "wizard_botDetectionHandling": {
+      "description": "Web Scraper Cloud Feature List. Cloud can extract data from websites that use bot detection mechanisms.",
+      "message": "Bot detection handling"
+   },
+   "wizard_columnName": {
+      "message": "Column name"
+   },
+   "wizard_continueButton": {
+      "message": "Continue"
+   },
+   "wizard_customizableCssSelectors": {
+      "message": "Customizable $css$ selectors",
+      "placeholders": {
+         "css": {
+            "content": "CSS"
+         }
+      }
+   },
+   "wizard_customizableSiteNavigation": {
+      "message": "Customizable site navigation"
+   },
+   "wizard_dataExtractionError": {
+      "message": "Something went wrong while extracting data from this page - our team has been notified and we are working to resolve the issue. Please try again later."
+   },
+   "wizard_dataPointsFoundMultiple": {
+      "message": "$1 data points found on page",
+      "placeholders": {
+         "count": {
+            "content": "$1"
+         }
+      }
+   },
+   "wizard_dataPointsFoundSingle": {
+      "message": "1 data point found on page"
+   },
+   "wizard_disableInfiniteScroll": {
+      "message": "Disable Infinite Scroll"
+   },
+   "wizard_disablePagination": {
+      "message": "Disable Pagination"
+   },
+   "wizard_doesPageHavePagination": {
+      "message": "Does this page have pagination?"
+   },
+   "wizard_doneSelecting": {
+      "message": "Done selecting"
+   },
+   "wizard_enableInfiniteScroll": {
+      "message": "Enable Infinite Scroll"
+   },
+   "wizard_enableNavigationToItemPages": {
+      "message": "Enable navigation to item pages and data extraction from each page."
+   },
+   "wizard_errorTitle": {
+      "message": "Error"
+   },
+   "wizard_exportToDropboxGoogleDriveS3": {
+      "description": "Web Scraper Cloud Feature List.",
+      "message": "Export to $dropbox$, $googleDrive$, $s3$, ...",
+      "placeholders": {
+         "dropbox": {
+            "content": "Dropbox"
+         },
+         "googleDrive": {
+            "content": "Google Drive"
+         },
+         "s3": {
+            "content": "S3"
+         }
+      }
+   },
+   "wizard_finish": {
+      "message": "Finish"
+   },
+   "wizard_gatheringPageData": {
+      "message": "Gathering page data $1 / $2",
+      "placeholders": {
+         "current": {
+            "content": "$1"
+         },
+         "total": {
+            "content": "$2"
+         }
+      }
+   },
+   "wizard_giveFeedback": {
+      "description": "A button that opens feedback form.",
+      "message": "Give Feedback"
+   },
+   "wizard_goToAdvancedSitemapBuilder": {
+      "message": "Go to Advanced $sitemap$ builder",
+      "placeholders": {
+         "sitemap": {
+            "content": "Sitemap"
+         }
+      }
+   },
+   "wizard_haveSomeThoughts": {
+      "message": "What do you think?"
+   },
+   "wizard_howWasYourScrapingExperience": {
+      "message": "How was your scraping experience?"
+   },
+   "wizard_itemPageLinksMultiple": {
+      "message": "$1 item page links selected",
+      "placeholders": {
+         "count": {
+            "content": "$1"
+         }
+      }
+   },
+   "wizard_itemPageLinksSingle": {
+      "message": "1 item page link selected"
+   },
+   "wizard_learnMore": {
+      "message": "Learn more"
+   },
+   "wizard_link": {
+      "message": "Link"
+   },
+   "wizard_loadMore": {
+      "message": "Load more"
+   },
+   "wizard_loadingPage": {
+      "message": "Loading page..."
+   },
+   "wizard_loginFeature": {
+      "message": "Log-in feature"
+   },
+   "wizard_modifyColumnsBeforeExtracting": {
+      "message": "Remove, add or rename columns before extracting"
+   },
+   "wizard_moreDataExtractors": {
+      "message": "More data extractors"
+   },
+   "wizard_multipleRecordsScraped": {
+      "message": "$1 records scraped",
+      "placeholders": {
+         "count": {
+            "content": "$1"
+         }
+      }
+   },
+   "wizard_nextPage": {
+      "message": "Next page"
+   },
+   "wizard_noDataFound": {
+      "message": "No Data Found"
+   },
+   "wizard_noDataScrapedYet": {
+      "message": "No data scraped yet."
+   },
+   "wizard_noRecordsScraped": {
+      "message": "No records were scraped. Please check previous steps or try again."
+   },
+   "wizard_numberedPages": {
+      "message": "Numbered pages: click on multiple buttons to select all"
+   },
+   "wizard_openDevtools_linux": {
+      "message": "Press $shortcut1$ or $shortcut2$ to open Developer Tools.",
+      "placeholders": {
+         "shortcut1": {
+            "content": "F12"
+         },
+         "shortcut2": {
+            "content": "Ctrl+Shift+I"
+         }
+      }
+   },
+   "wizard_openDevtools_macos": {
+      "message": "Press $shortcut$ to open Developer Tools.",
+      "placeholders": {
+         "shortcut": {
+            "content": "Cmd+Opt+I"
+         }
+      }
+   },
+   "wizard_openDevtools_other": {
+      "message": "Open Browser's Developer Tools."
+   },
+   "wizard_openDevtools_windows": {
+      "message": "Press $shortcut1$ or $shortcut2$ to open Developer Tools.",
+      "placeholders": {
+         "shortcut1": {
+            "content": "F12"
+         },
+         "shortcut2": {
+            "content": "Ctrl+Shift+I"
+         }
+      }
+   },
+   "wizard_paginationEnabled": {
+      "message": "Pagination enabled"
+   },
+   "wizard_pleaseReviewExtension": {
+      "message": "Please review the extension on the browser's webstore!"
+   },
+   "wizard_rateUs": {
+      "message": "Rate us"
+   },
+   "wizard_recordsScrapedWithLimit": {
+      "message": "$1 records scraped, showing $2",
+      "placeholders": {
+         "limit": {
+            "content": "$2"
+         },
+         "total": {
+            "content": "$1"
+         }
+      }
+   },
+   "wizard_regenerate": {
+      "description": "A fixed width button that allows to re-generate the data extraction configuration. Should be a single word if possible.",
+      "message": "Re-generate"
+   },
+   "wizard_rescrapeThePage": {
+      "description": "A fixed width button that allows to run the scraping again. Should be a single word if possible.",
+      "message": "Re-scrape"
+   },
+   "wizard_reselect": {
+      "description": "A fixed width button that allows to re-select the links with selector tool. Should be a single word if possible.",
+      "message": "Re-select"
+   },
+   "wizard_retry": {
+      "message": "Retry"
+   },
+   "wizard_scheduler": {
+      "message": "Scheduler"
+   },
+   "wizard_scrapeThePage": {
+      "message": "Scrape the page"
+   },
+   "wizard_scraperConfigurationReady": {
+      "message": "Scraper configuration is ready!"
+   },
+   "wizard_scrapingInProgressMultipleRecords": {
+      "message": "Scraping in progress! $1 records scraped",
+      "placeholders": {
+         "count": {
+            "content": "$1"
+         }
+      }
+   },
+   "wizard_scrapingInProgressSingleRecord": {
+      "message": "Scraping in progress! 1 record scraped"
+   },
+   "wizard_scrapingInProgressWithLimit": {
+      "message": "Scraping in progress! $1 records scraped, showing $2",
+      "placeholders": {
+         "limit": {
+            "content": "$2"
+         },
+         "total": {
+            "content": "$1"
+         }
+      }
+   },
+   "wizard_scrollingEnabled": {
+      "message": "Scrolling enabled"
+   },
+   "wizard_selectAtLeastTwoLinks": {
+      "message": "Please select at least two links."
+   },
+   "wizard_selectLink": {
+      "message": "Select link"
+   },
+   "wizard_selectNextPageButton": {
+      "message": "Select Next Page button"
+   },
+   "wizard_selectPaginationButtonKind": {
+      "message": "Select the kind of pagination button you see on the website. Common types are:"
+   },
+   "wizard_sendFeedback": {
+      "description": "A button that sends a single feedback from form.",
+      "message": "Send feedback"
+   },
+   "wizard_showMe": {
+      "message": "Show me"
+   },
+   "wizard_showingLimitedRecords": {
+      "message": "Showing $1 out of $2 records",
+      "placeholders": {
+         "shown": {
+            "content": "$1"
+         },
+         "total": {
+            "content": "$2"
+         }
+      }
+   },
+   "wizard_showingRecordsMultiple": {
+      "message": "Showing $1 records",
+      "placeholders": {
+         "count": {
+            "content": "$1"
+         }
+      }
+   },
+   "wizard_showingSingleRecord": {
+      "message": "Showing 1 record"
+   },
+   "wizard_signUp": {
+      "message": "Sign up"
+   },
+   "wizard_singleRecordScraped": {
+      "message": "1 record scraped"
+   },
+   "wizard_sitemapSavedInAdvancedBuilder": {
+      "message": "$sitemap$ saved in Advanced $sitemap2$ Builder",
+      "placeholders": {
+         "sitemap": {
+            "content": "Sitemap"
+         },
+         "sitemap2": {
+            "content": "Sitemap"
+         }
+      }
+   },
+   "wizard_stepDataSetup": {
+      "message": "Data Setup"
+   },
+   "wizard_stepFeedbackAndAdvancedScraping": {
+      "message": "Feedback & Advanced Scraping"
+   },
+   "wizard_stepFollowItemLinks": {
+      "message": "Follow Item Links"
+   },
+   "wizard_stepItemPageDataSetup": {
+      "message": "Item Page Data Setup"
+   },
+   "wizard_stepPagination": {
+      "message": "Pagination & Scroll"
+   },
+   "wizard_stepScrape": {
+      "message": "Scrape"
+   },
+   "wizard_syncAndRunSitemaps": {
+      "description": "Web Scraper Cloud Feature List.",
+      "message": "Sync & run $webScraper$ $sitemaps$",
+      "placeholders": {
+         "sitemaps": {
+            "content": "Sitemaps"
+         },
+         "webScraper": {
+            "content": "Web Scraper"
+         }
+      }
+   },
+   "wizard_thankYouForFeedback": {
+      "message": "Thank you for the feedback!"
+   },
+   "wizard_title": {
+      "message": "Title"
+   },
+   "wizard_trySelectingAgain": {
+      "message": "Try selecting again"
+   },
+   "wizard_weInspectAllReviews": {
+      "message": "We inspect all reviews to make the best user experience possible."
+   },
+   "wizard_yourFeedback": {
+      "description": "A label text in feedback form. It should be in singular form.",
+      "message": "Your feedback"
+   }
+}

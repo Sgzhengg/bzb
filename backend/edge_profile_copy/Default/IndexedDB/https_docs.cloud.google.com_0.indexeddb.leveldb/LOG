@@ -1,0 +1,6 @@
+2025/12/17-11:50:46.445 166c Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_docs.cloud.google.com_0.indexeddb.leveldb since it was missing.
+2025/12/17-11:50:46.450 166c Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_docs.cloud.google.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/12/17-11:51:33.892 166c Level-0 table #5: started
+2025/12/17-11:51:33.894 166c Level-0 table #5: 1897 bytes OK
+2025/12/17-11:51:33.897 166c Delete type=0 #3
+2025/12/17-11:51:33.898 166c Manual compaction at level-0 from (begin) .. (end); will stop at (end)

@@ -1,0 +1,18 @@
+2026/06/22-10:22:10.511 45fc Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_www.bidcenter.com.cn_0.indexeddb.leveldb since it was missing.
+2026/06/22-10:22:10.516 45fc Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_www.bidcenter.com.cn_0.indexeddb.leveldb/MANIFEST-000001
+2026/06/22-10:22:10.524 5518 Level-0 table #5: started
+2026/06/22-10:22:10.528 5518 Level-0 table #5: 1133 bytes OK
+2026/06/22-10:22:10.532 5518 Delete type=0 #3
+2026/06/22-10:22:10.533 1d84 Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/06/22-10:22:12.546 45fc Level-0 table #7: started
+2026/06/22-10:22:12.549 45fc Level-0 table #7: 249 bytes OK
+2026/06/22-10:22:12.552 45fc Delete type=0 #4
+2026/06/22-10:22:12.552 45fc Manual compaction at level-0 from (begin) .. (end); will stop at (end)
+2026/06/22-10:22:12.552 45fc Manual compaction at level-1 from (begin) .. (end); will stop at '\x00\x00\x00\x002\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00' @ 66 : 0
+2026/06/22-10:22:12.553 45fc Compacting 1@1 + 1@2 files
+2026/06/22-10:22:12.556 45fc Generated table #8@1: 6 keys, 268 bytes
+2026/06/22-10:22:12.556 45fc Compacted 1@1 + 1@2 files => 268 bytes
+2026/06/22-10:22:12.557 45fc compacted to: files[ 0 0 1 0 0 0 0 ]
+2026/06/22-10:22:12.558 45fc Delete type=2 #5
+2026/06/22-10:22:12.558 45fc Delete type=2 #7
+2026/06/22-10:22:12.558 45fc Manual compaction at level-1 from '\x00\x00\x00\x002\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00' @ 66 : 0 .. (end); will stop at (end)

@@ -1,0 +1,2282 @@
+{
+   "Variables": {
+      "description": "Назва пункту меню Змінні",
+      "message": "Змінні"
+   },
+   "aboutSectionTitle": {
+      "description": "Про назву розділу",
+      "message": "Про N8N Master"
+   },
+   "accountBlocked": {
+      "description": "Назва облікового запису заблоковано",
+      "message": "Обліковий запис заблоковано"
+   },
+   "actions": {
+      "description": "Заголовок стовпця таблиці для дій",
+      "message": "Дії"
+   },
+   "activate": {
+      "description": "Активувати кнопку",
+      "message": "АКТИВУВАТИ"
+   },
+   "activateButton": {
+      "description": "Кнопка Активувати ліцензію",
+      "message": "Активувати"
+   },
+   "activateExtension": {
+      "description": "Кнопка для активації розширення на сторінці n8n",
+      "message": "Активувати"
+   },
+   "activating": {
+      "description": "Процес активації",
+      "message": "Активація..."
+   },
+   "activationDate": {
+      "description": "Мітка дати активації",
+      "message": "Дата активації:"
+   },
+   "activationFailed": {
+      "description": "Повідомлення про стан у разі невдалої активації",
+      "message": "Не вдалося активувати"
+   },
+   "add": {
+      "description": "Додати текст кнопки",
+      "message": "Додати"
+   },
+   "addVariable": {
+      "description": "Додати текст змінної кнопки",
+      "message": "+ Додати"
+   },
+   "addVariableTitle": {
+      "description": "Додати змінний модальний заголовок",
+      "message": "Додати змінну"
+   },
+   "addWorkflow": {
+      "description": "Додати текст кнопки сценарію обробки",
+      "message": "+ Додати"
+   },
+   "addedWorkflows": {
+      "description": "Текст лічильника для доданих робочих процесів",
+      "message": "Додано:"
+   },
+   "aiAgentWithTools": {
+      "description": "Повідомлення для АІ-агента з підключеними інструментами",
+      "message": "АІ-агент \"{nodeName}\" з інструментами {toolCount}"
+   },
+   "aiApiKeys": {
+      "description": "Опція імпорту ключів AI API",
+      "message": "Ключі AI API"
+   },
+   "aiChatAssistant": {
+      "description": "Назва функції помічника чату зі штучним інтелектом",
+      "message": "Помічник чату зі штучним інтелектом"
+   },
+   "aiChatAssistantDesc": {
+      "description": "Опис функції чат-асистента зі штучним інтелектом",
+      "message": "Ставте запитання про робочі процеси, отримуйте допомогу та аналіз за допомогою штучного інтелекту"
+   },
+   "aiErrorTrigger": {
+      "description": "Назва налаштування тригера помилки AI",
+      "message": "Тригер помилки AI"
+   },
+   "aiErrorTriggerDesc": {
+      "description": "Опис налаштування тригера помилок ШІ",
+      "message": "Автоматичний аналіз помилок під час тестування вузла в чаті"
+   },
+   "aiProvider": {
+      "description": "Заголовок розділу постачальника ШІ",
+      "message": "🧠 Постачальник ШІ"
+   },
+   "aiSectionTitle": {
+      "description": "Назва розділу ШІ",
+      "message": "Налаштування ШІ"
+   },
+   "aiTools": {
+      "description": "Заголовок розділу «Інструменти ШІ»",
+      "message": "Інструменти ШІ"
+   },
+   "aiToolsDescription": {
+      "description": "Опис розділу «Інструменти штучного інтелекту»",
+      "message": "Понад 7000 інструментів штучного інтелекту, обраних для прискорення та автоматизації ваших завдань."
+   },
+   "ailexDescription": {
+      "description": "Опис розширення AiLex",
+      "message": "Ваш персональний АІ-агент у браузері. BYOK & Безкоштовно"
+   },
+   "ailexTitle": {
+      "description": "Назва розширення AiLex",
+      "message": "AiLex"
+   },
+   "allFeaturesUnlocked": {
+      "description": "Повідомлення про розблокування всіх функцій",
+      "message": "Усі преміум-функції розблоковано"
+   },
+   "allGroups": {
+      "description": "Опція фільтрування для всіх груп",
+      "message": "Всі групи"
+   },
+   "allNodesAddedToCanvas": {
+      "description": "Повідомлення, коли вузли автоматично додаються до полотна",
+      "message": "Усі вузли було додано до вашого полотна."
+   },
+   "allSites": {
+      "description": "Опція фільтрування для всіх сайтів",
+      "message": "Всі сайти"
+   },
+   "allStatuses": {
+      "description": "Опція фільтрування для всіх статусів",
+      "message": "Всі статуси"
+   },
+   "analyzingCode": {
+      "description": "Аналіз стану коду",
+      "message": "аналіз коду"
+   },
+   "analyzingWorkflow": {
+      "description": "Повідомлення при аналізі робочого процесу",
+      "message": "Аналіз робочого процесу"
+   },
+   "anthropicApiKey": {
+      "description": "Підпис поля ключа антропного API",
+      "message": "Ключ антропного API"
+   },
+   "api": {
+      "description": "Текст посилання API",
+      "message": "API"
+   },
+   "apiKey": {
+      "description": "Мітка поля Ключ API",
+      "message": "Ключ API:"
+   },
+   "apiKeyError": {
+      "description": "Помилка тестування ключа API",
+      "message": "Помилка тестування ключа API"
+   },
+   "apiKeyFromN8n": {
+      "description": "Текст посилання для введення ключа API N8N",
+      "message": "Ключ API від n8n"
+   },
+   "apiKeyInvalid": {
+      "description": "Статус недійсного ключа API",
+      "message": "Недійсний ключ API"
+   },
+   "apiKeyTesting": {
+      "description": "Процес тестування ключів API",
+      "message": "Тестування..."
+   },
+   "apiKeyValid": {
+      "description": "Дійсний статус ключа API",
+      "message": "Ключ API дійсний і працює!"
+   },
+   "apiKeys": {
+      "description": "Заголовок розділу \"Ключі API",
+      "message": "🔑 Ключі API"
+   },
+   "appDescription": {
+      "description": "Опис програми",
+      "message": "АІ-помічник для автоматизації робочих процесів n8n. Працює з власними екземплярами, AI API (OpenAI, Anthropic) і шаблонами"
+   },
+   "appName": {
+      "description": "Назва застосунку",
+      "message": "N8N Master - Помічник робочих процесів"
+   },
+   "appTitle": {
+      "description": "Назва програми в заголовку",
+      "message": "N8N Master"
+   },
+   "askN8nMaster": {
+      "description": "Текст кнопки Ask N8N Master",
+      "message": "ASK N8N MASTER"
+   },
+   "autoPinAi": {
+      "description": "Назва налаштування автоматичного виводу AI",
+      "message": "Автоматичний вивід AI"
+   },
+   "autoPinAiDesc": {
+      "description": "Опис налаштування автопін ШІ",
+      "message": "Реакція на пін після успішного виконання агента ШІ"
+   },
+   "autoPinHttp": {
+      "description": "Назва налаштування Auto pin HTTP",
+      "message": "Auto pin HTTP"
+   },
+   "autoPinHttpDesc": {
+      "description": "Опис налаштування автоматичного пін HTTP",
+      "message": "Відповідь на пін після успішного виконання HTTP-запиту"
+   },
+   "autoPinSuccess": {
+      "description": "Повідомлення про успішне автоматичне закріплення",
+      "message": "Відповідь $1 закріплена автоматично!"
+   },
+   "autoSave": {
+      "description": "Автозбереження назви параметра",
+      "message": "Автозбереження"
+   },
+   "autoSaveDesc": {
+      "description": "Опис налаштування автоматичного збереження",
+      "message": "Автоматично зберігати робочий процес після внесення змін"
+   },
+   "autoSaveDescription": {
+      "description": "Автоматичне збереження сценаріїв Опис опції",
+      "message": "Автоматично зберігати зміни сценаріїв під час редагування"
+   },
+   "autoSaveFailed": {
+      "description": "Повідомлення про помилку автоматичного збереження",
+      "message": "Автоматичне збереження не вдалося"
+   },
+   "autoSaveOption": {
+      "description": "Мітка опції автоматичного збереження сценаріїв обробки",
+      "message": "Автоматичне збереження сценаріїв обробки"
+   },
+   "autoSavePin": {
+      "description": "Автоматичне збереження та закріплення назви функції",
+      "message": "Автозбереження та автозакріплення"
+   },
+   "autoSavePinDesc": {
+      "description": "Опис функції автоматичного збереження та закріплення",
+      "message": "Автоматичне збереження робочих процесів і результатів виконання закріплення"
+   },
+   "bestForWorkflowGeneration": {
+      "description": "Текст бейджа, що вказує на найкращого постачальника ШІ для створення робочих процесів",
+      "message": "Найкращий для створення робочих процесів"
+   },
+   "blockedMessage": {
+      "description": "Повідомлення про блокування облікового запису",
+      "message": "Виявлено спробу підробки даних. Придбайте ліцензію для розблокування функцій."
+   },
+   "buyKeyButton": {
+      "description": "Кнопка \"Купити ліцензійний ключ",
+      "message": "Купити ключ"
+   },
+   "cachedWorkflows": {
+      "description": "Мітка кешованих сценаріїв обробки",
+      "message": "Кешовані робочі процеси:"
+   },
+   "cancel": {
+      "description": "Текст кнопки Скасувати",
+      "message": "Скасувати"
+   },
+   "cancelButton": {
+      "description": "Текст кнопки «Скасувати»",
+      "message": "Скасувати"
+   },
+   "chatAnalyzing": {
+      "description": "Аналіз повідомлення в чаті",
+      "message": "Аналіз"
+   },
+   "chatAnalyzingError": {
+      "description": "Аналіз повідомлення про помилку в чаті",
+      "message": "Аналіз помилки"
+   },
+   "chatClearHistory": {
+      "description": "Підказка кнопки \"Очистити історію чату",
+      "message": "Очистити історію чату"
+   },
+   "chatFullscreen": {
+      "description": "Підказка повноекранної кнопки чату",
+      "message": "Розгорнути на весь екран"
+   },
+   "chatGenerating": {
+      "description": "Створення повідомлення в чаті",
+      "message": "Створення..."
+   },
+   "chatNotAvailable": {
+      "description": "Помилка \"Чат недоступний",
+      "message": "Віджет чату недоступний. Будь ласка, спочатку відкрийте чат вручну."
+   },
+   "chatProcessing": {
+      "description": "Заповнювач обробки чату",
+      "message": "Обробка..."
+   },
+   "chatRequestCancelled": {
+      "description": "Повідомлення, коли користувач скасовує запит ШІ",
+      "message": "🛑 Запит скасовано користувачем"
+   },
+   "chatThinking": {
+      "description": "Повідомлення про мислення в чаті",
+      "message": "Мислення"
+   },
+   "chatTitle": {
+      "description": "Назва віджету чату",
+      "message": "N8N Master"
+   },
+   "chatWelcome": {
+      "description": "Рядок привітального повідомлення чату 1",
+      "message": "Привіт! Я ваш помічник N8N Master. Я можу допомогти вам проаналізувати робочі процеси, створити нові робочі процеси, оптимізувати підказки та відповісти на питання про налаштування n8n."
+   },
+   "chatWelcome2": {
+      "description": "Рядок привітального повідомлення чату 2",
+      "message": "Спробуйте запитати: \"Що робить цей робочий процес?\" або \"Проаналізуйте вибрані вузли\""
+   },
+   "chatWelcomeHelp": {
+      "description": "Текст привітальної довідки в чаті з прикладами запитань",
+      "message": "Спробуйте запитати: \"Що робить цей робочий процес?\" або \"Проаналізуйте вибрані вузли\""
+   },
+   "checking": {
+      "description": "Перевірка повідомлення про стан.",
+      "message": "Перевірка..."
+   },
+   "chooseColorFor": {
+      "description": "Піпетка кольорів (за яким слідує назва проєкту)",
+      "message": "Виберіть колір для префікса модального заголовка"
+   },
+   "chromeStorageData": {
+      "description": "Заголовок категорії для даних сховища Chrome",
+      "message": "Дані сховища Chrome"
+   },
+   "chromeWebStore": {
+      "description": "Текст посилання на Chrome Web Store",
+      "message": "Chrome Web Store"
+   },
+   "clearHistory": {
+      "description": "Кнопка для очищення історії робочого процесу",
+      "message": "Очистити історію"
+   },
+   "clearSearch": {
+      "description": "Підказка для кнопки очищення пошуку",
+      "message": "Очистити пошук"
+   },
+   "clickToActivate": {
+      "description": "Повідомлення, що спонукає користувача активувати розширення",
+      "message": "Натисніть, щоб активувати розширення"
+   },
+   "clickToCopy": {
+      "description": "Підказка для змінних елементів",
+      "message": "Клацніть, щоб скопіювати"
+   },
+   "clickToSelectAll": {
+      "description": "Натисніть, щоб виділити всі підказки",
+      "message": "Натисніть, щоб виділити все"
+   },
+   "close": {
+      "description": "Текст кнопки \"Закрити",
+      "message": "Закрити"
+   },
+   "codeExplanation": {
+      "description": "Заголовок для пояснення коду в чаті",
+      "message": "Пояснення коду:"
+   },
+   "commandAddNodes": {
+      "description": "Команда додавання вузлів до сценарію обробки",
+      "message": "Додати вказані вузли до сценарію обробки"
+   },
+   "commandCreateWorkflow": {
+      "description": "Команда для створення нового сценарію обробки",
+      "message": "Створити новий сценарій обробки"
+   },
+   "commandHelp": {
+      "description": "Команда для отримання пояснення сценарію",
+      "message": "Пояснити, що робить цей сценарій"
+   },
+   "commandRemoveNodes": {
+      "description": "Команда для видалення вузлів",
+      "message": "Видалити вказані вузли"
+   },
+   "commandReplaceNode": {
+      "description": "Команда для заміни вузла",
+      "message": "Замінити вказаний вузол"
+   },
+   "commandUpdateNodes": {
+      "description": "Команда оновлення налаштувань вузла",
+      "message": "Оновлення налаштувань вказаних вузлів"
+   },
+   "confirmDeleteApiKey": {
+      "description": "Підтверджувальне повідомлення під час видалення ключа API для домену",
+      "message": "Ви впевнені, що хочете видалити ключ API для {domain}?"
+   },
+   "confirmDeleteProject": {
+      "description": "Повідомлення з підтвердженням при видаленні проекту",
+      "message": "Ви впевнені, що хочете видалити проект \"{назва проекту}\"? Цю дію не можна скасувати."
+   },
+   "connectAPI": {
+      "description": "Кнопка для підключення нового ключа API",
+      "message": "Підключити API"
+   },
+   "connectN8NAPI": {
+      "description": "Модальний заголовок для підключення нового API N8N",
+      "message": "Підключення API N8N"
+   },
+   "connections": {
+      "description": "Текст з'єднань у статистиці робочого процесу",
+      "message": "з'єднання"
+   },
+   "contextMenuAnalyzingCode": {
+      "description": "Текст дії контекстного меню для аналізу коду",
+      "message": "аналіз коду"
+   },
+   "contextMenuApiKeyNotConfigured": {
+      "description": "Помилка контекстного меню, якщо ключ API не налаштовано",
+      "message": "Ключ API не налаштовано. Будь ласка, налаштуйте ключ API у налаштуваннях розширення."
+   },
+   "contextMenuApiRequestError": {
+      "description": "Префікс помилки контекстного меню для помилок API",
+      "message": "Помилка запиту API"
+   },
+   "contextMenuCodeExplained": {
+      "description": "Повідомлення про успішний виклик контекстного меню для пояснення коду",
+      "message": "Пояснення коду відправлено в чат!"
+   },
+   "contextMenuCodeGenerated": {
+      "description": "Повідомлення про успішне завершення генерації коду в контекстному меню",
+      "message": "Код успішно згенеровано та вставлено!"
+   },
+   "contextMenuCurlGenerated": {
+      "description": "Повідомлення про успішне завершення генерації cURL у контекстному меню",
+      "message": "cURL успішно згенеровано та вставлено!"
+   },
+   "contextMenuCurlSentToChat": {
+      "description": "Повідомлення про успішне виконання команди cURL, надісланої до чату в контекстному меню",
+      "message": "Команда cURL надіслана до чату!"
+   },
+   "contextMenuFixingJson": {
+      "description": "Текст дії контекстного меню для виправлення JSON",
+      "message": "виправлення JSON"
+   },
+   "contextMenuGeneratingCode": {
+      "description": "Текст дії контекстного меню для генерування коду",
+      "message": "генерування коду"
+   },
+   "contextMenuGeneratingCurl": {
+      "description": "Текст дії контекстного меню для генерування cURL",
+      "message": "генерування запиту cURL"
+   },
+   "contextMenuGeneratingJson": {
+      "description": "Текст дії контекстного меню для генерації JSON",
+      "message": "створення структури JSON"
+   },
+   "contextMenuGeneratingPrompt": {
+      "description": "Текст дії контекстного меню для генерування запиту",
+      "message": "генерування запиту"
+   },
+   "contextMenuJsonFixed": {
+      "description": "Повідомлення про успішне виправлення JSON у контекстному меню",
+      "message": "JSON успішно виправлено та вставлено!"
+   },
+   "contextMenuJsonGenerated": {
+      "description": "Повідомлення про успішне створення JSON у контекстному меню",
+      "message": "JSON успішно згенеровано та вставлено!"
+   },
+   "contextMenuNoTextSelected": {
+      "description": "Помилка контекстного меню, коли не виділено текст",
+      "message": "Не виділено текст або не знайдено активного поля введення."
+   },
+   "contextMenuOperationCompleted": {
+      "description": "Повідомлення про успіх за замовчуванням у контекстному меню",
+      "message": "Операцію успішно завершено!"
+   },
+   "contextMenuOptimizingPrompt": {
+      "description": "Текст дії контекстного меню для підказки про оптимізацію",
+      "message": "підказка про оптимізацію"
+   },
+   "contextMenuProcessing": {
+      "description": "Контекстне меню текст обробки за замовчуванням",
+      "message": "обробка"
+   },
+   "contextMenuPromptGenerated": {
+      "description": "Повідомлення про успішне завершення генерації підказки в контекстному меню",
+      "message": "Підказку успішно згенеровано та вставлено!"
+   },
+   "contextMenuPromptOptimized": {
+      "description": "Повідомлення про успіх оптимізації підказки в контекстному меню",
+      "message": "Підказку успішно оптимізовано та вставлено!"
+   },
+   "contextMenuTools": {
+      "description": "Назва функції інструментів контекстного меню",
+      "message": "Інструменти контекстного меню"
+   },
+   "contextMenuToolsDesc": {
+      "description": "Опис інструментів контекстного меню",
+      "message": "Інструменти для оптимізації коду, виправлення JSON та багато іншого"
+   },
+   "copied": {
+      "description": "Скопійовано текст кнопки",
+      "message": "Скопійовано"
+   },
+   "copy": {
+      "description": "Копіювати текст кнопки",
+      "message": "Копіювати"
+   },
+   "copyError": {
+      "description": "Повідомлення про помилку копіювання",
+      "message": "Не вдалося скопіювати"
+   },
+   "copyLink": {
+      "description": "Копіювати підказку кнопки посилання",
+      "message": "Копіювати посилання"
+   },
+   "copyNodeFromTemplate": {
+      "description": "Підказка для кнопки копіювання вузла",
+      "message": "Копіювання вузла з шаблону"
+   },
+   "copySuccess": {
+      "description": "Повідомлення про успішне копіювання",
+      "message": "Скопійовано до буфера обміну"
+   },
+   "copyToClipboard": {
+      "description": "Текст для кнопки копіювання шаблону в буфер обміну",
+      "message": "📋 Копіювати в буфер обміну"
+   },
+   "copy_json": {
+      "description": "Копіювати текст кнопки JSON",
+      "message": "Копіювати JSON"
+   },
+   "createWorkflow": {
+      "description": "Заповнювач введення чату",
+      "message": "Введіть / для вибору команди"
+   },
+   "creatingCustomWorkflow": {
+      "description": "Повідомлення, що відображається під час створення користувацького сценарію обробки",
+      "message": "Створення користувацького сценарію обробки"
+   },
+   "creatingWorkflow": {
+      "description": "Повідомлення при створенні сценарію обробки",
+      "message": "Створення сценарію обробки"
+   },
+   "current": {
+      "description": "Мітка для поточної версії сценарію обробки в історії",
+      "message": "(current)"
+   },
+   "currentlyOpen": {
+      "description": "Текст відображається для поточного відкритого робочого процесу",
+      "message": "(наразі відкрито)"
+   },
+   "dataIntegrityViolated": {
+      "description": "Повідомлення про порушення цілісності даних",
+      "message": "Порушено цілісність даних. Придбайте ліцензію, щоб розблокувати функції"
+   },
+   "delete": {
+      "description": "Видалити текст кнопки",
+      "message": "Видалити"
+   },
+   "deleteVariable": {
+      "description": "Видалити модальний заголовок змінної",
+      "message": "Видалити змінну"
+   },
+   "deleteVariableConfirm": {
+      "description": "Повідомлення про підтвердження видалення змінної",
+      "message": "Ви впевнені, що хочете видалити цю змінну? Цю дію не можна скасувати."
+   },
+   "deleteZone": {
+      "description": "Видалити текст зони для перетягування робочих процесів",
+      "message": "🗑️ Видалити"
+   },
+   "describeWorkflowChanges": {
+      "description": "Заповнювач для опису змін у робочому процесі",
+      "message": "Опишіть, що потрібно змінити в робочому процесі..."
+   },
+   "deselectAll": {
+      "description": "Кнопка для зняття виділення з усіх опцій імпорту",
+      "message": "Зняти виділення з усіх"
+   },
+   "deviceId": {
+      "description": "Ідентифікатор пристрою",
+      "message": "Ідентифікатор пристрою:"
+   },
+   "deviceInfo": {
+      "description": "Назва групи інформації про пристрій",
+      "message": "Інформація про пристрій"
+   },
+   "disableButton": {
+      "description": "Кнопка для вимкнення розширення на сторінці n8n",
+      "message": "Вимкнути"
+   },
+   "disconnect": {
+      "description": "Кнопка від'єднання",
+      "message": "DISCONNECT"
+   },
+   "discountAvailable": {
+      "description": "Повідомлення про знижку в модальному вікні ліцензії",
+      "message": "Ви можете придбати з 50% знижкою"
+   },
+   "documentation": {
+      "description": "Посилання на документацію",
+      "message": "Документація"
+   },
+   "domain": {
+      "description": "Заголовок стовпця таблиці для домену",
+      "message": "Домен"
+   },
+   "done": {
+      "description": "Текст кнопки Готово",
+      "message": "Готово"
+   },
+   "download": {
+      "description": "Текст кнопки Завантажити",
+      "message": "Завантажити"
+   },
+   "downloadingTemplate": {
+      "description": "Повідомлення про завантаження шаблону",
+      "message": "Завантаження шаблону з GitHub"
+   },
+   "dragWidget": {
+      "description": "Текст підказки для ручки перетягування віджета",
+      "message": "Віджет перетягування"
+   },
+   "edgeStore": {
+      "description": "Microsoft Edge Store текст посилання",
+      "message": "Microsoft Edge Store"
+   },
+   "editProjectName": {
+      "description": "Редагувати модальну назву проекту",
+      "message": "Редагувати назву проекту"
+   },
+   "enableHistory": {
+      "description": "Увімкнути назву параметра історії",
+      "message": "Увімкнути історію"
+   },
+   "enableHistoryDesc": {
+      "description": "Опис налаштування \"Увімкнути історію",
+      "message": "Відстежувати історію робочого процесу та активувати історію Кнопка \"Активувати історію\""
+   },
+   "enableStreaming": {
+      "description": "Увімкнути потокову передачу ім'я налаштування",
+      "message": "Увімкнути потокову передачу"
+   },
+   "enableStreamingDesc": {
+      "description": "Увімкнути потокове передавання опис налаштування",
+      "message": "Потокове передавання відповідей у чаті"
+   },
+   "enterLicenseKey": {
+      "description": "Заповнювач для введення ліцензійного ключа",
+      "message": "Введіть ліцензійний ключ"
+   },
+   "enterProjectName": {
+      "description": "Заповнювач для введення назви проекту",
+      "message": "Введіть назву проекту"
+   },
+   "enterVariableName": {
+      "description": "Заповнювач імені змінної",
+      "message": "Ввести ім'я змінної..."
+   },
+   "enterVariableValue": {
+      "description": "Заповнювач вводу значення змінної",
+      "message": "Ввести значення змінної..."
+   },
+   "error": {
+      "description": "Повідомлення про помилку",
+      "message": "Помилка"
+   },
+   "errorAnalysisCurrentNode": {
+      "description": "Назва секції поточного вузла",
+      "message": "**CURRENT NODE:**"
+   },
+   "errorAnalysisErrorDetails": {
+      "description": "Назва розділу \"Деталі помилки",
+      "message": "**Деталі помилки:**"
+   },
+   "errorAnalysisInputData": {
+      "description": "Назва розділу вхідних даних",
+      "message": "**INPUT DATA:**"
+   },
+   "errorAnalysisInstructions": {
+      "description": "Інструкції з аналізу помилок",
+      "message": "Будь ласка, проаналізуйте цю помилку та надайте:\n1. Пояснення першопричини\n2. Покрокове рішення\n3. Поради щодо профілактики\n4. Альтернативні підходи, якщо це можливо\n\nЗосередьтеся на практичних, дієвих рішеннях для робочих процесів n8n."
+   },
+   "errorAnalysisLocation": {
+      "description": "Мітка для розташування помилки",
+      "message": "Розташування"
+   },
+   "errorAnalysisMessage": {
+      "description": "Мітка для повідомлення про помилку",
+      "message": "Повідомлення"
+   },
+   "errorAnalysisNodeType": {
+      "description": "Мітка для типу вузла",
+      "message": "Тип вузла"
+   },
+   "errorAnalysisParameters": {
+      "description": "Мітка для параметрів вузла",
+      "message": "Параметри"
+   },
+   "errorAnalysisPromptTitle": {
+      "description": "Назва запиту на аналіз помилок",
+      "message": "🚨 **ЗАПИТ НА АВТОМАТИЧНИЙ АНАЛІЗ ПОМИЛОК**"
+   },
+   "errorAnalysisRequest": {
+      "description": "Назва розділу запиту",
+      "message": "**REQUEST:**"
+   },
+   "errorAnalysisTotalNodes": {
+      "description": "Мітка для загальної кількості вузлів",
+      "message": "Total Nodes"
+   },
+   "errorAnalysisWorkflowContext": {
+      "description": "Назва розділу контексту робочого процесу",
+      "message": "**WORKFLOW CONTEXT:**"
+   },
+   "errorAnalysisWorkflowName": {
+      "description": "Мітка для назви сценарію обробки",
+      "message": "Назва"
+   },
+   "errorConfigureApiKey": {
+      "description": "Повідомлення про помилку, якщо ключ API не налаштовано",
+      "message": "Будь ласка, спочатку налаштуйте ключ API"
+   },
+   "errorDeletingProject": {
+      "description": "Повідомлення про помилку при видаленні проекту",
+      "message": "Помилка видалення проекту"
+   },
+   "errorFailedToLoadTranslations": {
+      "description": "Повідомлення про помилку під час завантаження перекладу",
+      "message": "Не вдалося завантажити переклади для мови:"
+   },
+   "errorHttpStatus": {
+      "description": "Префікс повідомлення про помилку для помилок статусу HTTP",
+      "message": "Помилка HTTP! статус:"
+   },
+   "errorInvalidIndexedDB": {
+      "description": "Повідомлення про помилку, коли відповідь IndexedDB є недійсною",
+      "message": "Недійсна відповідь IndexedDB"
+   },
+   "errorLoadingVariables": {
+      "description": "Повідомлення про помилку, коли не вдається завантажити змінні",
+      "message": "Помилка завантаження змінних"
+   },
+   "errorNoActiveTab": {
+      "description": "Повідомлення про помилку, коли не знайдено активної вкладки",
+      "message": "Не знайдено активної вкладки"
+   },
+   "errorNotLikelyN8nPage": {
+      "description": "Повідомлення про помилку, коли сторінка не є сторінкою N8N",
+      "message": "Малоймовірно, що це сторінка N8N"
+   },
+   "errorSavingProjectName": {
+      "description": "Повідомлення про помилку під час збереження назви проекту",
+      "message": "Помилка збереження назви проекту"
+   },
+   "errorServerValidationFailed": {
+      "description": "Повідомлення про помилку, коли не вдалося підтвердити сервер",
+      "message": "Не вдалося підтвердити сервер"
+   },
+   "error_loading_template": {
+      "description": "Помилка завантаження шаблону текст",
+      "message": "Помилка завантаження шаблону:"
+   },
+   "errorsTodayClickToView": {
+      "description": "Підказка для показника помилок сьогодні з інструкцією щодо натискання",
+      "message": "Помилки сьогодні - Натисніть, щоб переглянути"
+   },
+   "execTime": {
+      "description": "Заголовок стовпця «Час виконання»",
+      "message": "Час виконання"
+   },
+   "executionsToday": {
+      "description": "Підказка для показника «Сьогоднішні страти»",
+      "message": "Сьогоднішні страти"
+   },
+   "explainCode": {
+      "description": "Мітка поля Пояснити код",
+      "message": "Пояснити код:"
+   },
+   "explore": {
+      "description": "Текст кнопки «Досліджувати»",
+      "message": "Досліджувати"
+   },
+   "exportApiKeys": {
+      "description": "пункт Експорт ключів API",
+      "message": "Ключі API штучного інтелекту"
+   },
+   "exportButton": {
+      "description": "Текст кнопки експорту",
+      "message": "Налаштування експорту"
+   },
+   "exportDescription": {
+      "description": "Назва опису експорту",
+      "message": "Експорт конфігурації"
+   },
+   "exportInfo": {
+      "description": "Експорт тексту інформації",
+      "message": "Експортуйте налаштування розширення, ключі API та дані у файл JSON. Це включає в себе"
+   },
+   "exportN8nKey": {
+      "description": "Експорт ключового елемента N8N",
+      "message": "Ключ API N8N"
+   },
+   "exportOptions": {
+      "description": "пункт Параметри експорту",
+      "message": "Параметри розширення"
+   },
+   "exportProjects": {
+      "description": "пункт Експорт проектів",
+      "message": "Локальні проекти з IndexedDB"
+   },
+   "exportSectionTitle": {
+      "description": "Назва розділу експорту",
+      "message": "Налаштування експорту"
+   },
+   "exportSettings": {
+      "description": "Пункт налаштувань експорту",
+      "message": "Налаштування розширення"
+   },
+   "exportTemplates": {
+      "description": "пункт Експорт шаблонів",
+      "message": "Експорт шаблонів з IndexedDB"
+   },
+   "extensionIsActive": {
+      "description": "Повідомлення про значок, коли розширення активне",
+      "message": "Розширення активне"
+   },
+   "extensionOptions": {
+      "description": "Параметр імпорту параметрів розширення",
+      "message": "Параметри розширення"
+   },
+   "extensionPage": {
+      "description": "Посилання на сторінку розширення",
+      "message": "Сторінка розширення"
+   },
+   "extensionSettings": {
+      "description": "Параметр імпорту налаштувань розширення",
+      "message": "Налаштування розширення"
+   },
+   "extensionUpdated": {
+      "description": "Попередження про оновлення розширення",
+      "message": "Розширення було оновлено. Будь ласка, перезавантажте сторінку, щоб продовжити використання N8N Master."
+   },
+   "extensionVersion": {
+      "description": "Мітка версії розширення",
+      "message": "Розширена версія:"
+   },
+   "failed": {
+      "description": "Не вдалося текст кнопки",
+      "message": "Не вдалося"
+   },
+   "failedToAnalyzeWorkflow": {
+      "description": "Повідомлення про помилку, коли аналіз робочого циклу не вдалося завершити",
+      "message": "Не вдалося завершити аналіз робочого циклу"
+   },
+   "failedToAnalyzeWorkflowGeneric": {
+      "description": "Загальне повідомлення про помилку, коли аналіз робочого процесу не вдається",
+      "message": "Не вдалося проаналізувати робочий процес"
+   },
+   "failedToCopyNode": {
+      "description": "Повідомлення про помилку при невдалому копіюванні вузла",
+      "message": "Не вдалося скопіювати вузол:"
+   },
+   "failedToCopyToClipboard": {
+      "description": "Повідомлення про помилку під час копіювання до буфера обміну",
+      "message": "Не вдалося скопіювати до буфера обміну"
+   },
+   "failedToCreateWorkflow": {
+      "description": "Повідомлення про помилку при невдалому створенні сценарію обробки",
+      "message": "Не вдалося завершити створення сценарію обробки"
+   },
+   "failedToCreateWorkflowGeneric": {
+      "description": "Загальне повідомлення про помилку, коли не вдалося створити сценарій обробки",
+      "message": "Не вдалося створити сценарій обробки"
+   },
+   "failedToDeleteVariable": {
+      "description": "Повідомлення про помилку у разі невдалого видалення змінної",
+      "message": "Не вдалося видалити змінну:"
+   },
+   "failedToDownloadTemplate": {
+      "description": "Не вдалося завантажити шаблон повідомлення",
+      "message": "Не вдалося завантажити шаблон"
+   },
+   "failedToLoadNodes": {
+      "description": "Повідомлення про помилку, коли вузли не вдалося завантажити",
+      "message": "Не вдалося завантажити вузли"
+   },
+   "failedToLoadWorkflows": {
+      "description": "Повідомлення про помилку під час завантаження сценаріїв робіт",
+      "message": "Не вдалося завантажити робочі процеси. Будь ласка, перевірте свій ключ API."
+   },
+   "failedToModifyWorkflow": {
+      "description": "Повідомлення про помилку, коли модифікація робочого циклу не вдається",
+      "message": "Не вдалося завершити модифікацію робочого циклу"
+   },
+   "failedToModifyWorkflowGeneric": {
+      "description": "Загальне повідомлення про помилку, коли не вдалося модифікувати сценарій обробки",
+      "message": "Не вдалося модифікувати сценарій обробки"
+   },
+   "failedToSaveVariable": {
+      "description": "Повідомлення про помилку при невдалому збереженні змінної",
+      "message": "Не вдалося зберегти змінну:"
+   },
+   "failedToValidateApiKey": {
+      "description": "Помилка перевірки ключа API",
+      "message": "Не вдалося перевірити ключ API"
+   },
+   "featureAiChat": {
+      "description": "Назва функції чату зі штучним інтелектом",
+      "message": "Помічник чату зі штучним інтелектом"
+   },
+   "featureAiChatDesc": {
+      "description": "Опис функції чату зі штучним інтелектом",
+      "message": "Отримайте допомогу у створенні робочих процесів за допомогою штучного інтелекту"
+   },
+   "featureAutoSavePin": {
+      "description": "Назва функції Автоматичне збереження та закріплення",
+      "message": "Автоматичне збереження та закріплення"
+   },
+   "featureAutoSavePinDesc": {
+      "description": "Опис функції автоматичного збереження та закріплення",
+      "message": "Автоматичне збереження робочого процесу та закріплення виконання вузла"
+   },
+   "featureLocalProjects": {
+      "description": "Назва функції Місцеві проекти",
+      "message": "Місцеві проекти"
+   },
+   "featureLocalProjectsDesc": {
+      "description": "Опис функції Локальні проекти",
+      "message": "Організація робочих процесів у користувацьких папках проектів"
+   },
+   "featureNodeSelector": {
+      "description": "Назва функції перемикача вузлів",
+      "message": "Перемикач вузлів"
+   },
+   "featureNodeSelectorDesc": {
+      "description": "Опис функції селектора вузлів",
+      "message": "Швидке копіювання налаштованих вузлів з інших робочих процесів"
+   },
+   "featureTemplates": {
+      "description": "Назва функції шаблонів",
+      "message": "Шаблони"
+   },
+   "featureTemplatesDesc": {
+      "description": "Опис функцій шаблонів",
+      "message": "Доступ до готових шаблонів робочих процесів"
+   },
+   "featureWorkflowHistory": {
+      "description": "Назва функції Історія документообігу",
+      "message": "Історія документообігу"
+   },
+   "featureWorkflowHistoryDesc": {
+      "description": "Опис функції Історія робочих процесів",
+      "message": "Відстежуйте та відновлюйте попередні версії ваших робочих процесів"
+   },
+   "features": {
+      "description": "Заголовок розділу \"Функції",
+      "message": "Функції"
+   },
+   "filters": {
+      "description": "Мітка розділу «Фільтри»",
+      "message": "Фільтри"
+   },
+   "finishWorkflow": {
+      "description": "Повідомлення про завершення робочого процесу",
+      "message": "✅ Завершити робочий процес"
+   },
+   "finished": {
+      "description": "Завершено заголовок стовпця",
+      "message": "Завершено"
+   },
+   "fontDetectorDescription": {
+      "description": "Опис розширення FontDetector Pro",
+      "message": "Незамінний інструмент для дизайнерів для виявлення та завантаження шрифтів для веб-сайтів."
+   },
+   "fontDetectorTitle": {
+      "description": "Назва розширення FontDetector Pro",
+      "message": "FontDetector Pro"
+   },
+   "footerText": {
+      "description": "Нижній колонтитул з інструкціями щодо використання",
+      "message": "Клацніть правою кнопкою миші на будь-якій сторінці, щоб отримати доступ до інструментів N8N Master"
+   },
+   "foundPerfectTemplate": {
+      "description": "Заголовок повідомлення, коли знайдено ідеальний шаблон",
+      "message": "Знайдено ідеальний шаблон!"
+   },
+   "fullyActivated": {
+      "description": "Повністю активований статус",
+      "message": "✅ Повністю активований"
+   },
+   "generateCode": {
+      "description": "Згенерувати мітку поля коду",
+      "message": "Згенерувати код:"
+   },
+   "generateJSON": {
+      "description": "Згенерувати мітку поля JSON",
+      "message": "Згенерувати JSON:"
+   },
+   "generatePrompt": {
+      "description": "Згенерувати мітку поля підказки",
+      "message": "Згенерувати підказку:"
+   },
+   "generateWorkflow": {
+      "description": "Створити мітку поля сценарію обробки",
+      "message": "Створити сценарій обробки:"
+   },
+   "generatedCurlCommand": {
+      "description": "Заголовок для згенерованої cURL-команди в чаті",
+      "message": "Згенерована cURL-команда:"
+   },
+   "generatingCode": {
+      "description": "Стан генерування коду",
+      "message": "генерування коду"
+   },
+   "generatingCurl": {
+      "description": "Генерування статусу cURL-запиту",
+      "message": "генерування cURL-запиту"
+   },
+   "generatingCustomWorkflow": {
+      "description": "Створення спеціального повідомлення про сценарій обробки",
+      "message": "Створення користувацького робочого процесу замість..."
+   },
+   "generatingPrompt": {
+      "description": "Стан генерування підказки",
+      "message": "генерування підказки"
+   },
+   "gettingStarted": {
+      "description": "Назва розділу Початок роботи",
+      "message": "🚀 Початок роботи"
+   },
+   "group": {
+      "description": "Заголовок стовпця групи",
+      "message": "Група"
+   },
+   "hideLinks": {
+      "description": "Приховати посилання перемикач тексту",
+      "message": "Приховати посилання"
+   },
+   "hostDetected": {
+      "description": "Виявлено хост мітка",
+      "message": "Виявлено хост:"
+   },
+   "howToFindApiKey": {
+      "description": "Заголовок розділу з інструкціями щодо ключа API",
+      "message": "Як знайти ключ API?"
+   },
+   "importButton": {
+      "description": "Імпорт тексту кнопки",
+      "message": "Налаштування імпорту"
+   },
+   "importDescription": {
+      "description": "Імпортувати назву опису",
+      "message": "Імпортувати конфігурацію"
+   },
+   "importInfo": {
+      "description": "Імпортувати текст інформації",
+      "message": "Імпортуйте раніше експортовані налаштування з JSON-файлу. Під час імпорту буде перевірено структуру та відновлено вашу конфігурацію."
+   },
+   "importSectionTitle": {
+      "description": "Імпортувати назву розділу",
+      "message": "Налаштування імпорту"
+   },
+   "importWarning": {
+      "description": "Попередження про імпорт",
+      "message": "⚠️ Примітка: Якщо ліцензія не активована, налаштування розширення не будуть імпортовані."
+   },
+   "incompleteReplacementBlocked": {
+      "description": "Повідомлення, коли заблоковано неповну заміну",
+      "message": "Помилка: ШІ виконав неповну заміну (тільки видалення). Заміну заблоковано."
+   },
+   "incompleteReplacementError": {
+      "description": "Помилка при спробі неповної заміни вузла штучним інтелектом",
+      "message": "Помилка: ШІ спробував неповну заміну (тільки видалення без додавання). Спробуйте перефразувати свій запит."
+   },
+   "indexedDbData": {
+      "description": "Заголовок категорії для даних IndexedDB",
+      "message": "Дані IndexedDB"
+   },
+   "install": {
+      "description": "Текст кнопки «Встановити»",
+      "message": "Встановити"
+   },
+   "instructionStep1": {
+      "description": "Перший крок в інструкціях щодо API-ключа",
+      "message": "У лівому куті поруч із вашим ім'ям натисніть на три крапки"
+   },
+   "instructionStep2": {
+      "description": "Другий крок в інструкціях щодо API-ключа",
+      "message": "Натисніть «Налаштування», а потім «n8n API»"
+   },
+   "instructionStep3": {
+      "description": "Третій крок в інструкціях щодо ключа API",
+      "message": "Натисніть «Створити ключ API»"
+   },
+   "instructionStep4": {
+      "description": "Четвертий крок в інструкціях щодо API-ключа",
+      "message": "Вкажіть мітку та встановіть термін дії «Без терміну дії» і «Зберегти»"
+   },
+   "instructionStep5": {
+      "description": "П'ятий крок в інструкціях щодо API-ключа",
+      "message": "Скопіюйте створений ключ сюди та натисніть «Зберегти»"
+   },
+   "keyFeatures": {
+      "description": "Назва розділу \"Ключові функції",
+      "message": "🚀 Ключові функції"
+   },
+   "lang_en": {
+      "description": "Назва англійською мовою",
+      "message": "Англійська мова"
+   },
+   "lang_es": {
+      "description": "Назва іспанською мовою",
+      "message": "Español"
+   },
+   "lang_ru": {
+      "description": "Russian language name",
+      "message": "Російська"
+   },
+   "language": {
+      "description": "Мітка вибору мови",
+      "message": "Мова"
+   },
+   "languageSettings": {
+      "description": "Назва групи мовних налаштувань",
+      "message": "Мовні налаштування"
+   },
+   "leaveReview": {
+      "description": "Залишити відгук",
+      "message": "Залишити відгук"
+   },
+   "licenseExpired": {
+      "description": "Повідомлення про закінчення терміну дії ліцензії",
+      "message": "Термін дії ліцензії закінчився. Будь ласка, активуйте її у спливаючому вікні розширення."
+   },
+   "licenseInfo": {
+      "description": "Назва групи відомостей про ліцензію",
+      "message": "Відомості про ліцензію"
+   },
+   "licenseKey": {
+      "description": "Етикетка ліцензійного ключа",
+      "message": "Ліцензійний ключ:"
+   },
+   "licenseStatus": {
+      "description": "Мітка статусу ліцензії",
+      "message": "Статус ліцензії:"
+   },
+   "links": {
+      "description": "Назва групи посилань",
+      "message": "Посилання та підтримка"
+   },
+   "linksWorkflows": {
+      "description": "Поле «Посилання»",
+      "message": "Посилання"
+   },
+   "loading": {
+      "description": "Завантажується повідомлення.",
+      "message": "Завантаження..."
+   },
+   "loadingChangelog": {
+      "description": "Завантаження повідомлення журналу змін",
+      "message": "Завантаження журналу змін..."
+   },
+   "loadingExecutions": {
+      "description": "Завантаження повідомлення про стан виконання",
+      "message": "Завантаження виконання..."
+   },
+   "loadingHistory": {
+      "description": "Повідомлення про завантаження журналу обробки",
+      "message": "Завантаження історії обробки..."
+   },
+   "loadingNodes": {
+      "description": "Повідомлення про завантаження вузлів",
+      "message": "Завантаження вузлів..."
+   },
+   "loadingText": {
+      "description": "Завантаження тексту",
+      "message": "Loading..."
+   },
+   "loadingWorkflows": {
+      "description": "Повідомлення про завантаження під час вибірки сценаріїв обробки",
+      "message": "Завантаження сценаріїв обробки..."
+   },
+   "loading_template": {
+      "description": "Завантаження тексту шаблону",
+      "message": "Завантаження шаблону..."
+   },
+   "loading_workflow_preview": {
+      "description": "Завантаження тексту попереднього перегляду сценарію обробки",
+      "message": "Завантаження попереднього перегляду робочого процесу..."
+   },
+   "localChatAddress": {
+      "description": "Мітка для введення кінцевої точки локального чату",
+      "message": "Адреса локального чату:"
+   },
+   "localLLMConfigureInstructions": {
+      "description": "Інструкція з налаштування локальних кінцевих точок LLM",
+      "message": "Налаштуйте кінцеві точки в Налаштування → вкладка AI"
+   },
+   "localLLMConfigured": {
+      "description": "Повідомлення про стан, коли локальний LLM налаштовано",
+      "message": "✅ Локальний LM налаштовано"
+   },
+   "localLLMOption": {
+      "description": "опція місцевого постачальника LLM у спливаючому вікні",
+      "message": "Місцевий LM (модель)"
+   },
+   "localLLMSection": {
+      "description": "Заголовок розділу Local LLM у спливаючому вікні",
+      "message": "Local LM"
+   },
+   "localLLMsTitle": {
+      "description": "Назва розділу Місцеві LLMs в опціях",
+      "message": "Місцеві LLMs"
+   },
+   "localModelsAddress": {
+      "description": "Мітка для введення кінцевих точок локальних моделей",
+      "message": "Адреса локальних моделей:"
+   },
+   "localProjects": {
+      "description": "Назва налаштування локальних проектів",
+      "message": "Локальні проекти"
+   },
+   "localProjectsDesc": {
+      "description": "Опис налаштування локальних проєктів",
+      "message": "Увімкнути папки проєктів у лівій колонці"
+   },
+   "localVariables": {
+      "description": "Назва налаштування локальних змінних",
+      "message": "Локальні змінні"
+   },
+   "localVariablesDesc": {
+      "description": "Опис налаштування локальних змінних",
+      "message": "Посилання Змінні в меню надасть доступ до блокнота для важливих даних. Гарячі клавіші: Ctrl+Shift+V"
+   },
+   "mainSectionTitle": {
+      "description": "Назва розділу",
+      "message": "Основні налаштування"
+   },
+   "menuAI": {
+      "description": "",
+      "message": "Пункт меню ШІ"
+   },
+   "menuAbout": {
+      "description": "Про пункт меню",
+      "message": "Про пункт меню"
+   },
+   "menuExport": {
+      "description": "Експорт",
+      "message": "Пункт меню Експорт"
+   },
+   "menuImport": {
+      "description": "",
+      "message": "Пункт меню \"Імпорт"
+   },
+   "menuMain": {
+      "description": "Пункт головного меню",
+      "message": "Головна"
+   },
+   "menuWorkflowHistory": {
+      "description": "Пункт меню для розділу історії сценаріїв",
+      "message": "Історія сценаріїв"
+   },
+   "modalSettingsDescription": {
+      "description": "Опис модальних налаштувань",
+      "message": "Для налаштування параметрів N8N Master:"
+   },
+   "modalStep1": {
+      "description": "Текст модального кроку 1",
+      "message": "Натисніть на іконку розширення N8N Master на панелі інструментів вашого браузера"
+   },
+   "modalStep2": {
+      "description": "Текст модального кроку 2",
+      "message": "Налаштуйте ключі API та ввімкніть функції"
+   },
+   "modalStep3": {
+      "description": "Текст модального кроку 3",
+      "message": "Почніть використовувати функції N8N Master"
+   },
+   "modalTipText": {
+      "description": "Текст модальної підказки",
+      "message": "Якщо ви не бачите піктограму розширення, клацніть шматочок пазла (🧩) на панелі інструментів і закріпіть N8N Master."
+   },
+   "modalTipTitle": {
+      "description": "Заголовок модальної підказки",
+      "message": "Підказка:"
+   },
+   "modifyingWorkflow": {
+      "description": "Повідомлення при модифікації робочого циклу",
+      "message": "Модифікація робочого циклу"
+   },
+   "n8nApiConfiguration": {
+      "description": "розділ конфігурації API N8N",
+      "message": "Конфігурація API N8N"
+   },
+   "n8nApiConfigurationDesc": {
+      "description": "Опис конфігурації N8N API",
+      "message": "Налаштування ключа N8N API для вибраних опцій"
+   },
+   "n8nApiKey": {
+      "description": "Підпис поля ключа API N8N",
+      "message": "Ключ API N8N"
+   },
+   "n8nApiKeyDescription": {
+      "description": "Опис полів ключа API N8N",
+      "message": "Ключ API для доступу до веб-хуків N8N та автоматизації"
+   },
+   "n8nApiKeyNotConfigured": {
+      "description": "Повідомлення про помилку, коли ключ N8N API не налаштовано",
+      "message": "Ключ N8N API не налаштовано. Будь ласка, налаштуйте його в налаштуваннях розширення."
+   },
+   "n8nApiKeyPlaceholder": {
+      "description": "Заповнювач ключа N8N API",
+      "message": "Введіть ключ API N8N..."
+   },
+   "n8nApiKeyRemoved": {
+      "description": "Повідомлення про вилучення ключа API N8N",
+      "message": "Вилучено ключ API"
+   },
+   "n8nApiKeyRequired": {
+      "description": "Попередження, коли потрібен ключ N8N API",
+      "message": "Потрібен ключ N8N API для"
+   },
+   "n8nApiKeyRequiredMessage": {
+      "description": "Діалогове вікно запиту ключа API",
+      "message": "Щоб скопіювати вузли з інших робочих процесів, будь ласка, налаштуйте ключ API N8N у налаштуваннях розширення."
+   },
+   "n8nApiKeyValid": {
+      "description": "Валідний статус ключа N8N API",
+      "message": "Ключ API N8N дійсний!"
+   },
+   "n8nApiSettings": {
+      "description": "Назва групи налаштувань API N8N",
+      "message": "Налаштування API N8N"
+   },
+   "n8nApiUrl": {
+      "description": "N8N API URL мітка поля",
+      "message": "URL-АДРЕСА API N8N:"
+   },
+   "n8nApiUrlDescription": {
+      "description": "Опис поля URL-адреси API N8N",
+      "message": "Базова URL-адреса для API вашого екземпляра N8N"
+   },
+   "n8nMasterActivated": {
+      "description": "Стан після активації",
+      "message": "N8N Master активовано (оновіть сторінку, щоб побачити чат)"
+   },
+   "n8nMasterActivatedRefresh": {
+      "description": "Сповіщення, коли N8N Master активовано і потрібно оновити сторінку",
+      "message": "N8N Master активовано! Оновіть сторінку, щоб побачити віджет чату."
+   },
+   "n8nMasterActiveOnPage": {
+      "description": "Повідомлення, коли N8N Master активний на поточній сторінці",
+      "message": "N8N Master зараз активний на цій сторінці"
+   },
+   "n8nMasterDisconnected": {
+      "description": "Повідомлення, коли N8N Master від'єднано від поточної сторінки",
+      "message": "N8N Master від'єднано від цієї сторінки"
+   },
+   "n8nMasterIsActive": {
+      "description": "Стан, коли N8N Master активний",
+      "message": "N8N Master активний на цій сторінці"
+   },
+   "n8nMasterLocalVariables": {
+      "description": "Підказка значка розширення для локальних змінних",
+      "message": "N8N Master - Локальні змінні"
+   },
+   "n8nMasterNotWorking": {
+      "description": "Стан, коли N8N Master не працює",
+      "message": "N8N Master не працює на цій сторінці"
+   },
+   "n8nMasterProcessing": {
+      "description": "Внутрішній номер для обробки сповіщень",
+      "message": "N8N Master"
+   },
+   "n8nPageDetectedReady": {
+      "description": "Повідомлення про стан, коли сторінку N8N виявлено і вона готова до активації",
+      "message": "Виявлено сторінку N8N - готова до активації"
+   },
+   "n8nWorkflowDetected": {
+      "description": "Стан, коли знайдено сторінку робочого циклу",
+      "message": "Виявлено сторінку робочого циклу N8N - готова до активації"
+   },
+   "newProjectButton": {
+      "description": "Додати текст кнопки нового проекту",
+      "message": "📁 + Додати проект"
+   },
+   "next": {
+      "description": "Кнопка «Наступна сторінка»",
+      "message": "Далі"
+   },
+   "noActiveTab": {
+      "description": "Помилка, коли немає активної вкладки",
+      "message": "Не знайдено активної вкладки"
+   },
+   "noApiKeyForImport": {
+      "description": "Повідомлення, що з'являється, коли для імпорту робочих процесів не налаштовано ключ API.",
+      "message": "Щоб імпортувати робочі процеси з вашого екземпляра N8N, налаштуйте ключ API N8N у налаштуваннях розширення."
+   },
+   "noAvailableWorkflows": {
+      "description": "Повідомлення, коли немає доступних для додавання робочих процесів",
+      "message": "Доступних робочих процесів не знайдено. Всі робочі процеси вже є в проектах."
+   },
+   "noDomainsConnected": {
+      "description": "Повідомлення, коли не налаштовано жодного домену",
+      "message": "Не підключено жодного домену"
+   },
+   "noGroup": {
+      "description": "Немає місця для групи",
+      "message": "—"
+   },
+   "noHistoryAvailable": {
+      "description": "Повідомлення, коли сценарій обробки не має історії",
+      "message": "Історія ще не доступна"
+   },
+   "noNodesFound": {
+      "description": "Помилка \"Не знайдено вузлів",
+      "message": "У потоці робіт не знайдено вузлів"
+   },
+   "noNodesMatchSearch": {
+      "description": "Повідомлення, коли немає вузлів, що відповідають запиту",
+      "message": "Немає вузлів, що відповідають запиту"
+   },
+   "noOtherWorkflowsAvailable": {
+      "description": "Повідомлення, коли немає інших сценаріїв обробки",
+      "message": "Немає інших доступних сценаріїв обробки.\u003Cbr/>Створіть більше сценаріїв обробки, щоб скопіювати вузли між ними."
+   },
+   "noTags": {
+      "description": "Без тегів",
+      "message": "—"
+   },
+   "noVariablesFound": {
+      "description": "Повідомлення, коли пошук не дав результатів",
+      "message": "Не знайдено змінних, що відповідають вашому запиту."
+   },
+   "noVariablesMatchingSearch": {
+      "description": "Повідомлення, коли не знайдено змінних, що відповідають умові пошуку",
+      "message": "Не знайдено змінних, що відповідають \"{{searchTerm}}\"."
+   },
+   "noVariablesYet": {
+      "description": "Повідомлення, коли змінних не існує",
+      "message": "Змінних ще немає. Натисніть \"+ Додати змінну\", щоб створити першу."
+   },
+   "noWorkflowsFound": {
+      "description": "Повідомлення, коли немає доступних робочих процесів",
+      "message": "Не знайдено жодного робочого процесу"
+   },
+   "noWorkflowsMatchSearch": {
+      "description": "Повідомлення, коли пошук не дав результатів",
+      "message": "Жоден робочий процес не відповідає вашому пошуку."
+   },
+   "nodeAnalysis": {
+      "description": "Назва функції аналізу вузлів",
+      "message": "Аналіз вузлів"
+   },
+   "nodeAnalysisDesc": {
+      "description": "Опис функції аналізу вузлів",
+      "message": "Аналізуйте вибрані вузли та отримуйте інформацію про структуру робочого процесу"
+   },
+   "nodeCopiedSuccessfully": {
+      "description": "Повідомлення про успішне копіювання вузла",
+      "message": "успішно скопійовано та додано до робочого процесу!"
+   },
+   "nodeCopiedToClipboard": {
+      "description": "Повідомлення при копіюванні вузла до буфера обміну",
+      "message": "скопійовано до буфера обміну. Використовуйте Ctrl+V для вставки n8n."
+   },
+   "nodeCopy": {
+      "description": "Копіювати вузол",
+      "message": "Кнопка Копіювати вузол"
+   },
+   "nodeCopySuccess": {
+      "description": "Повідомлення про успішне копіювання вузла",
+      "message": "Вузол успішно скопійовано"
+   },
+   "nodeExecutionSelect": {
+      "description": "Вибір виконання вузла ім'я параметра",
+      "message": "Вибір виконання вузла"
+   },
+   "nodeExecutionSelectDesc": {
+      "description": "Node execution select",
+      "message": "Під час редагування виводу вузла ви можете вибрати дані з опису параметра Executions"
+   },
+   "nodeNameCopiedToClipboard": {
+      "description": "Повідомлення, коли певний вузол скопійовано до буфера обміну",
+      "message": "Вузол \"{nodeName}\" скопійовано до буфера обміну. Використовуйте Ctrl+V, щоб вставити n8n."
+   },
+   "nodePaste": {
+      "description": "Кнопка Вставити вузол",
+      "message": "Вставити вузол"
+   },
+   "nodePasteSuccess": {
+      "description": "Повідомлення про успішне вставлення вузла",
+      "message": "Вузол вставлено успішно"
+   },
+   "nodeSelector": {
+      "description": "Назва параметра перемикача вузлів",
+      "message": "Перемикач вузлів"
+   },
+   "nodeSelectorDesc": {
+      "description": "Опис налаштування селектора вузла",
+      "message": "Для кожного вузла з \"+\" додається селектор для вибору вузлів з ваших робочих процесів"
+   },
+   "nodes": {
+      "description": "Множинна форма підрахунку вузлів в історії",
+      "message": "nodes"
+   },
+   "notN8nPage": {
+      "description": "Повідомлення про значок, коли сторінка не є n8n",
+      "message": "Це не сторінка n8n"
+   },
+   "notN8nPageError": {
+      "description": "Помилка, коли сторінка не є N8N",
+      "message": "Це не сторінка n8n"
+   },
+   "notificationsDescription": {
+      "description": "Увімкнути сповіщення опис опції",
+      "message": "Показувати сповіщення про успіхи та помилки"
+   },
+   "notificationsOption": {
+      "description": "Увімкнути сповіщення мітка опції",
+      "message": "Увімкнути сповіщення"
+   },
+   "of": {
+      "description": "З мітки в нумерації сторінок",
+      "message": "з"
+   },
+   "openChatFirst": {
+      "description": "Відкрийте перше повідомлення в чаті",
+      "message": "Будь ласка, спочатку відкрийте віджет чату, щоб побачити повідомлення ШІ."
+   },
+   "openSettings": {
+      "description": "Текст кнопки для відкриття налаштувань",
+      "message": "Відкрити налаштування"
+   },
+   "openSource": {
+      "description": "Заголовок розділу «Відкрите джерело»",
+      "message": "Відкрите джерело"
+   },
+   "openSourceDescription": {
+      "description": "Опис розділу «Відкритий код»",
+      "message": "Понад 7000 проектів з відкритим кодом для організації власних проектів на основі готових рішень."
+   },
+   "openaiApiKey": {
+      "description": "Підпис поля ключа OpenAI API",
+      "message": "Ключ OpenAI API"
+   },
+   "openrouterApiKey": {
+      "description": "Підпис поля \"Ключ API Openrouter",
+      "message": "Ключ API Openrouter"
+   },
+   "optimizePrompt": {
+      "description": "Оптимізувати мітку поля підказки",
+      "message": "Оптимізувати підказку:"
+   },
+   "optionsPage": {
+      "description": "Параметри текст посилання на сторінку",
+      "message": "Параметри"
+   },
+   "optionsPageHeader": {
+      "description": "Параметри заголовок сторінки",
+      "message": "N8N Master"
+   },
+   "optionsPageTitle": {
+      "description": "Назва сторінки Параметри",
+      "message": "Основні налаштування N8N"
+   },
+   "orText": {
+      "description": "Або розділити текст між посиланнями на магазини",
+      "message": "або"
+   },
+   "outputTemplates": {
+      "description": "Опція імпорту шаблонів виводу",
+      "message": "Шаблони виводу"
+   },
+   "page": {
+      "description": "Мітка сторінки в нумерації сторінок",
+      "message": "Сторінка"
+   },
+   "pageStatus": {
+      "description": "Заголовок розділу стану сторінки",
+      "message": "🔍 Стан сторінки"
+   },
+   "pinData": {
+      "description": "Заголовок даних Capital Pin",
+      "message": "Дані Pin"
+   },
+   "pinned": {
+      "description": "Підказка для закріпленої іконки",
+      "message": "Закріплено"
+   },
+   "pinnedData": {
+      "description": "Закріплені дані modal title",
+      "message": "Закріплені дані"
+   },
+   "placeholderExplainCode": {
+      "description": "Заповнювач для області тексту пояснення коду",
+      "message": "Спеціальне системне повідомлення для пояснення коду..."
+   },
+   "placeholderGenerateCode": {
+      "description": "Заповнювач для області тексту для генерації коду",
+      "message": "Користувацьке системне повідомлення для генерації коду..."
+   },
+   "placeholderGenerateJson": {
+      "description": "Заповнювач для генерації текстової області JSON",
+      "message": "Користувацьке системне повідомлення для генерації JSON..."
+   },
+   "placeholderGeneratePrompt": {
+      "description": "Заповнювач для області тексту підказки",
+      "message": "Користувацьке системне повідомлення для генерації підказки..."
+   },
+   "placeholderGenerateWorkflow": {
+      "description": "Заповнювач для області тексту для створення сценарію обробки",
+      "message": "Користувацьке системне повідомлення для генерації сценарію обробки..."
+   },
+   "placeholderOptimize": {
+      "description": "Заповнювач для оптимізації області підказки",
+      "message": "Спеціальне системне повідомлення для оптимізації..."
+   },
+   "pleaseEnterApiKey": {
+      "description": "Повідомлення, якщо ключ API не введено",
+      "message": "Будь ласка, введіть ключ API"
+   },
+   "pleaseEnterN8nApiKey": {
+      "description": "Повідомлення, якщо ключ N8N API не введено",
+      "message": "Будь ласка, введіть ключ N8N API"
+   },
+   "popupTitle": {
+      "description": "Назва спливаючого вікна",
+      "message": "Основні налаштування N8N"
+   },
+   "popup_language": {
+      "description": "Мітка вибору мови у спливаючому вікні",
+      "message": "Мова"
+   },
+   "popup_settings": {
+      "description": "Назва розділу налаштувань у спливаючому вікні",
+      "message": "⚙️ Налаштування"
+   },
+   "previous": {
+      "description": "Кнопка «Попередня сторінка»",
+      "message": "Попередня"
+   },
+   "privacyPolicy": {
+      "description": "Текст посилання на політику конфіденційності",
+      "message": "Політика конфіденційності"
+   },
+   "proceedingCustomWorkflow": {
+      "description": "Перехід до створення користувацького повідомлення сценарію",
+      "message": "Перехід до створення користувацького сценарію"
+   },
+   "projectNameAlreadyExists": {
+      "description": "Помилка перевірки, коли назва проекту вже існує",
+      "message": "Проект з такою назвою вже існує"
+   },
+   "projectNameCannotBeEmpty": {
+      "description": "Помилка перевірки, коли назва проекту порожня",
+      "message": "Назва проекту не може бути порожньою"
+   },
+   "projectNamePlaceholder": {
+      "description": "Заповнювач для введення назви проекту у формі",
+      "message": "Назва проекту..."
+   },
+   "projectsCreate": {
+      "description": "Кнопка \"Створити проект",
+      "message": "Створити проект"
+   },
+   "projectsDelete": {
+      "description": "Кнопка Видалити проект",
+      "message": "Видалити проект"
+   },
+   "projectsExport": {
+      "description": "Кнопка експорту проекту",
+      "message": "Експорт проекту"
+   },
+   "projectsImport": {
+      "description": "Кнопка Імпортувати проект",
+      "message": "Імпорт проекту"
+   },
+   "projectsName": {
+      "description": "Поле назви проекту",
+      "message": "Назва проекту"
+   },
+   "purchaseLicenseToUnlock": {
+      "description": "Текст кнопки «Придбати ліцензію»",
+      "message": "Придбайте ліцензію, щоб розблокувати функції"
+   },
+   "rateUs": {
+      "description": "Оцініть нас текст посилання",
+      "message": "Оцініть нас"
+   },
+   "refreshHistory": {
+      "description": "Кнопка для оновлення історії робочого процесу",
+      "message": "Оновити історію"
+   },
+   "rememberDialog": {
+      "description": "Запам'ятати назву налаштування діалогу",
+      "message": "Запам'ятати діалогове вікно"
+   },
+   "rememberDialogDesc": {
+      "description": "Запам'ятовує опис налаштувань діалогу",
+      "message": "Зберігає діалог чату для кожного робочого процесу"
+   },
+   "requiresN8nApiKey": {
+      "description": "Повідомлення, що відображається, коли для функції потрібен ключ N8N API",
+      "message": "Щоб активувати цю опцію, спочатку введіть"
+   },
+   "reset": {
+      "description": "Текст кнопки «Скинути»",
+      "message": "Скинути"
+   },
+   "resetSuccess": {
+      "description": "Повідомлення про успішне скидання налаштувань",
+      "message": "Скидання налаштувань"
+   },
+   "reviewRequestButton": {
+      "description": "Текст кнопки для запиту відгуку в чаті",
+      "message": "⭐ Залишити відгук"
+   },
+   "reviewRequestProductHunt": {
+      "description": "Напишіть запит на підтримку Product Hunt у чаті",
+      "message": "І підтримайте нас на Product Hunt"
+   },
+   "reviewRequestProductHuntButton": {
+      "description": "Текст кнопки для виклику підтримки Product Hunt у чаті",
+      "message": "🚀 Product Hunt"
+   },
+   "reviewRequestText": {
+      "description": "Текст для запиту відгуку в чаті",
+      "message": "Будь ласка, залиште відгук про нас в Google Web Store"
+   },
+   "reviewRequestTitle": {
+      "description": "Заголовок для повідомлення про запит на відгук у чаті",
+      "message": "🌟 Вам подобається це розширення?"
+   },
+   "reviewSubtitle": {
+      "description": "Підзаголовок блоку відгуків",
+      "message": "Залишити відгук"
+   },
+   "reviewTitle": {
+      "description": "Заголовок блоку відгуків",
+      "message": "Вам подобається це розширення? 😊"
+   },
+   "salesPilotDescription": {
+      "description": "Опис розширення SalesPilot AI",
+      "message": "АІ-помічник для аналізу важливих показників сайту для SEO-просування."
+   },
+   "salesPilotTitle": {
+      "description": "Назва розширення SalesPilot AI",
+      "message": "SalesPilot AI"
+   },
+   "save": {
+      "description": "Зберегти текст кнопки",
+      "message": "Зберегти"
+   },
+   "saveAllSettings": {
+      "description": "Кнопка Зберегти всі налаштування",
+      "message": "Зберегти всі налаштування"
+   },
+   "saveSuccess": {
+      "description": "Повідомлення про успішне збереження налаштувань",
+      "message": "Налаштування збережено"
+   },
+   "saving": {
+      "description": "Текст про стан збереження",
+      "message": "Збереження..."
+   },
+   "search": {
+      "description": "Заповнювач пошуку",
+      "message": "Пошук..."
+   },
+   "searchNodes": {
+      "description": "Заповнювач вузлів пошуку",
+      "message": "Вузли пошуку..."
+   },
+   "searchTemplates": {
+      "description": "Назва налаштування шаблонів пошуку",
+      "message": "Шаблони пошуку"
+   },
+   "searchTemplatesDesc": {
+      "description": "Опис налаштування пошуку шаблонів",
+      "message": "Створюючи робочі процеси, спочатку знайдіть існуючі шаблони"
+   },
+   "searchWorkflows": {
+      "description": "Заповнювач для пошуку сценаріїв обробки",
+      "message": "Робочі процеси пошуку..."
+   },
+   "searchingTemplates": {
+      "description": "Повідомлення про пошук шаблонів",
+      "message": "Пошук відповідних шаблонів"
+   },
+   "selectAll": {
+      "description": "Кнопка, щоб вибрати всі параметри імпорту",
+      "message": "Виберіть Усі"
+   },
+   "selectDataToImport": {
+      "description": "Заголовок для вибору даних для імпорту",
+      "message": "Виберіть дані для імпорту:"
+   },
+   "selectFile": {
+      "description": "Вибрати файл текст кнопки",
+      "message": "Вибрати файл JSON"
+   },
+   "selectLanguage": {
+      "description": "Мітка вибору мови",
+      "message": "Виберіть мову:"
+   },
+   "selectModel": {
+      "description": "Мітка вибору моделі",
+      "message": "Вибрати модель:"
+   },
+   "selectWorkflowsToAdd": {
+      "description": "модальний заголовок селектора робочого процесу",
+      "message": "Виберіть Робочі процеси для додавання"
+   },
+   "services": {
+      "description": "Послуги",
+      "message": "Послуги"
+   },
+   "settings": {
+      "description": "Заголовок розділу Налаштування",
+      "message": "Налаштування"
+   },
+   "settingsChanged": {
+      "description": "Сповіщення про зміну налаштувань та необхідність оновлення сторінки",
+      "message": "Змінено налаштування, будь ласка, оновіть сторінку!"
+   },
+   "showLinks": {
+      "description": "Показати текст перемикання посилань",
+      "message": "Показати {count} посилань"
+   },
+   "showTemplates": {
+      "description": "Показати назву налаштування шаблонів",
+      "message": "Показати шаблони"
+   },
+   "showTemplatesDesc": {
+      "description": "Показати опис налаштувань шаблонів",
+      "message": "Показати меню зі списком шаблонів для копіювання"
+   },
+   "showTemplatesDescription": {
+      "description": "Показати віджет шаблонів опис опції",
+      "message": "Показати віджет шаблонів в інтерфейсі N8N"
+   },
+   "showTemplatesOption": {
+      "description": "Показати мітку опції віджета шаблонів",
+      "message": "Показати віджет шаблонів"
+   },
+   "socialMedia": {
+      "description": "Посилання на соціальні мережі",
+      "message": "Соціальні мережі"
+   },
+   "status": {
+      "description": "Заголовок стовпця таблиці для статусу",
+      "message": "Статус"
+   },
+   "statusActive": {
+      "description": "Опція фільтра активного статусу",
+      "message": "Активний"
+   },
+   "statusInactive": {
+      "description": "Опція фільтра статусу «Неактивний»",
+      "message": "Неактивний"
+   },
+   "stepActivateFeatures": {
+      "description": "Назва кроку 2",
+      "message": "Активувати та увімкнути функції"
+   },
+   "stepActivateFeaturesDesc": {
+      "description": "Опис кроку 2",
+      "message": "Увімкніть функції, які ви хочете використовувати в налаштуваннях"
+   },
+   "stepConfigureApi": {
+      "description": "Крок 1 назва",
+      "message": "Налаштування ключів API"
+   },
+   "stepConfigureApiDesc": {
+      "description": "Опис кроку 1",
+      "message": "Налаштуйте ключі AI API (OpenAI, Anthropic, Openrouter) у спливаючому вікні розширення"
+   },
+   "stepStartCreating": {
+      "description": "Крок 3 назва",
+      "message": "Почніть створювати"
+   },
+   "stepStartCreatingDesc": {
+      "description": "Опис кроку 3",
+      "message": "Відкрийте n8n і почніть користуватися асистентом ШІ та іншими інструментами"
+   },
+   "subscribeYoutubeChannel": {
+      "description": "Підписатися на канал Youtube",
+      "message": "Підписатися на канал Youtube"
+   },
+   "success": {
+      "description": "Повідомлення про успіх",
+      "message": "Успіх"
+   },
+   "support": {
+      "description": "Посилання на підтримку",
+      "message": "Підтримка"
+   },
+   "systemMessages": {
+      "description": "Назва групи системних повідомлень",
+      "message": "Системні повідомлення"
+   },
+   "tabExecutions": {
+      "description": "Заголовок вкладки «Страти»",
+      "message": "Страти"
+   },
+   "tabN8nAPI": {
+      "description": "Заголовок вкладки n8n API",
+      "message": "n8n API"
+   },
+   "tabOptions": {
+      "description": "Заголовок вкладки «Параметри»",
+      "message": "Параметри"
+   },
+   "tabTools": {
+      "description": "Заголовок вкладки «Інструменти»",
+      "message": "Інструменти"
+   },
+   "tabWorkflows": {
+      "description": "Заголовок вкладки «Робочі процеси»",
+      "message": "Робочі процеси"
+   },
+   "tags": {
+      "description": "Заголовок стовпця тегів",
+      "message": "Теги"
+   },
+   "tamperingDetected": {
+      "description": "Назва для сповіщення про несанкціонований доступ до даних",
+      "message": "Виявлено несанкціонований доступ до даних кешу"
+   },
+   "tamperingMessage": {
+      "description": "Повідомлення про наслідки несанкціонованого доступу",
+      "message": "Всі дані було видалено, а налаштування скинуто!"
+   },
+   "templateCopiedSuccess": {
+      "description": "Повідомлення про успішне копіювання шаблону",
+      "message": "Шаблон успішно скопійовано до буфера обміну. Натисніть Ctrl + V, щоб вставити робочий процес."
+   },
+   "templateDownloadFailed": {
+      "description": "Повідомлення про помилку завантаження шаблону",
+      "message": "Не вдалося завантажити"
+   },
+   "templateNotFound": {
+      "description": "Повідомлення, коли шаблон не знайдено",
+      "message": "Шаблон не знайдено, створення за допомогою ШІ..."
+   },
+   "templateProcessingIssue": {
+      "description": "Назва проблеми обробки шаблонів",
+      "message": "Проблема обробки шаблонів"
+   },
+   "templateProcessingIssueDesc": {
+      "description": "Опис проблеми з обробкою шаблону",
+      "message": "Не вдалося автоматично витягти JSON робочого процесу з цього шаблону. Вміст шаблону може потребувати ручної обробки."
+   },
+   "templateSearchDisabled": {
+      "description": "Повідомлення, коли пошук за шаблоном вимкнено",
+      "message": "Пошук за шаблоном вимкнено під час створення за допомогою ШІ..."
+   },
+   "templateSelectorNotAvailable": {
+      "description": "Помилка селектора шаблону не доступний",
+      "message": "TemplateSelector not available"
+   },
+   "template_preview_title": {
+      "description": "Заголовок сторінки попереднього перегляду шаблону",
+      "message": "Попередній перегляд шаблону"
+   },
+   "templatesExport": {
+      "description": "Кнопка експорту шаблону",
+      "message": "Експорт шаблону"
+   },
+   "templatesImport": {
+      "description": "Кнопка Імпортувати шаблон",
+      "message": "Імпортувати шаблон"
+   },
+   "templatesLoad": {
+      "description": "Кнопка Завантажити шаблони",
+      "message": "Завантажити шаблони"
+   },
+   "templatesLoading": {
+      "description": "Повідомлення про завантаження шаблонів",
+      "message": "Завантаження шаблонів..."
+   },
+   "templatesSearch": {
+      "description": "Заповнювач шаблонів пошуку",
+      "message": "Шаблони пошуку..."
+   },
+   "templatesSearchTitle": {
+      "description": "Підказка кнопки пошуку шаблонів",
+      "message": "Пошук шаблонів"
+   },
+   "templatesTitle": {
+      "description": "Назва віджету шаблонів",
+      "message": "Шаблони"
+   },
+   "testButton": {
+      "description": "Мітка кнопки \"Тест",
+      "message": "Тест"
+   },
+   "testFailed": {
+      "description": "Повідомлення про помилку тесту",
+      "message": "Тест не пройдено"
+   },
+   "testKey": {
+      "description": "Мітка кнопки \"Тест",
+      "message": "Тест"
+   },
+   "testSuccess": {
+      "description": "Повідомлення про успішне завершення тесту",
+      "message": "Тест успішно завершено"
+   },
+   "testingApiKey": {
+      "description": "Процес тестування ключа API",
+      "message": "Тестування ключа API..."
+   },
+   "testingN8nApiKey": {
+      "description": "Процес тестування ключа N8N API",
+      "message": "Тестування ключа API N8N..."
+   },
+   "timeEnd": {
+      "description": "Заголовок стовпця «Кінець часу»",
+      "message": "Кінець часу"
+   },
+   "timeFrom": {
+      "description": "Заповнювач фільтра «Час від»",
+      "message": "Час від"
+   },
+   "timeStart": {
+      "description": "Заголовок стовпця «Час початку»",
+      "message": "Час початку"
+   },
+   "timeTo": {
+      "description": "Час для фільтрування заповнювача",
+      "message": "Час для"
+   },
+   "toDisplayExecutionsList": {
+      "description": "Повідомлення про порожній стан для виконаних процесів",
+      "message": "Щоб відобразити список виконаних робочих процесів, підключіться до"
+   },
+   "toDisplayWorkflowsList": {
+      "description": "Повідомлення про стан порожніх робочих процесів",
+      "message": "Щоб відобразити список ваших робочих процесів, підключіться до"
+   },
+   "totalWorkflows": {
+      "description": "Підказка для показника загальних робочих процесів",
+      "message": "Загальні робочі процеси"
+   },
+   "trialExpired": {
+      "description": "Назва для повідомлення про закінчення випробувального терміну",
+      "message": "Випробувальний термін закінчився"
+   },
+   "trialExpiredDesc": {
+      "description": "Опис пробної версії з вичерпаним терміном дії",
+      "message": "Придбайте ліцензію, щоб розблокувати функції"
+   },
+   "trialPeriodActive": {
+      "description": "Повідомлення про активний пробний період",
+      "message": "У вас є {днів} днів для тестування функцій"
+   },
+   "trialPeriodDesc": {
+      "description": "Опис пробного періоду",
+      "message": "Після чого вам потрібно буде придбати ліцензію"
+   },
+   "tryOtherTopTools": {
+      "description": "Заголовок розділу для просування інших розширень",
+      "message": "Спробуйте інші найкращі інструменти"
+   },
+   "tutorialVideoDesc": {
+      "description": "Опис відеоуроку",
+      "message": "Дізнайтеся, як користуватися всіма функціями N8N Master у цьому вичерпному навчальному посібнику"
+   },
+   "unableToCheck": {
+      "description": "Помилка при перевірці стану",
+      "message": "Не вдалося перевірити стан сторінки"
+   },
+   "unlockFullPower": {
+      "description": "Текст кнопки розблокування повного увімкнення",
+      "message": "⚡ Розблокувати повне увімкнення"
+   },
+   "unlockFullPowerSubtitle": {
+      "description": "Розблокувати модальні субтитри",
+      "message": "Введіть ліцензійний ключ, щоб активувати всі функції"
+   },
+   "unlockFullPowerTitle": {
+      "description": "Розблокувати модальний заголовок",
+      "message": "Розблокувати повну потужність"
+   },
+   "userAccount": {
+      "description": "Текст посилання на обліковий запис користувача",
+      "message": "Обліковий запис Nitiweb — управління ключами"
+   },
+   "variableCopiedToClipboard": {
+      "description": "Повідомлення про успішне копіювання змінної до буфера обміну",
+      "message": "Параметр було скопійовано до буфера обміну. Натисніть Ctrl + V, щоб вставити його у потрібне місце."
+   },
+   "variableDeletedSuccessfully": {
+      "description": "Повідомлення про успішне видалення змінної",
+      "message": "Змінну успішно видалено!"
+   },
+   "variableName": {
+      "description": "Мітка імені змінної",
+      "message": "Ім'я"
+   },
+   "variableSavedSuccessfully": {
+      "description": "Повідомлення про успішне збереження змінної",
+      "message": "Змінну успішно збережено!"
+   },
+   "variableValue": {
+      "description": "Мітка значення змінної",
+      "message": "Значення"
+   },
+   "watchFullTutorial": {
+      "description": "Дивитися повний підручник Назва розділу",
+      "message": "🎥 Дивитися повний підручник"
+   },
+   "watchTutorial": {
+      "description": "Текст посилання на навчальний посібник",
+      "message": "Переглянути навчальний посібник"
+   },
+   "welcomeGotIt": {
+      "description": "Кнопка \"Привітальна сторінка\" \"Отримав",
+      "message": "Зрозумів, дякую!"
+   },
+   "welcomeMessage": {
+      "description": "Привітальне повідомлення на вітальній сторінці",
+      "message": "Дякуємо за встановлення N8N Master. Ось що нового в цій версії:"
+   },
+   "welcomeOpenSettings": {
+      "description": "Кнопка відкриття налаштувань на вітальній сторінці",
+      "message": "Відкрити налаштування"
+   },
+   "welcomeSubtitle": {
+      "description": "Підзаголовок привітальної сторінки",
+      "message": "Ваш компаньйон для підвищення продуктивності для робочих процесів n8n"
+   },
+   "welcomeTitle": {
+      "description": "Заголовок вітальної сторінки",
+      "message": "🎉 Ласкаво просимо до N8N Master!"
+   },
+   "welcomeWatchTutorial": {
+      "description": "Кнопка перегляду навчального посібника на вітальній сторінці",
+      "message": "Переглянути навчальний посібник"
+   },
+   "welcome_got_it": {
+      "description": "Кнопка \"Привітальна сторінка\" \"Отримав",
+      "message": "Зрозумів, дякую!"
+   },
+   "welcome_message": {
+      "description": "Головне повідомлення на вітальній сторінці",
+      "message": "Дякуємо за встановлення N8N Master. Ось що нового в цій версії:"
+   },
+   "welcome_open_settings": {
+      "description": "Кнопка відкриття налаштувань вітальної сторінки",
+      "message": "Відкрити параметри"
+   },
+   "welcome_subtitle": {
+      "description": "Підзаголовок привітальної сторінки",
+      "message": "Асистент робочого процесу"
+   },
+   "welcome_title": {
+      "description": "Головний заголовок вітальної сторінки",
+      "message": "🎉 Ласкаво просимо до N8N Master!"
+   },
+   "welcome_watch_tutorial": {
+      "description": "Кнопка перегляду навчального посібника на вітальній сторінці",
+      "message": "Переглянути навчальний посібник"
+   },
+   "whatsNew": {
+      "description": "Назва розділу \"Що нового",
+      "message": "✨ Що нового"
+   },
+   "wizardDailyLimitReached": {
+      "description": "Повідомлення, що з'являється, коли досягнуто ліміту використання майстра на день",
+      "message": "Ви використали ліміт на 10 запитів до ШІ на день. Ви можете продовжити завтра або придбати ліцензію для зняття ліміту."
+   },
+   "workflow": {
+      "description": "Одинична форма робочого процесу",
+      "message": "робочий процес"
+   },
+   "workflowAddedToProject": {
+      "description": "Повідомлення про успіх, коли робочий процес додано до проекту",
+      "message": "додано до проекту"
+   },
+   "workflowAlreadyExists": {
+      "description": "Повідомлення про помилку, якщо у проекті вже існує сценарій обробки",
+      "message": "У цьому проекті вже існує робочий процес."
+   },
+   "workflowCopiedSuccess": {
+      "description": "Повідомлення про успішне копіювання сценарію обробки",
+      "message": "Робочий процес скопійовано до буферу обміну ($1 вузлів). Використовуйте Ctrl+V, щоб вставити n8n."
+   },
+   "workflowCreatedOnCanvas": {
+      "description": "Повідомлення, коли робочий процес створено на полотні",
+      "message": "Робочий процес успішно створено на полотні!"
+   },
+   "workflowCreatedSuccess": {
+      "description": "Повідомлення про успішне створення сценарію обробки",
+      "message": "Робочий процес успішно створено!"
+   },
+   "workflowCreatedSuccessfully": {
+      "description": "Повідомлення про успіх при створенні сценарію обробки",
+      "message": "Робочий процес успішно створено!"
+   },
+   "workflowExecution": {
+      "description": "Назва параметра виконання сценарію",
+      "message": "Виконання сценарію"
+   },
+   "workflowExecutionDesc": {
+      "description": "Опис налаштування виконання робочого процесу",
+      "message": "Швидке копіювання даних з журналу виконання"
+   },
+   "workflowExecutions": {
+      "description": "Заголовок вкладки «Виконання»",
+      "message": "Виконання робочих процесів"
+   },
+   "workflowGeneration": {
+      "description": "Назва функції генерації сценаріїв",
+      "message": "Генерація сценаріїв"
+   },
+   "workflowGenerationDesc": {
+      "description": "Опис функції генерації робочих процесів",
+      "message": "Створюйте повні робочі процеси n8n з описів природною мовою"
+   },
+   "workflowHistory": {
+      "description": "Назва функції історії сценаріїв",
+      "message": "Історія сценаріїв"
+   },
+   "workflowHistoryDesc": {
+      "description": "Опис функції історії сценаріїв",
+      "message": "Відстежуйте та відновлюйте попередні версії сценаріїв за допомогою міток часу"
+   },
+   "workflowHistoryDescription": {
+      "description": "Субтитри для розділу історії сценаріїв обробки",
+      "message": "Всі версії сценаріїв обробки"
+   },
+   "workflowHistoryInfo": {
+      "description": "Текст опису для розділу історії сценаріїв",
+      "message": "Переглядайте та копіюйте всі версії сценаріїв з історії. Сюди входять усі збережені версії для всіх сценаріїв обробки."
+   },
+   "workflowHistoryLoadFailed": {
+      "description": "Не вдалося завантажити історію сценаріїв",
+      "message": "Не вдалося завантажити історію сценаріїв"
+   },
+   "workflowHistorySectionTitle": {
+      "description": "Назва для розділу історії документообігу",
+      "message": "Історія документообігу"
+   },
+   "workflowIdNotFound": {
+      "description": "Помилка ідентифікатора робочого процесу не знайдено",
+      "message": "Не вдалося визначити ідентифікатор робочого процесу"
+   },
+   "workflowImportedSuccess": {
+      "description": "Повідомлення про успішний імпорт потоку робіт",
+      "message": "Робочий процес успішно імпортовано! ($1 вузлів)"
+   },
+   "workflowInsertError": {
+      "description": "Повідомлення про помилку вставки робочого циклу",
+      "message": "Помилка вставки робочого циклу"
+   },
+   "workflowInsertFailed": {
+      "description": "Повідомлення про невдалу вставку сценарію обробки",
+      "message": "Не вдалося вставити робочий процес автоматично. Спробуйте створити вручну."
+   },
+   "workflowInsertedSuccess": {
+      "description": "Повідомлення про успішне вставлення сценарію обробки",
+      "message": "Робочий процес успішно вставлено!"
+   },
+   "workflowModifiedSuccess": {
+      "description": "Повідомлення про успішну зміну робочого циклу",
+      "message": "Робочий цикл успішно змінено"
+   },
+   "workflowRestoreFailed": {
+      "description": "Повідомлення про помилку відновлення сценарію обробки",
+      "message": "Не вдалося відновити сценарій обробки з історії"
+   },
+   "workflowWizardFinished": {
+      "description": "Повідомлення про завершення режиму створення сценарію обробки",
+      "message": "Режим створення робочого процесу завершено. Тепер ви можете ставити звичайні запитання."
+   },
+   "workflows": {
+      "description": "Форма множини робочого процесу",
+      "message": "робочі процеси"
+   },
+   "yourConnectedDomains": {
+      "description": "Заголовок розділу «Підключені домени»",
+      "message": "Ваші підключені домени"
+   },
+   "yourWorkflowsFromConnectedApis": {
+      "description": "Заголовок розділу «Робочі процеси»",
+      "message": "Ваші робочі процеси з підключених API"
+   }
+}

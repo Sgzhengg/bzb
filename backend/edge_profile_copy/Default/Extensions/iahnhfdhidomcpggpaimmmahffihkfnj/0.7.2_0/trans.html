@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Content-Language" content="en" />
+		<title> Tools JSON-handle </title>
+		<script type="text/javascript" src="JSON-handle/js/jh.js"></script>
+		<script type="text/javascript" src="JSON-handle/js/JSON5.js"></script>
+		<script type="text/javascript" src="JSON-handle/js/jquery.min.js"></script>
+		<script type="text/javascript" src="common.js"></script>
+		<script type="text/javascript" src="JSON-handle/js/lang.js"></script>
+		<style type="text/css">
+			body {background-color:#f3f3ff;margin:0;@box-shadow:2px 2px 22px #fff inset;padding:5px;color:#555;}
+			h1 span{vertical-align: top;}
+			h1 img {padding-top: 4px;}
+			h1 span {vertical-align: top;}
+			.unit {display:block;margin:1em 0;}
+			#open {margin:1em 0;}
+			fieldset {width:660px;border:1px solid #bbb;}
+			legend {color:#4c6cdd;}
+			.function {text-align:right;}
+			.wx, .pp {margin:0 0 0 164px;}
+			.contributeTips {display:block;margin:0 0 15px;color:purple;}
+			.row {margin:20px 10px;}
+
+			#main {width:800px;margin-left:15px;}
+			.selecter {position: absolute;z-index: 10;width:834px;height:470px;overflow: auto;}
+			.selecter ul {list-style:none;background-color: #d5d5d5;padding:12px 0 12px 12px;margin: 0;}
+			.selecter li {margin-bottom:10px;cursor: pointer;}
+			.selecter li:hover .egBox {background-color: #fff;}
+			.textOrg .errTips {position: absolute;top:-18px;color:#e00;}
+			.textOrg, .textTgt {margin: 1em 0;position: relative;}
+			.textOrg #orgInputTips, .textTgt #tgtInputTips {position: absolute;top:6px;left:6px;color: rgb(200, 80, 80);}
+			#textTgt, #textOrg {color:#fff;width:800px;box-sizing: border-box;box-shadow:1px 1px 6px 2px rgba(33, 33, 98, .16) inset;}
+			#textTgt, #textOrg {padding:.6em;}
+			#textTgt.hasVal, #textOrg.hasVal {transition: color 0.2s;color:#000;}
+			#textTgt.hasVal {color:#0c20bd;}
+			.fun b {color:#000;}
+			.fun .orgEg {width:700px;}
+			.fun .egBox {border:1px solid #bb3;}
+			.fun .tgtEg:before {background-color: #d9d9d9;content:'';width:598px;height:3px;position: absolute;left:0;top:-2px;display: block;}
+			.fun .tgtEg {position: relative;width:700px;margin-left:100px;margin-top:-1px;text-align: right;}
+			.fun .tgtEg .text{color:#0c20bd;}
+			.fun .orgEg, .fun .tgtEg {background-color: #f8f6ff;height:3em;padding:.7em 1em 1em;box-sizing: border-box;}
+
+			.orgTips {position: relative;margin-top:10px;}
+			.enTran, .deTran {cursor: pointer;position: absolute;width: 95px;height: 30px;background-color: #eee;border: 1px solid #45d;right: 0;top: 0;text-align: center;line-height: 30px;font-size:20px;user-select: none;}
+			.enTran b, .deTran b {font-size:24px;}
+			.enTran:hover, .deTran:hover {background-color: #fafafa;}
+			.enTran:active, .deTran:active {background-color: #eee;}
+			.deTran {
+				right: auto;
+				line-height: 28px;
+				left:0;
+				top: auto;
+				bottom: 0;
+			}
+			.nav {position: relative;background-color: #d5d5d5;padding:12px 62px 12px 12px;width:726px;overflow: hidden;height: 20px;}
+			.nav .btn {display: inline-block;height:20px;line-height: 20px;padding:0 1em;background-color: #968fb1;color: #d5d5d5;cursor: pointer;font-size:12px;margin-right:1em;margin-bottom: 36px;    white-space: nowrap;}
+			.nav .btn:hover {background-color: #ada5cb;}
+			.handler {width:824px;cursor: pointer;}
+			.handler .more {position: absolute;right:10px;width:40px;height:25px;background-color: #c1bdcd;top:0.5em;text-align: center;line-height: 25px;font-size:16px;user-select: none;color: #f3f1fb;}
+			.handler .more.showed {transform: rotate(180deg);}
+			.handler .more:hover {background-color: #ada5cb;}
+		</style>
+	</head>
+
+	<body>
+		<div id="main">
+			<div class="textOrg">
+				<span class="errTips" style="display:none;"></span>
+				<span id="orgInputTips" style="display: none;">请输入要转码的字符串</span>
+				<textarea id="textOrg" class="hasVal" rows="10" cols="100"></textarea>
+			</div>
+			<div class="btns">
+				<div class="nav">
+					<div class="btn-list">
+						<b class="btn" tran-id="tran_xmlsc">XML Special Char</b>
+					</div>
+					<div class="handler">
+						<div class="favs"></div>
+						<div class="more">▼</div>
+					</div>
+				</div>
+				<div class="selecter" style="display: none;">
+					<ul>
+						<li><div class="fun" id="tran_uri">
+							<div class="orgEg egBox"><div class="text"><b>URIComponent:</b> http://www.web.com/page?q=word</div></div>
+							<div class="tgtEg egBox"><div class="text">URIComponent%3A%20http%3A%2F%2Fwww.web.com%2Fpage%3Fq%3Dword</div></div>
+						</div></li>
+						<li><div class="fun" id="tran_xml10">
+							<div class="orgEg egBox"><div class="text"><b>XML Char 10 decimal</b></div></div>
+							<div class="tgtEg egBox"><div class="text">&amp;#88;&amp;#77;&amp;#76;&amp;#160;&amp;#67;&amp;#104;&amp;#97;&amp;#114;&amp;#160;&amp;#49;&amp;#48;&amp;#160;&amp;#100;&amp;#101;&amp;#99;&amp;#105;&amp;#109;&amp;#97;&amp;#108;</div></div>
+						</div></li>
+						<li><div class="fun" id="tran_xml16">
+							<div class="orgEg egBox"><div class="text"><b>XML Char 16 HEX</b></div></div>
+							<div class="tgtEg egBox"><div class="text">&amp;#x58;&amp;#x4d;&amp;#x4c;&amp;#xa0;&amp;#x43;&amp;#x68;&amp;#x61;&amp;#x72;&amp;#xa0;&amp;#x31;&amp;#x36;&amp;#xa0;&amp;#x48;&amp;#x45;&amp;#x58;</div></div>
+						</div></li>
+						<li><div class="fun" id="tran_xmlsc">
+							<div class="orgEg egBox"><div class="text"><b>XML Special Char:</b> &lt;p&gt;"123'&lt;/p&gt;</div></div>
+							<div class="tgtEg egBox"><div class="text">XML&amp;nbsp;Special&amp;nbsp;Char:&amp;nbsp;&amp;lt;p&amp;gt;&amp;quot;123'&amp;lt;/p&amp;gt;</div></div>
+						</div></li>
+						<li><div class="fun" id="tran_base64">
+							<div class="orgEg egBox"><div class="text"><b>Base64:</b> abcdefg12345</div></div>
+							<div class="tgtEg egBox"><div class="text">QmFzZTY0OiBhYmNkZWZnMTIzNDU=</div></div>
+						</div></li>
+						<li><div class="fun" id="tran_sqe">
+							<div class="orgEg egBox"><div class="text"><b>String Quotation Escape:</b> "ab'1234'cd"</div></div>
+							<div class="tgtEg egBox"><div class="text">String Quotation Escape: \"ab\'1234\'cd\"</div></div>
+						</div></li>
+						<li><div class="fun" id="tran_jshex">
+							<div class="orgEg egBox"><div class="text"><b>JS string HEX</b></div></div>
+							<div class="tgtEg egBox"><div class="text">\u004a\u0053\u0020\u0073\u0074\u0072\u0069\u006e\u0067\u0020\u0048\u0045\u0058</div></div>
+						</div></li>
+						<li><div class="fun" id="tran_uth">
+							<div class="orgEg egBox"><div class="text"><b>Underline to Hump:</b> THE_VAR_NAME_IN_CODE</div></div>
+							<div class="tgtEg egBox"><div class="text">theVarNameInCode</div></div>
+						</div></li>
+						<li><div class="fun" id="tran_ltu">
+							<div class="orgEg egBox"><div class="text"><b>LowerCase to UpperCase:</b> abcdefghijklmn</div></div>
+							<div class="tgtEg egBox"><div class="text">ABCDEFGHIJKLMN</div></div>
+						</div></li>
+						<li><div class="fun" id="tran_uto">
+							<div class="orgEg egBox"><div class="text"><b>URL to Object:</b> https://root:123@w.a.cn:81/d/p?a=3&b=d&c=1&c=2#i</div></div>
+							<div class="tgtEg egBox"><div class="text">{href,protocol,username,password,hostname,port,pathname,searchParams,hash}</div></div>
+						</div></li>
+					</ul>
+				</div>
+				
+				<div class="orgTips">
+					<div class="enTran" title="Encode">
+						<span>En</span>
+						<b>⮯</b>
+					</div>
+					<div class="funBox">
+						<div class="fun" id="tran_uri">
+							<div class="orgEg egBox"><div class="text"><b tran-id="tran_uri">URIComponent:</b> http://www.web.com/page?q=word</div></div>
+							<div class="tgtEg egBox"><div class="text">URIComponent%3A%20http%3A%2F%2Fwww.web.com%2Fpage%3Fq%3Dword</div></div>
+						</div>
+					</div>
+					<div class="deTran" title="Decode">
+						<span>De</span>
+						<b>⮬</b>
+					</div>
+				</div>
+				
+			</div>
+			<div class="textTgt">
+				<span id="tgtInputTips" style="display: none;">请输入要解码的字符串</span>
+				<textarea id="textTgt" class="hasVal" rows="10" cols="100"></textarea>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="trans.js"></script>
+	</body>
+</html>

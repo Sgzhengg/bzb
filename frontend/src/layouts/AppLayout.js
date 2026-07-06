@@ -4,7 +4,7 @@ import { Layout, Menu, Typography, Badge, Space, Statistic, Card, Row, Col } fro
 import {
   ThunderboltOutlined, BankOutlined, UserOutlined,
   EnvironmentOutlined, SettingOutlined, BellOutlined,
-  FileTextOutlined, RiseOutlined,
+  FileTextOutlined, RiseOutlined, TrophyOutlined,
 } from "@ant-design/icons";
 import { getRelationReminders } from "../services/api";
 
@@ -20,6 +20,7 @@ function AppLayout() {
   const menuItems = [
     { key: "/", icon: <RiseOutlined />, label: "数据看板" },
     { key: "/opportunities", icon: <ThunderboltOutlined />, label: "机会列表" },
+    { key: "/winning-results", icon: <TrophyOutlined />, label: "中标结果" },
     { key: "/purchaser-profile", icon: <BankOutlined />, label: "采购方画像" },
     { key: "/client-relations", icon: <UserOutlined />, label: "客情管理" },
     { key: "/region-compare", icon: <EnvironmentOutlined />, label: "地市对比" },

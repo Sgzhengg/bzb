@@ -1,0 +1,2282 @@
+{
+   "Variables": {
+      "description": "变量菜单项名称",
+      "message": "变量"
+   },
+   "aboutSectionTitle": {
+      "description": "关于部分标题",
+      "message": "关于 N8N Master"
+   },
+   "accountBlocked": {
+      "description": "帐户被阻止的标题",
+      "message": "帐户被阻止"
+   },
+   "actions": {
+      "description": "操作列的表头",
+      "message": "操作"
+   },
+   "activate": {
+      "description": "激活按钮",
+      "message": "激活"
+   },
+   "activateButton": {
+      "description": "激活许可证按钮",
+      "message": "激活"
+   },
+   "activateExtension": {
+      "description": "在 n8n 页面上激活扩展的按钮",
+      "message": "激活"
+   },
+   "activating": {
+      "description": "激活过程",
+      "message": "激活..."
+   },
+   "activationDate": {
+      "description": "激活日期标签",
+      "message": "激活日期："
+   },
+   "activationFailed": {
+      "description": "激活失败时的状态信息",
+      "message": "激活失败"
+   },
+   "add": {
+      "description": "添加按钮文本",
+      "message": "添加"
+   },
+   "addVariable": {
+      "description": "添加变量按钮文本",
+      "message": "+ 添加"
+   },
+   "addVariableTitle": {
+      "description": "添加变量模式标题",
+      "message": "添加变量"
+   },
+   "addWorkflow": {
+      "description": "添加工作流程按钮文本",
+      "message": "+ 添加"
+   },
+   "addedWorkflows": {
+      "description": "添加工作流程的计数器文本",
+      "message": "已添加："
+   },
+   "aiAgentWithTools": {
+      "description": "有连接工具的人工智能代理的信息",
+      "message": "有 {toolCount} 工具的人工智能代理\"{nodeName}\""
+   },
+   "aiApiKeys": {
+      "description": "AI API 密钥导入选项",
+      "message": "AI API 密钥"
+   },
+   "aiChatAssistant": {
+      "description": "AI 聊天助手功能名称",
+      "message": "AI 聊天助手"
+   },
+   "aiChatAssistantDesc": {
+      "description": "人工智能聊天助手功能说明",
+      "message": "询问有关工作流程的问题，获得人工智能支持的帮助和分析"
+   },
+   "aiErrorTrigger": {
+      "description": "AI 错误触发器设置名称",
+      "message": "AI 错误触发器"
+   },
+   "aiErrorTriggerDesc": {
+      "description": "AI 错误触发器设置说明",
+      "message": "在聊天中测试节点时自动进行错误分析"
+   },
+   "aiProvider": {
+      "description": "AI 提供商部分页眉",
+      "message": "🧠 AI 提供商"
+   },
+   "aiSectionTitle": {
+      "description": "AI 部分标题",
+      "message": "AI 设置"
+   },
+   "aiTools": {
+      "description": "人工智能工具栏目标题",
+      "message": "人工智能工具"
+   },
+   "aiToolsDescription": {
+      "description": "AI工具专区说明",
+      "message": "精选7000余款AI工具，助您加速并自动化完成任务。"
+   },
+   "ailexDescription": {
+      "description": "AiLex 扩展说明",
+      "message": "浏览器中的个人 AI 代理。BYOK & Free"
+   },
+   "ailexTitle": {
+      "description": "AiLex 扩展标题",
+      "message": "AiLex"
+   },
+   "allFeaturesUnlocked": {
+      "description": "所有功能均已解锁信息",
+      "message": "所有高级功能均已解锁"
+   },
+   "allGroups": {
+      "description": "所有组的筛选选项",
+      "message": "所有组"
+   },
+   "allNodesAddedToCanvas": {
+      "description": "节点自动添加到画布时的信息",
+      "message": "所有节点都已添加到画布。"
+   },
+   "allSites": {
+      "description": "所有站点的筛选选项",
+      "message": "所有站点"
+   },
+   "allStatuses": {
+      "description": "所有状态的筛选选项",
+      "message": "所有状态"
+   },
+   "analyzingCode": {
+      "description": "",
+      "message": "分析代码状态"
+   },
+   "analyzingWorkflow": {
+      "description": "",
+      "message": "分析工作流程时的信息"
+   },
+   "anthropicApiKey": {
+      "description": "Anthropic API Key 字段标签",
+      "message": "Anthropic API Key"
+   },
+   "api": {
+      "description": "API链接文本",
+      "message": "API"
+   },
+   "apiKey": {
+      "description": "API 密钥字段标签",
+      "message": "API 密钥："
+   },
+   "apiKeyError": {
+      "description": "API 密钥测试错误",
+      "message": "API 密钥测试错误"
+   },
+   "apiKeyFromN8n": {
+      "description": "N8N API密钥输入框的链接文本",
+      "message": "来自n8n的API密钥"
+   },
+   "apiKeyInvalid": {
+      "description": "无效的 API 密钥状态",
+      "message": "无效的 API 密钥"
+   },
+   "apiKeyTesting": {
+      "description": "API 密钥测试流程",
+      "message": "测试..."
+   },
+   "apiKeyValid": {
+      "description": "有效的 API 密钥状态",
+      "message": "API 密钥有效并可正常使用！"
+   },
+   "apiKeys": {
+      "description": "API 密钥部分页眉",
+      "message": "🔑 API 密钥"
+   },
+   "appDescription": {
+      "description": "应用程序说明",
+      "message": "用于 n8n 工作流程自动化的 AI 助手。可与自托管实例、人工智能应用程序接口（OpenAI、Anthropic）和模板配合使用"
+   },
+   "appName": {
+      "description": "應用程式名稱",
+      "message": "N8N Master - 工作流程助手"
+   },
+   "appTitle": {
+      "description": "标题中的应用程序标题",
+      "message": "N8N Master"
+   },
+   "askN8nMaster": {
+      "description": "Ask N8N Master 按钮文本",
+      "message": "ASK N8N MASTER"
+   },
+   "autoPinAi": {
+      "description": "自动引脚 AI 设置名称",
+      "message": "自动引脚 AI"
+   },
+   "autoPinAiDesc": {
+      "description": "自动引脚 AI 设置说明",
+      "message": "AI 代理成功执行后的引脚响应"
+   },
+   "autoPinHttp": {
+      "description": "自动引脚 HTTP 设置名称",
+      "message": "自动引脚 HTTP"
+   },
+   "autoPinHttpDesc": {
+      "description": "自动引脚 HTTP 设置说明",
+      "message": "成功执行 HTTP 请求后的引脚响应"
+   },
+   "autoPinSuccess": {
+      "description": "自动固定成功信息",
+      "message": "1 美元的回复已自动固定！"
+   },
+   "autoSave": {
+      "description": "自动保存设置名称",
+      "message": "自动保存"
+   },
+   "autoSaveDesc": {
+      "description": "自动保存设置说明",
+      "message": "更改后自动保存工作流程"
+   },
+   "autoSaveDescription": {
+      "description": "自动保存工作流程选项说明",
+      "message": "编辑时自动保存工作流程更改"
+   },
+   "autoSaveFailed": {
+      "description": "自动保存失败信息",
+      "message": "自动保存失败"
+   },
+   "autoSaveOption": {
+      "description": "自动保存工作流程选项标签",
+      "message": "自动保存工作流程"
+   },
+   "autoSavePin": {
+      "description": "自动保存和别针功能名称",
+      "message": "自动保存和自动别针"
+   },
+   "autoSavePinDesc": {
+      "description": "自动保存和固定功能说明",
+      "message": "自动保存工作流程并固定执行结果"
+   },
+   "bestForWorkflowGeneration": {
+      "description": "徽章文字说明最适合生成工作流程的人工智能提供商",
+      "message": "最适合生成工作流程"
+   },
+   "blockedMessage": {
+      "description": "帐户被阻止消息",
+      "message": "检测到数据篡改企图。购买许可证以解锁功能。"
+   },
+   "buyKeyButton": {
+      "description": "购买许可证密钥按钮",
+      "message": "购买密钥"
+   },
+   "cachedWorkflows": {
+      "description": "缓存工作流程标签",
+      "message": "缓存的工作流程："
+   },
+   "cancel": {
+      "description": "取消按钮文本",
+      "message": "取消"
+   },
+   "cancelButton": {
+      "description": "取消按钮文字",
+      "message": "取消"
+   },
+   "chatAnalyzing": {
+      "description": "",
+      "message": "分析信息"
+   },
+   "chatAnalyzingError": {
+      "description": "聊天分析错误信息",
+      "message": "分析错误"
+   },
+   "chatClearHistory": {
+      "description": "清除聊天记录按钮工具提示",
+      "message": "清除聊天记录"
+   },
+   "chatFullscreen": {
+      "description": "聊天全屏按钮工具提示",
+      "message": "扩展到全屏"
+   },
+   "chatGenerating": {
+      "description": "聊天生成信息",
+      "message": "生成..."
+   },
+   "chatNotAvailable": {
+      "description": "聊天工具不可用错误",
+      "message": "聊天部件不可用。请先手动打开聊天。"
+   },
+   "chatProcessing": {
+      "description": "聊天处理占位符",
+      "message": "加工..."
+   },
+   "chatRequestCancelled": {
+      "description": "用户取消人工智能请求时的信息",
+      "message": "🛑 用户取消的请求"
+   },
+   "chatThinking": {
+      "description": "聊天思考信息",
+      "message": "思考"
+   },
+   "chatTitle": {
+      "description": "聊天部件标题",
+      "message": "N8N Master"
+   },
+   "chatWelcome": {
+      "description": "聊天欢迎词第 1 行",
+      "message": "您好！我是您的 N8N 主助理。我可以帮您分析工作流程、创建新的工作流程、优化提示，并回答有关 n8n 设置的问题。"
+   },
+   "chatWelcome2": {
+      "description": "聊天欢迎词第 2 行",
+      "message": "尝试询问：\"此工作流程做什么？\"或 \"分析选定的节点\""
+   },
+   "chatWelcomeHelp": {
+      "description": "聊天欢迎帮助文本中的示例问题",
+      "message": "尝试询问：\"这个工作流程是做什么的？\"或 \"分析选定的节点\""
+   },
+   "checking": {
+      "description": "检查状态信息",
+      "message": "检查..."
+   },
+   "chooseColorFor": {
+      "description": "颜色选择器模式标题前缀（后跟项目名称）选择颜色",
+      "message": "为"
+   },
+   "chromeStorageData": {
+      "description": "Chrome 浏览器存储数据的分类标题",
+      "message": "Chrome 浏览器存储数据"
+   },
+   "chromeWebStore": {
+      "description": "Chrome 网上商城链接文本",
+      "message": "Chrome 网上商城"
+   },
+   "clearHistory": {
+      "description": "按钮清除工作流程历史记录",
+      "message": "清除历史记录"
+   },
+   "clearSearch": {
+      "description": "清除搜索按钮的工具提示",
+      "message": "清除搜索"
+   },
+   "clickToActivate": {
+      "description": "徽章提示用户激活",
+      "message": "点击激活扩展程序"
+   },
+   "clickToCopy": {
+      "description": "变量项目的工具提示",
+      "message": "点击复制"
+   },
+   "clickToSelectAll": {
+      "description": "点击全选工具提示",
+      "message": "点击全选"
+   },
+   "close": {
+      "description": "关闭按钮文本",
+      "message": "关闭"
+   },
+   "codeExplanation": {
+      "description": "聊天时解释代码的标题",
+      "message": "代码解释："
+   },
+   "commandAddNodes": {
+      "description": "向工作流程添加节点的命令",
+      "message": "将指定节点添加到工作流程"
+   },
+   "commandCreateWorkflow": {
+      "description": "创建新工作流程的命令",
+      "message": "创建新工作流程"
+   },
+   "commandHelp": {
+      "description": "命令获取工作流程说明",
+      "message": "说明此工作流程的作用"
+   },
+   "commandRemoveNodes": {
+      "description": "删除节点的命令",
+      "message": "删除指定节点"
+   },
+   "commandReplaceNode": {
+      "description": "替换节点的命令",
+      "message": "替换指定节点"
+   },
+   "commandUpdateNodes": {
+      "description": "更新节点设置的命令",
+      "message": "更新指定节点的设置"
+   },
+   "confirmDeleteApiKey": {
+      "description": "删除域名 API 密钥时的确认提示",
+      "message": "您确定要删除 {domain} 的 API 密钥吗？"
+   },
+   "confirmDeleteProject": {
+      "description": "删除项目时的确认信息",
+      "message": "您确定要删除项目\"{projectName}\"吗？此操作无法撤销。"
+   },
+   "connectAPI": {
+      "description": "连接新API密钥按钮",
+      "message": "连接API"
+   },
+   "connectN8NAPI": {
+      "description": "用于连接新 N8N API 的模态窗口标题",
+      "message": "连接 N8N API"
+   },
+   "connections": {
+      "description": "",
+      "message": "工作流程统计中的连接文本"
+   },
+   "contextMenuAnalyzingCode": {
+      "description": "用于分析代码的上下文菜单操作文本",
+      "message": "分析代码"
+   },
+   "contextMenuApiKeyNotConfigured": {
+      "description": "未配置 API 密钥时出现上下文菜单错误",
+      "message": "未配置 API 密钥。请在扩展设置中设置 API 密钥。"
+   },
+   "contextMenuApiRequestError": {
+      "description": "API 错误的上下文菜单错误前缀",
+      "message": "API 请求错误"
+   },
+   "contextMenuCodeExplained": {
+      "description": "代码解释的上下文菜单成功消息",
+      "message": "代码解释已发送至聊天！"
+   },
+   "contextMenuCodeGenerated": {
+      "description": "代码生成成功的上下文菜单信息",
+      "message": "代码生成和插入成功！"
+   },
+   "contextMenuCurlGenerated": {
+      "description": "cURL 生成成功的上下文菜单信息",
+      "message": "cURL 生成并插入成功！"
+   },
+   "contextMenuCurlSentToChat": {
+      "description": "cURL 的上下文菜单成功消息已发送至聊天工具",
+      "message": "cURL 命令已发送至聊天！"
+   },
+   "contextMenuFixingJson": {
+      "description": "修复 JSON 的上下文菜单操作文本",
+      "message": "修复 JSON"
+   },
+   "contextMenuGeneratingCode": {
+      "description": "生成代码的上下文菜单操作文本",
+      "message": "生成代码"
+   },
+   "contextMenuGeneratingCurl": {
+      "description": "生成 cURL 的上下文菜单操作文本",
+      "message": "生成 cURL 请求"
+   },
+   "contextMenuGeneratingJson": {
+      "description": "生成 JSON 的上下文菜单操作文本",
+      "message": "创建 JSON 结构"
+   },
+   "contextMenuGeneratingPrompt": {
+      "description": "生成提示的上下文菜单操作文本",
+      "message": "生成提示"
+   },
+   "contextMenuJsonFixed": {
+      "description": "JSON 固定成功的上下文菜单信息",
+      "message": "JSON 固定并插入成功！"
+   },
+   "contextMenuJsonGenerated": {
+      "description": "JSON 生成成功的上下文菜单信息",
+      "message": "成功生成并插入 JSON！"
+   },
+   "contextMenuNoTextSelected": {
+      "description": "未选择文本时上下文菜单出错",
+      "message": "未选定文本或未找到活动输入框。"
+   },
+   "contextMenuOperationCompleted": {
+      "description": "上下文菜单默认成功信息",
+      "message": "操作成功完成！"
+   },
+   "contextMenuOptimizingPrompt": {
+      "description": "优化提示的上下文菜单操作文本",
+      "message": "优化提示"
+   },
+   "contextMenuProcessing": {
+      "description": "上下文菜单默认处理文本",
+      "message": "处理"
+   },
+   "contextMenuPromptGenerated": {
+      "description": "生成提示的上下文菜单成功信息",
+      "message": "提示生成并插入成功！"
+   },
+   "contextMenuPromptOptimized": {
+      "description": "优化提示的上下文菜单成功信息",
+      "message": "提示已优化并成功插入！"
+   },
+   "contextMenuTools": {
+      "description": "上下文菜单工具功能名称",
+      "message": "上下文菜单工具"
+   },
+   "contextMenuToolsDesc": {
+      "description": "上下文菜单工具功能说明",
+      "message": "右键单击工具可优化代码、修复 JSON 等"
+   },
+   "copied": {
+      "description": "复制按钮文本",
+      "message": "复制"
+   },
+   "copy": {
+      "description": "复制按钮文本",
+      "message": "复制"
+   },
+   "copyError": {
+      "description": "复制错误通知",
+      "message": "复制失败"
+   },
+   "copyLink": {
+      "description": "复制链接按钮工具提示",
+      "message": "复制链接"
+   },
+   "copyNodeFromTemplate": {
+      "description": "复制节点按钮的工具提示",
+      "message": "从模板复制节点"
+   },
+   "copySuccess": {
+      "description": "复制成功通知",
+      "message": "复制到剪贴板"
+   },
+   "copyToClipboard": {
+      "description": "文本用于模板复制到剪贴板按钮",
+      "message": "复制到剪贴板"
+   },
+   "copy_json": {
+      "description": "复制 JSON 按钮文本",
+      "message": "复制 JSON"
+   },
+   "createWorkflow": {
+      "description": "聊天输入占位符",
+      "message": "输入 / 选择命令"
+   },
+   "creatingCustomWorkflow": {
+      "description": "创建自定义工作流程时显示的信息",
+      "message": "创建自定义工作流程"
+   },
+   "creatingWorkflow": {
+      "description": "创建工作流程时的信息",
+      "message": "创建工作流程"
+   },
+   "current": {
+      "description": "",
+      "message": "(历史中当前工作流程版本的标签"
+   },
+   "currentlyOpen": {
+      "description": "显示当前打开的工作流程的文本",
+      "message": "(当前打开）"
+   },
+   "dataIntegrityViolated": {
+      "description": "数据完整性破坏提示",
+      "message": "数据完整性遭到破坏。购买许可证以解锁功能"
+   },
+   "delete": {
+      "description": "删除按钮文本",
+      "message": "删除"
+   },
+   "deleteVariable": {
+      "description": "删除变量模式标题",
+      "message": "删除变量"
+   },
+   "deleteVariableConfirm": {
+      "description": "删除变量确认信息",
+      "message": "您确定要删除此变量吗？此操作无法撤销。"
+   },
+   "deleteZone": {
+      "description": "删除拖动工作流程的区域文本",
+      "message": "🗑️ 删除"
+   },
+   "describeWorkflowChanges": {
+      "description": "用于描述工作流程更改的占位符",
+      "message": "描述工作流程中需要更改的内容..."
+   },
+   "deselectAll": {
+      "description": "按钮取消选择所有导入选项",
+      "message": "全部取消选择"
+   },
+   "deviceId": {
+      "description": "设备 ID 标签",
+      "message": "设备 ID："
+   },
+   "deviceInfo": {
+      "description": "设备信息组标题",
+      "message": "设备信息"
+   },
+   "disableButton": {
+      "description": "在 n8n 页面上禁用扩展程序的按钮",
+      "message": "禁用"
+   },
+   "disconnect": {
+      "description": "断开连接按钮",
+      "message": "DISCONNECT"
+   },
+   "discountAvailable": {
+      "description": "许可证弹窗中的折扣通知消息",
+      "message": "您可享受五折优惠"
+   },
+   "documentation": {
+      "description": "文档链接",
+      "message": "文档"
+   },
+   "domain": {
+      "description": "域的表列标题",
+      "message": "域"
+   },
+   "done": {
+      "description": "完成按钮文本",
+      "message": "完成"
+   },
+   "download": {
+      "description": "下载按钮文本",
+      "message": "下载"
+   },
+   "downloadingTemplate": {
+      "description": "下载模板信息",
+      "message": "从 GitHub 下载模板"
+   },
+   "dragWidget": {
+      "description": "widget 拖动句柄的工具提示文本",
+      "message": "拖动 widget"
+   },
+   "edgeStore": {
+      "description": "Microsoft Edge 商店链接文本",
+      "message": "Microsoft Edge 商店"
+   },
+   "editProjectName": {
+      "description": "编辑项目模式标题",
+      "message": "编辑项目名称"
+   },
+   "enableHistory": {
+      "description": "启用历史记录设置名称",
+      "message": "启用历史记录"
+   },
+   "enableHistoryDesc": {
+      "description": "启用历史记录设置说明",
+      "message": "跟踪工作流程历史记录并激活历史记录按钮"
+   },
+   "enableStreaming": {
+      "description": "启用流媒体设置名称",
+      "message": "启用流媒体"
+   },
+   "enableStreamingDesc": {
+      "description": "启用流式传输设置说明",
+      "message": "流式传输聊天回复"
+   },
+   "enterLicenseKey": {
+      "description": "许可证密钥输入占位符",
+      "message": "输入许可证密钥"
+   },
+   "enterProjectName": {
+      "description": "项目名称输入占位符",
+      "message": "输入项目名称"
+   },
+   "enterVariableName": {
+      "description": "变量名称输入占位符",
+      "message": "输入变量名..."
+   },
+   "enterVariableValue": {
+      "description": "变量值输入占位符",
+      "message": "输入变量值..."
+   },
+   "error": {
+      "description": "",
+      "message": "错误信息"
+   },
+   "errorAnalysisCurrentNode": {
+      "description": "当前节点部分标题",
+      "message": "**当前节点：**"
+   },
+   "errorAnalysisErrorDetails": {
+      "description": "错误详细信息部分标题",
+      "message": "** 错误详细信息：**"
+   },
+   "errorAnalysisInputData": {
+      "description": "输入数据部分标题",
+      "message": "** 输入数据：**"
+   },
+   "errorAnalysisInstructions": {
+      "description": "错误分析说明",
+      "message": "请分析这一错误并提供\n1.根本原因解释\n2.分步解决方案\n3.预防提示\n4.替代方法（如适用\n\n重点关注针对 n8n 工作流程的切实可行的解决方案。"
+   },
+   "errorAnalysisLocation": {
+      "description": "错误位置标签",
+      "message": "位置"
+   },
+   "errorAnalysisMessage": {
+      "description": "错误信息的标签",
+      "message": "信息"
+   },
+   "errorAnalysisNodeType": {
+      "description": "节点类型的标签",
+      "message": "节点类型"
+   },
+   "errorAnalysisParameters": {
+      "description": "节点参数标签",
+      "message": "参数"
+   },
+   "errorAnalysisPromptTitle": {
+      "description": "错误分析提示标题",
+      "message": "🚨 **自动错误分析请求**"
+   },
+   "errorAnalysisRequest": {
+      "description": "请求部分标题",
+      "message": "**请求：**"
+   },
+   "errorAnalysisTotalNodes": {
+      "description": "节点总数标签",
+      "message": "节点总数"
+   },
+   "errorAnalysisWorkflowContext": {
+      "description": "工作流上下文部分标题",
+      "message": "**WORKFLOW CONTEXT:**"
+   },
+   "errorAnalysisWorkflowName": {
+      "description": "工作流程名称的标签",
+      "message": "名称"
+   },
+   "errorConfigureApiKey": {
+      "description": "未配置 API 密钥时的错误信息",
+      "message": "请先配置您的 API 密钥"
+   },
+   "errorDeletingProject": {
+      "description": "项目删除失败时的错误信息",
+      "message": "删除项目出错"
+   },
+   "errorFailedToLoadTranslations": {
+      "description": "加载翻译失败时的错误信息",
+      "message": "加载语言的翻译失败："
+   },
+   "errorHttpStatus": {
+      "description": "HTTP 状态错误的错误信息前缀",
+      "message": "HTTP 错误！状态："
+   },
+   "errorInvalidIndexedDB": {
+      "description": "",
+      "message": "IndexedDB 响应无效时的错误信息"
+   },
+   "errorLoadingVariables": {
+      "description": "变量加载失败时的错误信息",
+      "message": "加载变量出错"
+   },
+   "errorNoActiveTab": {
+      "description": "未找到活动选项卡时的错误信息",
+      "message": "未找到活动选项卡"
+   },
+   "errorNotLikelyN8nPage": {
+      "description": "页面不可能是 N8N 页面时的错误信息",
+      "message": "不可能是 N8N 页面"
+   },
+   "errorSavingProjectName": {
+      "description": "保存项目名称失败时的错误信息",
+      "message": "保存项目名称时出错"
+   },
+   "errorServerValidationFailed": {
+      "description": "服务器验证失败时的错误信息",
+      "message": "服务器验证失败"
+   },
+   "error_loading_template": {
+      "description": "加载模板文本时出错",
+      "message": "加载模板时出错："
+   },
+   "errorsTodayClickToView": {
+      "description": "今日错误指标的工具提示（含点击说明）",
+      "message": "今日错误 - 点击查看"
+   },
+   "execTime": {
+      "description": "执行时间列标题",
+      "message": "执行时间"
+   },
+   "executionsToday": {
+      "description": "今日处决指标的工具提示",
+      "message": "今日处决"
+   },
+   "explainCode": {
+      "description": "解释代码字段标签",
+      "message": "解释代码："
+   },
+   "explore": {
+      "description": "探索按钮文字",
+      "message": "探索"
+   },
+   "exportApiKeys": {
+      "description": "导出 API 密钥项目",
+      "message": "AI API 密钥"
+   },
+   "exportButton": {
+      "description": "导出按钮文本",
+      "message": "导出设置"
+   },
+   "exportDescription": {
+      "description": "导出描述标题",
+      "message": "导出配置"
+   },
+   "exportInfo": {
+      "description": "导出信息文本",
+      "message": "将扩展设置、API 密钥和数据导出到 JSON 文件。这包括"
+   },
+   "exportN8nKey": {
+      "description": "导出 N8N 密钥项目",
+      "message": "N8N API 密钥"
+   },
+   "exportOptions": {
+      "description": "导出选项项目",
+      "message": "扩展选项"
+   },
+   "exportProjects": {
+      "description": "导出项目项目",
+      "message": "从 IndexedDB 本地项目"
+   },
+   "exportSectionTitle": {
+      "description": "导出部分标题",
+      "message": "导出设置"
+   },
+   "exportSettings": {
+      "description": "导出设置项目",
+      "message": "扩展设置"
+   },
+   "exportTemplates": {
+      "description": "输出模板项目",
+      "message": "从 IndexedDB 输出模板"
+   },
+   "extensionIsActive": {
+      "description": "扩展激活时的徽章提示",
+      "message": "扩展已激活"
+   },
+   "extensionOptions": {
+      "description": "扩展选项导入选项",
+      "message": "扩展选项"
+   },
+   "extensionPage": {
+      "description": "扩展页面链接",
+      "message": "扩展页面"
+   },
+   "extensionSettings": {
+      "description": "扩展设置导入选项",
+      "message": "扩展设置"
+   },
+   "extensionUpdated": {
+      "description": "扩展已更新警告",
+      "message": "扩展已更新。请重新加载页面以继续使用 N8N Master。"
+   },
+   "extensionVersion": {
+      "description": "扩展版本标签",
+      "message": "扩展版本："
+   },
+   "failed": {
+      "description": "失败按钮文本",
+      "message": "失败"
+   },
+   "failedToAnalyzeWorkflow": {
+      "description": "",
+      "message": "工作流程分析失败时的错误信息"
+   },
+   "failedToAnalyzeWorkflowGeneric": {
+      "description": "工作流程分析失败时的通用错误信息",
+      "message": "工作流程分析失败"
+   },
+   "failedToCopyNode": {
+      "description": "复制节点失败时的错误信息",
+      "message": "复制节点失败："
+   },
+   "failedToCopyToClipboard": {
+      "description": "剪贴板复制失败时的错误信息",
+      "message": "复制到剪贴板失败"
+   },
+   "failedToCreateWorkflow": {
+      "description": "工作流程创建失败时的错误信息",
+      "message": "创建工作流程失败"
+   },
+   "failedToCreateWorkflowGeneric": {
+      "description": "工作流创建失败时的通用错误信息",
+      "message": "创建工作流失败"
+   },
+   "failedToDeleteVariable": {
+      "description": "删除变量失败时的错误信息",
+      "message": "删除变量失败："
+   },
+   "failedToDownloadTemplate": {
+      "description": "下载模板失败信息",
+      "message": "下载模板失败"
+   },
+   "failedToLoadNodes": {
+      "description": "加载节点失败时的错误信息",
+      "message": "加载节点失败"
+   },
+   "failedToLoadWorkflows": {
+      "description": "加载工作流失败时的错误信息",
+      "message": "加载工作流失败。请检查您的 API 密钥。"
+   },
+   "failedToModifyWorkflow": {
+      "description": "工作流程修改失败时的错误信息",
+      "message": "工作流程修改失败"
+   },
+   "failedToModifyWorkflowGeneric": {
+      "description": "工作流程修改失败时的通用错误信息",
+      "message": "修改工作流程失败"
+   },
+   "failedToSaveVariable": {
+      "description": "变量保存失败时的错误信息",
+      "message": "保存变量失败："
+   },
+   "failedToValidateApiKey": {
+      "description": "API 密钥验证错误",
+      "message": "验证 API 密钥失败"
+   },
+   "featureAiChat": {
+      "description": "人工智能聊天功能标题",
+      "message": "人工智能聊天助手"
+   },
+   "featureAiChatDesc": {
+      "description": "人工智能聊天功能说明",
+      "message": "利用人工智能辅助创建工作流程"
+   },
+   "featureAutoSavePin": {
+      "description": "自动保存和图钉功能标题",
+      "message": "自动保存和图钉"
+   },
+   "featureAutoSavePinDesc": {
+      "description": "",
+      "message": "自动保存和固定节点功能说明"
+   },
+   "featureLocalProjects": {
+      "description": "地方项目专题标题",
+      "message": "地方项目"
+   },
+   "featureLocalProjectsDesc": {
+      "description": "本地项目功能说明",
+      "message": "在自定义项目文件夹中组织工作流程"
+   },
+   "featureNodeSelector": {
+      "description": "节点选择器功能标题",
+      "message": "节点选择器"
+   },
+   "featureNodeSelectorDesc": {
+      "description": "节点选择器功能说明",
+      "message": "从其他工作流中快速复制已配置的节点"
+   },
+   "featureTemplates": {
+      "description": "模板功能标题",
+      "message": "模板"
+   },
+   "featureTemplatesDesc": {
+      "description": "模板功能说明",
+      "message": "访问预置工作流程模板"
+   },
+   "featureWorkflowHistory": {
+      "description": "工作流程历史记录功能标题",
+      "message": "工作流程历史记录"
+   },
+   "featureWorkflowHistoryDesc": {
+      "description": "工作流程历史功能说明",
+      "message": "跟踪和恢复工作流程的先前版本"
+   },
+   "features": {
+      "description": "功能部分标题",
+      "message": "功能"
+   },
+   "filters": {
+      "description": "过滤器部分标签",
+      "message": "过滤器"
+   },
+   "finishWorkflow": {
+      "description": "工作流程完成时的消息",
+      "message": "✅ 完成工作流程"
+   },
+   "finished": {
+      "description": "已完成列标题",
+      "message": "已完成"
+   },
+   "fontDetectorDescription": {
+      "description": "FontDetector Pro 扩展说明",
+      "message": "设计人员检测和下载网站字体不可或缺的工具。"
+   },
+   "fontDetectorTitle": {
+      "description": "FontDetector Pro 扩展名标题",
+      "message": "FontDetector Pro"
+   },
+   "footerText": {
+      "description": "页脚文本包含使用说明",
+      "message": "右键单击任何页面访问 N8N 主工具"
+   },
+   "foundPerfectTemplate": {
+      "description": "找到完美匹配模板时的标题信息",
+      "message": "找到完美模板！"
+   },
+   "fullyActivated": {
+      "description": "完全激活状态",
+      "message": "✅ 完全激活"
+   },
+   "generateCode": {
+      "description": "生成代码字段标签",
+      "message": "生成代码："
+   },
+   "generateJSON": {
+      "description": "生成 JSON 字段标签",
+      "message": "生成 JSON："
+   },
+   "generatePrompt": {
+      "description": "生成提示字段标签",
+      "message": "生成提示："
+   },
+   "generateWorkflow": {
+      "description": "生成工作流程字段标签",
+      "message": "生成工作流程："
+   },
+   "generatedCurlCommand": {
+      "description": "在聊天中生成 cURL 命令的页眉",
+      "message": "生成的 cURL 命令："
+   },
+   "generatingCode": {
+      "description": "生成代码状态",
+      "message": "生成代码"
+   },
+   "generatingCurl": {
+      "description": "生成 cURL 请求状态",
+      "message": "生成 cURL 请求"
+   },
+   "generatingCustomWorkflow": {
+      "description": "生成自定义工作流程信息",
+      "message": "生成自定义工作流而不是..."
+   },
+   "generatingPrompt": {
+      "description": "生成提示音状态",
+      "message": "生成提示音"
+   },
+   "gettingStarted": {
+      "description": "入门部分标题",
+      "message": "🚀 入门"
+   },
+   "group": {
+      "description": "组列标题",
+      "message": "组"
+   },
+   "hideLinks": {
+      "description": "隐藏链接切换文本",
+      "message": "隐藏链接"
+   },
+   "hostDetected": {
+      "description": "检测到主机标签",
+      "message": "检测到主机："
+   },
+   "howToFindApiKey": {
+      "description": "API密钥说明部分标题",
+      "message": "如何查找API密钥？"
+   },
+   "importButton": {
+      "description": "导入按钮文本",
+      "message": "导入设置"
+   },
+   "importDescription": {
+      "description": "导入描述标题",
+      "message": "导入配置"
+   },
+   "importInfo": {
+      "description": "导入信息文本",
+      "message": "从 JSON 文件导入以前导出的设置。导入将验证结构并恢复配置。"
+   },
+   "importSectionTitle": {
+      "description": "导入部分标题",
+      "message": "导入设置"
+   },
+   "importWarning": {
+      "description": "导入警告信息",
+      "message": "⚠️ 注意：如果许可证未激活，将无法导入扩展设置。"
+   },
+   "incompleteReplacementBlocked": {
+      "description": "不完全替换受阻时的信息",
+      "message": "错误：人工智能执行了不完整的替换（仅移除）。替换受阻。"
+   },
+   "incompleteReplacementError": {
+      "description": "人工智能尝试不完全替换节点时出现错误",
+      "message": "错误：人工智能试图进行不完整的替换（只删除不添加）。请尝试重新表述您的请求。"
+   },
+   "indexedDbData": {
+      "description": "IndexedDB 数据的分类标题",
+      "message": "IndexedDB 数据"
+   },
+   "install": {
+      "description": "安装按钮文字",
+      "message": "安装"
+   },
+   "instructionStep1": {
+      "description": "API密钥操作指南的第一步",
+      "message": "在您姓名左侧的角落处，点击三个点"
+   },
+   "instructionStep2": {
+      "description": "API 密钥说明的第二步",
+      "message": "点击设置，然后点击 n8n API"
+   },
+   "instructionStep3": {
+      "description": "API密钥说明中的第三步",
+      "message": "点击创建API密钥"
+   },
+   "instructionStep4": {
+      "description": "API密钥操作指南的第四步",
+      "message": "指定标签，并将过期期限设置为“永不过期”，然后点击“保存”"
+   },
+   "instructionStep5": {
+      "description": "API密钥操作指南第五步",
+      "message": "在此处复制生成的密钥并点击保存"
+   },
+   "keyFeatures": {
+      "description": "关键功能部分标题",
+      "message": "🚀 关键功能"
+   },
+   "lang_en": {
+      "description": "英文名称",
+      "message": "English"
+   },
+   "lang_es": {
+      "description": "西班牙语名称",
+      "message": "Español"
+   },
+   "lang_ru": {
+      "description": "俄语名称",
+      "message": "Russian"
+   },
+   "language": {
+      "description": "语言选择器标签",
+      "message": "语言"
+   },
+   "languageSettings": {
+      "description": "语言设置组标题",
+      "message": "语言设置"
+   },
+   "leaveReview": {
+      "description": "",
+      "message": "发表评论 发表评论"
+   },
+   "licenseExpired": {
+      "description": "许可证过期消息",
+      "message": "许可证已过期。请在扩展弹出窗口中重新激活。"
+   },
+   "licenseInfo": {
+      "description": "许可证信息组标题",
+      "message": "许可证信息"
+   },
+   "licenseKey": {
+      "description": "许可证密钥标签",
+      "message": "许可证密钥："
+   },
+   "licenseStatus": {
+      "description": "许可证状态标签",
+      "message": "许可证状态："
+   },
+   "links": {
+      "description": "链接组标题",
+      "message": "链接与支持"
+   },
+   "linksWorkflows": {
+      "description": "链接字段标签",
+      "message": "链接"
+   },
+   "loading": {
+      "description": "加载信息",
+      "message": "加载中..."
+   },
+   "loadingChangelog": {
+      "description": "正在加载更新日志信息",
+      "message": "正在加载更新日志..."
+   },
+   "loadingExecutions": {
+      "description": "正在加载执行任务状态消息",
+      "message": "正在加载执行任务..."
+   },
+   "loadingHistory": {
+      "description": "加载工作流程历史记录信息",
+      "message": "加载工作流程历史记录..."
+   },
+   "loadingNodes": {
+      "description": "加载节点信息",
+      "message": "加载节点..."
+   },
+   "loadingText": {
+      "description": "正在加载文本",
+      "message": "加载中..."
+   },
+   "loadingWorkflows": {
+      "description": "获取工作流程时出现加载信息",
+      "message": "加载工作流..."
+   },
+   "loading_template": {
+      "description": "加载模板文本",
+      "message": "加载模板..."
+   },
+   "loading_workflow_preview": {
+      "description": "加载工作流程预览文本",
+      "message": "加载工作流程预览..."
+   },
+   "localChatAddress": {
+      "description": "本地聊天终端输入的标签",
+      "message": "本地聊天地址："
+   },
+   "localLLMConfigureInstructions": {
+      "description": "配置本地 LLM 端点的说明",
+      "message": "在 \"设置\"→\"AI \"选项卡中配置端点"
+   },
+   "localLLMConfigured": {
+      "description": "配置本地 LLM 时的状态信息",
+      "message": "✅ 已配置本地 LM"
+   },
+   "localLLMOption": {
+      "description": "弹出窗口中的本地 LLM 提供商选项",
+      "message": "本地 LM（模型）"
+   },
+   "localLLMSection": {
+      "description": "本地 LLM 部分标题",
+      "message": "弹出窗口中的本地 LM"
+   },
+   "localLLMsTitle": {
+      "description": "Local LLMs 章节标题",
+      "message": "选项中的 Local LLMs"
+   },
+   "localModelsAddress": {
+      "description": "本地模型端点输入的标签",
+      "message": "本地模型地址："
+   },
+   "localProjects": {
+      "description": "本地项目设置名称",
+      "message": "本地项目"
+   },
+   "localProjectsDesc": {
+      "description": "本地项目设置说明",
+      "message": "启用左侧栏中的项目文件夹"
+   },
+   "localVariables": {
+      "description": "本地变量设置名称",
+      "message": "本地变量"
+   },
+   "localVariablesDesc": {
+      "description": "本地变量设置说明",
+      "message": "菜单中的 \"变量 \"链接将提供访问重要数据笔记本的权限。热键Ctrl+Shift+V"
+   },
+   "mainSectionTitle": {
+      "description": "主要部分标题",
+      "message": "主要设置"
+   },
+   "menuAI": {
+      "description": "",
+      "message": "人工智能菜单项"
+   },
+   "menuAbout": {
+      "description": "关于菜单项",
+      "message": "关于"
+   },
+   "menuExport": {
+      "description": "导出菜单项",
+      "message": "导出"
+   },
+   "menuImport": {
+      "description": "",
+      "message": "导入菜单项"
+   },
+   "menuMain": {
+      "description": "",
+      "message": "主菜单"
+   },
+   "menuWorkflowHistory": {
+      "description": "工作流程历史记录部分的菜单项",
+      "message": "工作流程历史记录"
+   },
+   "modalSettingsDescription": {
+      "description": "模式设置说明",
+      "message": "配置 N8N 主站设置："
+   },
+   "modalStep1": {
+      "description": "模式化步骤 1 文本",
+      "message": "点击浏览器工具栏上的 N8N Master 扩展图标"
+   },
+   "modalStep2": {
+      "description": "模态步骤 2 文本",
+      "message": "配置 API 密钥并启用功能"
+   },
+   "modalStep3": {
+      "description": "模态步骤 3 文本",
+      "message": "开始使用 N8N 主功能"
+   },
+   "modalTipText": {
+      "description": "模式提示文本",
+      "message": "如果没有看到扩展图标，请单击工具栏上的拼图 (🧩)，然后将 N8N Master 插入。"
+   },
+   "modalTipTitle": {
+      "description": "模态提示标题",
+      "message": "💡 提示："
+   },
+   "modifyingWorkflow": {
+      "description": "修改工作流程时的信息",
+      "message": "修改工作流程"
+   },
+   "n8nApiConfiguration": {
+      "description": "N8N API 配置部分",
+      "message": "N8N API 配置"
+   },
+   "n8nApiConfigurationDesc": {
+      "description": "N8N API 配置说明",
+      "message": "为所选选项配置 N8N API 密钥"
+   },
+   "n8nApiKey": {
+      "description": "N8N API 密钥字段标签",
+      "message": "N8N API 密钥"
+   },
+   "n8nApiKeyDescription": {
+      "description": "N8N API 密钥字段说明",
+      "message": "用于访问 N8N 网络钩子和自动化的 API 密钥"
+   },
+   "n8nApiKeyNotConfigured": {
+      "description": "N8N API 密钥未配置时的错误信息",
+      "message": "未配置 N8N API 密钥。请在扩展设置中进行配置。"
+   },
+   "n8nApiKeyPlaceholder": {
+      "description": "N8N API 密钥占位符",
+      "message": "输入您的 N8N API 密钥..."
+   },
+   "n8nApiKeyRemoved": {
+      "description": "N8N API 密钥已删除消息",
+      "message": "API 密钥已删除"
+   },
+   "n8nApiKeyRequired": {
+      "description": "",
+      "message": "需要 N8N API 密钥时发出警告信息"
+   },
+   "n8nApiKeyRequiredMessage": {
+      "description": "需要 API 密钥对话框的信息",
+      "message": "要从其他工作流程复制节点，请在扩展设置中配置您的 N8N API 密钥。"
+   },
+   "n8nApiKeyValid": {
+      "description": "有效的 N8N API 密钥状态",
+      "message": "N8N API 密钥有效！"
+   },
+   "n8nApiSettings": {
+      "description": "N8N API 设置组标题",
+      "message": "N8N API 设置"
+   },
+   "n8nApiUrl": {
+      "description": "N8N API URL 字段标签",
+      "message": "N8N API URL："
+   },
+   "n8nApiUrlDescription": {
+      "description": "N8N API URL 字段说明",
+      "message": "N8N 实例 API 的基本 URL"
+   },
+   "n8nMasterActivated": {
+      "description": "激活后的状态",
+      "message": "N8N Master 已激活（刷新页面查看聊天内容）"
+   },
+   "n8nMasterActivatedRefresh": {
+      "description": "激活 N8N Master 并需要刷新页面时发出通知",
+      "message": "N8N 主人已激活！刷新页面以查看聊天小工具。"
+   },
+   "n8nMasterActiveOnPage": {
+      "description": "N8N Master 在当前页面激活时发出通知",
+      "message": "N8N Master 已在此页面激活"
+   },
+   "n8nMasterDisconnected": {
+      "description": "N8N 主站与当前页面断开连接时发出通知",
+      "message": "N8N 主站与此页面断开连接"
+   },
+   "n8nMasterIsActive": {
+      "description": "N8N 主站处于活动状态时的状态",
+      "message": "N8N 主站在此页面处于活动状态"
+   },
+   "n8nMasterLocalVariables": {
+      "description": "本地变量的扩展图标工具提示",
+      "message": "N8N Master - 本地变量"
+   },
+   "n8nMasterNotWorking": {
+      "description": "N8N 主站不工作时的状态",
+      "message": "N8N 主站在此页面不工作"
+   },
+   "n8nMasterProcessing": {
+      "description": "用于处理通知的扩展名",
+      "message": "N8N 主站"
+   },
+   "n8nPageDetectedReady": {
+      "description": "检测到 N8N 页面并准备激活时的状态信息",
+      "message": "检测到 N8N 页面 - 准备激活"
+   },
+   "n8nWorkflowDetected": {
+      "description": "找到工作流程页面时的状态",
+      "message": "检测到 N8N 工作流程页面 - 准备激活"
+   },
+   "newProjectButton": {
+      "description": "添加新项目按钮文本",
+      "message": "📁 + 添加项目"
+   },
+   "next": {
+      "description": "下一页按钮",
+      "message": "下一页"
+   },
+   "noActiveTab": {
+      "description": "没有活动选项卡时出错",
+      "message": "未找到活动选项卡"
+   },
+   "noApiKeyForImport": {
+      "description": "当未配置API密钥用于导入工作流时显示的消息",
+      "message": "要从您的N8N实例导入工作流，请在扩展设置中配置您的N8N API密钥。"
+   },
+   "noAvailableWorkflows": {
+      "description": "无可用工作流可添加时的信息",
+      "message": "未找到可用的工作流程。所有工作流程已在项目中。"
+   },
+   "noDomainsConnected": {
+      "description": "当未配置任何域名时显示的消息",
+      "message": "未连接任何域名"
+   },
+   "noGroup": {
+      "description": "无组别占位符",
+      "message": "—"
+   },
+   "noHistoryAvailable": {
+      "description": "工作流程没有历史记录时的信息",
+      "message": "还没有历史记录"
+   },
+   "noNodesFound": {
+      "description": "未找到节点错误",
+      "message": "工作流中未找到节点"
+   },
+   "noNodesMatchSearch": {
+      "description": "",
+      "message": "没有符合搜索条件的节点时的信息"
+   },
+   "noOtherWorkflowsAvailable": {
+      "description": "没有其他工作流程可用时的信息",
+      "message": "没有其他工作流可用。\u003Cbr/>创建更多工作流，在它们之间复制节点。"
+   },
+   "noTags": {
+      "description": "无标签占位符",
+      "message": "—"
+   },
+   "noVariablesFound": {
+      "description": "搜索无结果时的信息",
+      "message": "未找到与您的搜索匹配的变量。"
+   },
+   "noVariablesMatchingSearch": {
+      "description": "没有变量匹配搜索词时的信息",
+      "message": "未找到与\"{{searchTerm}}\"匹配的变量。"
+   },
+   "noVariablesYet": {
+      "description": "没有变量时的信息",
+      "message": "还没有变量。点击 \"+ 添加变量 \"创建第一个变量。"
+   },
+   "noWorkflowsFound": {
+      "description": "没有工作流时的信息",
+      "message": "没有找到工作流"
+   },
+   "noWorkflowsMatchSearch": {
+      "description": "搜索无结果时的信息",
+      "message": "没有与您的搜索匹配的工作流。"
+   },
+   "nodeAnalysis": {
+      "description": "节点分析功能名称",
+      "message": "节点分析"
+   },
+   "nodeAnalysisDesc": {
+      "description": "节点分析功能说明",
+      "message": "分析所选节点，深入了解工作流程结构"
+   },
+   "nodeCopiedSuccessfully": {
+      "description": "复制节点时的成功信息",
+      "message": "复制成功并添加到工作流！"
+   },
+   "nodeCopiedToClipboard": {
+      "description": "节点复制到剪贴板时的信息",
+      "message": "复制到剪贴板。使用 Ctrl+V 粘贴到 n8n。"
+   },
+   "nodeCopy": {
+      "description": "复制节点按钮",
+      "message": "复制节点"
+   },
+   "nodeCopySuccess": {
+      "description": "节点复制成功信息",
+      "message": "节点复制成功"
+   },
+   "nodeExecutionSelect": {
+      "description": "节点执行选择设置名称",
+      "message": "节点执行选择"
+   },
+   "nodeExecutionSelectDesc": {
+      "description": "Node execution select 设置说明中选择数据。",
+      "message": "编辑节点输出时，可以从 Executions"
+   },
+   "nodeNameCopiedToClipboard": {
+      "description": "特定节点复制到剪贴板时的信息",
+      "message": "节点\"{nodeName}\"已复制到剪贴板。使用 Ctrl+V 粘贴到 n8n。"
+   },
+   "nodePaste": {
+      "description": "粘贴节点按钮",
+      "message": "粘贴节点"
+   },
+   "nodePasteSuccess": {
+      "description": "节点粘贴成功信息",
+      "message": "节点粘贴成功"
+   },
+   "nodeSelector": {
+      "description": "节点选择器设置名称",
+      "message": "节点选择器"
+   },
+   "nodeSelectorDesc": {
+      "description": "节点选择器设置说明",
+      "message": "为每个带 \"+\"的节点添加一个选择器，以便从工作流中选择节点"
+   },
+   "nodes": {
+      "description": "",
+      "message": "历史节点数的复数形式"
+   },
+   "notN8nPage": {
+      "description": "页面非n8n时的徽章提示",
+      "message": "这不是n8n页面"
+   },
+   "notN8nPageError": {
+      "description": "页面不是 N8N 时出现错误",
+      "message": "这不是 N8N 页面"
+   },
+   "notificationsDescription": {
+      "description": "启用通知选项说明",
+      "message": "显示成功和错误通知"
+   },
+   "notificationsOption": {
+      "description": "启用通知选项标签",
+      "message": "启用通知"
+   },
+   "of": {
+      "description": "分页中的标签",
+      "message": "的"
+   },
+   "openChatFirst": {
+      "description": "打开聊天工具查看第一条信息",
+      "message": "请先打开聊天部件，查看 AI 消息。"
+   },
+   "openSettings": {
+      "description": "打开设置的按钮文本",
+      "message": "打开设置"
+   },
+   "openSource": {
+      "description": "开源栏目标题",
+      "message": "开源"
+   },
+   "openSourceDescription": {
+      "description": "开源板块描述",
+      "message": "超过7,000个开源项目，助您基于现成解决方案组织自有项目。"
+   },
+   "openaiApiKey": {
+      "description": "OpenAI API 密钥字段标签",
+      "message": "OpenAI API 密钥"
+   },
+   "openrouterApiKey": {
+      "description": "Openrouter API 密钥字段标签",
+      "message": "Openrouter API 密钥"
+   },
+   "optimizePrompt": {
+      "description": "优化提示字段标签",
+      "message": "优化提示："
+   },
+   "optionsPage": {
+      "description": "选项页面链接文本",
+      "message": "选项"
+   },
+   "optionsPageHeader": {
+      "description": "选项页页眉",
+      "message": "N8N 主控器"
+   },
+   "optionsPageTitle": {
+      "description": "选项页面标题",
+      "message": "N8N 主设置"
+   },
+   "orText": {
+      "description": "或商店链接之间的分隔文字",
+      "message": "或"
+   },
+   "outputTemplates": {
+      "description": "输出模板导入选项",
+      "message": "输出模板"
+   },
+   "page": {
+      "description": "分页中的页码标签",
+      "message": "页"
+   },
+   "pageStatus": {
+      "description": "页面状态部分标题",
+      "message": "🔍 页面状态"
+   },
+   "pinData": {
+      "description": "数据引脚标题",
+      "message": "数据引脚"
+   },
+   "pinned": {
+      "description": "固定图标工具提示",
+      "message": "固定"
+   },
+   "pinnedData": {
+      "description": "固定数据模态窗口标题",
+      "message": "固定数据"
+   },
+   "placeholderExplainCode": {
+      "description": "解释代码文本框的占位符",
+      "message": "用于解释代码的自定义系统消息..."
+   },
+   "placeholderGenerateCode": {
+      "description": "生成代码文本框的占位符",
+      "message": "用于生成代码的自定义系统消息..."
+   },
+   "placeholderGenerateJson": {
+      "description": "生成 JSON 文本区域的占位符",
+      "message": "生成 JSON 的自定义系统消息..."
+   },
+   "placeholderGeneratePrompt": {
+      "description": "生成提示文本框的占位符",
+      "message": "用于生成提示的自定义系统消息..."
+   },
+   "placeholderGenerateWorkflow": {
+      "description": "生成工作流程文本框的占位符",
+      "message": "用于生成工作流程的自定义系统消息..."
+   },
+   "placeholderOptimize": {
+      "description": "优化提示文本框的占位符",
+      "message": "用于优化的自定义系统消息..."
+   },
+   "pleaseEnterApiKey": {
+      "description": "未输入 API 密钥时的提示信息",
+      "message": "请输入 API 密钥"
+   },
+   "pleaseEnterN8nApiKey": {
+      "description": "未输入 N8N API 密钥时的信息",
+      "message": "请输入 N8N API 密钥"
+   },
+   "popupTitle": {
+      "description": "弹出窗口标题",
+      "message": "N8N 主设置"
+   },
+   "popup_language": {
+      "description": "弹出窗口中的语言选择器标签",
+      "message": "语言"
+   },
+   "popup_settings": {
+      "description": "弹出窗口中的设置部分标题",
+      "message": "⚙️ 设置"
+   },
+   "previous": {
+      "description": "上一页按钮",
+      "message": "上一页"
+   },
+   "privacyPolicy": {
+      "description": "隐私政策链接文本",
+      "message": "隐私政策"
+   },
+   "proceedingCustomWorkflow": {
+      "description": "继续生成自定义工作流程信息",
+      "message": "继续生成自定义工作流程"
+   },
+   "projectNameAlreadyExists": {
+      "description": "项目名称已存在时出现验证错误",
+      "message": "此名称的项目已存在"
+   },
+   "projectNameCannotBeEmpty": {
+      "description": "项目名称为空时出现验证错误",
+      "message": "项目名称不能为空"
+   },
+   "projectNamePlaceholder": {
+      "description": "表格中的项目名称输入占位符",
+      "message": "项目名称..."
+   },
+   "projectsCreate": {
+      "description": "创建项目按钮",
+      "message": "创建项目"
+   },
+   "projectsDelete": {
+      "description": "删除项目按钮",
+      "message": "删除项目"
+   },
+   "projectsExport": {
+      "description": "导出项目按钮",
+      "message": "导出项目"
+   },
+   "projectsImport": {
+      "description": "导入项目按钮",
+      "message": "导入项目"
+   },
+   "projectsName": {
+      "description": "项目名称字段",
+      "message": "项目名称"
+   },
+   "purchaseLicenseToUnlock": {
+      "description": "购买许可证按钮文字",
+      "message": "购买许可证以解锁功能"
+   },
+   "rateUs": {
+      "description": "评分链接文本",
+      "message": "评分"
+   },
+   "refreshHistory": {
+      "description": "按钮刷新工作流程历史记录",
+      "message": "刷新历史记录"
+   },
+   "rememberDialog": {
+      "description": "记住对话框设置名称",
+      "message": "记住对话框"
+   },
+   "rememberDialogDesc": {
+      "description": "记住对话框设置说明",
+      "message": "保存每个工作流程的聊天对话框"
+   },
+   "requiresN8nApiKey": {
+      "description": "当某项功能需要 N8N API 密钥时显示的消息",
+      "message": "要启用此选项，请先输入"
+   },
+   "reset": {
+      "description": "重置按钮文字",
+      "message": "重置"
+   },
+   "resetSuccess": {
+      "description": "设置重置成功通知",
+      "message": "设置重置"
+   },
+   "reviewRequestButton": {
+      "description": "聊天中的评论请求按钮文本",
+      "message": "⭐ 发表评论"
+   },
+   "reviewRequestProductHunt": {
+      "description": "在聊天中输入 Product Hunt 支持请求的文本",
+      "message": "并在 Product Hunt 上支持我们"
+   },
+   "reviewRequestProductHuntButton": {
+      "description": "聊天中用于 Product Hunt 支持的按钮文本",
+      "message": "🚀 Product Hunt"
+   },
+   "reviewRequestText": {
+      "description": "聊天中的评论请求信息文本",
+      "message": "请在谷歌网络商店上留下对我们的评论"
+   },
+   "reviewRequestTitle": {
+      "description": "聊天中的审核请求消息标题",
+      "message": "您喜欢这个扩展吗？"
+   },
+   "reviewSubtitle": {
+      "description": "审查块字幕",
+      "message": "发表评论"
+   },
+   "reviewTitle": {
+      "description": "查看区块标题",
+      "message": "您喜欢这个扩展吗？ 😊"
+   },
+   "salesPilotDescription": {
+      "description": "SalesPilot AI 扩展说明",
+      "message": "用于分析重要网站指标以促进搜索引擎优化的 AI 助手。"
+   },
+   "salesPilotTitle": {
+      "description": "SalesPilot AI 扩展标题",
+      "message": "SalesPilot AI"
+   },
+   "save": {
+      "description": "保存按钮文本",
+      "message": "保存"
+   },
+   "saveAllSettings": {
+      "description": "保存所有设置按钮",
+      "message": "保存所有设置"
+   },
+   "saveSuccess": {
+      "description": "设置保存成功通知",
+      "message": "已保存的设置"
+   },
+   "saving": {
+      "description": "保存状态文本",
+      "message": "正在保存..."
+   },
+   "search": {
+      "description": "搜索占位符",
+      "message": "搜索..."
+   },
+   "searchNodes": {
+      "description": "搜索节点占位符",
+      "message": "搜索节点..."
+   },
+   "searchTemplates": {
+      "description": "搜索模板设置名称",
+      "message": "搜索模板"
+   },
+   "searchTemplatesDesc": {
+      "description": "搜索模板设置说明",
+      "message": "创建工作流程时，首先搜索现有模板"
+   },
+   "searchWorkflows": {
+      "description": "搜索工作流程占位符",
+      "message": "搜索工作流程..."
+   },
+   "searchingTemplates": {
+      "description": "搜索模板信息",
+      "message": "搜索匹配模板"
+   },
+   "selectAll": {
+      "description": "按钮选择所有导入选项",
+      "message": "全选"
+   },
+   "selectDataToImport": {
+      "description": "用于选择导入数据的标题",
+      "message": "选择要导入的数据："
+   },
+   "selectFile": {
+      "description": "选择文件按钮文本",
+      "message": "选择 JSON 文件"
+   },
+   "selectLanguage": {
+      "description": "语言选择标签",
+      "message": "选择语言："
+   },
+   "selectModel": {
+      "description": "型号选择器标签",
+      "message": "选择型号："
+   },
+   "selectWorkflowsToAdd": {
+      "description": "工作流程选择器模式标题",
+      "message": "选择要添加的工作流程"
+   },
+   "services": {
+      "description": "",
+      "message": "服务"
+   },
+   "settings": {
+      "description": "设置部分标题",
+      "message": "设置"
+   },
+   "settingsChanged": {
+      "description": "设置更改且需要刷新页面时发出通知",
+      "message": "设置已更改，请刷新页面！"
+   },
+   "showLinks": {
+      "description": "显示链接切换文本",
+      "message": "显示 {count} 个链接"
+   },
+   "showTemplates": {
+      "description": "显示模板设置名称",
+      "message": "显示模板"
+   },
+   "showTemplatesDesc": {
+      "description": "显示模板设置说明",
+      "message": "显示要复制的模板列表菜单"
+   },
+   "showTemplatesDescription": {
+      "description": "显示模板部件选项说明",
+      "message": "在 N8N 界面上显示模板部件"
+   },
+   "showTemplatesOption": {
+      "description": "显示模板 widget 选项标签",
+      "message": "显示模板 widget"
+   },
+   "socialMedia": {
+      "description": "社交媒体链接",
+      "message": "社交媒体"
+   },
+   "status": {
+      "description": "状态表列标题",
+      "message": "状态"
+   },
+   "statusActive": {
+      "description": "活动状态筛选选项",
+      "message": "活动"
+   },
+   "statusInactive": {
+      "description": "非活动状态筛选选项",
+      "message": "非活动状态"
+   },
+   "stepActivateFeatures": {
+      "description": "第 2 步 标题",
+      "message": "激活并启用功能"
+   },
+   "stepActivateFeaturesDesc": {
+      "description": "步骤 2 说明",
+      "message": "在设置中打开要使用的功能"
+   },
+   "stepConfigureApi": {
+      "description": "步骤 1 标题",
+      "message": "配置 API 密钥"
+   },
+   "stepConfigureApiDesc": {
+      "description": "步骤 1 说明",
+      "message": "在扩展弹出窗口中设置人工智能应用程序接口密钥（OpenAI、Anthropic、Openrouter）"
+   },
+   "stepStartCreating": {
+      "description": "第 3 步 标题",
+      "message": "开始创建"
+   },
+   "stepStartCreatingDesc": {
+      "description": "步骤 3 说明",
+      "message": "打开 n8n 并开始使用人工智能助手和其他工具"
+   },
+   "subscribeYoutubeChannel": {
+      "description": "订阅 Youtube 频道",
+      "message": "订阅 Youtube 频道"
+   },
+   "success": {
+      "description": "成功信息",
+      "message": "成功"
+   },
+   "support": {
+      "description": "支持链接",
+      "message": "支持"
+   },
+   "systemMessages": {
+      "description": "系统信息组标题",
+      "message": "系统信息"
+   },
+   "tabExecutions": {
+      "description": "处决标签标题",
+      "message": "处决"
+   },
+   "tabN8nAPI": {
+      "description": "n8n API 标签页标题",
+      "message": "n8n API"
+   },
+   "tabOptions": {
+      "description": "选项标签标题",
+      "message": "选项"
+   },
+   "tabTools": {
+      "description": "工具选项卡标题",
+      "message": "工具"
+   },
+   "tabWorkflows": {
+      "description": "工作流选项卡标题",
+      "message": "工作流"
+   },
+   "tags": {
+      "description": "标签列标题",
+      "message": "标签"
+   },
+   "tamperingDetected": {
+      "description": "数据篡改通知标题",
+      "message": "检测到缓存数据被篡改"
+   },
+   "tamperingMessage": {
+      "description": "有关篡改后果的信息",
+      "message": "所有数据已清除，设置已重置！"
+   },
+   "templateCopiedSuccess": {
+      "description": "模板复制成功通知",
+      "message": "模板已成功复制到剪贴板。按 Ctrl + V 粘贴工作流程。"
+   },
+   "templateDownloadFailed": {
+      "description": "模板下载失败消息",
+      "message": "下载失败"
+   },
+   "templateNotFound": {
+      "description": "未找到模板时的信息",
+      "message": "未找到模板，使用 AI 创建..."
+   },
+   "templateProcessingIssue": {
+      "description": "模板处理问题标题",
+      "message": "模板处理问题"
+   },
+   "templateProcessingIssueDesc": {
+      "description": "模板处理问题描述",
+      "message": "无法从该模板中自动提取工作流 JSON。模板内容可能需要手动处理。"
+   },
+   "templateSearchDisabled": {
+      "description": "禁用模板搜索时的信息",
+      "message": "禁用模板搜索，使用 AI 创建..."
+   },
+   "templateSelectorNotAvailable": {
+      "description": "模板选择器不可用错误",
+      "message": "模板选择器不可用"
+   },
+   "template_preview_title": {
+      "description": "模板预览页面标题",
+      "message": "模板预览"
+   },
+   "templatesExport": {
+      "description": "导出模板按钮",
+      "message": "导出模板"
+   },
+   "templatesImport": {
+      "description": "导入模板按钮",
+      "message": "导入模板"
+   },
+   "templatesLoad": {
+      "description": "加载模板按钮",
+      "message": "加载模板"
+   },
+   "templatesLoading": {
+      "description": "模板加载信息",
+      "message": "正在加载模板..."
+   },
+   "templatesSearch": {
+      "description": "搜索模板占位符",
+      "message": "搜索模板..."
+   },
+   "templatesSearchTitle": {
+      "description": "模板搜索按钮工具提示",
+      "message": "搜索模板"
+   },
+   "templatesTitle": {
+      "description": "模板部件标题",
+      "message": "模板"
+   },
+   "testButton": {
+      "description": "测试按钮标签",
+      "message": "测试"
+   },
+   "testFailed": {
+      "description": "测试失败信息",
+      "message": "测试失败"
+   },
+   "testKey": {
+      "description": "测试按钮标签",
+      "message": "测试"
+   },
+   "testSuccess": {
+      "description": "测试成功信息",
+      "message": "测试成功完成"
+   },
+   "testingApiKey": {
+      "description": "API 密钥测试流程",
+      "message": "测试 API 密钥..."
+   },
+   "testingN8nApiKey": {
+      "description": "N8N API 密钥测试过程",
+      "message": "测试 N8N API 密钥..."
+   },
+   "timeEnd": {
+      "description": "时间结束列标题",
+      "message": "时间结束"
+   },
+   "timeFrom": {
+      "description": "时间起始点过滤器占位符",
+      "message": "时间起始点"
+   },
+   "timeStart": {
+      "description": "开始时间列标题",
+      "message": "开始时间"
+   },
+   "timeTo": {
+      "description": "时间过滤占位符",
+      "message": "时间"
+   },
+   "toDisplayExecutionsList": {
+      "description": "执行操作的空状态消息",
+      "message": "要显示工作流执行列表，请连接至"
+   },
+   "toDisplayWorkflowsList": {
+      "description": "空工作流状态的消息",
+      "message": "要显示您的工作流列表，请连接到"
+   },
+   "totalWorkflows": {
+      "description": "总工作流指标的工具提示",
+      "message": "总工作流"
+   },
+   "trialExpired": {
+      "description": "试用期过期通知的标题",
+      "message": "试用期已结束"
+   },
+   "trialExpiredDesc": {
+      "description": "过期试用说明",
+      "message": "购买许可证以解锁功能"
+   },
+   "trialPeriodActive": {
+      "description": "关于激活试用期的消息",
+      "message": "您有 { 天}的时间来测试功能"
+   },
+   "trialPeriodDesc": {
+      "description": "",
+      "message": "试用期说明"
+   },
+   "tryOtherTopTools": {
+      "description": "其他扩展推广的部分标题",
+      "message": "🚀 尝试其他顶级工具"
+   },
+   "tutorialVideoDesc": {
+      "description": "视频教程说明",
+      "message": "在本综合教程中了解如何使用 N8N Master 的所有功能"
+   },
+   "unableToCheck": {
+      "description": "检查状态失败时出错",
+      "message": "无法检查页面状态"
+   },
+   "unlockFullPower": {
+      "description": "解锁全部电源按钮文本",
+      "message": "⚡ 解锁全部电源"
+   },
+   "unlockFullPowerSubtitle": {
+      "description": "解锁模式字幕",
+      "message": "输入许可证密钥激活所有功能"
+   },
+   "unlockFullPowerTitle": {
+      "description": "解锁模式标题",
+      "message": "解锁全部功能"
+   },
+   "userAccount": {
+      "description": "用户账户链接文本",
+      "message": "Nitiweb 账户 - 管理您的密钥"
+   },
+   "variableCopiedToClipboard": {
+      "description": "变量复制到剪贴板时的成功信息",
+      "message": "参数已复制到剪贴板。按 Ctrl + V 将其粘贴到所需位置。"
+   },
+   "variableDeletedSuccessfully": {
+      "description": "删除变量时的成功信息",
+      "message": "变量删除成功！"
+   },
+   "variableName": {
+      "description": "变量名称标签",
+      "message": "名称"
+   },
+   "variableSavedSuccessfully": {
+      "description": "保存变量时的成功信息",
+      "message": "变量保存成功！"
+   },
+   "variableValue": {
+      "description": "变量值标签",
+      "message": "值"
+   },
+   "watchFullTutorial": {
+      "description": "观看完整教程部分标题",
+      "message": "🎥 观看完整教程"
+   },
+   "watchTutorial": {
+      "description": "观看教程链接文本",
+      "message": "观看教程"
+   },
+   "welcomeGotIt": {
+      "description": "Welcome page got it button",
+      "message": "找到了，谢谢！"
+   },
+   "welcomeMessage": {
+      "description": "欢迎页面消息",
+      "message": "感谢您安装 N8N Master。以下是此版本的新功能："
+   },
+   "welcomeOpenSettings": {
+      "description": "欢迎页面 打开设置按钮",
+      "message": "打开设置"
+   },
+   "welcomeSubtitle": {
+      "description": "欢迎页面副标题",
+      "message": "您的 n8n 工作流程生产力伴侣"
+   },
+   "welcomeTitle": {
+      "description": "欢迎页面标题",
+      "message": "欢迎访问 N8N Master！"
+   },
+   "welcomeWatchTutorial": {
+      "description": "欢迎页面观看教程按钮",
+      "message": "观看教程"
+   },
+   "welcome_got_it": {
+      "description": "Welcome page got it button",
+      "message": "找到了，谢谢！"
+   },
+   "welcome_message": {
+      "description": "欢迎页面主信息",
+      "message": "感谢您安装 N8N Master。以下是此版本的新功能："
+   },
+   "welcome_open_settings": {
+      "description": "欢迎页面 打开设置按钮",
+      "message": "打开选项"
+   },
+   "welcome_subtitle": {
+      "description": "欢迎页面字幕",
+      "message": "工作流程助理"
+   },
+   "welcome_title": {
+      "description": "欢迎页面主标题",
+      "message": "欢迎访问 N8N Master！"
+   },
+   "welcome_watch_tutorial": {
+      "description": "欢迎页面观看教程按钮",
+      "message": "观看教程"
+   },
+   "whatsNew": {
+      "description": "新消息部分标题",
+      "message": "✨ 新消息"
+   },
+   "wizardDailyLimitReached": {
+      "description": "达到每日向导使用限制时显示的消息",
+      "message": "🚫 您已用完每天向人工智能提出 10 次请求的限制。您可以明天再继续，或者购买许可证以取消限制。"
+   },
+   "workflow": {
+      "description": "",
+      "message": "工作流程的单数形式"
+   },
+   "workflowAddedToProject": {
+      "description": "",
+      "message": "工作流程添加到项目时的成功消息"
+   },
+   "workflowAlreadyExists": {
+      "description": "工作流程已存在于项目中时的错误信息",
+      "message": "此项目中已存在工作流程。"
+   },
+   "workflowCopiedSuccess": {
+      "description": "工作流程复制成功信息",
+      "message": "工作流程已复制到剪贴板（1 美元节点）。使用 Ctrl+V 粘贴到 n8n。"
+   },
+   "workflowCreatedOnCanvas": {
+      "description": "在画布上创建工作流程时的消息",
+      "message": "在画布上成功创建工作流程！"
+   },
+   "workflowCreatedSuccess": {
+      "description": "工作流程创建成功时的消息",
+      "message": "工作流程创建成功！"
+   },
+   "workflowCreatedSuccessfully": {
+      "description": "创建工作流程时的成功消息",
+      "message": "工作流程创建成功！"
+   },
+   "workflowExecution": {
+      "description": "工作流程执行设置名称",
+      "message": "工作流程执行"
+   },
+   "workflowExecutionDesc": {
+      "description": "工作流程执行设置说明",
+      "message": "快速复制执行日志中的数据"
+   },
+   "workflowExecutions": {
+      "description": "执行选项卡标题",
+      "message": "工作流执行"
+   },
+   "workflowGeneration": {
+      "description": "工作流程生成功能名称",
+      "message": "工作流程生成"
+   },
+   "workflowGenerationDesc": {
+      "description": "工作流程生成功能描述",
+      "message": "根据自然语言描述创建完整的 n8n 工作流程"
+   },
+   "workflowHistory": {
+      "description": "工作流程历史记录功能名称",
+      "message": "工作流程历史记录"
+   },
+   "workflowHistoryDesc": {
+      "description": "工作流程历史功能说明",
+      "message": "利用时间戳跟踪和恢复以前的工作流程版本"
+   },
+   "workflowHistoryDescription": {
+      "description": "工作流程历史部分的字幕",
+      "message": "所有工作流程版本"
+   },
+   "workflowHistoryInfo": {
+      "description": "工作流程历史部分的说明文本",
+      "message": "从历史记录中查看和复制所有工作流程版本。这包括所有工作流程中已保存的版本。"
+   },
+   "workflowHistoryLoadFailed": {
+      "description": "工作流程历史记录加载失败消息",
+      "message": "加载工作流程历史记录失败"
+   },
+   "workflowHistorySectionTitle": {
+      "description": "工作流程历史记录部分的标题",
+      "message": "工作流程历史记录"
+   },
+   "workflowIdNotFound": {
+      "description": "未找到工作流 ID 错误",
+      "message": "无法确定工作流 ID"
+   },
+   "workflowImportedSuccess": {
+      "description": "工作流导入成功消息",
+      "message": "工作流导入成功！($1 节点)"
+   },
+   "workflowInsertError": {
+      "description": "",
+      "message": "工作流程插入错误信息"
+   },
+   "workflowInsertFailed": {
+      "description": "工作流程插入失败信息",
+      "message": "自动插入工作流程失败。请尝试手动创建。"
+   },
+   "workflowInsertedSuccess": {
+      "description": "工作流程插入成功消息",
+      "message": "工作流程插入成功！"
+   },
+   "workflowModifiedSuccess": {
+      "description": "工作流程成功修改时的信息",
+      "message": "工作流程成功修改"
+   },
+   "workflowRestoreFailed": {
+      "description": "工作流程还原失败消息",
+      "message": "从历史记录还原工作流程失败"
+   },
+   "workflowWizardFinished": {
+      "description": "工作流程创建模式结束时的信息",
+      "message": "工作流程创建模式已完成。您现在可以提出常规问题。"
+   },
+   "workflows": {
+      "description": "工作流程的复数形式",
+      "message": "工作流程"
+   },
+   "yourConnectedDomains": {
+      "description": "已关联域名部分标题",
+      "message": "已关联域名"
+   },
+   "yourWorkflowsFromConnectedApis": {
+      "description": "工作流部分标题",
+      "message": "来自关联API的工作流"
+   }
+}

@@ -45,6 +45,7 @@ async def list_announcements(
     budget_min: Optional[float] = Query(None, description="预算下限"),
     budget_max: Optional[float] = Query(None, description="预算上限"),
     search: Optional[str] = Query(None, description="项目名称搜索"),
+    favorites_only: bool = Query(False, description="仅显示收藏"),
     db: AsyncSession = Depends(get_db),
 ):
     """获取招标公告列表，支持多维筛选、排序和分页。"""
@@ -57,11 +58,24 @@ async def list_announcements(
     if procurement_method:
         conditions.append(Announcement.procurement_method == procurement_method)
     if budget_min is not None:
-        conditions.append(Announcement.budget >= budget_min)
+        conditions.append(
+            (Announcement.budget >= budget_min) | (Announcement.budget == None)
+        )
     if budget_max is not None:
-        conditions.append(Announcement.budget <= budget_max)
+        conditions.append(
+            (Announcement.budget <= budget_max) | (Announcement.budget == None)
+        )
     if search:
         conditions.append(Announcement.title.ilike(f"%{search}%"))
+
+    # 自动过滤已过期的公告（投标截止日期 < 今天）
+    from datetime import datetime as dt
+    today = dt.now()
+    conditions.append(Announcement.deadline >= today)
+
+    # 仅显示收藏
+    if favorites_only:
+        conditions.append(Announcement.is_favorited == True)
 
     # 总数
     count_q = select(func.count()).select_from(Announcement)
@@ -122,6 +136,8 @@ async def list_announcements(
             "purchaser_id": ann.purchaser_id,
             "purchaser_level": ann.purchaser_level,
             "created_at": ann.created_at.isoformat() if ann.created_at else None,
+            # 收藏
+            "is_favorited": getattr(ann, 'is_favorited', False) or False,
             # 评分（来自评分引擎）
             "total_score": score_data.get("total_score"),
             "probability_label": score_data.get("probability_label", ""),
@@ -511,3 +527,110 @@ def _compute_announcement_score(ann: Announcement) -> dict:
             "recommendation": "",
             "detail_scores": {},
         }
+
+
+# ============================================================
+# B2B 原文代理（通过 b2b API 获取公告原文）
+# ============================================================
+
+@router.get("/{announcement_id}/original", summary="获取 b2b 公告原文")
+async def get_original_content(
+    announcement_id: int,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    通过 b2b.10086.cn API 搜索公告原文。
+    返回原文内容和可直接跳转的搜索链接。
+    
+    注意：b2b.10086.cn 是 SPA 架构，公告详情没有独立 URL。
+    此接口通过其后端 API 获取公告内容。
+    """
+    ann = await db.get(Announcement, announcement_id)
+    if not ann:
+        raise HTTPException(status_code=404, detail=f"公告 {announcement_id} 不存在")
+    
+    from app.services.b2b_proxy import (
+        search_announcement, find_best_match, 
+        format_announcement_detail, build_search_url,
+    )
+    
+    # 用前30字符作为搜索关键词
+    keyword = (ann.title or "")[:30]
+    
+    # 尝试不同的 publishType 搜索
+    result = None
+    for ptype in ["PROCUREMENT", "VENDOR", "PURCHASE_SERVICE"]:
+        items = await search_announcement(keyword, publish_type=ptype, page_size=5)
+        match = find_best_match(items, ann.title or "")
+        if match:
+            result = format_announcement_detail(match)
+            result["publish_type_searched"] = ptype
+            break
+    
+    if not result:
+        # 返回搜索链接，让用户手动搜索
+        return {
+            "found": False,
+            "announcement_id": announcement_id,
+            "title": ann.title,
+            "search_url": build_search_url(keyword),
+            "message": "未在 b2b.10086.cn 找到匹配的公告原文，请点击搜索链接手动查找",
+        }
+    
+    return {
+        "found": True,
+        "announcement_id": announcement_id,
+        "search_url": build_search_url(keyword),
+        **result,
+    }
+
+
+# ============================================================
+# 预算抓取（zhaobiao.cn 登录后自动提取）
+# ============================================================
+
+@router.post("/scrape-budget/start", summary="启动预算抓取（需手动登录 zhaobiao.cn）")
+async def start_budget_scrape():
+    """
+    启动后台预算抓取任务。
+    
+    流程：
+    1. 打开 zhaobiao.cn 浏览器窗口
+    2. 用户手动登录（含验证码）
+    3. 系统自动抓取每条公告的预算/报名费/保证金
+    4. 更新数据库
+    
+    前端应轮询 GET /scrape-budget/status 获取进度。
+    """
+    from app.services.budget_scraper import start_scrape_async, get_state, ScrapeStatus
+
+    state = get_state()
+    if state.status in (ScrapeStatus.WAITING_LOGIN, ScrapeStatus.SCRAPING):
+        return {"ok": False, "message": "抓取任务已在运行中", "status": state.status}
+
+    # 获取数据库路径
+    db_url = getattr(settings, 'DATABASE_URL', '')
+    # sqlite+aiosqlite:///./biaozhongbao.db → biaozhongbao.db
+    for prefix in ['sqlite+aiosqlite:///', 'sqlite:///']:
+        if db_url.startswith(prefix):
+            db_url = db_url[len(prefix):]
+            break
+    if not db_url:
+        db_url = "biaozhongbao.db"
+
+    start_scrape_async(db_url)
+    return {"ok": True, "message": "抓取任务已启动，请在弹出的浏览器中登录", "status": "waiting_login"}
+
+
+@router.get("/scrape-budget/status", summary="查询预算抓取进度")
+async def get_budget_scrape_status():
+    """返回当前抓取任务的状态和结果。"""
+    from app.services.budget_scraper import get_state
+
+    state = get_state()
+    return {
+        "status": state.status,
+        "message": state.message,
+        "login_elapsed": state.login_elapsed,
+        "results": state.results,
+    }

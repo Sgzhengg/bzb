@@ -1,0 +1,6 @@
+2025/12/17-14:38:02.644 20fc Creating DB C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_hub.ultralytics.com_0.indexeddb.leveldb since it was missing.
+2025/12/17-14:38:02.648 20fc Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_hub.ultralytics.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/12/17-14:38:03.083 5b70 Level-0 table #5: started
+2025/12/17-14:38:03.086 5b70 Level-0 table #5: 2265 bytes OK
+2025/12/17-14:38:03.088 5b70 Delete type=0 #3
+2025/12/17-14:38:03.089 1354 Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)

@@ -1,0 +1,34 @@
+2025/12/17-12:02:58.155 56a8 Reusing MANIFEST C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_app.netlify.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/12/17-12:02:58.156 56a8 Recovering log #48
+2025/12/17-12:02:58.156 56a8 Reusing old log C:\Users\18826\AppData\Local\Microsoft\Edge\User Data\Default\IndexedDB\https_app.netlify.com_0.indexeddb.leveldb/000048.log 
+2025/12/17-12:03:02.182 4fa0 Level-0 table #52: started
+2025/12/17-12:03:02.187 4fa0 Level-0 table #52: 278613 bytes OK
+2025/12/17-12:03:02.189 4fa0 Delete type=0 #48
+2025/12/17-12:03:02.189 4184 Manual compaction at level-0 from '\x00\x14\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x15\x00\x00\x00' @ 0 : 0; will stop at '\x00\x14\x00\x00\x05' @ 21603 : 1
+2025/12/17-12:03:02.189 4184 Compacting 1@0 + 1@1 files
+2025/12/17-12:03:02.192 4184 Generated table #53@0: 1345 keys, 24181 bytes
+2025/12/17-12:03:02.193 4184 Compacted 1@0 + 1@1 files => 24181 bytes
+2025/12/17-12:03:02.193 4184 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/12/17-12:03:02.194 4184 Manual compaction at level-0 from '\x00\x14\x00\x00\x05' @ 21603 : 1 .. '\x00\x15\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/12/17-12:03:02.195 4184 Level-0 table #55: started
+2025/12/17-12:03:02.197 4184 Level-0 table #55: 530 bytes OK
+2025/12/17-12:03:02.198 4184 Delete type=0 #51
+2025/12/17-12:03:02.198 4184 Manual compaction at level-0 from '\x00\x15\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x16\x00\x00\x00' @ 0 : 0; will stop at '\x00\x15\x00\x00\x05' @ 21619 : 1
+2025/12/17-12:03:02.198 4184 Compacting 1@0 + 1@1 files
+2025/12/17-12:03:02.200 4184 Generated table #56@0: 1357 keys, 24389 bytes
+2025/12/17-12:03:02.200 4184 Compacted 1@0 + 1@1 files => 24389 bytes
+2025/12/17-12:03:02.201 4184 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/12/17-12:03:02.201 4184 Delete type=2 #55
+2025/12/17-12:03:02.201 4184 Manual compaction at level-0 from '\x00\x15\x00\x00\x05' @ 21619 : 1 .. '\x00\x16\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/12/17-12:03:35.537 56a8 Compacting 1@1 + 1@2 files
+2025/12/17-12:03:35.541 56a8 Generated table #57@1: 299 keys, 16996 bytes
+2025/12/17-12:03:35.541 56a8 Compacted 1@1 + 1@2 files => 16996 bytes
+2025/12/17-12:03:35.542 56a8 compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/12/17-12:03:35.542 56a8 Delete type=2 #47
+2025/12/17-12:03:35.542 56a8 Delete type=2 #49
+2025/12/17-12:03:35.542 56a8 Delete type=2 #52
+2025/12/17-12:03:35.542 56a8 Delete type=2 #53
+2025/12/17-12:03:35.542 56a8 Delete type=2 #56
+2025/12/17-12:03:52.964 56a8 Level-0 table #59: started
+2025/12/17-12:03:52.976 56a8 Level-0 table #59: 3228836 bytes OK
+2025/12/17-12:03:52.977 56a8 Delete type=0 #54

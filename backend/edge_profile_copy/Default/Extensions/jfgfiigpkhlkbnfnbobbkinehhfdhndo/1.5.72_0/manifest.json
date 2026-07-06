@@ -1,0 +1,61 @@
+{
+   "action": {
+   },
+   "author": "n4ze3m",
+   "background": {
+      "service_worker": "background.js"
+   },
+   "commands": {
+      "_execute_action": {
+         "description": "Open the Web UI",
+         "suggested_key": {
+            "default": "Ctrl+Shift+L"
+         }
+      },
+      "execute_side_panel": {
+         "description": "Open the side panel",
+         "suggested_key": {
+            "default": "Ctrl+Shift+Y"
+         }
+      }
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "js": [ "content-scripts/hf-pull.js" ],
+      "matches": [ "*://huggingface.co/*" ]
+   }, {
+      "all_frames": true,
+      "js": [ "content-scripts/ollama-pull.js" ],
+      "matches": [ "*://ollama.com/*" ]
+   }, {
+      "js": [ "content-scripts/youtube-summarize.js" ],
+      "matches": [ "*://www.youtube.com/watch*" ],
+      "run_at": "document_end"
+   } ],
+   "content_security_policy": {
+      "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+   },
+   "default_locale": "en",
+   "description": "__MSG_extDescription__",
+   "host_permissions": [ "http://*/*", "https://*/*", "file://*/*" ],
+   "icons": {
+      "128": "icon/128.png",
+      "16": "icon/16.png",
+      "32": "icon/32.png",
+      "48": "icon/48.png",
+      "64": "icon/64.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6tMpmVmMQu0PaG1y4NqPOmmWTjuT7HVAU88/u8HCrzdnmkX+blpuycCfO3crg9rARCICT6zbt7sABB7PNghp8O520QNkeSHu0nI4QWUNDLU46VKqoM89iXWdfR8waYQr1HyLvptuPh/+SsH9qk5F77vo7kIVBdm0y8uWBA1POhqzp1BM7rfkOjWw0xWDN2JdKNB41655JWYOCRTdStwEjhzVYJWeYB96JM10CPpErgrFRzp0y2EFW5eBLQT7kq+YPny/2eKy0aDOmDoqpn0STXcqt2nVP7anA7TQUBeroZP79kID8p3CaAFEY8otKwf+pi9UPDizbfh0wdhUzOFlcwIDAQAB",
+   "manifest_version": 3,
+   "name": "__MSG_extName__",
+   "options_ui": {
+      "open_in_tab": true,
+      "page": "options.html"
+   },
+   "permissions": [ "storage", "sidePanel", "activeTab", "scripting", "declarativeNetRequest", "action", "unlimitedStorage", "contextMenus", "tts", "notifications" ],
+   "side_panel": {
+      "default_path": "sidepanel.html"
+   },
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.5.72"
+}
