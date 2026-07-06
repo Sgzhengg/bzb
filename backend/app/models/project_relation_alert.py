@@ -3,7 +3,7 @@
 """
 
 from sqlalchemy import (
-    Column, Integer, String, Text, Boolean, DateTime, ForeignKey, UniqueConstraint,
+    Column, Integer, String, Text, Boolean, DateTime, ForeignKey, UniqueConstraint, Index,
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -44,6 +44,11 @@ class ProjectRelationAlert(Base):
             "announcement_id", "relation_id",
             name="uq_alerts_announcement_relation",
         ),
+        # 查询索引优化
+        Index("ix_project_relation_alerts_announcement_id", "announcement_id"),
+        Index("ix_project_relation_alerts_relation_id", "relation_id"),
+        Index("ix_project_relation_alerts_is_read", "is_read"),
+        Index("ix_project_relation_alerts_created_at", "created_at"),
     )
 
     def __repr__(self):

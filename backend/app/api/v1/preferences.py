@@ -41,6 +41,10 @@ class PreferenceUpdate(BaseModel):
     min_score: Optional[float] = Field(
         None, ge=0, le=100, description="最低机会评分"
     )
+    llm_enabled: Optional[str] = Field(None, description="LLM 是否启用")
+    llm_api_key: Optional[str] = Field(None, description="LLM API Key")
+    llm_model: Optional[str] = Field(None, description="LLM 模型")
+    llm_base_url: Optional[str] = Field(None, description="LLM API 地址")
 
 
 # ============================================================
@@ -99,6 +103,14 @@ async def update_preferences(
         pref.min_budget = body.min_budget
     if body.min_score is not None:
         pref.min_score = body.min_score
+    if body.llm_enabled is not None:
+        pref.llm_enabled = body.llm_enabled
+    if body.llm_api_key is not None:
+        pref.llm_api_key = body.llm_api_key
+    if body.llm_model is not None:
+        pref.llm_model = body.llm_model
+    if body.llm_base_url is not None:
+        pref.llm_base_url = body.llm_base_url
 
     await db.commit()
     await db.refresh(pref)

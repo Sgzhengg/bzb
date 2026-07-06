@@ -32,7 +32,7 @@ data_collector:
         base_url: "https://ygp.gdzwfw.gov.cn"
         max_pages: 5
     b2b_10086:
-      enabled: false
+      enabled: true
       module: "adapters.b2b_10086_adapter"
       class_name: "B2b10086Adapter"
       config:
@@ -75,8 +75,8 @@ b2b_10086:
   max_retries: 3
   timeout: 30
   max_pages: 3
-  search_keyword: "广东 广告"
-  enabled: false
+  search_keyword: "广东 移动 广告 宣传"
+  enabled: true  # 启用此数据源（官方最权威）
 
 # 中国招标网（主数据源）
 zhaobiao:

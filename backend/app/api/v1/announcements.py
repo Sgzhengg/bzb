@@ -2,9 +2,11 @@
 招标公告 API 接口
 
 端点:
-  GET    /api/v1/announcements         公告列表（排序/筛选/分页）
+  GET    /api/v1/announcements         公告列表（排序/筛选/分页 + 机会评分）
   GET    /api/v1/announcements/{id}    公告详情（评分+提醒+在位者）
   POST   /api/v1/announcements/fetch   手动触发采集
+  POST   /api/v1/announcements/{id}/favorite  收藏/取消收藏
+  GET    /api/v1/announcements/favorites      获取收藏列表
 """
 
 import logging
@@ -93,6 +95,9 @@ async def list_announcements(
     items = []
     for ann in announcements:
         purchaser_name = ann.purchaser.name if ann.purchaser else ""
+        # 计算机会评分（使用评分引擎）
+        score_data = _compute_announcement_score(ann)
+
         items.append({
             "id": ann.id,
             "title": ann.title,
@@ -117,9 +122,11 @@ async def list_announcements(
             "purchaser_id": ann.purchaser_id,
             "purchaser_level": ann.purchaser_level,
             "created_at": ann.created_at.isoformat() if ann.created_at else None,
-            # 评分
-            "total_score": float(ann.total_score) if getattr(ann, 'total_score', None) else None,
-            "probability_label": getattr(ann, 'probability_label', '') or '',
+            # 评分（来自评分引擎）
+            "total_score": score_data.get("total_score"),
+            "probability_label": score_data.get("probability_label", ""),
+            "detail_scores": score_data.get("detail_scores", {}),
+            "recommendation": score_data.get("recommendation", ""),
         })
 
     return {
@@ -223,6 +230,9 @@ async def get_announcement_detail(
             "reason": inc_result.reason,
         }
 
+    # 机会评分
+    score_data = _compute_announcement_score(ann)
+
     return {
         "id": ann.id,
         "title": ann.title,
@@ -238,6 +248,12 @@ async def get_announcement_detail(
         "score_weight": ann.score_weight,
         "source_url": ann.source_url,
         "created_at": ann.created_at.isoformat() if ann.created_at else None,
+        # 评分
+        "total_score": score_data.get("total_score"),
+        "probability_label": score_data.get("probability_label", ""),
+        "detail_scores": score_data.get("detail_scores", {}),
+        "recommendation": score_data.get("recommendation", ""),
+        # 提醒与在位者
         "alerts": alert_items,
         "history_reference": history_items,
         "incumbent_info": incumbent_info,
@@ -332,4 +348,166 @@ async def discover_announcements(
             "total_urls": result["total_count"],
             "urls": result["total_bidding_urls"][:20],
             "search_time": result["search_time"],
+        }
+
+
+# ============================================================
+# 收藏/取消收藏
+# ============================================================
+
+@router.post("/{announcement_id}/favorite", summary="收藏/取消收藏公告")
+async def toggle_favorite(
+    announcement_id: int,
+    db: AsyncSession = Depends(get_db),
+):
+    """切换公告收藏状态。已收藏则取消，未收藏则收藏。"""
+    ann = await db.get(Announcement, announcement_id)
+    if not ann:
+        raise HTTPException(status_code=404, detail=f"公告 {announcement_id} 不存在")
+
+    current = getattr(ann, 'is_favorited', False) or False
+    ann.is_favorited = not current
+    await db.commit()
+
+    return {
+        "announcement_id": announcement_id,
+        "is_favorited": ann.is_favorited,
+        "message": "已收藏" if ann.is_favorited else "已取消收藏",
+    }
+
+
+@router.get("/favorites", summary="获取收藏列表")
+async def list_favorites(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(20, ge=1, le=100),
+    db: AsyncSession = Depends(get_db),
+):
+    """获取已收藏的公告列表。"""
+    count_q = select(func.count()).select_from(Announcement).where(
+        Announcement.is_favorited == True
+    )
+    total = (await db.execute(count_q)).scalar() or 0
+
+    list_q = (
+        select(Announcement)
+        .where(Announcement.is_favorited == True)
+        .order_by(desc(Announcement.announce_date))
+        .offset((page - 1) * page_size)
+        .limit(page_size)
+    )
+    result = await db.execute(list_q)
+    announcements = result.scalars().all()
+
+    items = []
+    for ann in announcements:
+        score_data = _compute_announcement_score(ann)
+        items.append({
+            "id": ann.id,
+            "title": ann.title,
+            "project_category": ann.project_category,
+            "procurement_method": ann.procurement_method,
+            "budget": float(ann.budget) if ann.budget else None,
+            "announce_date": ann.announce_date.isoformat() if ann.announce_date else None,
+            "deadline": ann.deadline.isoformat() if ann.deadline else None,
+            "purchaser": ann.purchaser.name if ann.purchaser else "",
+            "total_score": score_data.get("total_score"),
+            "probability_label": score_data.get("probability_label", ""),
+            "is_favorited": True,
+        })
+
+    return {"total": total, "page": page, "page_size": page_size, "items": items}
+
+
+# ============================================================
+# 机会评分辅助函数
+# ============================================================
+
+def _compute_announcement_score(ann: Announcement) -> dict:
+    """使用评分引擎计算公告的机会评分（简化版，适合列表批量计算）。"""
+    try:
+        # 1. 采购方式公平性
+        method = ann.procurement_method or ""
+        fairness_map = {"公开招标": 100, "公开询比": 80, "竞争性谈判": 50, "单一来源": 0}
+        fairness = float(fairness_map.get(method.strip(), 60))
+
+        # 2. HHI集中度（无历史数据时默认中性）
+        hhi = 60.0
+
+        # 3. 项目类别匹配度（无偏好时中性）
+        category = 60.0
+
+        # 4. 预算健康度（基于预算规模）
+        budget_val = float(ann.budget) if ann.budget else 0
+        if budget_val >= 200:
+            budget = 90.0
+        elif budget_val >= 100:
+            budget = 75.0
+        elif budget_val >= 50:
+            budget = 60.0
+        elif budget_val > 0:
+            budget = 45.0
+        else:
+            budget = 50.0
+
+        # 5. 在位者优势（默认无在位者，最高分）
+        incumbent = 100.0
+
+        # 6. 客情关系（默认无客情）
+        relation = 50.0
+
+        # 权重加权
+        weights = {
+            "procurement_fairness": 0.20,
+            "hhi_concentration": 0.20,
+            "category_match": 0.20,
+            "budget_health": 0.15,
+            "incumbent_advantage": 0.15,
+            "client_relation": 0.10,
+        }
+
+        total = (
+            fairness * weights["procurement_fairness"]
+            + hhi * weights["hhi_concentration"]
+            + category * weights["category_match"]
+            + budget * weights["budget_health"]
+            + incumbent * weights["incumbent_advantage"]
+            + relation * weights["client_relation"]
+        )
+
+        # 陪跑概率标签
+        if total >= 75:
+            prob_label = "低"
+        elif total >= 50:
+            prob_label = "中"
+        else:
+            prob_label = "高"
+
+        # 推荐建议
+        if total >= 75:
+            rec = "🌟 高机会：建议优先跟进，竞争环境有利"
+        elif total >= 50:
+            rec = "👍 中等机会：评估自身优势后决定是否参与"
+        else:
+            rec = "⚠️ 低机会：竞争激烈或在位者优势明显，谨慎评估"
+
+        return {
+            "total_score": round(total, 1),
+            "probability_label": prob_label,
+            "recommendation": rec,
+            "detail_scores": {
+                "procurement_fairness": round(fairness, 1),
+                "hhi_concentration": round(hhi, 1),
+                "category_match": round(category, 1),
+                "budget_health": round(budget, 1),
+                "incumbent_advantage": round(incumbent, 1),
+                "client_relation": round(relation, 1),
+            },
+        }
+    except Exception as e:
+        logger.warning(f"评分计算失败: {e}")
+        return {
+            "total_score": None,
+            "probability_label": "",
+            "recommendation": "",
+            "detail_scores": {},
         }

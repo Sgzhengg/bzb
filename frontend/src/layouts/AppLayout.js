@@ -18,6 +18,7 @@ function AppLayout() {
   const [reminderCount, setReminderCount] = useState(0);
 
   const menuItems = [
+    { key: "/", icon: <RiseOutlined />, label: "数据看板" },
     { key: "/opportunities", icon: <ThunderboltOutlined />, label: "机会列表" },
     { key: "/purchaser-profile", icon: <BankOutlined />, label: "采购方画像" },
     { key: "/client-relations", icon: <UserOutlined />, label: "客情管理" },

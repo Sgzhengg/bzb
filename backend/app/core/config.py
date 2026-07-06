@@ -45,6 +45,17 @@ class Settings:
         "BZB_LOG_FORMAT",
         "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     )
+    LOG_FILE: str = os.getenv("BZB_LOG_FILE", "")
+    LOG_MAX_BYTES: int = int(os.getenv("BZB_LOG_MAX_BYTES", "10485760"))  # 10MB
+    LOG_BACKUP_COUNT: int = int(os.getenv("BZB_LOG_BACKUP_COUNT", "5"))
+
+    # LLM 配置
+    LLM_ENABLED: bool = os.getenv("BZB_LLM_ENABLED", "true").lower() == "true"
+    LLM_API_BASE: str = os.getenv("BZB_LLM_API_BASE", "https://api.deepseek.com/v1")
+    LLM_API_KEY: str = os.getenv("BZB_LLM_API_KEY", os.getenv("DEEPSEEK_API_KEY", ""))
+    LLM_MODEL: str = os.getenv("BZB_LLM_MODEL", "deepseek-chat")
+    LLM_TEMPERATURE: float = float(os.getenv("BZB_LLM_TEMPERATURE", "0.3"))
+    LLM_MAX_TOKENS: int = int(os.getenv("BZB_LLM_MAX_TOKENS", "2000"))
 
     # 定时任务
     SCHEDULER_ENABLED: bool = os.getenv("BZB_SCHEDULER_ENABLED", "false").lower() == "true"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import {
   Card, Table, Tag, Progress, Button, Space, Input, Select,
   Row, Col, Typography, Badge, Tooltip, message, Spin, Empty,
@@ -7,8 +7,10 @@ import {
 import {
   ReloadOutlined, SearchOutlined,
   ThunderboltOutlined, ClearOutlined, LinkOutlined,
+  StarOutlined, StarFilled,
 } from "@ant-design/icons";
-import { getOpportunityList, fetchNewAnnouncements } from "../services/api";
+import { useNavigate } from "react-router-dom";
+import { useOpportunityList, useFetchAnnouncements, useToggleFavorite } from "../services/apiHooks";
 
 const { Title, Text } = Typography;
 
@@ -62,89 +64,11 @@ function formatDate(dateStr) {
 }
 
 // ============================================================
-// Mock 数据（后端未就绪时使用）
-// ============================================================
-
-function generateMockData() {
-  const items = [];
-  // 采购方 → 地市映射（均为广东移动各地市分公司）
-  const purchaserCityMap = {
-    "省公司": "广州",
-    "广州分公司": "广州",
-    "深圳分公司": "深圳",
-    "东莞分公司": "东莞",
-    "佛山分公司": "佛山",
-    "惠州分公司": "惠州",
-    "珠海分公司": "珠海",
-  };
-  const purchasers = Object.keys(purchaserCityMap);
-  const categories = ["品牌策略类", "创意设计类", "媒介投放类", "活动执行类", "内容制作类", "新媒体运营类"];
-  const methods = ["公开招标", "公开询比", "竞争性谈判", "单一来源"];
-  const names = [
-    "品牌策略规划服务项目", "广告创意设计服务项目", "信息流广告投放代理项目",
-    "校园路演推广活动项目", "宣传物料设计与制作项目", "微信公众号代运营服务项目",
-    "品牌健康度调研项目", "VI视觉系统升级项目", "KOL达人资源采购项目",
-    "新品发布会活动项目", "短视频内容制作项目", "视频号直播运营项目",
-  ];
-
-  for (let i = 0; i < 30; i++) {
-    const score = Math.floor(Math.random() * 60) + 25;
-    const prob = score >= 75 ? "低" : score >= 50 ? "中" : "高";
-
-    const announceDate = new Date();
-    announceDate.setDate(announceDate.getDate() - Math.floor(Math.random() * 30));
-
-    const deadline = new Date(announceDate);
-    deadline.setDate(deadline.getDate() + 15 + Math.floor(Math.random() * 30));
-
-    const bidDate = new Date(deadline);
-    bidDate.setDate(bidDate.getDate() + Math.floor(Math.random() * 7) + 1);
-
-    const purchaser = purchasers[i % purchasers.length];
-    const city = purchaserCityMap[purchaser];
-    const hasContact = Math.random() > 0.5;
-    const hasIncumbent = Math.random() > 0.65;
-
-    items.push({
-      id: i + 1,
-      // ── 模板字段 ──
-      announce_date: announceDate.toISOString(),
-      industry: purchaser.includes("省公司") ? "中国移动通信集团广东有限公司" : `中国移动通信集团广东有限公司${purchaser.replace("分公司", "")}分公司`,
-      province: "广东",
-      city: city,
-      title: `${purchaser}${names[i % names.length]}`,
-      project_category: categories[i % categories.length],
-      budget: Math.floor(Math.random() * 800) + 50,
-      source_url: "",  // Mock 数据无真实 URL
-      deadline: deadline.toISOString(),
-      deadline_time: `${String(15 + (i % 8)).padStart(2, "0")}:${i % 2 === 0 ? "00" : "30"}`,
-      bid_date: bidDate.toISOString(),
-      bid_time: `${String(9 + (i % 4)).padStart(2, "0")}:${i % 2 === 0 ? "00" : "30"}`,
-      registration_fee: i % 3 === 0 ? 300 : i % 4 === 0 ? 500 : 0,
-      deposit: i % 3 === 0 ? Math.floor(Math.random() * 10 + 1) * 10000 : 0,
-      remark: i % 7 === 0 ? "需现场报名" : i % 5 === 0 ? "电子标" : "",
-      // ── 辅助字段 ──
-      purchaser: purchaser,
-      purchaser_level: purchaser,
-      procurement_method: methods[i % methods.length],
-      total_score: score,
-      probability_label: prob,
-      contact_name: hasContact ? ["张三", "李四", "王五", "赵六"][i % 4] : null,
-      incumbent_name: hasIncumbent ? ["省广集团", "蓝色光标", "因赛集团", "华扬联众"][i % 4] : null,
-    });
-  }
-  items.sort((a, b) => b.total_score - a.total_score);
-  return items;
-}
-
-// ============================================================
 // 主组件
 // ============================================================
 
 function OpportunityList() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [fetching, setFetching] = useState(false);
+  const navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
 
   // 筛选状态
@@ -154,61 +78,38 @@ function OpportunityList() {
   const [filterProbability, setFilterProbability] = useState("");
   const [budgetRange, setBudgetRange] = useState([0, 1000]);
 
-  // 加载数据
-  const loadData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = {
-        sort: "score_desc",
-        purchaser_level: filterLevel || undefined,
-        project_category: filterCategory || undefined,
-        procurement_method: filterMethod || undefined,
-        probability_label: filterProbability || undefined,
-        budget_min: budgetRange[0] || undefined,
-        budget_max: budgetRange[1] || undefined,
-        search: searchText || undefined,
-      };
-      // 清除 undefined 值
-      Object.keys(params).forEach(k => params[k] === undefined && delete params[k]);
-
-      const result = await getOpportunityList(params);
-      if (result && result.items) {
-        setData(result.items);
-      } else if (Array.isArray(result)) {
-        setData(result);
-      }
-    } catch (err) {
-      console.warn("后端API不可用，使用Mock数据");
-      let mockData = generateMockData();
-      // 前端筛选
-      if (searchText) mockData = mockData.filter(i => i.title.includes(searchText));
-      if (filterLevel) mockData = mockData.filter(i => i.purchaser_level === filterLevel);
-      if (filterCategory) mockData = mockData.filter(i => i.project_category === filterCategory);
-      if (filterMethod) mockData = mockData.filter(i => i.procurement_method === filterMethod);
-      if (filterProbability) mockData = mockData.filter(i => i.probability_label === filterProbability);
-      mockData = mockData.filter(i => i.budget >= budgetRange[0] && i.budget <= budgetRange[1]);
-      setData(mockData);
-    } finally {
-      setLoading(false);
-    }
+  // 构建查询参数
+  const params = useMemo(() => {
+    const result = {
+      sort: "score_desc",
+      purchaser_level: filterLevel || undefined,
+      project_category: filterCategory || undefined,
+      procurement_method: filterMethod || undefined,
+      probability_label: filterProbability || undefined,
+      budget_min: budgetRange[0] || undefined,
+      budget_max: budgetRange[1] || undefined,
+      search: searchText || undefined,
+    };
+    // 清除 undefined 值
+    Object.keys(result).forEach(k => result[k] === undefined && delete result[k]);
+    return result;
   }, [filterLevel, filterCategory, filterMethod, filterProbability, budgetRange, searchText]);
 
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
+  // 使用 React Query hooks
+  const { data: response, isLoading, refetch } = useOpportunityList(params);
+  const fetchMutation = useFetchAnnouncements();
+  const toggleFavoriteMutation = useToggleFavorite();
+
+  const data = response?.items || [];
 
   // 手动刷新
   const handleRefresh = async () => {
-    setFetching(true);
     try {
-      await fetchNewAnnouncements();
+      await fetchMutation.mutateAsync();
       message.success("数据采集已触发，请稍后刷新查看");
+      setTimeout(() => refetch(), 2000);
     } catch {
-      message.warning("后端采集接口不可用，已刷新Mock数据");
-      setData(generateMockData());
-    } finally {
-      setFetching(false);
-      setTimeout(() => loadData(), 2000);
+      message.error("数据采集失败，请检查后端服务");
     }
   };
 
@@ -254,7 +155,7 @@ function OpportunityList() {
       render: (text, record) => (
         <a
           style={{ fontWeight: 500 }}
-          onClick={() => message.info(`详情页: ${record.id}`)}
+          onClick={() => navigate(`/opportunities/${record.id}`)}
         >
           {text}
         </a>
@@ -371,7 +272,7 @@ function OpportunityList() {
             <Button
               type="primary"
               icon={<ReloadOutlined />}
-              loading={fetching}
+              loading={fetchMutation.isLoading}
               onClick={handleRefresh}
             >
               刷新采集

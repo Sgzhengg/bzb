@@ -15,11 +15,18 @@ FastAPI 集成主程序入口
 
 import logging
 import sys
+import uuid
 from contextlib import asynccontextmanager
+from logging.handlers import RotatingFileHandler
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, status, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from sqlalchemy.exc import SQLAlchemyError
 
 from app.core.config import settings
 from app.api.v1.health import router as health_router
@@ -32,14 +39,26 @@ from app.api.v1.charts import router as charts_router
 from app.api.v1.preferences import router as preferences_router
 
 # ============================================================
-# 日志配置
+# 日志配置（支持文件轮转）
 # ============================================================
+
+log_handlers = [logging.StreamHandler(sys.stdout)]
+
+if settings.LOG_FILE:
+    file_handler = RotatingFileHandler(
+        settings.LOG_FILE,
+        maxBytes=settings.LOG_MAX_BYTES,
+        backupCount=settings.LOG_BACKUP_COUNT,
+        encoding="utf-8",
+    )
+    file_handler.setFormatter(logging.Formatter(settings.LOG_FORMAT, datefmt="%Y-%m-%d %H:%M:%S"))
+    log_handlers.append(file_handler)
 
 logging.basicConfig(
     level=getattr(logging, settings.LOG_LEVEL.upper(), logging.INFO),
     format=settings.LOG_FORMAT,
     datefmt="%Y-%m-%d %H:%M:%S",
-    stream=sys.stdout,
+    handlers=log_handlers,
 )
 logger = logging.getLogger(__name__)
 
@@ -64,6 +83,10 @@ async def lifespan(app: FastAPI):
     logger.info(f"  📋 日志级别: {settings.LOG_LEVEL}")
     logger.info("=" * 55)
 
+    # 初始化 Redis 缓存
+    from app.services.cache_service import init_cache
+    await init_cache()
+
     if settings.SCHEDULER_ENABLED:
         from app.services.scheduler import start_scheduler
         start_scheduler()
@@ -78,6 +101,10 @@ async def lifespan(app: FastAPI):
 
     logger.info(f"👋 {settings.PROJECT_NAME} 正在关闭...")
 
+    # 关闭 Redis 缓存
+    from app.services.cache_service import close_cache
+    await close_cache()
+
 
 def _mask_url(url: str) -> str:
     import re
@@ -87,6 +114,9 @@ def _mask_url(url: str) -> str:
 # ============================================================
 # 创建 FastAPI 应用
 # ============================================================
+
+# 限流器
+limiter = Limiter(key_func=get_remote_address)
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -105,6 +135,8 @@ app = FastAPI(
     redoc_url="/redoc",
     lifespan=lifespan,
 )
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 
 # ============================================================
@@ -117,25 +149,108 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allow_headers=["*"],
-    expose_headers=["X-Total-Count"],
+    expose_headers=["X-Total-Count", "X-Request-ID"],
 )
+
+
+# ============================================================
+# 请求追踪中间件
+# ============================================================
+
+@app.middleware("http")
+async def request_tracking_middleware(request: Request, call_next):
+    """添加请求 ID 并记录请求日志"""
+    import time
+
+    # 生成或获取请求 ID
+    request_id = request.headers.get("X-Request-ID") or str(uuid.uuid4())
+    request.state.request_id = request_id
+
+    # 记录请求开始
+    logger.info(f"[{request_id}] {request.method} {request.url.path} START")
+
+    # 处理请求
+    start_time = time.time()
+    response = await call_next(request)
+
+    # 添加请求 ID 到响应头
+    response.headers["X-Request-ID"] = request_id
+
+    # 记录请求结束
+    process_time = (time.time() - start_time) * 1000  # 毫秒
+    logger.info(f"[{request_id}] {request.method} {request.url.path} END - {response.status_code} - {process_time:.2f}ms")
+
+    return response
 
 
 # ============================================================
 # 统一错误处理
 # ============================================================
 
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    """HTTP 异常处理器"""
+    logger.warning(f"HTTP {exc.status_code}: {request.method} {request.url.path} - {exc.detail}")
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "detail": exc.detail,
+            "path": str(request.url.path),
+            "method": request.method,
+        },
+    )
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    """请求验证异常处理器"""
+    logger.warning(f"验证失败: {request.method} {request.url.path} - {exc.errors()}")
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content={
+            "detail": "请求参数验证失败",
+            "errors": exc.errors(),
+            "path": str(request.url.path),
+        },
+    )
+
+
+@app.exception_handler(SQLAlchemyError)
+async def sqlalchemy_exception_handler(request: Request, exc: SQLAlchemyError):
+    """数据库异常处理器"""
+    logger.error(f"数据库错误: {request.method} {request.url.path} - {str(exc)}")
+    return JSONResponse(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content={
+            "detail": "数据库操作失败",
+            "path": str(request.url.path),
+        },
+    )
+
+
 @app.middleware("http")
 async def error_handling_middleware(request: Request, call_next):
+    """全局异常处理中间件"""
     try:
         return await call_next(request)
+    except HTTPException:
+        # HTTP 异常由上面的处理器处理
+        raise
+    except RequestValidationError:
+        # 验证异常由上面的处理器处理
+        raise
+    except SQLAlchemyError:
+        # 数据库异常由上面的处理器处理
+        raise
     except Exception as exc:
+        # 未捕获的异常
         logger.exception(f"未捕获异常: {request.method} {request.url.path}")
         return JSONResponse(
-            status_code=500,
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content={
                 "detail": "服务器内部错误",
                 "error": str(exc) if settings.DEBUG else "请查看服务端日志",
+                "path": str(request.url.path),
             },
         )
 
@@ -163,12 +278,14 @@ logger.info("已注册路由: health/relations/alerts/purchasers/announcements/s
 # ============================================================
 
 @app.get("/", tags=["系统"])
-async def root():
+@limiter.limit("30/minute")  # 限流：每分钟30次
+async def root(request: Request):
     return {
         "app": settings.PROJECT_NAME,
         "version": settings.VERSION,
         "status": "running",
         "docs": "/docs",
+        "cache_enabled": settings.REDIS_URL != "",
     }
 
 

@@ -131,6 +131,24 @@ def _register_jobs(sched: AsyncIOScheduler):
         replace_existing=True,
     )
 
+    # 每日 06:00 历史中标结果采集
+    sched.add_job(
+        _job_collect_winning_results,
+        CronTrigger(hour=6, minute=0),
+        id="collect_winning",
+        name="每日中标结果采集",
+        replace_existing=True,
+    )
+
+    # 每日 23:59 数据验证（检查漏采）
+    sched.add_job(
+        _job_daily_validation,
+        CronTrigger(hour=23, minute=59),
+        id="daily_validation",
+        name="每日数据验证",
+        replace_existing=True,
+    )
+
 
 # ============================================================
 # 任务实现
@@ -231,3 +249,96 @@ async def _job_weekly_report():
             logger.info(report)
     except Exception as e:
         logger.error(f"[定时任务] 周报生成失败: {e}")
+
+
+async def _job_collect_winning_results():
+    """每日采集历史中标结果。"""
+    logger.info("🏆 [定时任务] 开始采集历史中标结果...")
+    try:
+        from app.services.historical_crawler.collector import HistoricalAwardCollector
+
+        collector = HistoricalAwardCollector()
+        results = await collector.collect(max_pages=3)
+
+        if results:
+            logger.info(f"[定时任务] 中标结果采集: 新增 {len(results)} 条记录")
+        else:
+            logger.info("[定时任务] 中标结果采集: 无新数据")
+    except Exception as e:
+        logger.error(f"[定时任务] 中标结果采集失败: {e}")
+
+
+async def _job_daily_validation():
+    """每日数据验证任务（检查漏采、重复、趋势）"""
+    logger.info("🔍 [定时任务] 开始每日数据验证...")
+    try:
+        from app.db.session import AsyncSessionLocal
+        from app.services.cross_validator import run_daily_validation
+
+        async with AsyncSessionLocal() as db:
+            validation_result = await run_daily_validation(db)
+
+            # 记录验证结果
+            coverage = validation_result["coverage"]
+            logger.info(f"[数据验证] 日期: {coverage['date']}, 总采集: {coverage['total_count']}条")
+
+            for source, stats in coverage["by_source"].items():
+                logger.info(
+                    f"[数据验证] {source}: {stats['count']}/{stats['expected']}条 "
+                    f"({stats['coverage']:.0f}%)"
+                )
+
+            for alert in coverage["alerts"]:
+                logger.warning(f"[数据验证告警] {alert}")
+
+            if validation_result["duplicates"] > 0:
+                logger.warning(f"[数据验证] 发现 {validation_result['duplicates']} 组疑似重复公告")
+
+    except Exception as e:
+        logger.error(f"[定时任务] 数据验证失败: {e}")
+
+
+# ============================================================
+# 爬虫监控告警
+# ============================================================
+
+class CrawlerMonitor:
+    """爬虫运行状态监控。"""
+
+    def __init__(self):
+        self.stats = {
+            "total_runs": 0,
+            "success_runs": 0,
+            "failure_runs": 0,
+            "consecutive_failures": 0,
+            "last_run_time": None,
+            "last_error": None,
+        }
+
+    def record_success(self, count: int = 0):
+        self.stats["total_runs"] += 1
+        self.stats["success_runs"] += 1
+        self.stats["consecutive_failures"] = 0
+        self.stats["last_run_time"] = datetime.now().isoformat()
+
+    def record_failure(self, error: str = ""):
+        self.stats["total_runs"] += 1
+        self.stats["failure_runs"] += 1
+        self.stats["consecutive_failures"] += 1
+        self.stats["last_error"] = error
+        self.stats["last_run_time"] = datetime.now().isoformat()
+
+        if self.stats["consecutive_failures"] >= 3:
+            logger.critical(
+                f"🚨 爬虫连续失败 {self.stats['consecutive_failures']} 次！"
+                f"最后错误: {error}"
+            )
+
+    def get_health(self) -> dict:
+        return {
+            "healthy": self.stats["consecutive_failures"] < 3,
+            **self.stats,
+        }
+
+
+crawler_monitor = CrawlerMonitor()

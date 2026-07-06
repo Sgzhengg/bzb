@@ -33,55 +33,6 @@ export async function getHealthStatus() {
   return apiClient.get("/health");
 }
 
-/**
- * 获取招标列表（Mock 数据）
- */
-export async function getMockBiddingData() {
-  // 当后端未就绪时，返回 Mock 数据用于前端开发
-  return [
-    {
-      id: 1,
-      projectName: "中国移动广东公司2024年度广告投放服务采购项目",
-      purchaser: "中国移动通信集团广东有限公司",
-      budget: "500万元",
-      publishDate: "2024-01-15",
-      status: "招标中",
-    },
-    {
-      id: 2,
-      projectName: "广东移动2024年品牌传播策划服务招标",
-      purchaser: "中国移动通信集团广东有限公司",
-      budget: "300万元",
-      publishDate: "2024-01-10",
-      status: "招标中",
-    },
-    {
-      id: 3,
-      projectName: "广东移动新媒体运营支撑服务项目",
-      purchaser: "中国移动通信集团广东有限公司",
-      budget: "200万元",
-      publishDate: "2023-12-20",
-      status: "已中标",
-    },
-    {
-      id: 4,
-      projectName: "中国移动广东公司营业厅宣传物料设计制作项目",
-      purchaser: "中国移动通信集团广东有限公司",
-      budget: "150万元",
-      publishDate: "2023-12-05",
-      status: "已截止",
-    },
-    {
-      id: 5,
-      projectName: "广东移动2024年度线上广告投放代理服务",
-      purchaser: "中国移动通信集团广东有限公司",
-      budget: "800万元",
-      publishDate: "2024-02-01",
-      status: "招标中",
-    },
-  ];
-}
-
 export default apiClient;
 
 // ============================================================
@@ -183,4 +134,88 @@ export async function updatePreferences(data) {
 
 export async function resetPreferences() {
   return apiClient.delete("/preferences");
+}
+
+// ============================================================
+// 收藏 API
+// ============================================================
+
+export async function toggleFavorite(id) {
+  return apiClient.post(`/announcements/${id}/favorite`);
+}
+
+export async function getFavorites(params = {}) {
+  return apiClient.get("/announcements/favorites", { params });
+}
+
+// ============================================================
+// 图表数据 API
+// ============================================================
+
+export async function getChartData(chartType, params = {}) {
+  return apiClient.get(`/charts/json/${chartType}`, { params });
+}
+
+export async function getChartTypes() {
+  return apiClient.get("/charts/types");
+}
+
+// ============================================================
+// 调度器 API
+// ============================================================
+
+export async function getSchedulerStatus() {
+  return apiClient.get("/scheduler/status");
+}
+
+export async function startScheduler() {
+  return apiClient.post("/scheduler/start");
+}
+
+export async function triggerJob(jobId) {
+  return apiClient.post(`/scheduler/trigger/${jobId}`);
+}
+
+// ============================================================
+// 提醒 API
+// ============================================================
+
+export async function getUnreadAlertCount() {
+  return apiClient.get("/alerts/unread-count");
+}
+
+export async function markAlertRead(alertId) {
+  return apiClient.put(`/alerts/${alertId}/read`);
+}
+
+// ============================================================
+// 统计概览 API
+// ============================================================
+
+export async function getDashboardStats() {
+  // 聚合多个API获取仪表盘数据
+  const [health, alerts, announcements] = await Promise.allSettled([
+    apiClient.get("/health"),
+    apiClient.get("/alerts/unread-count"),
+    apiClient.get("/announcements", { params: { page_size: 5 } }),
+  ]);
+
+  return {
+    health: health.status === "fulfilled" ? health.value : null,
+    unreadAlerts: alerts.status === "fulfilled" ? alerts.value?.unread_count || 0 : 0,
+    recentAnnouncements: announcements.status === "fulfilled"
+      ? announcements.value?.items || []
+      : [],
+  };
+}
+
+// ============================================================
+// LLM 配置 API
+// ============================================================
+
+export async function saveLLMConfig(config) {
+  return apiClient.put("/preferences", {
+    ...config,
+    // LLM config stored as part of preferences
+  });
 }

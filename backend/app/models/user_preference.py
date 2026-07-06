@@ -21,6 +21,10 @@ class UserPreference(Base):
     preferred_categories = Column(Text, default="", comment="偏好赛道，JSON数组字符串")
     min_budget = Column(Float, default=0, comment="最低预算过滤（万元）")
     min_score = Column(Float, default=0, comment="最低机会评分（0-100）")
+    llm_enabled = Column(String(10), default="true", comment="LLM是否启用")
+    llm_api_key = Column(Text, default="", comment="LLM API Key")
+    llm_model = Column(String(100), default="deepseek-chat", comment="LLM模型")
+    llm_base_url = Column(Text, default="https://api.deepseek.com/v1", comment="LLM API地址")
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
@@ -32,6 +36,10 @@ class UserPreference(Base):
             "preferred_categories": self._parse_categories(),
             "min_budget": self.min_budget or 0,
             "min_score": self.min_score or 0,
+            "llm_enabled": self.llm_enabled or "true",
+            "llm_api_key": self.llm_api_key or "",
+            "llm_model": self.llm_model or "deepseek-chat",
+            "llm_base_url": self.llm_base_url or "https://api.deepseek.com/v1",
             "updated_at": str(self.updated_at) if self.updated_at else "",
         }
 

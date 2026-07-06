@@ -1,139 +1,191 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row, Statistic, Typography, Tag, Table, Space } from "antd";
+import { Card, Col, Row, Statistic, Typography, Tag, Table, Space, Button, Spin, Empty } from "antd";
 import {
-  FileTextOutlined,
-  CheckCircleOutlined,
-  ClockCircleOutlined,
-  StarOutlined,
+  FileTextOutlined, BellOutlined, StarOutlined,
+  RiseOutlined, ThunderboltOutlined, ArrowRightOutlined,
 } from "@ant-design/icons";
-import { getHealthStatus, getMockBiddingData } from "../services/api";
+import { useNavigate } from "react-router-dom";
+import { useDashboardStats, useChartData, useFavorites } from "../services/apiHooks";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
-const columns = [
-  {
-    title: "项目名称",
-    dataIndex: "projectName",
-    key: "projectName",
-    ellipsis: true,
-  },
-  {
-    title: "采购单位",
-    dataIndex: "purchaser",
-    key: "purchaser",
-  },
-  {
-    title: "预算金额",
-    dataIndex: "budget",
-    key: "budget",
-  },
-  {
-    title: "发布日期",
-    dataIndex: "publishDate",
-    key: "publishDate",
-  },
-  {
-    title: "状态",
-    dataIndex: "status",
-    key: "status",
-    render: (status) => {
-      const colorMap = {
-        招标中: "processing",
-        已截止: "default",
-        已中标: "success",
-      };
-      return <Tag color={colorMap[status] || "default"}>{status}</Tag>;
-    },
-  },
-];
+// ============================================================
+// 简单柱状图（纯 CSS）
+// ============================================================
 
-function Dashboard() {
-  const [health, setHealth] = useState(null);
-  const [biddingData, setBiddingData] = useState([]);
-
-  useEffect(() => {
-    getHealthStatus()
-      .then((data) => setHealth(data))
-      .catch(() => setHealth({ status: "disconnected" }));
-
-    getMockBiddingData()
-      .then((data) => setBiddingData(data))
-      .catch(() => setBiddingData([]));
-  }, []);
+function MiniBarChart({ data, title }) {
+  if (!data || data.length === 0) return <Empty description="暂无数据" image={Empty.PRESENTED_IMAGE_SIMPLE} />;
+  const maxVal = Math.max(...data.map(d => d.value), 1);
+  const colors = ["#1677ff", "#52c41a", "#fa8c16", "#eb2f96", "#722ed1", "#13c2c2"];
 
   return (
     <div>
-      <Title level={3} style={{ marginBottom: 24 }}>
-        📋 数据看板
-      </Title>
+      <Text type="secondary" style={{ fontSize: 12, marginBottom: 8, display: "block" }}>{title}</Text>
+      {data.slice(0, 6).map((item, idx) => (
+        <div key={idx} style={{ display: "flex", alignItems: "center", marginBottom: 5 }}>
+          <Text style={{ width: 70, fontSize: 11, textAlign: "right", marginRight: 6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {item.label}
+          </Text>
+          <div style={{ flex: 1, background: "#f5f5f5", borderRadius: 3, height: 16 }}>
+            <div style={{
+              width: `${Math.max((item.value / maxVal) * 100, 5)}%`, height: "100%",
+              background: colors[idx % colors.length], borderRadius: 3,
+              display: "flex", alignItems: "center", justifyContent: "flex-end", paddingRight: 4,
+            }}>
+              <Text style={{ color: "#fff", fontSize: 10 }}>{item.value}</Text>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ============================================================
+// 主组件
+// ============================================================
+
+function Dashboard() {
+  const navigate = useNavigate();
+
+  // 使用 React Query hooks
+  const { unreadAlerts, recentAnnouncements, isLoading: statsLoading } = useDashboardStats();
+  const { data: cityChart = [], isLoading: chartLoading } = useChartData("city_comparison", { top_n: 10 });
+  const { data: favData = { items: [] }, isLoading: favLoading } = useFavorites({ page_size: 5 });
+
+  // 转换图表数据格式
+  const cityData = cityChart.data?.map(d => ({
+    label: d.city || d.name || "",
+    value: d.count || d.value || 0
+  })) || [];
+
+  const favorites = favData.items || [];
+  const loading = statsLoading || chartLoading || favLoading;
+
+  const announcementTotal = recentAnnouncements.length || 0;
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+        <Title level={3} style={{ margin: 0 }}>📊 数据看板</Title>
+        <Button type="primary" icon={<ThunderboltOutlined />} onClick={() => navigate("/opportunities")}>
+          查看全部机会
+        </Button>
+      </div>
 
       {/* 统计卡片 */}
       <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
+        <Col xs={12} sm={6}>
+          <Card hoverable onClick={() => navigate("/opportunities")}>
             <Statistic
-              title="招标总数"
-              value={156}
+              title="最新公告"
+              value={announcementTotal}
               prefix={<FileTextOutlined />}
               valueStyle={{ color: "#1677ff" }}
+              suffix={<Text type="secondary" style={{ fontSize: 14 }}>条</Text>}
             />
           </Card>
         </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
+        <Col xs={12} sm={6}>
+          <Card hoverable onClick={() => navigate("/client-relations")}>
             <Statistic
-              title="招标中"
-              value={32}
-              prefix={<ClockCircleOutlined />}
-              valueStyle={{ color: "#fa8c16" }}
+              title="未读提醒"
+              value={unreadAlerts}
+              prefix={<BellOutlined />}
+              valueStyle={{ color: unreadAlerts > 0 ? "#ff4d4f" : "#52c41a" }}
+              suffix={<Text type="secondary" style={{ fontSize: 14 }}>条</Text>}
             />
           </Card>
         </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
+        <Col xs={12} sm={6}>
+          <Card hoverable onClick={() => navigate("/opportunities")}>
             <Statistic
-              title="已中标"
-              value={98}
-              prefix={<CheckCircleOutlined />}
-              valueStyle={{ color: "#52c41a" }}
-            />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <Card>
-            <Statistic
-              title="关注项目"
-              value={12}
+              title="收藏项目"
+              value={favorites.length}
               prefix={<StarOutlined />}
-              valueStyle={{ color: "#eb2f96" }}
+              valueStyle={{ color: "#faad14" }}
+              suffix={<Text type="secondary" style={{ fontSize: 14 }}>个</Text>}
+            />
+          </Card>
+        </Col>
+        <Col xs={12} sm={6}>
+          <Card hoverable onClick={() => navigate("/region-compare")}>
+            <Statistic
+              title="覆盖地市"
+              value={cityData.length || 21}
+              prefix={<RiseOutlined />}
+              valueStyle={{ color: "#722ed1" }}
+              suffix={<Text type="secondary" style={{ fontSize: 14 }}>个</Text>}
             />
           </Card>
         </Col>
       </Row>
 
-      {/* 服务状态 */}
-      <Card style={{ marginBottom: 24 }}>
-        <Space>
-          <span>后端服务状态：</span>
-          <Tag color={health?.status === "ok" ? "success" : "error"}>
-            {health?.status === "ok" ? "运行正常 ✅" : "未连接 ❌"}
-          </Tag>
-          {health?.version && (
-            <span style={{ color: "#888" }}>版本: {health.version}</span>
-          )}
-        </Space>
-      </Card>
+      {/* 图表 + 列表 */}
+      <Row gutter={[16, 16]}>
+        <Col xs={24} lg={10}>
+          <Card title="🏙️ 地市项目分布" extra={
+            <Button type="link" size="small" onClick={() => navigate("/region-compare")}>
+              详情 <ArrowRightOutlined />
+            </Button>
+          }>
+            {cityData.length > 0 ? (
+              <MiniBarChart data={cityData} title="" />
+            ) : (
+              <Empty description="暂无数据，请先触发数据采集" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
+          </Card>
+        </Col>
 
-      {/* 招标数据表格 */}
-      <Card title="📌 近期待分析招标项目">
-        <Table
-          columns={columns}
-          dataSource={biddingData}
-          rowKey="id"
-          pagination={{ pageSize: 10 }}
-          scroll={{ x: 800 }}
-        />
-      </Card>
+        <Col xs={24} lg={14}>
+          <Card title="⭐ 我的收藏" extra={
+            <Button type="link" size="small" onClick={() => navigate("/opportunities")}>
+              查看全部 <ArrowRightOutlined />
+            </Button>
+          }>
+            {favorites.length > 0 ? (
+              favorites.map((item, idx) => (
+                <div
+                  key={item.id}
+                  onClick={() => navigate(`/opportunities/${item.id}`)}
+                  style={{
+                    padding: "8px 0", borderBottom: idx < favorites.length - 1 ? "1px solid #f0f0f0" : "none",
+                    cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between",
+                  }}
+                >
+                  <div style={{ flex: 1 }}>
+                    <Text strong ellipsis style={{ maxWidth: 300, display: "inline-block" }}>
+                      {item.title}
+                    </Text>
+                    <div>
+                      <Tag color="blue" style={{ fontSize: 11 }}>{item.project_category}</Tag>
+                      <Text type="secondary" style={{ fontSize: 11 }}>{item.announce_date}</Text>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <Text strong style={{ color: "#1677ff" }}>
+                      {item.budget != null ? `${item.budget}万` : "—"}
+                    </Text>
+                    {item.total_score != null && (
+                      <div>
+                        <Tag color={item.total_score >= 75 ? "success" : item.total_score >= 50 ? "warning" : "error"}>
+                          {Math.round(item.total_score)}分
+                        </Tag>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <Empty description="暂无收藏项目" image={Empty.PRESENTED_IMAGE_SIMPLE}>
+                <Button type="primary" onClick={() => navigate("/opportunities")}>
+                  去发现机会
+                </Button>
+              </Empty>
+            )}
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 }

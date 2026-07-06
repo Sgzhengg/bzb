@@ -4,13 +4,14 @@
   "private": true,
   "description": "标中宝 - 广东移动招标情报系统前端",
   "dependencies": {
-    "antd": "^5.18.0",
     "@ant-design/icons": "^5.3.7",
+    "@tanstack/react-query": "^5.101.2",
+    "antd": "^5.18.0",
+    "axios": "^1.7.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1",
-    "axios": "^1.7.2",
-    "react-router-dom": "^6.23.1"
+    "react-router-dom": "^6.23.1",
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,5 +30,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:8000"
 }

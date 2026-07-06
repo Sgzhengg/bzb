@@ -4,7 +4,7 @@
 
 from sqlalchemy import (
     Column, Integer, String, Text, Date, DateTime,
-    ForeignKey, CheckConstraint,
+    ForeignKey, CheckConstraint, Index,
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -39,6 +39,10 @@ class ClientRelation(Base):
             "rating IN ('S', 'A', 'B', 'C', 'D')",
             name="chk_client_relations_rating",
         ),
+        # 查询索引优化
+        Index("ix_client_relations_purchaser_id", "purchaser_id"),
+        Index("ix_client_relations_rating", "rating"),
+        Index("ix_client_relations_next_followup", "next_followup_date"),
     )
 
     def __repr__(self):
@@ -54,6 +58,12 @@ class Purchaser(Base):
     name = Column(String(200), nullable=False)
     level = Column(String(20), nullable=False, default="地市公司")
     region = Column(String(50), nullable=False)
+
+    __table_args__ = (
+        Index("ix_purchasers_name", "name"),
+        Index("ix_purchasers_level", "level"),
+        Index("ix_purchasers_region", "region"),
+    )
 
     def __repr__(self):
         return f"<Purchaser(id={self.id}, name={self.name})>"

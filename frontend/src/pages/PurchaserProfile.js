@@ -14,100 +14,6 @@ import { getPurchasers, getPurchaserProfile } from "../services/api";
 const { Title, Text, Paragraph } = Typography;
 
 // ============================================================
-// Mock 数据（后端不可用时）
-// ============================================================
-
-function generateMockProfile(purchaserName) {
-  const profiles = {
-    "省公司": {
-      purchaser_name: "省公司",
-      purchaser_id: 1,
-      supplier_top10: [
-        { name: "省广集团", win_count: 12, percentage: 28.6 },
-        { name: "蓝色光标", win_count: 9, percentage: 21.4 },
-        { name: "因赛集团", win_count: 6, percentage: 14.3 },
-        { name: "华扬联众", win_count: 4, percentage: 9.5 },
-        { name: "广州A文化传播", win_count: 3, percentage: 7.1 },
-        { name: "深圳B广告公司", win_count: 2, percentage: 4.8 },
-        { name: "东莞C传媒", win_count: 2, percentage: 4.8 },
-        { name: "佛山D策划", win_count: 1, percentage: 2.4 },
-        { name: "新兴E广告", win_count: 1, percentage: 2.4 },
-        { name: "创意F工作室", win_count: 1, percentage: 2.4 },
-      ],
-      hhi_index: 1850,
-      concentration_level: "中度集中",
-      incumbent_map: {
-        "品牌策略类": { company: "省广集团", contract_end: "2026-12-31" },
-        "创意设计类": { company: "因赛集团", contract_end: "2026-09-15" },
-        "媒介投放类": { company: "省广集团", contract_end: "2026-06-30" },
-        "活动执行类": { company: "蓝色光标", contract_end: "2026-08-20" },
-        "内容制作类": { company: null, contract_end: null },
-        "新媒体运营类": { company: "华扬联众", contract_end: "2026-11-01" },
-      },
-      sme_win_rate: 19.2,
-      new_entrant_count: 3,
-      has_breakthrough_case: true,
-      opportunity_rating: "★★★★",
-    },
-    "广州分公司": {
-      purchaser_name: "广州分公司", purchaser_id: 2,
-      supplier_top10: [
-        { name: "省广集团", win_count: 8, percentage: 32.0 },
-        { name: "广州A文化传播", win_count: 5, percentage: 20.0 },
-        { name: "蓝色光标", win_count: 4, percentage: 16.0 },
-        { name: "广州B广告", win_count: 3, percentage: 12.0 },
-        { name: "新兴C传媒", win_count: 2, percentage: 8.0 },
-        { name: "创意D设计", win_count: 1, percentage: 4.0 },
-        { name: "策划E公司", win_count: 1, percentage: 4.0 },
-        { name: "佛山F文化", win_count: 1, percentage: 4.0 },
-      ],
-      hhi_index: 2200, concentration_level: "中度集中",
-      incumbent_map: {
-        "品牌策略类": { company: "广州A文化传播", contract_end: "2026-07-31" },
-        "创意设计类": { company: null, contract_end: null },
-        "媒介投放类": { company: "省广集团", contract_end: "2026-05-15" },
-        "活动执行类": { company: "蓝色光标", contract_end: "2026-10-01" },
-        "内容制作类": { company: "广州B广告", contract_end: "2026-04-30" },
-        "新媒体运营类": { company: null, contract_end: null },
-      },
-      sme_win_rate: 28.5, new_entrant_count: 5,
-      has_breakthrough_case: true, opportunity_rating: "★★★★★",
-    },
-  };
-
-  const p = profiles[purchaserName];
-  if (p) return p;
-
-  // 随机生成
-  return {
-    purchaser_name: purchaserName,
-    purchaser_id: Math.floor(Math.random() * 100),
-    supplier_top10: Array.from({ length: 8 }, (_, i) => ({
-      name: `${purchaserName}供应商${i + 1}`,
-      win_count: Math.max(1, Math.floor(Math.random() * 10)),
-      percentage: 0,
-    })).map((s, _, arr) => {
-      const total = arr.reduce((sum, x) => sum + x.win_count, 0);
-      return { ...s, percentage: Math.round(s.win_count / total * 1000) / 10 };
-    }).sort((a, b) => b.win_count - a.win_count),
-    hhi_index: Math.floor(Math.random() * 4000) + 500,
-    concentration_level: ["分散", "中度集中", "高度集中"][Math.floor(Math.random() * 3)],
-    incumbent_map: {
-      "品牌策略类": { company: Math.random() > 0.4 ? "省广集团" : null, contract_end: "2026-12-31" },
-      "创意设计类": { company: Math.random() > 0.5 ? "因赛集团" : null, contract_end: "2026-09-15" },
-      "媒介投放类": { company: Math.random() > 0.3 ? "省广集团" : null, contract_end: "2026-06-30" },
-      "活动执行类": { company: Math.random() > 0.4 ? "蓝色光标" : null, contract_end: "2026-08-20" },
-      "内容制作类": { company: null, contract_end: null },
-      "新媒体运营类": { company: Math.random() > 0.6 ? "华扬联众" : null, contract_end: "2026-11-01" },
-    },
-    sme_win_rate: Math.floor(Math.random() * 35) + 5,
-    new_entrant_count: Math.floor(Math.random() * 5) + 1,
-    has_breakthrough_case: Math.random() > 0.5,
-    opportunity_rating: ["★★", "★★★", "★★★★", "★★★★★"][Math.floor(Math.random() * 4)],
-  };
-}
-
-// ============================================================
 // 柱状图（纯 CSS）
 // ============================================================
 
@@ -238,17 +144,8 @@ function PurchaserProfile() {
         }
       })
       .catch(() => {
-        // Mock fallback
-        const mockList = [
-          { id: 1, name: "省公司", level: "省公司" },
-          { id: 2, name: "广州分公司", level: "地市公司" },
-          { id: 3, name: "东莞分公司", level: "地市公司" },
-          { id: 4, name: "佛山分公司", level: "地市公司" },
-          { id: 5, name: "深圳分公司", level: "地市公司" },
-          { id: 6, name: "珠海分公司", level: "地市公司" },
-        ];
-        setPurchasers(mockList);
-        setSelectedId(1);
+        console.error("获取采购方列表失败");
+        setPurchasers([]);
       });
   }, []);
 
@@ -260,10 +157,8 @@ function PurchaserProfile() {
       const data = await getPurchaserProfile(id);
       setProfile(data);
     } catch {
-      // Mock fallback
-      const purchaser = purchasers.find(p => (p.id || p.purchaser_id) === id);
-      const name = purchaser?.name || `采购方${id}`;
-      setProfile(generateMockProfile(name));
+      console.error("获取采购方画像失败");
+      setProfile(null);
     } finally {
       setLoading(false);
     }

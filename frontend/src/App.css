@@ -9,3 +9,83 @@ body {
 .ant-menu-horizontal {
   border-bottom: none !important;
 }
+
+/* ============================================================ */
+/* 移动端响应式适配                                           */
+/* ============================================================ */
+
+@media (max-width: 768px) {
+  /* 隐藏侧边栏 */
+  .ant-layout-sider {
+    display: none !important;
+  }
+
+  /* 顶部导航适配 */
+  .ant-layout-header {
+    padding: 0 12px !important;
+    flex-wrap: wrap;
+    height: auto !important;
+    min-height: 48px;
+  }
+
+  .ant-layout-header .ant-menu-horizontal {
+    font-size: 12px;
+  }
+
+  .ant-layout-header .ant-menu-horizontal .ant-menu-item {
+    padding: 0 8px !important;
+  }
+
+  /* 卡片间距 */
+  .ant-card {
+    margin-bottom: 8px !important;
+  }
+
+  /* 表格横向滚动 */
+  .ant-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* 标题字号 */
+  h3.ant-typography {
+    font-size: 18px !important;
+  }
+
+  h4.ant-typography {
+    font-size: 16px !important;
+  }
+
+  /* 统计卡片 */
+  .ant-statistic-title {
+    font-size: 12px !important;
+  }
+
+  .ant-statistic-content {
+    font-size: 20px !important;
+  }
+
+  /* 按钮组间距 */
+  .ant-space {
+    gap: 4px !important;
+  }
+}
+
+/* 平板适配 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .ant-layout-sider {
+    width: 180px !important;
+    min-width: 180px !important;
+    max-width: 180px !important;
+    flex: 0 0 180px !important;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .ant-layout-header,
+  .ant-layout-sider,
+  .ant-btn {
+    display: none !important;
+  }
+}

@@ -3,8 +3,8 @@
 """
 
 from sqlalchemy import (
-    Column, Integer, String, Text, Date, DateTime, Numeric,
-    ForeignKey, JSON,
+    Column, Integer, String, Text, Date, DateTime, Numeric, Boolean,
+    ForeignKey, JSON, Index, UniqueConstraint,
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -59,8 +59,26 @@ class Announcement(Base):
     created_at = Column(DateTime, server_default=func.now(), nullable=False)
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
+    # 收藏标记
+    is_favorited = Column(Boolean, default=False, comment="是否收藏")
+
     # 关联
     purchaser = relationship("Purchaser", backref="announcements", lazy="joined")
+
+    # 去重约束：同一 source_url 不重复入库
+    __table_args__ = (
+        # 唯一约束：同一 URL 不重复入库
+        UniqueConstraint("source_url", name="uq_announcements_source_url"),
+        # 查询索引优化
+        Index("ix_announcements_announce_date", "announce_date"),  # 时间排序
+        Index("ix_announcements_city", "city"),  # 地市筛选
+        Index("ix_announcements_project_category", "project_category"),  # 类别筛选
+        Index("ix_announcements_purchaser_id", "purchaser_id"),  # 关联查询
+        Index("ix_announcements_is_favorited", "is_favorited"),  # 收藏查询
+        Index("ix_announcements_city_date", "city", "announce_date"),  # 组合查询
+        Index("ix_announcements_category_date", "project_category", "announce_date"),  # 组合查询
+        {"comment": "招标公告信息表"},
+    )
 
     def __repr__(self):
         return f"<Announcement(id={self.id}, title={self.title[:30]}...)>"
