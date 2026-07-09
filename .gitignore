@@ -48,4 +48,20 @@ Thumbs.db
 
 # Environment
 .env
+
+# Browser profile data (Playwright/Edge)
+*zhaobiao_profile/
 .env.local
+
+# Browser Profiles
+backend/app/zhaobiao_profile/
+backend/zhaobiao_profile/
+edge_profile_copy/
+
+# Test files and screenshots
+frontend/*.png
+frontend/*.jpg
+*.png
+*.jpg
+frontend/test-results/
+frontend/tests/

@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { ConfigProvider, theme } from "antd";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ConfigProvider, App as AntApp, theme } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import zhCN from "antd/locale/zh_CN";
 import AppLayout from "./layouts/AppLayout";
@@ -40,18 +40,27 @@ function App() {
           token: { colorPrimary: "#1677ff", borderRadius: 6 },
         }}
       >
-        <BrowserRouter>
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/opportunities" element={<OpportunityList />} />
-              <Route path="/opportunities/:id" element={<AnnouncementDetail />} />
-              <Route path="/purchaser-profile" element={<PurchaserProfile />} />
-              <Route path="/client-relations" element={<RelationManagement />} />
-              <Route path="/region-compare" element={<CityCompare />} />            <Route path="/winning-results" element={<WinningResults />} />              <Route path="/settings" element={<Settings />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <AntApp>
+          <BrowserRouter
+            future={{
+              v7_startTransition: true,
+              v7_relativeSplatPath: true,
+            }}
+          >
+            <Routes>
+              <Route element={<AppLayout />}>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/opportunities" element={<OpportunityList />} />
+                <Route path="/opportunities/:id" element={<AnnouncementDetail />} />
+                <Route path="/purchaser-profile" element={<PurchaserProfile />} />
+                <Route path="/client-relations" element={<RelationManagement />} />
+                <Route path="/region-compare" element={<CityCompare />} />
+                <Route path="/winning-results" element={<WinningResults />} />
+                <Route path="/settings" element={<Settings />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </AntApp>
       </ConfigProvider>
     </QueryClientProvider>
   );

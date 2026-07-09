@@ -2,16 +2,16 @@ import React, { useState, useMemo } from "react";
 import {
   Card, Table, Tag, Progress, Button, Space, Input, Select,
   Row, Col, Typography, Badge, Tooltip, message, Spin, Empty,
-  Slider,
+  Slider, Modal, Descriptions, Divider,
 } from "antd";
 import {
   ReloadOutlined, SearchOutlined,
-  ThunderboltOutlined, ClearOutlined, LinkOutlined,
+  ThunderboltOutlined, ClearOutlined,
   StarOutlined, StarFilled, DollarOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useOpportunityList, useFetchAnnouncements } from "../services/apiHooks";
-import { toggleFavorite, startBudgetScrape, getBudgetScrapeStatus } from "../services/api";
+import { toggleFavorite, getAnnouncementOriginal, extractBudgetBatch } from "../services/api";
 
 const { Title, Text } = Typography;
 
@@ -82,6 +82,10 @@ function OpportunityList() {
   const [scraping, setScraping] = useState(false);
   const [scrapeMsg, setScrapeMsg] = useState("");
 
+  // 公告内容模态框状态
+  const [contentModalVisible, setContentModalVisible] = useState(false);
+  const [contentData, setContentData] = useState(null);
+
   // 构建查询参数
   const params = useMemo(() => {
     const result = {
@@ -126,30 +130,74 @@ function OpportunityList() {
     setSearchText("");
   };
 
-  // 预算抓取
+  // 处理公告内容查看 - 优先直达详情页，否则显示模态框
+  const handleViewOriginal = async (record) => {
+    try {
+      const result = await getAnnouncementOriginal(record.id);
+
+      if (result.found) {
+        if (result.detail_url) {
+          // 有直达详情页 URL，直接在新标签页打开
+          window.open(result.detail_url, '_blank');
+          message.success("已在新标签页打开公告详情页");
+        } else if (result.notice_content) {
+          // 有公告内容但无详情 URL，在模态框中显示
+          setContentData({
+            title: result.title || record.title,
+            publish_date: result.publish_date,
+            publish_type: result.publish_type,
+            company: result.company,
+            deadline: result.deadline,
+            bid_date: result.bid_date,
+            notice_content: result.notice_content,
+            source_url: result.search_url,
+          });
+          setContentModalVisible(true);
+          message.success("已获取公告内容");
+        } else {
+          // 找到匹配但无详情，打开搜索页
+          window.open(result.search_url, '_blank');
+          message.info("已打开 b2b 搜索页");
+        }
+      } else {
+        // 未找到，直接在新标签页打开 b2b 搜索
+        const searchUrl = result.search_url || 'https://b2b.10086.cn/b2b/main/listVendorNotice.html?noticeType=2';
+        window.open(searchUrl, '_blank');
+        message.info("已在新标签页打开 b2b 搜索页");
+      }
+    } catch (error) {
+      console.error("获取公告详情失败:", error);
+      window.open('https://b2b.10086.cn/b2b/main/listVendorNotice.html?noticeType=2', '_blank');
+      message.error("获取公告内容失败，已打开 b2b 网站");
+    }
+  };
+
+  const handleContentModalClose = () => {
+    setContentModalVisible(false);
+    setContentData(null);
+  };
+
+  // 预算抓取 — zhaobiao.cn 自动抓取
   const handleScrapeBudget = async () => {
     try {
       setScraping(true);
-      setScrapeMsg("正在启动...");
-      const res = await startBudgetScrape();
-      if (!res.ok) { message.warning(res.message); setScraping(false); return; }
-      const timer = setInterval(async () => {
-        try {
-          const s = await getBudgetScrapeStatus();
-          setScrapeMsg(s.message);
-          if (s.status === "done") {
-            clearInterval(timer);
-            setScraping(false);
-            message.success("预算数据已更新！");
-            refetch();
-          } else if (s.status === "failed") {
-            clearInterval(timer);
-            setScraping(false);
-            message.error(s.message);
-          }
-        } catch { clearInterval(timer); setScraping(false); }
-      }, 3000);
-    } catch { message.error("启动失败"); setScraping(false); }
+      setScrapeMsg("zhaobiao.cn 抓取中...");
+      const res = await extractBudgetBatch(5);
+      setScraping(false);
+      if (res.ok) {
+        if (res.extracted > 0) {
+          message.success(`✅ zhaobiao.cn 已提取 ${res.extracted} 条预算！`);
+        } else if (res.total === 0) {
+          message.success("所有有 zhaobiao URL 的公告已有预算数据");
+        } else {
+          message.info(`处理了 ${res.total} 条，提取成功 ${res.extracted} 条`);
+        }
+        refetch();
+      }
+    } catch {
+      setScraping(false);
+      message.error("预算提取失败，请检查后端日志");
+    }
   };
 
   // 表格列定义 — 对齐「致合项目查询汇总」Excel 模板
@@ -211,23 +259,22 @@ function OpportunityList() {
       key: "budget",
       width: 110,
       sorter: (a, b) => (a.budget || 0) - (b.budget || 0),
-      render: (val) => val ? <Text strong>{val} 万</Text> : <Text type="secondary">—</Text>,
+      render: (val) => (val != null && val !== 0) ? <Text strong>{val} 万</Text> : <Text type="secondary">—</Text>,
     },
     {
       title: "网址",
       dataIndex: "source_url",
       key: "source_url",
-      width: 80,
+      width: 100,
       render: (url, record) => (
         <Space size={0}>
           <a onClick={() => navigate(`/opportunities/${record.id}`)}>
             详情
           </a>
-          {url && url.startsWith("http") && (
-            <a href={url} target="_blank" rel="noopener noreferrer" style={{marginLeft: 8}}>
-              <LinkOutlined /> 原文
-            </a>
-          )}
+          <Divider type="vertical" />
+          <a onClick={() => handleViewOriginal(record)}>
+            原文
+          </a>
         </Space>
       ),
     },
@@ -447,6 +494,73 @@ function OpportunityList() {
           )}
         </Spin>
       </Card>
+
+      {/* 公告内容模态框 — 仅当成功获取到原文时显示 */}
+      <Modal
+        title={<span>📋 公告详情</span>}
+        open={contentModalVisible}
+        onCancel={handleContentModalClose}
+        width={1000}
+        style={{ top: 20 }}
+        footer={[
+          <Button key="close" onClick={handleContentModalClose}>
+            关闭
+          </Button>,
+          contentData?.source_url && (
+            <Button
+              key="open"
+              type="primary"
+              onClick={() => window.open(contentData.source_url, '_blank')}
+            >
+              在 b2b.10086.cn 查看原文
+            </Button>
+          ),
+        ]}
+      >
+        {contentData && (
+          <div>
+            <Descriptions
+              title={contentData.title}
+              bordered
+              size="small"
+              style={{marginBottom: 16}}
+            >
+              <Descriptions.Item label="发布日期">
+                {contentData.publish_date || '—'}
+              </Descriptions.Item>
+              <Descriptions.Item label="公告类型">
+                {contentData.publish_type || '—'}
+              </Descriptions.Item>
+              <Descriptions.Item label="公司">
+                {contentData.company || '—'}
+              </Descriptions.Item>
+              <Descriptions.Item label="报名截止">
+                {contentData.deadline || '—'}
+              </Descriptions.Item>
+              <Descriptions.Item label="投标日期">
+                {contentData.bid_date || '—'}
+              </Descriptions.Item>
+            </Descriptions>
+
+            <div
+              style={{
+                marginTop: 16,
+                padding: 16,
+                border: '1px solid #d9d9d9',
+                borderRadius: '4px',
+                backgroundColor: '#fafafa',
+                maxHeight: '50vh',
+                overflow: 'auto',
+                lineHeight: '1.6',
+                whiteSpace: 'pre-wrap',
+                wordBreak: 'break-word'
+              }}
+            >
+              {contentData.notice_content || '暂无内容'}
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }

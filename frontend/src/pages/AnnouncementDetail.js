@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
   Card, Descriptions, Tag, Typography, Spin, Empty, Button, Space,
-  Row, Col, Progress, Divider, Table, Alert, message, Tooltip, Badge,
+  Row, Col, Progress, Divider, Table, Alert, message, Tooltip, Badge, Modal,
 } from "antd";
 import {
   ArrowLeftOutlined, StarOutlined, StarFilled, LinkOutlined,
@@ -11,9 +11,8 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import {
   getAnnouncementDetail, getAnnouncementAlerts,
-  toggleFavorite, markAlertRead,
+  toggleFavorite, markAlertRead, getAnnouncementOriginal,
 } from "../services/api";
-
 const { Title, Text, Paragraph } = Typography;
 
 // ============================================================
@@ -114,6 +113,12 @@ function AnnouncementDetail() {
   const [alerts, setAlerts] = useState([]);
   const [isFav, setIsFav] = useState(false);
 
+  // b2b 原文模态框状态
+  const [b2bModalVisible, setB2bModalVisible] = useState(false);
+  const [b2bData, setB2bData] = useState(null);
+  const [b2bLoading, setB2bLoading] = useState(false);
+  const [b2bIframeUrl, setB2bIframeUrl] = useState("");
+
   const loadDetail = useCallback(async () => {
     setLoading(true);
     try {
@@ -153,6 +158,40 @@ function AnnouncementDetail() {
     } catch { /* ignore */ }
   };
 
+  // 处理 b2b 原文查看
+  const handleViewOriginal = () => {
+    setB2bModalVisible(true);
+    setB2bLoading(true);
+    setB2bData(null);
+
+    // 构建 b2b 搜索 URL，使用项目名称作为搜索关键词
+    const keyword = (data?.title || "").substring(0, 50);
+    const encoded = encodeURIComponent(keyword);
+    // 使用 b2b 的搜索页面 URL
+    const searchUrl = `https://b2b.10086.cn/b2b/main/listVendorNotice.html?noticeType=2#/searchPage?value=${encoded}&noticeType=ALL&current=1`;
+    setB2bIframeUrl(searchUrl);
+    setB2bLoading(false);
+
+    // 同时尝试后端 API 获取详情
+    getAnnouncementOriginal(id)
+      .then(result => {
+        setB2bData(result);
+        if (result.found) {
+          message.success("已在 b2b.10086.cn 找到匹配的公告");
+        } else {
+          message.info("请在下方页面中手动选择匹配的公告");
+        }
+      })
+      .catch(error => {
+        console.error("获取公告详情失败:", error);
+      });
+  };
+
+  const handleB2bModalClose = () => {
+    setB2bModalVisible(false);
+    setB2bData(null);
+  };
+
   if (loading) return <Spin size="large" style={{ display: "block", margin: "100px auto" }} />;
   if (!data) return <Empty description="公告不存在" />;
 
@@ -190,11 +229,14 @@ function AnnouncementDetail() {
                 {data.procurement_method}
               </Tag>
               <Tag color="purple">{data.project_category}</Tag>
-              {data.source_url && (
-                <a href={data.source_url} target="_blank" rel="noreferrer">
-                  <Tag icon={<LinkOutlined />} color="geekblue">原文链接</Tag>
-                </a>
-              )}
+              <Tag
+                icon={<LinkOutlined />}
+                color="geekblue"
+                style={{ cursor: 'pointer' }}
+                onClick={handleViewOriginal}
+              >
+                原文链接
+              </Tag>
             </Space>
           </div>
           <div style={{ textAlign: "center", minWidth: 140, marginTop: 8 }}>
@@ -317,6 +359,73 @@ function AnnouncementDetail() {
           )}
         </Col>
       </Row>
+
+      {/* b2b 原文模态框 */}
+      <Modal
+        title={
+          <Space>
+            <LinkOutlined />
+            <span>B2B 公告原文</span>
+          </Space>
+        }
+        open={b2bModalVisible}
+        onCancel={handleB2bModalClose}
+        footer={[
+          <Button key="close" onClick={handleB2bModalClose}>
+            关闭
+          </Button>,
+          b2bIframeUrl && (
+            <Button
+              key="open"
+              type="primary"
+              icon={<LinkOutlined />}
+              onClick={() => window.open(b2bIframeUrl, '_blank')}
+            >
+              在新窗口打开
+            </Button>
+          ),
+        ]}
+        width={1200}
+        style={{ top: 20 }}
+      >
+        <Spin spinning={b2bLoading}>
+          {b2bIframeUrl && (
+            <div>
+              <Alert
+                message="B2B 搜索页面"
+                description="下方页面为 b2b.10086.cn 的搜索页面，您可以在其中查看和选择匹配的公告。如果需要，点击右下角'在新窗口打开'按钮可以在浏览器中打开。"
+                type="info"
+                showIcon
+                style={{marginBottom: 12}}
+                closable
+              />
+              <div
+                style={{
+                  height: '70vh',
+                  border: '1px solid #d9d9d9',
+                  borderRadius: '4px',
+                  overflow: 'hidden',
+                  backgroundColor: '#fff'
+                }}
+              >
+                <iframe
+                  src={b2bIframeUrl}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    border: 'none'
+                  }}
+                  title="B2B 搜索"
+                  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                />
+              </div>
+            </div>
+          )}
+          {!b2bLoading && !b2bIframeUrl && (
+            <Empty description="加载中..." />
+          )}
+        </Spin>
+      </Modal>
     </div>
   );
 }

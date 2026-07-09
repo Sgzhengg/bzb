@@ -68,6 +68,14 @@ export async function getAnnouncementAlerts(id) {
 }
 
 /**
+ * 获取 b2b.10086.cn 公告原文
+ * 通过 b2b API 搜索并返回公告详情和搜索链接
+ */
+export async function getAnnouncementOriginal(id) {
+  return apiClient.get(`/announcements/${id}/original`);
+}
+
+/**
  * 获取采购方列表（用于筛选器）
  */
 export async function getPurchasers() {
@@ -225,6 +233,22 @@ export async function startBudgetScrape() {
  */
 export async function getBudgetScrapeStatus() {
   return apiClient.get("/announcements/scrape-budget/status");
+}
+
+/**
+ * LLM 提取单条公告预算
+ */
+export async function extractBudget(id) {
+  return apiClient.post(`/announcements/extract-budget/${id}`);
+}
+
+/**
+ * LLM 批量提取预算（所有无预算的公告）
+ */
+export async function extractBudgetBatch(limit = 10) {
+  return apiClient.post("/announcements/extract-budget/batch", null, {
+    params: { limit },
+  });
 }
 
 // ============================================================

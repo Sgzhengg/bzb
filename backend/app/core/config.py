@@ -3,7 +3,17 @@
 """
 
 import os
+from pathlib import Path
 from typing import List
+
+# 自动加载 .env 文件
+try:
+    from dotenv import load_dotenv
+    _env_path = Path(__file__).resolve().parent.parent.parent / ".env"
+    if _env_path.exists():
+        load_dotenv(_env_path)
+except ImportError:
+    pass
 
 
 class Settings:

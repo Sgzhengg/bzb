@@ -68,10 +68,10 @@ async def list_announcements(
     if search:
         conditions.append(Announcement.title.ilike(f"%{search}%"))
 
-    # 自动过滤已过期的公告（投标截止日期 < 今天）
-    from datetime import datetime as dt
-    today = dt.now()
-    conditions.append(Announcement.deadline >= today)
+    # 自动过滤已过期的公告（TODO: deadline 存为 TEXT，比较需修复）
+    # from datetime import datetime as dt
+    # today = dt.now()
+    # conditions.append(Announcement.deadline >= today)
 
     # 仅显示收藏
     if favorites_only:
@@ -121,7 +121,7 @@ async def list_announcements(
             "city": getattr(ann, 'city', '') or '',
             "project_category": ann.project_category,
             "procurement_method": ann.procurement_method,
-            "budget": float(ann.budget) if ann.budget else None,
+            "budget": float(ann.budget) if ann.budget is not None else None,
             "source_url": ann.source_url or '',
             "announce_date": ann.announce_date.isoformat() if ann.announce_date else None,
             "deadline": ann.deadline.isoformat() if ann.deadline else None,
@@ -151,6 +151,52 @@ async def list_announcements(
         "page_size": page_size,
         "items": items,
     }
+
+
+# ============================================================
+# 收藏列表（必须在 /{announcement_id} 之前注册，否则被拦截）
+# ============================================================
+
+@router.get("/favorites", summary="获取收藏列表")
+async def list_favorites(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(20, ge=1, le=100),
+    db: AsyncSession = Depends(get_db),
+):
+    """获取已收藏的公告列表。"""
+    count_q = select(func.count()).select_from(Announcement).where(
+        Announcement.is_favorited == True
+    )
+    total = (await db.execute(count_q)).scalar() or 0
+
+    list_q = (
+        select(Announcement)
+        .where(Announcement.is_favorited == True)
+        .order_by(desc(Announcement.announce_date))
+        .offset((page - 1) * page_size)
+        .limit(page_size)
+    )
+    result = await db.execute(list_q)
+    announcements = result.scalars().all()
+
+    items = []
+    for ann in announcements:
+        score_data = _compute_announcement_score(ann)
+        items.append({
+            "id": ann.id,
+            "title": ann.title,
+            "project_category": ann.project_category,
+            "procurement_method": ann.procurement_method,
+            "budget": float(ann.budget) if ann.budget is not None else None,
+            "announce_date": ann.announce_date.isoformat() if ann.announce_date else None,
+            "deadline": ann.deadline.isoformat() if ann.deadline else None,
+            "purchaser": ann.purchaser.name if ann.purchaser else "",
+            "total_score": score_data.get("total_score"),
+            "probability_label": score_data.get("probability_label", ""),
+            "is_favorited": True,
+        })
+
+    return {"total": total, "page": page, "page_size": page_size, "items": items}
 
 
 # ============================================================
@@ -257,7 +303,7 @@ async def get_announcement_detail(
         "purchaser_level": ann.purchaser_level,
         "project_category": ann.project_category,
         "procurement_method": ann.procurement_method,
-        "budget": float(ann.budget) if ann.budget else None,
+        "budget": float(ann.budget) if ann.budget is not None else None,
         "deadline": ann.deadline.isoformat() if ann.deadline else None,
         "announce_date": ann.announce_date.isoformat() if ann.announce_date else None,
         "qualification_requirements": ann.qualification_requirements,
@@ -391,49 +437,6 @@ async def toggle_favorite(
         "message": "已收藏" if ann.is_favorited else "已取消收藏",
     }
 
-
-@router.get("/favorites", summary="获取收藏列表")
-async def list_favorites(
-    page: int = Query(1, ge=1),
-    page_size: int = Query(20, ge=1, le=100),
-    db: AsyncSession = Depends(get_db),
-):
-    """获取已收藏的公告列表。"""
-    count_q = select(func.count()).select_from(Announcement).where(
-        Announcement.is_favorited == True
-    )
-    total = (await db.execute(count_q)).scalar() or 0
-
-    list_q = (
-        select(Announcement)
-        .where(Announcement.is_favorited == True)
-        .order_by(desc(Announcement.announce_date))
-        .offset((page - 1) * page_size)
-        .limit(page_size)
-    )
-    result = await db.execute(list_q)
-    announcements = result.scalars().all()
-
-    items = []
-    for ann in announcements:
-        score_data = _compute_announcement_score(ann)
-        items.append({
-            "id": ann.id,
-            "title": ann.title,
-            "project_category": ann.project_category,
-            "procurement_method": ann.procurement_method,
-            "budget": float(ann.budget) if ann.budget else None,
-            "announce_date": ann.announce_date.isoformat() if ann.announce_date else None,
-            "deadline": ann.deadline.isoformat() if ann.deadline else None,
-            "purchaser": ann.purchaser.name if ann.purchaser else "",
-            "total_score": score_data.get("total_score"),
-            "probability_label": score_data.get("probability_label", ""),
-            "is_favorited": True,
-        })
-
-    return {"total": total, "page": page, "page_size": page_size, "items": items}
-
-
 # ============================================================
 # 机会评分辅助函数
 # ============================================================
@@ -539,50 +542,143 @@ async def get_original_content(
     db: AsyncSession = Depends(get_db),
 ):
     """
-    通过 b2b.10086.cn API 搜索公告原文。
-    返回原文内容和可直接跳转的搜索链接。
-    
+    通过 b2b.10086.cn API 获取公告原文。
+    优先使用数据库中的 source_url，其次通过 b2b API 搜索。
+
     注意：b2b.10086.cn 是 SPA 架构，公告详情没有独立 URL。
-    此接口通过其后端 API 获取公告内容。
     """
     ann = await db.get(Announcement, announcement_id)
     if not ann:
         raise HTTPException(status_code=404, detail=f"公告 {announcement_id} 不存在")
-    
+
     from app.services.b2b_proxy import (
-        search_announcement, find_best_match, 
+        search_announcement, find_best_match,
         format_announcement_detail, build_search_url,
+        fetch_announcement_detail,
     )
-    
-    # 用前30字符作为搜索关键词
-    keyword = (ann.title or "")[:30]
-    
-    # 尝试不同的 publishType 搜索
+
+    title = ann.title or ""
+
+    # ── 策略1：提取有辨识度的短关键词 ──
+    # 去掉公司名等通用前缀，提取项目核心词
+    short_keywords = _extract_search_keywords(title)
+    logger.info(f"搜索关键词: {short_keywords}")
+
+    # ── 策略2：搜索 b2b API ──
     result = None
-    for ptype in ["PROCUREMENT", "VENDOR", "PURCHASE_SERVICE"]:
-        items = await search_announcement(keyword, publish_type=ptype, page_size=5)
-        match = find_best_match(items, ann.title or "")
-        if match:
-            result = format_announcement_detail(match)
-            result["publish_type_searched"] = ptype
+    searched_keyword = None
+
+    # 尝试不同的 publishType（包括候选人公示）
+    for ptype in ["PROCUREMENT", "CANDIDATE_PUBLICITY", "VENDOR", "PURCHASE_SERVICE"]:
+        for keyword in short_keywords:
+            items = await search_announcement(keyword, publish_type=ptype, page_size=10)
+            match = find_best_match(items, title)
+            if match:
+                # 找到了匹配项，尝试获取完整详情
+                detail = await fetch_announcement_detail(
+                    match.get("id") or match.get("uuid"),
+                    keyword, ptype
+                )
+                if detail and detail.get("notice_content"):
+                    result = detail
+                else:
+                    result = format_announcement_detail(match)
+                result["publish_type_searched"] = ptype
+                result["searched_keyword"] = keyword
+                searched_keyword = keyword
+                break
+        if result:
             break
-    
+
+    # ── 策略3：用更长的标题再次尝试 ──
     if not result:
-        # 返回搜索链接，让用户手动搜索
+        for ptype in ["PROCUREMENT", "CANDIDATE_PUBLICITY", "VENDOR", "PURCHASE_SERVICE"]:
+            items = await search_announcement(title[:30], publish_type=ptype, page_size=15)
+            match = find_best_match(items, title)
+            if match:
+                detail = await fetch_announcement_detail(
+                    match.get("id") or match.get("uuid"),
+                    title[:30], ptype
+                )
+                if detail and detail.get("notice_content"):
+                    result = detail
+                else:
+                    result = format_announcement_detail(match)
+                searched_keyword = title[:30]
+                break
+            if result:
+                break
+
+    if not result:
         return {
             "found": False,
             "announcement_id": announcement_id,
-            "title": ann.title,
-            "search_url": build_search_url(keyword),
-            "message": "未在 b2b.10086.cn 找到匹配的公告原文，请点击搜索链接手动查找",
+            "title": title,
+            "search_url": build_search_url(title[:30]),
+            "searched_keywords": short_keywords,
+            "message": "未在 b2b.10086.cn 找到匹配的公告原文，请点击下方按钮在 b2b 网站查看",
         }
-    
+
     return {
         "found": True,
         "announcement_id": announcement_id,
-        "search_url": build_search_url(keyword),
+        "search_url": build_search_url(searched_keyword or title[:30]),
+        "detail_url": result.get("detail_url", ""),
         **result,
     }
+
+
+def _extract_search_keywords(title: str) -> list:
+    """从公告标题中提取有辨识度的搜索关键词"""
+    keywords = []
+
+    # 去掉公司名前缀（如"中国移动通信集团广东有限公司XX分公司"）
+    # 保留项目核心描述部分
+    core = title
+
+    # 尝试去掉年份部分后的内容作为关键词
+    import re
+    # 提取年份后的内容（如"2026年至2028年"之后的部分）
+    year_match = re.search(r'\d{4}年.*?\d{4}年(.+)', title)
+    if year_match:
+        after_year = year_match.group(1)
+        # 去掉采购方式后缀（公开询比/公开招标等）
+        after_year = re.sub(r'(公开招标|公开询比|竞争性谈判|单一来源|询价).*$', '', after_year)
+        if len(after_year) >= 4:
+            keywords.append(after_year[:20])
+
+    # 提取地市+项目核心词
+    city_match = re.search(r'(广州|深圳|东莞|佛山|中山|珠海|江门|惠州|汕头|湛江|茂名|肇庆|梅州|汕尾|河源|阳江|清远|韶关|潮州|揭阳|云浮)', title)
+    if city_match:
+        city = city_match.group(1)
+        # 地市 + 项目关键词
+        if year_match:
+            keywords.append(f"{city} {after_year[:15]}")
+
+    # 提取括号内的关键词
+    bracket_match = re.search(r'[（(]([^）)]+)[）)]', title)
+    if bracket_match:
+        kw = bracket_match.group(1)
+        if len(kw) >= 3 and kw not in ['二次', '重新招标']:
+            keywords.append(kw[:15])
+
+    # 用前30字符（去括号版本）
+    clean_title = re.sub(r'[（(][^）)]*[）)]', '', title)
+    keywords.append(clean_title[:30])
+
+    # 用前15字符（最短版本，可能匹配更广）
+    keywords.append(clean_title[:15])
+
+    # 去重，过滤太短的关键词
+    seen = set()
+    result = []
+    for k in keywords:
+        k = k.strip()
+        if k and len(k) >= 3 and k not in seen:
+            seen.add(k)
+            result.append(k)
+
+    return result
 
 
 # ============================================================
@@ -633,4 +729,153 @@ async def get_budget_scrape_status():
         "message": state.message,
         "login_elapsed": state.login_elapsed,
         "results": state.results,
+    }
+
+
+# ============================================================
+# LLM 预算提取（从 b2b 公告正文中用 AI 提取预算）
+# 注意：/extract-budget/batch 必须在 /extract-budget/{id} 之前注册！
+# ============================================================
+
+@router.post("/extract-budget/batch", summary="b2b 全自动抓取 + LLM 提取预算")
+async def extract_budget_batch(
+    db: AsyncSession = Depends(get_db),
+    limit: int = Query(10, ge=1, le=50, description="最多处理条数"),
+):
+    """
+    全自动从 b2b.10086.cn 抓取公告正文并用 LLM 提取预算。
+    通过 Playwright 拦截 SPA 网络请求注入搜索结果，全程无需手动操作。
+    """
+    from app.services.b2b_auto_scraper import scrape_auto
+    from app.services.llm_budget_extractor import extract_budget_with_llm
+
+    result = await db.execute(
+        select(Announcement)
+        .where((Announcement.budget == None) | (Announcement.budget == 0))
+        .order_by(desc(Announcement.announce_date))
+        .limit(limit)
+    )
+    candidates = result.scalars().all()
+
+    if not candidates:
+        return {"ok": True, "message": "所有公告已有预算", "processed": 0, "results": []}
+
+    results = []
+    for ann in candidates:
+        title = ann.title or ""
+        keywords = _extract_search_keywords(title)
+        search_kw = keywords[0] if keywords else title[:30]
+
+        logger.info(f"🤖 全自动抓取: {search_kw[:40]}")
+        scraped = await scrape_auto(search_kw)
+
+        if not scraped or not scraped.get("content"):
+            results.append({"id": ann.id, "title": title[:60], "status": "no_content"})
+            continue
+
+        try:
+            bd = await extract_budget_with_llm(title, scraped["content"])
+            if bd.get("budget_wan") is not None:
+                ann.budget = bd["budget_wan"]
+            if bd.get("registration_fee") is not None:
+                ann.registration_fee = bd["registration_fee"]
+            if bd.get("deposit") is not None:
+                ann.deposit = bd["deposit"]
+            if bd.get("bid_date"):
+                from datetime import datetime as dt
+                try:
+                    ann.bid_date = dt.strptime(bd["bid_date"], "%Y-%m-%d").date()
+                except ValueError:
+                    pass
+            await db.commit()
+            results.append({
+                "id": ann.id, "title": title[:60], "status": "extracted",
+                "budget_wan": bd.get("budget_wan"), "confidence": bd.get("confidence"),
+                "method": scraped.get("method", "unknown"),  # 记录使用的导航方法
+                "content_length": len(scraped.get("content", "")),
+            })
+            logger.info(f"✅ ID={ann.id} budget={bd.get('budget_wan')}万 method={scraped.get('method', 'unknown')}")
+        except Exception as e:
+            results.append({"id": ann.id, "title": title[:60], "status": "error", "reason": str(e)[:200]})
+
+    return {
+        "ok": True,
+        "total": len(candidates),
+        "extracted": sum(1 for r in results if r["status"] == "extracted"),
+        "results": results,
+    }
+
+
+@router.post("/extract-budget/{announcement_id}", summary="LLM 提取单条公告预算")
+async def extract_budget_single(
+    announcement_id: int,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    使用 LLM 从 b2b 公告正文中提取预算金额并自动更新数据库。
+    注意：b2b API 通常不返回 noticeContent，
+    若提取失败请用 download_b2b_content.py 手动下载正文。
+    """
+    from app.services.b2b_proxy import (
+        search_announcement, find_best_match, fetch_announcement_detail,
+    )
+    from app.services.llm_budget_extractor import extract_budget_with_llm
+
+    ann = await db.get(Announcement, announcement_id)
+    if not ann:
+        raise HTTPException(status_code=404, detail=f"公告 {announcement_id} 不存在")
+
+    title = ann.title or ""
+    keywords = _extract_search_keywords(title)
+    content = None
+
+    for ptype in ["PROCUREMENT", "CANDIDATE_PUBLICITY"]:
+        for kw in keywords:
+            items = await search_announcement(kw, publish_type=ptype, page_size=10)
+            match = find_best_match(items, title)
+            if match:
+                detail = await fetch_announcement_detail(
+                    match.get("id") or match.get("uuid"), kw, ptype
+                )
+                if detail and detail.get("notice_content"):
+                    content = detail["notice_content"]
+                    break
+        if content:
+            break
+
+    if not content:
+        return {
+            "ok": False,
+            "announcement_id": announcement_id,
+            "message": "b2b noticeContent 为空，请用 download_b2b_content.py 手动提取",
+        }
+
+    budget_data = await extract_budget_with_llm(title, content)
+
+    updates = {}
+    if budget_data.get("budget_wan") is not None:
+        ann.budget = budget_data["budget_wan"]
+        updates["budget"] = budget_data["budget_wan"]
+    if budget_data.get("registration_fee") is not None:
+        ann.registration_fee = budget_data["registration_fee"]
+        updates["registration_fee"] = budget_data["registration_fee"]
+    if budget_data.get("deposit") is not None:
+        ann.deposit = budget_data["deposit"]
+        updates["deposit"] = budget_data["deposit"]
+    if budget_data.get("bid_date"):
+        from datetime import datetime as dt
+        try:
+            ann.bid_date = dt.strptime(budget_data["bid_date"], "%Y-%m-%d").date()
+            updates["bid_date"] = budget_data["bid_date"]
+        except ValueError:
+            pass
+
+    if updates:
+        await db.commit()
+
+    return {
+        "ok": True,
+        "announcement_id": announcement_id,
+        **budget_data,
+        "db_updated": bool(updates),
     }
