@@ -1,18 +1,16 @@
 """
-标中宝 V2.1 — 广东移动广告类招标项目关键词过滤与赛道识别模块
+标中宝 V2 — 广东移动广告类招标项目关键词过滤与赛道识别模块
 
-新增:
-  - config/keywords.txt DSL 配置文件加载（可选）
-  - validate_source_url() 域名白名单校验
-  - calculate_bidding_score() 权重评分
+优化内容:
+  1. 100%覆盖广东移动广告类真实招标标题关键词
+  2. 分层判定: 安全词优先 → 硬排除仅在无安全词时生效
+  3. 8个精细赛道: 广告创意设计/物料制作印刷/活动策划执行/品牌宣传传播/
+                  视频内容制作/新媒体运营/媒介资源投放/渠道营销推广
+  4. 采购单位+城市地域双重匹配
 """
 
-import os
-from typing import List, Dict, Set
-from datetime import datetime, date
-from urllib.parse import urlparse
-
-_all = dir()  # noqa - placeholder
+from typing import List, Dict, Optional, Any
+import re
 
 
 # ============================================================
@@ -73,9 +71,6 @@ AD_EVENT_KW: List[str] = [
     "会议会展", "路演", "快闪", "运动会", "文体活动",
     "工会活动", "党建活动", "文化宣传活动", "促销活动",
     "庆典活动", "年会", "启动仪式",
-    # 新增
-    "会议营销", "培训", "参观学习", "考察交流",
-    "业务培训", "技能培训", "学习交流", "参观考察",
 ]
 
 # 3.4 品牌/宣传/传播类
@@ -85,9 +80,6 @@ AD_BRAND_KW: List[str] = [
     "品牌建设", "品牌形象", "品牌策划",
     "整合营销", "社会化营销", "新媒体传播", "公关传播",
     "媒体宣传", "广告投放", "媒介投放",
-    # 新增
-    "咨询", "品牌咨询", "营销咨询", "管理咨询",
-    "策划咨询", "设计咨询", "战略咨询",
 ]
 
 # 3.5 视频/新媒体类
@@ -148,15 +140,6 @@ KEEP_KEYWORDS = SAFETY_KEYWORDS
 HARD_EXCLUDE_KEYWORDS: List[str] = [
     "基站建设", "光缆铺设", "软件开发", "系统编码",
     "服务器采购", "物业管理", "食堂承包", "保安服务", "保洁服务",
-    # 广东移动常见但非广告的项目类型
-    "DCN", "铁塔", "监理服务", "施工图审查", "数据中心",
-    "网络技术支撑", "API接口", "DevOps", "数智化",
-    "业务支撑系统", "定制软件", "通信铁塔",
-    "食材", "福利品", "基建工程", "视频监控", "话务平台",
-    "视频报警", "强弱电", "线路整治", "防护工具",
-    "慧眼", "维护支撑", "传输管线", "机房", "电源", "空调",
-    "消防", "防雷", "发电", "蓄电池", "综合布线",
-    "前端服务优化", "智能体", "招租", "租赁",
 ]
 
 EXCLUDE_KEYWORDS = HARD_EXCLUDE_KEYWORDS
@@ -196,10 +179,6 @@ CATEGORY_RULES: List[Dict[str, Any]] = [
             "校园营销", "发布会", "推介会", "展会", "展览展示",
             "会议会展", "路演", "快闪", "运动会", "文体活动",
             "工会活动", "党建活动", "促销活动", "年会", "启动仪式",
-            "会议营销", "培训", "参观学习", "考察交流",
-            "业务培训", "技能培训", "学习交流", "参观考察",
-            "交流学习", "信息化参观", "客户信息化参观",
-            "智慧展示", "智慧展示体验", "展示体验", "体验参观",
         ],
     },
     {
@@ -209,10 +188,7 @@ CATEGORY_RULES: List[Dict[str, Any]] = [
             "党建宣传", "新闻宣传", "宣传推广", "宣传服务",
             "品牌建设", "品牌形象", "品牌策划",
             "整合营销", "社会化营销", "新媒体传播", "公关传播",
-            "媒体宣传", "广告投放", "媒介投放",
-            "业务宣传", "企业文化", "企业文化建设",
-            "咨询", "品牌咨询", "营销咨询", "管理咨询",
-            "策划咨询", "设计咨询", "战略咨询",
+            "媒体宣传",
         ],
     },
     {
@@ -297,9 +273,7 @@ _SHORT_AD_HINTS: List[str] = [
     "策划", "创意", "传播", "运营", "渠道", "媒介",
     "印刷", "喷绘", "展会", "展架", "海报", "画册",
     "地推", "促销", "路演", "发布会", "客户服务",
-    "拍摄", "投放", "代理", "门店", "网格",
-    "企业文化", "业务宣传", "党建", "工会", "参观",
-    "交流学习", "智慧展示", "信息化参观",
+    "拍摄", "投放", "门店", "网格",
 ]
 
 
@@ -447,140 +421,70 @@ def batch_filter(
 
 
 # ============================================================
-# V2.1 新增: 域名校验 + 权重计算 + 配置文件加载
+# V2.2: LLM 最终验证 — 关键词初筛 + LLM 终判
 # ============================================================
 
-URL_DOMAIN_WHITELIST: Set[str] = {
-    "b2b.10086.cn",
-    "zb.zhaobiao.cn",
-    "www.zhaobiao.cn",
-    "s.zhaobiao.cn",
-    "zbtb.gd.gov.cn",
-    "ygp.gdzwfw.gov.cn",
-}
+def filter_with_llm_fallback(
+    title: str,
+    content: str = "",
+) -> Dict[str, Any]:
+    """
+    混合分类策略：关键词初筛 → LLM 最终判定。
 
-WEIGHT_CONFIG = {
-    "CATEGORY_WEIGHT": 0.40,
-    "BUDGET_WEIGHT": 0.30,
-    "FRESHNESS_WEIGHT": 0.20,
-    "LEVEL_WEIGHT": 0.10,
-}
+    流程:
+      1. 关键词先判定：
+         - 硬排除命中 → 非广告
+         - 非广东移动采购主体 → 非广告
+      2. 其余全部交由 LLM 对公告全文做最终判定。
 
-LEVEL_SCORE_MAP = {
-    "省公司": 100, "广州分公司": 90, "深圳分公司": 90,
-    "东莞分公司": 80, "佛山分公司": 80, "珠海分公司": 75,
-    "惠州分公司": 75, "中山分公司": 70, "江门分公司": 70,
-}
+    关键词不再做"广告类"的最终判断——只做排除。
+    LLM 是唯一的广告类判定者。
+    """
+    import logging
+    _logger = logging.getLogger(__name__)
 
+    # ── 关键词初筛 ──
+    kw_result = filter_advertisement_projects(title, content)
 
-def validate_source_url(url: str) -> bool:
-    """校验 URL 是否安全（HTTPS + 域名白名单）。"""
-    if not url:
-        return True
+    # 关键词明确排除（硬排除词命中或非广东移动）→ 直接返回
+    if not kw_result["is_ad"]:
+        kw_result["classifier"] = "keyword"
+        return kw_result
+
+    # 关键词判定为广告类 → 仍需 LLM 最终确认
+    if not _is_gd_mobile_purchaser(title):
+        return {
+            "is_ad": False, "matched_keywords": [],
+            "category": "", "reason": "非广东移动采购主体",
+            "classifier": "keyword",
+        }
+
+    # ── LLM 最终判定 ──
     try:
-        parsed = urlparse(url)
-        if parsed.scheme != "https":
-            return False
-        hostname = (parsed.hostname or "").lower()
-        if not hostname:
-            return True
-        for domain in URL_DOMAIN_WHITELIST:
-            if hostname == domain or hostname.endswith("." + domain):
-                return True
-        return False
-    except Exception:
-        return False
+        from app.services.llm_classifier import classify_by_llm
+        _logger.info(f"LLM验证: {title[:50]}...")
+        llm_result = classify_by_llm(title, content)
 
-
-def calculate_bidding_score(
-    title: str = "",
-    budget: float = 0,
-    publish_date: date = None,
-    purchaser_level: str = "",
-    preferred_categories: List[str] = None,
-) -> float:
-    """
-    计算招标项目综合评分 0-100。
-
-    维度: 赛道匹配(40%) + 预算规模(30%) + 时效性(20%) + 级别(10%)
-    """
-    cat = _identify_category(title)
-    if preferred_categories and cat in preferred_categories:
-        cat_score = 40
-    else:
-        cat_score = 20
-    score = cat_score * WEIGHT_CONFIG["CATEGORY_WEIGHT"]
-
-    budget = float(budget or 0)
-    budget_score = max(0, min(100, (budget / 500) * 100)) if budget > 0 else 10
-    score += budget_score * WEIGHT_CONFIG["BUDGET_WEIGHT"]
-
-    if publish_date:
-        days = max(0, (date.today() - publish_date).days)
-        freshness = 100 if days <= 7 else max(0, 100 - (days - 7) * (100 / 23)) if days <= 30 else 0
-    else:
-        freshness = 50
-    score += freshness * WEIGHT_CONFIG["FRESHNESS_WEIGHT"]
-
-    level_score = LEVEL_SCORE_MAP.get(purchaser_level, 50)
-    score += level_score * WEIGHT_CONFIG["LEVEL_WEIGHT"]
-
-    return round(min(score, 100), 1)
-
-
-# ── 配置文件加载（可选）──
-def _try_load_config_overrides():
-    """尝试从 config/keywords.txt 加载关键词覆盖（失败则保持默认）。"""
-    candidates = [
-        os.path.join(os.path.dirname(__file__), "..", "..", "config", "keywords.txt"),
-        os.path.join(os.path.dirname(__file__), "config", "keywords.txt"),
-        "config/keywords.txt",
-    ]
-    for p in candidates:
-        path = os.path.normpath(os.path.abspath(p))
-        if os.path.exists(path):
-            try:
-                with open(path, "r", encoding="utf-8") as f:
-                    sections = {}
-                    current = None
-                    for line in f:
-                        line = line.strip()
-                        if not line or line.startswith("#"):
-                            continue
-                        if line.startswith("[") and line.endswith("]"):
-                            current = line[1:-1].upper()
-                            sections.setdefault(current, [])
-                            continue
-                        clean = line
-                        for px in ("@", "!", "+"):
-                            if clean.startswith(px):
-                                clean = clean[1:].strip()
-                                break
-                        if "=>" in clean:
-                            clean = clean.split("=>")[0].strip()
-                        if clean and current:
-                            sections[current].append(clean)
-                return sections
-            except Exception:
-                pass
-    return None
-
-
-_config_overrides = _try_load_config_overrides()
-if _config_overrides:
-    for section, keywords in _config_overrides.items():
-        if section == "GLOBAL_FILTER":
-            HARD_EXCLUDE_KEYWORDS[:] = keywords
-        elif section == "PURCHASER":
-            PURCHASER_KEYWORDS[:] = keywords
-        elif section == "GD_CITIES":
-            GD_CITIES[:] = keywords
-        elif section in {r["category"] for r in CATEGORY_RULES}:
-            for rule in CATEGORY_RULES:
-                if rule["category"] == section:
-                    rule["keywords"] = keywords
-        elif section == "SHORT_HINTS":
-            _SHORT_AD_HINTS[:] = keywords
+        if llm_result["is_ad"]:
+            return {
+                "is_ad": True,
+                "matched_keywords": kw_result.get("matched_keywords", []),
+                "category": llm_result.get("category", kw_result.get("category", "其他营销类")),
+                "reason": f"LLM验证通过: {llm_result.get('reason', '')}",
+                "classifier": "llm",
+            }
+        else:
+            return {
+                "is_ad": False,
+                "matched_keywords": [],
+                "category": "",
+                "reason": f"LLM排除: {llm_result.get('reason', '')}",
+                "classifier": "llm",
+            }
+    except Exception as e:
+        _logger.warning(f"LLM验证异常，回退关键词结果: {e}")
+        kw_result["classifier"] = "keyword"
+        return kw_result
 
 
 # ============================================================
@@ -693,19 +597,6 @@ if __name__ == "__main__":
     r = filter_advertisement_projects("广东移动2026年党建活动服务项目")
     check(r["is_ad"], True, "安全词: 党建活动")
     check(r["category"], "活动策划执行", "赛道: 党建→活动策划执行")
-
-    # ── V2.1 新增测试 ──
-    print("\n--- V2.1 域名校验 ---")
-    check(validate_source_url("https://b2b.10086.cn/page"), True, "白名单: b2b.10086.cn")
-    check(validate_source_url("https://zb.zhaobiao.cn/page"), True, "白名单: zb.zhaobiao.cn")
-    check(validate_source_url("http://evil.com"), False, "非HTTPS: evil.com")
-    check(validate_source_url("https://evil.com"), False, "非白名单: evil.com")
-    check(validate_source_url(""), True, "空URL放行")
-
-    print("\n--- V2.1 权重计算 ---")
-    s = calculate_bidding_score("广东移动品牌宣传项目", budget=300, purchaser_level="省公司")
-    check(isinstance(s, (int, float)), True, "权重返回数值")
-    check(s > 0, True, "权重 > 0")
 
     print(f"\n{'='*40}")
     print(f"通过: {passed}, 失败: {failed}, 总计: {passed + failed}")

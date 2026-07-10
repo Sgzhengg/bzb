@@ -4,7 +4,6 @@ import { ConfigProvider, App as AntApp, theme } from "antd";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import zhCN from "antd/locale/zh_CN";
 import AppLayout from "./layouts/AppLayout";
-import Dashboard from "./pages/Dashboard";
 import OpportunityList from "./pages/OpportunityList";
 import AnnouncementDetail from "./pages/AnnouncementDetail";
 import PurchaserProfile from "./pages/PurchaserProfile";
@@ -49,7 +48,7 @@ function App() {
           >
             <Routes>
               <Route element={<AppLayout />}>
-                <Route path="/" element={<Dashboard />} />
+                <Route path="/" element={<OpportunityList />} />
                 <Route path="/opportunities" element={<OpportunityList />} />
                 <Route path="/opportunities/:id" element={<AnnouncementDetail />} />
                 <Route path="/purchaser-profile" element={<PurchaserProfile />} />

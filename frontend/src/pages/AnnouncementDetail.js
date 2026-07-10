@@ -285,7 +285,7 @@ function AnnouncementDetail() {
           </Card>
 
           {/* 评分明细 */}
-          <Card title="📊 评分明细">
+          <Card title="📊 评分明细" style={{ marginBottom: 16 }}>
             <ScoreCard detailScores={data.detail_scores} />
           </Card>
         </Col>

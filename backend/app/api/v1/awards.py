@@ -2,9 +2,10 @@
 历史中标结果 API 接口
 
 端点:
-  GET  /api/v1/awards              中标结果列表（筛选/分页）
-  GET  /api/v1/awards/{id}         单条详情
-  GET  /api/v1/awards/stats        中标统计概览
+  GET    /api/v1/awards              中标结果列表（筛选/分页）
+  GET    /api/v1/awards/{id}         单条详情
+  DELETE /api/v1/awards/{id}         删除单条记录
+  GET    /api/v1/awards/stats        中标统计概览
 """
 
 import logging
@@ -158,3 +159,20 @@ async def get_award_detail(
         raise HTTPException(status_code=404, detail=f"中标记录 {award_id} 不存在")
 
     return award.to_dict()
+
+
+@router.delete("/{award_id}", summary="删除中标结果")
+async def delete_award(
+    award_id: int,
+    db: AsyncSession = Depends(get_db),
+):
+    """删除单条中标结果记录。"""
+    award = await db.get(HistoricalAward, award_id)
+    if not award:
+        raise HTTPException(status_code=404, detail=f"中标记录 {award_id} 不存在")
+
+    await db.delete(award)
+    await db.commit()
+    logger.info(f"已删除中标记录: id={award_id}, project={award.project_name}, winner={award.winner_name}")
+
+    return {"ok": True, "message": f"已删除中标记录 {award_id}"}

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { Layout, Menu, Typography, Badge, Space, Statistic, Card, Row, Col } from "antd";
+import { Layout, Menu, Typography, Badge, Space, Statistic, Card } from "antd";
 import {
   ThunderboltOutlined, BankOutlined, UserOutlined,
   EnvironmentOutlined, SettingOutlined, BellOutlined,
-  FileTextOutlined, RiseOutlined, TrophyOutlined,
+  FileTextOutlined, TrophyOutlined,
 } from "@ant-design/icons";
 import { getRelationReminders } from "../services/api";
 
@@ -18,7 +18,6 @@ function AppLayout() {
   const [reminderCount, setReminderCount] = useState(0);
 
   const menuItems = [
-    { key: "/", icon: <RiseOutlined />, label: "数据看板" },
     { key: "/opportunities", icon: <ThunderboltOutlined />, label: "机会列表" },
     { key: "/winning-results", icon: <TrophyOutlined />, label: "中标结果" },
     { key: "/purchaser-profile", icon: <BankOutlined />, label: "采购方画像" },
@@ -39,7 +38,7 @@ function AppLayout() {
     return () => clearInterval(timer);
   }, []);
 
-  const selectedKey = "/" + location.pathname.split("/")[1];
+  const selectedKey = location.pathname === "/" ? "/opportunities" : "/" + location.pathname.split("/")[1];
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -76,7 +75,7 @@ function AppLayout() {
           width={220} theme="light"
           style={{ borderRight: "1px solid #f0f0f0", paddingTop: 16 }}
         >
-          {!collapsed && <StatsPanel reminderCount={reminderCount} />}
+          {!collapsed && <StatsPanel />}
         </Sider>
 
         {/* 内容区 */}
@@ -88,36 +87,24 @@ function AppLayout() {
   );
 }
 
-function StatsPanel({ reminderCount }) {
-  const [stats, setStats] = useState({ newToday: 12, highOpp: 5, needFollow: reminderCount });
+function StatsPanel() {
+  const [newToday, setNewToday] = useState(0);
 
   useEffect(() => {
-    setStats(s => ({ ...s, needFollow: reminderCount }));
-  }, [reminderCount]);
+    import("../services/api").then(({ default: api }) => {
+      api.get("/overview/today")
+        .then(data => setNewToday(data.new_today || 0))
+        .catch(() => {});
+    });
+  }, []);
 
   return (
     <div style={{ padding: "0 16px" }}>
       <Title level={5} style={{ marginBottom: 16 }}>📊 今日概览</Title>
-      <Row gutter={[0, 12]}>
-        <Col span={24}>
-          <Card size="small">
-            <Statistic title={<><FileTextOutlined /> 今日新增</>}
-              value={stats.newToday} suffix="条" valueStyle={{ color: "#1677ff", fontSize: 20 }} />
-          </Card>
-        </Col>
-        <Col span={24}>
-          <Card size="small">
-            <Statistic title={<><RiseOutlined /> 高机会</>}
-              value={stats.highOpp} suffix="条" valueStyle={{ color: "#52c41a", fontSize: 20 }} />
-          </Card>
-        </Col>
-        <Col span={24}>
-          <Card size="small">
-            <Statistic title={<><BellOutlined /> 需跟进</>}
-              value={stats.needFollow} suffix="人" valueStyle={{ color: "#fa8c16", fontSize: 20 }} />
-          </Card>
-        </Col>
-      </Row>
+      <Card size="small">
+        <Statistic title={<><FileTextOutlined /> 今日新增</>}
+          value={newToday} suffix="条" valueStyle={{ color: "#1677ff", fontSize: 20 }} />
+      </Card>
     </div>
   );
 }

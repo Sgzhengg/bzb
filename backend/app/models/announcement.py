@@ -53,7 +53,9 @@ class Announcement(Base):
     purchaser_id = Column(Integer, ForeignKey("purchasers.id", ondelete="RESTRICT"), nullable=True, comment="采购方ID")
     purchaser_level = Column(String(50), nullable=True, comment="采购方层级")
     procurement_method = Column(String(30), nullable=False, default="公开招标", comment="采购方式")
-    qualification_requirements = Column(Text, comment="资格要求")
+    qualification_requirements = Column(Text, comment="资格要求（摘要，前2000字）")
+    original_content = Column(Text, comment="完整公告原文")
+    original_content_html = Column(Text, comment="完整公告原文（HTML格式，含表格）")
     score_weight = Column(JSON, comment="评分权重（JSON）")
 
     created_at = Column(DateTime, server_default=func.now(), nullable=False)

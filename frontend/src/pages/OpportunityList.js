@@ -5,13 +5,13 @@ import {
   Slider, Modal, Descriptions, Divider,
 } from "antd";
 import {
-  ReloadOutlined, SearchOutlined,
-  ThunderboltOutlined, ClearOutlined,
-  StarOutlined, StarFilled, DollarOutlined,
+  SearchOutlined,
+  ThunderboltOutlined,
+  StarOutlined, StarFilled,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { useOpportunityList, useFetchAnnouncements } from "../services/apiHooks";
-import { toggleFavorite, getAnnouncementOriginal, extractBudgetBatch } from "../services/api";
+import { useOpportunityList } from "../services/apiHooks";
+import { toggleFavorite, getAnnouncementOriginal } from "../services/api";
 
 const { Title, Text } = Typography;
 
@@ -79,8 +79,6 @@ function OpportunityList() {
   const [filterProbability, setFilterProbability] = useState("");
   const [budgetRange, setBudgetRange] = useState([0, 1000]);
   const [showFavorites, setShowFavorites] = useState(false);
-  const [scraping, setScraping] = useState(false);
-  const [scrapeMsg, setScrapeMsg] = useState("");
 
   // 公告内容模态框状态
   const [contentModalVisible, setContentModalVisible] = useState(false);
@@ -106,29 +104,8 @@ function OpportunityList() {
 
   // 使用 React Query hooks
   const { data: response, isLoading, refetch } = useOpportunityList(params);
-  const fetchMutation = useFetchAnnouncements();
 
   const data = response?.items || [];
-
-  // 手动刷新
-  const handleRefresh = async () => {
-    try {
-      await fetchMutation.mutateAsync();
-      message.success("数据采集已触发，请稍后刷新查看");
-      setTimeout(() => refetch(), 2000);
-    } catch {
-      message.error("数据采集失败，请检查后端服务");
-    }
-  };
-
-  const handleReset = () => {
-    setFilterLevel("");
-    setFilterCategory("");
-    setFilterMethod("");
-    setFilterProbability("");
-    setBudgetRange([0, 1000]);
-    setSearchText("");
-  };
 
   // 处理公告内容查看 - 优先直达详情页，否则显示模态框
   const handleViewOriginal = async (record) => {
@@ -175,29 +152,6 @@ function OpportunityList() {
   const handleContentModalClose = () => {
     setContentModalVisible(false);
     setContentData(null);
-  };
-
-  // 预算抓取 — zhaobiao.cn 自动抓取
-  const handleScrapeBudget = async () => {
-    try {
-      setScraping(true);
-      setScrapeMsg("zhaobiao.cn 抓取中...");
-      const res = await extractBudgetBatch(5);
-      setScraping(false);
-      if (res.ok) {
-        if (res.extracted > 0) {
-          message.success(`✅ zhaobiao.cn 已提取 ${res.extracted} 条预算！`);
-        } else if (res.total === 0) {
-          message.success("所有有 zhaobiao URL 的公告已有预算数据");
-        } else {
-          message.info(`处理了 ${res.total} 条，提取成功 ${res.extracted} 条`);
-        }
-        refetch();
-      }
-    } catch {
-      setScraping(false);
-      message.error("预算提取失败，请检查后端日志");
-    }
   };
 
   // 表格列定义 — 对齐「致合项目查询汇总」Excel 模板
@@ -272,7 +226,7 @@ function OpportunityList() {
             详情
           </a>
           <Divider type="vertical" />
-          <a onClick={() => handleViewOriginal(record)}>
+          <a href={record.source_url} target="_blank" rel="noopener noreferrer">
             原文
           </a>
         </Space>
@@ -385,24 +339,6 @@ function OpportunityList() {
               onClick={() => setShowFavorites(!showFavorites)}
             >
               {showFavorites ? "我的收藏" : "仅看收藏"}
-            </Button>
-            <Button
-              type="primary"
-              icon={<ReloadOutlined />}
-              loading={fetchMutation.isLoading}
-              onClick={handleRefresh}
-            >
-              刷新采集
-            </Button>
-            <Button
-              icon={<DollarOutlined />}
-              loading={scraping}
-              onClick={handleScrapeBudget}
-            >
-              {scraping ? (scrapeMsg || "抓取中...") : "刷新预算"}
-            </Button>
-            <Button icon={<ClearOutlined />} onClick={handleReset}>
-              重置筛选
             </Button>
           </Space>
         </Col>

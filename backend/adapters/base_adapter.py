@@ -166,26 +166,46 @@ class BaseAdapter(ABC):
         import sys, os
         sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         try:
-            from app.services.keyword_filter import filter_advertisement_projects
+            from app.services.keyword_filter import filter_with_llm_fallback
         except ImportError:
-            from services.keyword_filter import filter_advertisement_projects
+            from services.keyword_filter import filter_with_llm_fallback
 
         title = raw.get("title", "")
         content = raw.get("content_text", "")
 
-        # 关键词过滤
-        filter_result = filter_advertisement_projects(title, content)
+        # 混合分类：关键词优先 + LLM 兜底
+        filter_result = filter_with_llm_fallback(title, content)
+
+        # 预算提取：正则优先 → LLM 兜底
+        budget = raw.get("budget")
+        registration_fee = raw.get("registration_fee")
+        deposit = raw.get("deposit")
+
+        if not budget or budget == 0:
+            try:
+                from app.services.budget_extractor import extract_budget_hybrid
+                budget_result = extract_budget_hybrid(title, content, existing_budget=budget)
+                budget = budget_result.get("budget") or budget
+                registration_fee = budget_result.get("registration_fee") or registration_fee
+                deposit = budget_result.get("deposit") or deposit
+                if budget_result.get("extractor") == "llm" and budget:
+                    self.logger.info(f"  💰 LLM提取预算: {budget}万元 ({title[:40]})")
+            except Exception as e:
+                self.logger.debug(f"预算提取跳过: {e}")
 
         return {
             "title": title,
             "purchaser": raw.get("purchaser", ""),
             "purchaser_level": raw.get("purchaser_level", ""),
             "procurement_method": raw.get("procurement_method", "公开招标"),
-            "budget": raw.get("budget"),
+            "budget": budget,
+            "registration_fee": registration_fee,
+            "deposit": deposit,
             "project_category": filter_result.get("category", ""),
             "announce_date": raw.get("publish_date", ""),
             "deadline": raw.get("deadline", ""),
             "qualification_requirements": content[:2000],
+            "original_content": content,
             "score_weight": raw.get("score_weight"),
             "source_url": raw.get("source_url", ""),
             "notice_type": raw.get("notice_type", "招标公告"),
@@ -278,10 +298,13 @@ class BaseAdapter(ABC):
                         purchaser_level=record.get("purchaser_level", ""),
                         procurement_method=record.get("procurement_method", "公开招标"),
                         budget=record.get("budget"),
+                        registration_fee=record.get("registration_fee"),
+                        deposit=record.get("deposit"),
                         project_category=record.get("project_category", ""),
                         announce_date=_parse_date(record.get("announce_date", "")),
                         deadline=_parse_datetime(record.get("deadline", "")),
                         qualification_requirements=record.get("qualification_requirements", ""),
+                        original_content=record.get("original_content", ""),
                         source_url=record.get("source_url", ""),
                     )
                     db.add(ann)

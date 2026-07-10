@@ -307,6 +307,8 @@ async def get_announcement_detail(
         "deadline": ann.deadline.isoformat() if ann.deadline else None,
         "announce_date": ann.announce_date.isoformat() if ann.announce_date else None,
         "qualification_requirements": ann.qualification_requirements,
+        "original_content": ann.original_content if hasattr(ann, 'original_content') else "",
+        "original_content_html": ann.original_content_html if hasattr(ann, 'original_content_html') else "",
         "score_weight": ann.score_weight,
         "source_url": ann.source_url,
         "created_at": ann.created_at.isoformat() if ann.created_at else None,
@@ -536,20 +538,48 @@ def _compute_announcement_score(ann: Announcement) -> dict:
 # B2B 原文代理（通过 b2b API 获取公告原文）
 # ============================================================
 
-@router.get("/{announcement_id}/original", summary="获取 b2b 公告原文")
+@router.get("/{announcement_id}/original", summary="获取公告原文")
 async def get_original_content(
     announcement_id: int,
     db: AsyncSession = Depends(get_db),
 ):
     """
-    通过 b2b.10086.cn API 获取公告原文。
-    优先使用数据库中的 source_url，其次通过 b2b API 搜索。
-
-    注意：b2b.10086.cn 是 SPA 架构，公告详情没有独立 URL。
+    获取公告原文。
+    优先级：数据库 original_content > b2b API 搜索 > 原始 source_url。
     """
     ann = await db.get(Announcement, announcement_id)
     if not ann:
         raise HTTPException(status_code=404, detail=f"公告 {announcement_id} 不存在")
+
+    title = ann.title or ""
+    source_url = ann.source_url or ""
+
+    # ── 策略0：数据库已有原文，直接返回 ──
+    if ann.original_content and len(ann.original_content) > 100:
+        logger.info(f"公告 {announcement_id}: 返回数据库原文 ({len(ann.original_content)}字)")
+        return {
+            "found": True,
+            "announcement_id": announcement_id,
+            "title": title,
+            "source_url": source_url,
+            "notice_content": ann.original_content,
+            "publish_date": ann.announce_date.isoformat() if ann.announce_date else None,
+            "message": "来自数据库存档",
+        }
+
+    # ── 策略1：非 b2b 来源（zhaobiao.cn 等），直接返回原始 URL ──
+    if source_url and "b2b.10086.cn" not in source_url:
+        logger.info(f"公告 {announcement_id}: 非b2b来源 → 返回原始URL")
+        return {
+            "found": True,
+            "announcement_id": announcement_id,
+            "title": title,
+            "source_url": source_url,
+            "detail_url": source_url,
+            "notice_content": ann.original_content or "",
+            "publish_date": ann.announce_date.isoformat() if ann.announce_date else None,
+            "message": "来自外部来源，点击链接查看原文",
+        }
 
     from app.services.b2b_proxy import (
         search_announcement, find_best_match,
@@ -557,14 +587,10 @@ async def get_original_content(
         fetch_announcement_detail,
     )
 
-    title = ann.title or ""
-
-    # ── 策略1：提取有辨识度的短关键词 ──
-    # 去掉公司名等通用前缀，提取项目核心词
+    # ── 策略2：b2b API 搜索 ──
     short_keywords = _extract_search_keywords(title)
     logger.info(f"搜索关键词: {short_keywords}")
 
-    # ── 策略2：搜索 b2b API ──
     result = None
     searched_keyword = None
 

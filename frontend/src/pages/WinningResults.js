@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
   Card, Table, Tag, Typography, Row, Col, Statistic,
-  Input, Select, Button, Space, Spin, Empty,
+  Input, Select, Button, Space, Spin, Empty, message, Popconfirm,
 } from "antd";
 import {
   TrophyOutlined, SearchOutlined, DollarOutlined,
-  ReloadOutlined, LinkOutlined,
+  ReloadOutlined, LinkOutlined, DeleteOutlined,
 } from "@ant-design/icons";
 import apiClient from "../services/api";
 
@@ -48,14 +48,21 @@ function WinningResults() {
 
   useEffect(() => { loadData(); loadStats(); }, [loadData, loadStats]);
 
+  const handleDelete = async (id, projectName) => {
+    try {
+      await apiClient.delete(`/awards/${id}`);
+      message.success(`已删除: ${projectName}`);
+      loadData();
+      loadStats();
+    } catch {
+      message.error("删除失败，请重试");
+    }
+  };
+
   const columns = [
     {
       title: "项目名称", dataIndex: "project_name", key: "project_name",
       width: 300, ellipsis: true,
-    },
-    {
-      title: "采购方", dataIndex: "purchaser_name", key: "purchaser", width: 180,
-      render: (v) => v || <Text type="secondary">—</Text>,
     },
     {
       title: "中标方", dataIndex: "winner_name", key: "winner", width: 160,
@@ -66,28 +73,16 @@ function WinningResults() {
       render: (v) => <Tag color={WINNER_COLORS[v] || "default"}>{v}</Tag>,
     },
     {
-      title: "中标金额(万)", dataIndex: "bid_amount", key: "amount", width: 120,
-      sorter: (a, b) => (a.bid_amount || 0) - (b.bid_amount || 0),
-      render: (v) => v ? <Text strong style={{ color: "#1677ff" }}>{v} 万</Text> : "—",
-    },
-    {
-      title: "折扣率", dataIndex: "discount_rate", key: "discount", width: 90,
-      render: (v) => v ? `${v}%` : "—",
+      title: "中标金额/份额", dataIndex: "discount_rate", key: "amount_share", width: 120,
+      render: (v) => v ? <Text strong style={{ color: "#1677ff" }}>{v}%</Text> : "—",
     },
     {
       title: "项目类别", dataIndex: "project_category", key: "category", width: 110,
       render: (v) => <Tag color="purple">{v}</Tag>,
     },
     {
-      title: "开标日期", dataIndex: "bid_open_date", key: "date", width: 110,
-      sorter: (a, b) => (a.bid_open_date || "").localeCompare(b.bid_open_date || ""),
-    },
-    {
-      title: "连续中标", dataIndex: "continuous_count", key: "continuous", width: 90,
-      render: (v, record) =>
-        record.is_continuous ? (
-          <Tag color="orange">{v}次</Tag>
-        ) : <Text type="secondary">—</Text>,
+      title: "公示日期", dataIndex: "bid_open_date", key: "date", width: 110,
+      render: (v) => v || <Text type="secondary">—</Text>,
     },
     {
       title: "公告链接", dataIndex: "source_url", key: "url", width: 80,
@@ -96,6 +91,21 @@ function WinningResults() {
           <LinkOutlined /> 查看
         </a>
       ) : <Text type="secondary">—</Text>,
+    },
+    {
+      title: "操作", key: "action", width: 60, fixed: "right",
+      render: (_, record) => (
+        <Popconfirm
+          title="确定删除？"
+          description={`将删除「${record.project_name?.slice(0, 20)}...」的中标记录`}
+          onConfirm={() => handleDelete(record.id, record.project_name)}
+          okText="删除"
+          cancelText="取消"
+          okButtonProps={{ danger: true }}
+        >
+          <Button type="link" danger size="small" icon={<DeleteOutlined />} />
+        </Popconfirm>
+      ),
     },
   ];
 
@@ -168,7 +178,7 @@ function WinningResults() {
           ) : (
             <Table columns={columns} dataSource={data} rowKey="id"
               pagination={{ pageSize: 20, showTotal: (t) => `共 ${t} 条` }}
-              scroll={{ x: 1400 }} size="small" />
+              scroll={{ x: 1500 }} size="small" />
           )}
         </Spin>
       </Card>

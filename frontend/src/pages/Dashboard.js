@@ -112,7 +112,7 @@ function Dashboard() {
           <Card hoverable onClick={() => navigate("/region-compare")}>
             <Statistic
               title="覆盖地市"
-              value={cityData.length || 21}
+              value={cityData.length}
               prefix={<RiseOutlined />}
               valueStyle={{ color: "#722ed1" }}
               suffix={<Text type="secondary" style={{ fontSize: 14 }}>个</Text>}

@@ -250,7 +250,7 @@ class ZhaobiaoAdapter(BaseAdapter):
             r"content|detail|info|main|con|article|project", re.I
         ))
         page_text = body.get_text(separator="\n", strip=True) if body else soup.get_text()
-        page_text = page_text[:10000]
+        page_text = page_text[:50000]  # 保留完整公告原文（上限5万字符）
 
         # ── 采购方 ──
         purchaser = self._extract_field(page_text, [
