@@ -43,6 +43,7 @@ async def search_announcement(
     title: str,
     publish_type: str = "PROCUREMENT",
     page_size: int = 10,
+    page: int = 1,
 ) -> List[Dict[str, Any]]:
     """
     在 b2b.10086.cn 搜索公告。
@@ -51,6 +52,7 @@ async def search_announcement(
         title: 公告标题关键词
         publish_type: 公告类型 (PROCUREMENT/PURCHASE_SERVICE/VENDOR)
         page_size: 每页数量
+        page: 页码（从1开始）
 
     Returns:
         匹配的公告列表
@@ -63,7 +65,7 @@ async def search_announcement(
                     "name": title,
                     "publishType": publish_type,
                     "size": page_size,
-                    "current": 1,
+                    "current": page,
                     "sfactApplColumn5": "PC",
                 },
                 headers={

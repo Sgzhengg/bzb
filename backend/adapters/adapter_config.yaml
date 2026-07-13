@@ -4,19 +4,75 @@
 
 # ── 统一采集调度器 ──
 data_collector:
-  default_adapter: "zhaobiao"     # 当前主数据源
+  default_adapter: "b2b_10086"    # 主数据源: 中国移动采购与招标网
   fallback_adapter: "gd_zbtb"     # 备用数据源
   failure_threshold: 3            # 连续失败多少次后切换
   auto_fallback: true             # true=自动切换, false=手动切换
   adapters:
-    zhaobiao:
+    b2b_10086:
       enabled: true
-      module: "adapters.zhaobiao_adapter"
-      class_name: "ZhaobiaoAdapter"
+      module: "adapters.b2b_10086_adapter"
+      class_name: "B2b10086Adapter"
       config:
-        base_url: "https://www.zhaobiao.cn"
-        max_pages: 5
-        search_keyword: "广东移动 广告"
+        base_url: "https://b2b.10086.cn"
+        max_pages: 3
+    # V2 新增：各省公共资源交易平台适配器
+    gx_ggzy:
+      enabled: true
+      module: "adapters.province_ggzy_adapter"
+      class_name: "ProvinceGgzyAdapter"
+      config:
+        base_url: "http://gxggzy.gxzf.gov.cn"
+        province: "广西"
+        max_pages: 3
+    fj_ggzy:
+      enabled: true
+      module: "adapters.province_ggzy_adapter"
+      class_name: "ProvinceGgzyAdapter"
+      config:
+        base_url: "https://ggzyfw.fj.gov.cn"
+        province: "福建"
+        max_pages: 3
+    zj_ggzy:
+      enabled: true
+      module: "adapters.province_ggzy_adapter"
+      class_name: "ProvinceGgzyAdapter"
+      config:
+        base_url: "https://zjpubservice.zj.gov.cn"
+        province: "浙江"
+        max_pages: 3
+    hn_ggzy:
+      enabled: true
+      module: "adapters.province_ggzy_adapter"
+      class_name: "ProvinceGgzyAdapter"
+      config:
+        base_url: "http://ggzy.hunan.gov.cn"
+        province: "湖南"
+        max_pages: 3
+    ah_ggzy:
+      enabled: true
+      module: "adapters.province_ggzy_adapter"
+      class_name: "ProvinceGgzyAdapter"
+      config:
+        base_url: "https://ggzy.ah.gov.cn"
+        province: "安徽"
+        max_pages: 3
+    sd_ggzy:
+      enabled: true
+      module: "adapters.province_ggzy_adapter"
+      class_name: "ProvinceGgzyAdapter"
+      config:
+        base_url: "http://ggzyjy.shandong.gov.cn"
+        province: "山东"
+        max_pages: 3
+    hi_ggzy:
+      enabled: true
+      module: "adapters.province_ggzy_adapter"
+      class_name: "ProvinceGgzyAdapter"
+      config:
+        base_url: "https://zw.hainan.gov.cn/ggzy"
+        province: "海南"
+        max_pages: 2
     gd_zbtb:
       enabled: true
       module: "adapters.gd_zbtb_adapter"
@@ -31,13 +87,6 @@ data_collector:
       config:
         base_url: "https://ygp.gdzwfw.gov.cn"
         max_pages: 5
-    b2b_10086:
-      enabled: true
-      module: "adapters.b2b_10086_adapter"
-      class_name: "B2b10086Adapter"
-      config:
-        base_url: "https://b2b.10086.cn"
-        max_pages: 3
 
 # ── 各数据源详细配置 ──
 
@@ -66,7 +115,7 @@ gd_ygp:
   search_keyword: "广东移动 广告"
   enabled: true
 
-# 中国移动采购与招标网（原有，反爬严苛）
+# 中国移动采购与招标网（全国平台，主数据源）
 b2b_10086:
   name: "中国移动采购与招标网"
   base_url: "https://b2b.10086.cn"
@@ -75,19 +124,102 @@ b2b_10086:
   max_retries: 3
   timeout: 30
   max_pages: 3
-  search_keyword: "广东 移动 广告 宣传"
-  enabled: true  # 启用此数据源（官方最权威）
+  search_keyword: "移动 广告 宣传"  # V2: 去除省份限定
+  enabled: true
 
-# 中国招标网（主数据源）
-zhaobiao:
-  name: "中国招标网"
-  base_url: "https://www.zhaobiao.cn"
-  min_delay: 3.0
-  max_delay: 6.0
+# ══════════════════════════════════════
+# V2 新增：各省公共资源交易平台
+# ══════════════════════════════════════
+
+# 广西公共资源交易平台
+gx_ggzy:
+  name: "广西公共资源交易平台"
+  base_url: "http://gxggzy.gxzf.gov.cn"
+  min_delay: 4.0
+  max_delay: 7.0
   max_retries: 3
   timeout: 30
-  max_pages: 5
-  search_keyword: "广东移动 广告"
+  max_pages: 3
+  search_keyword: "广西移动 广告"
+  search_region: "广西"
+  enabled: true
+
+# 福建公共资源交易平台
+fj_ggzy:
+  name: "福建公共资源交易平台"
+  base_url: "https://ggzyfw.fj.gov.cn"
+  min_delay: 4.0
+  max_delay: 7.0
+  max_retries: 3
+  timeout: 30
+  max_pages: 3
+  search_keyword: "福建移动 广告"
+  search_region: "福建"
+  enabled: true
+
+# 浙江公共资源交易平台
+zj_ggzy:
+  name: "浙江公共资源交易平台"
+  base_url: "https://zjpubservice.zj.gov.cn"
+  min_delay: 4.0
+  max_delay: 7.0
+  max_retries: 3
+  timeout: 30
+  max_pages: 3
+  search_keyword: "浙江移动 广告"
+  search_region: "浙江"
+  enabled: true
+
+# 湖南公共资源交易平台
+hn_ggzy:
+  name: "湖南公共资源交易平台"
+  base_url: "http://ggzy.hunan.gov.cn"
+  min_delay: 4.0
+  max_delay: 7.0
+  max_retries: 3
+  timeout: 30
+  max_pages: 3
+  search_keyword: "湖南移动 广告"
+  search_region: "湖南"
+  enabled: true
+
+# 安徽公共资源交易平台
+ah_ggzy:
+  name: "安徽公共资源交易平台"
+  base_url: "https://ggzy.ah.gov.cn"
+  min_delay: 4.0
+  max_delay: 7.0
+  max_retries: 3
+  timeout: 30
+  max_pages: 3
+  search_keyword: "安徽移动 广告"
+  search_region: "安徽"
+  enabled: true
+
+# 山东公共资源交易平台
+sd_ggzy:
+  name: "山东公共资源交易平台"
+  base_url: "http://ggzyjy.shandong.gov.cn"
+  min_delay: 4.0
+  max_delay: 7.0
+  max_retries: 3
+  timeout: 30
+  max_pages: 3
+  search_keyword: "山东移动 广告"
+  search_region: "山东"
+  enabled: true
+
+# 海南公共资源交易平台
+hi_ggzy:
+  name: "海南公共资源交易平台"
+  base_url: "https://zw.hainan.gov.cn/ggzy"
+  min_delay: 4.0
+  max_delay: 7.0
+  max_retries: 3
+  timeout: 30
+  max_pages: 2
+  search_keyword: "海南移动 广告"
+  search_region: "海南"
   enabled: true
 
 # 采集模式

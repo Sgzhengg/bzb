@@ -38,6 +38,8 @@ async def list_announcements(
     page: int = Query(1, ge=1, description="页码"),
     page_size: int = Query(20, ge=1, le=100, description="每页数量"),
     sort: Optional[str] = Query(None, description="排序字段: score_desc/date_desc/budget_desc"),
+    province: Optional[str] = Query(None, description="省份筛选（如：广东、广西）"),
+    city: Optional[str] = Query(None, description="城市筛选（如：广州、南宁）"),
     purchaser_level: Optional[str] = Query(None, description="采购方层级筛选"),
     project_category: Optional[str] = Query(None, description="项目类别筛选"),
     procurement_method: Optional[str] = Query(None, description="采购方式筛选"),
@@ -51,6 +53,10 @@ async def list_announcements(
     """获取招标公告列表，支持多维筛选、排序和分页。"""
     conditions = []
 
+    if province:
+        conditions.append(Announcement.province == province)
+    if city:
+        conditions.append(Announcement.city == city)
     if purchaser_level:
         conditions.append(Announcement.purchaser_level == purchaser_level)
     if project_category:
@@ -298,6 +304,9 @@ async def get_announcement_detail(
     return {
         "id": ann.id,
         "title": ann.title,
+        "industry": getattr(ann, 'industry', '') or '',
+        "province": getattr(ann, 'province', '') or '',
+        "city": getattr(ann, 'city', '') or '',
         "purchaser": purchaser_name,
         "purchaser_id": ann.purchaser_id,
         "purchaser_level": ann.purchaser_level,
@@ -331,22 +340,25 @@ async def get_announcement_detail(
 @router.post("/fetch", summary="手动触发数据采集")
 async def fetch_announcements(
     background_tasks: BackgroundTasks,
+    province: Optional[str] = Query(None, description="指定省份（如：广东）"),
 ):
     """
     触发爬虫采集最新招标公告。
 
-    实际采集在后台异步执行，避免阻塞请求。
+    使用 DataCollector（ZhaobiaoAdapter）完整采集链路：
+    列表搜索 → 详情提取 → 字段标准化 → LLM分类/预算 → 入库
     """
     if not settings.CRAWLER_ENABLED:
-        return {"status": "disabled", "message": "爬虫功能已禁用（BZB_CRAWLER_ENABLED=false）"}
+        return {"status": "disabled", "message": "爬虫功能已禁用"}
 
-    # 后台任务
+    province_name = province or "广东"
+
     async def _run_crawler():
         try:
-            from app.services.crawler.pipeline import BiddingCrawlerPipeline
-            pipeline = BiddingCrawlerPipeline()
-            results = await pipeline.run(max_pages=settings.CRAWLER_MAX_PAGES)
-            logger.info(f"采集完成: {len(results)} 条")
+            from data_collector import get_collector
+            collector = get_collector()
+            results = await collector.collect_async(save_to_db=True)
+            logger.info(f"[{province_name}] 采集完成: {len(results)} 条")
         except Exception as e:
             logger.error(f"采集失败: {e}")
 
@@ -354,7 +366,7 @@ async def fetch_announcements(
 
     return {
         "status": "started",
-        "message": f"数据采集已在后台启动（最多 {settings.CRAWLER_MAX_PAGES} 页）",
+        "message": f"数据采集已在后台启动（{province_name}，最多 3 页）",
     }
 
 
@@ -673,8 +685,24 @@ def _extract_search_keywords(title: str) -> list:
         if len(after_year) >= 4:
             keywords.append(after_year[:20])
 
-    # 提取地市+项目核心词
-    city_match = re.search(r'(广州|深圳|东莞|佛山|中山|珠海|江门|惠州|汕头|湛江|茂名|肇庆|梅州|汕尾|河源|阳江|清远|韶关|潮州|揭阳|云浮)', title)
+    # 提取地市+项目核心词（使用全国城市名动态正则）
+    try:
+        from config.provinces import build_city_regex_pattern
+        CITY_PATTERN = build_city_regex_pattern()
+    except ImportError:
+        # 回退：至少覆盖重点省份的常见城市
+        CITY_PATTERN = (
+            r'广州|深圳|东莞|佛山|中山|珠海|江门|惠州|汕头|湛江|茂名|肇庆|梅州|'
+            r'汕尾|河源|阳江|清远|韶关|潮州|揭阳|云浮|'
+            r'南宁|柳州|桂林|玉林|梧州|北海|贵港|钦州|百色|河池|贺州|来宾|崇左|防城港|'
+            r'福州|厦门|泉州|漳州|龙岩|三明|南平|莆田|宁德|'
+            r'海口|三亚|儋州|'
+            r'杭州|宁波|温州|嘉兴|湖州|绍兴|金华|衢州|舟山|台州|丽水|'
+            r'长沙|株洲|湘潭|衡阳|邵阳|岳阳|常德|张家界|益阳|郴州|永州|怀化|娄底|'
+            r'合肥|芜湖|蚌埠|淮南|马鞍山|淮北|铜陵|安庆|黄山|滁州|阜阳|宿州|六安|亳州|池州|宣城|'
+            r'济南|青岛|淄博|枣庄|东营|烟台|潍坊|济宁|泰安|威海|日照|临沂|德州|聊城|滨州|菏泽'
+        )
+    city_match = re.search(f'({CITY_PATTERN})', title)
     if city_match:
         city = city_match.group(1)
         # 地市 + 项目关键词

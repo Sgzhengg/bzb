@@ -77,15 +77,17 @@ class BiddingCrawlerPipeline:
         use_search: bool = False,
         use_ai: bool = False,
         ai_detail_urls: Optional[List[str]] = None,
+        search_keywords: Optional[List[str]] = None,
     ) -> List[Dict]:
         """
         执行完整采集流程。
 
         Args:
             max_pages: 最大翻页数
-            use_search: 是否使用搜索模式（搜索"广东移动"+"广告"）
+            use_search: 是否使用搜索模式
             use_ai: 是否使用 AI 增强模式抓取详情页
             ai_detail_urls: AI 模式下的目标详情 URL 列表（跳过列表页）
+            search_keywords: 自定义搜索关键词列表
 
         Returns:
             广告类招标项目列表
@@ -96,39 +98,19 @@ class BiddingCrawlerPipeline:
 
         self.fetcher = BiddingFetcher()
 
-        # ── AI 直采模式：跳过列表页，直接 AI 抓取详情 ──
         if use_ai and ai_detail_urls:
             return await self._run_ai_direct_mode(ai_detail_urls)
 
         try:
-            if use_search:
-                list_items = await self._search_mode()
-            else:
-                list_items = await self._list_mode(max_pages)
-
+            # ── 第 1 步：列表采集（b2b JSON API）──
+            list_items = await self._list_mode(max_pages, search_keywords)
             self.stats["total_list_items"] = len(list_items)
             logger.info(f"列表页共获取 {len(list_items)} 条公告")
 
-            # ── 第 2 步：抓取详情页 ──
-            if use_ai and AI_CRAWLER_ENABLED and is_ai_crawler_available():
-                details = await self._fetch_details_ai(list_items)
-            else:
-                if use_ai and not is_ai_crawler_available():
-                    logger.warning("AI 爬虫不可用（crawl4ai 未安装或浏览器未就绪），回退到传统 HTTP 模式")
-                details = await self._fetch_details(list_items)
-
-            self.stats["detail_fetched"] = (
-                self.stats.get("detail_fetched", 0)
-                + self.stats.get("ai_detail_fetched", 0)
-            )
-            self.stats["detail_failed"] = (
-                self.stats.get("detail_failed", 0)
-                + self.stats.get("ai_detail_failed", 0)
-            )
-            logger.info(
-                f"详情页抓取完成: 成功 {self.stats['detail_fetched']}, "
-                f"失败 {self.stats['detail_failed']}"
-            )
+            # ── 第 2 步：详情页抓取 ──
+            details = await self._fetch_details(list_items)
+            self.stats["detail_fetched"] = len(details)
+            logger.info(f"详情页抓取完成: 成功 {len(details)}")
 
             # ── 第 3 步：关键词过滤 ──
             self.results = self._apply_keyword_filter(details)
@@ -151,81 +133,228 @@ class BiddingCrawlerPipeline:
 
     # ── 列表页模式 ──
 
-    async def _list_mode(self, max_pages: int) -> List[Dict]:
-        """标准列表页翻页模式。"""
+    async def _list_mode(
+        self, max_pages: int, search_keywords: Optional[List[str]] = None
+    ) -> List[Dict]:
+        """列表页采集：通过 b2b.10086.cn JSON API 搜索招标公告。"""
+        import ssl, httpx
+
+        if search_keywords is None:
+            search_keywords = SEARCH_KEYWORDS
+
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        ctx.options |= 0x4  # SSL_OP_LEGACY_SERVER_CONNECT
+
         all_items = []
+        seen_ids = set()
 
-        for page in range(1, max_pages + 1):
-            logger.info(f"📄 抓取列表页 第 {page} 页...")
+        async with httpx.AsyncClient(verify=ctx, timeout=30) as client:
+            for keyword in search_keywords:
+                logger.info(f"🔍 搜索: {keyword}")
+                for page in range(1, max_pages + 1):
+                    try:
+                        resp = await client.post(
+                            "https://b2b.10086.cn/api-b2b/api-sync-es/white_list_api/b2b/publish/queryList",
+                            json={
+                                "name": keyword,
+                                "publishType": "PROCUREMENT",
+                                "size": 20, "current": page,
+                                "sfactApplColumn5": "PC",
+                            },
+                            headers={
+                                "Content-Type": "application/json",
+                                "User-Agent": "Mozilla/5.0",
+                            },
+                        )
+                        if resp.status_code != 200:
+                            break
+                        data = resp.json()
+                        items = data.get("data", {}).get("content", [])
+                        if not items:
+                            break
 
-            params = {}
-            if page > 1:
-                params["page"] = page
+                        for item in items:
+                            item_id = str(item.get("id", ""))
+                            if item_id and item_id not in seen_ids:
+                                seen_ids.add(item_id)
+                                all_items.append({
+                                    "title": item.get("name", ""),
+                                    "detail_url": self._build_detail_url(item),
+                                    "source": "b2b.10086.cn",
+                                    "_b2b_item": item,
+                                })
+                                logger.debug(f"  → {item.get('name', '')[:60]}")
 
-            try:
-                status, html = await self.fetcher.fetch(LIST_URL, params=params)
-                if status != 200:
-                    logger.warning(f"列表页第 {page} 页返回 {status}，停止翻页")
-                    break
-
-                items = parse_list_page(html)
-
-                if not items:
-                    logger.info(f"第 {page} 页无数据，翻页结束")
-                    break
-
-                all_items.extend(items)
-                self.stats["pages_crawled"] = page
-                logger.info(f"第 {page} 页提取 {len(items)} 条公告")
-
-            except Exception as e:
-                logger.error(f"列表页第 {page} 页抓取失败: {e}")
-                break
+                        self.stats["pages_crawled"] = page
+                    except Exception as e:
+                        logger.error(f"  搜索失败 '{keyword}' p{page}: {e}")
+                        break
 
         return all_items
 
-    # ── 搜索模式 ──
+    def _build_detail_url(self, item: dict) -> str:
+        """从 b2b API item 构造详情页 URL。"""
+        pid = item.get("id", "")
+        return f"https://b2b.10086.cn/b2b/main/viewNoticeContent.html?noticeBean.id={pid}"
 
-    async def _search_mode(self) -> List[Dict]:
-        """搜索模式：按关键词组合搜索。"""
-        all_items = []
-        seen_titles = set()
+    # ── 详情页抓取 ──
 
-        for keyword_combo in [
-            "广东移动 广告",
-            "广东移动 品牌",
-            "广东移动 宣传",
-            "广东移动 营销",
-            "广东移动 活动",
-        ]:
-            logger.info(f"🔍 搜索关键词: {keyword_combo}")
+    async def _fetch_details(self, list_items: List[Dict]) -> List[Dict]:
+        """详情页抓取：通过 b2b queryDetail API 获取 PDF 正文并提取字段。"""
+        import ssl, httpx, base64
 
-            try:
-                status, html = await self.fetcher.fetch(
-                    SEARCH_API_URL,
-                    params={"keyword": keyword_combo, "noticeType": "2"},
-                )
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        ctx.options |= 0x4
 
-                if status != 200:
+        details = []
+        detail_headers = {
+            "Content-Type": "application/json",
+            "userloginname": "-1",
+            "processinstid": "-1",
+            "User-Agent": "Mozilla/5.0",
+        }
+
+        async with httpx.AsyncClient(verify=ctx, timeout=30) as client:
+            for i, item in enumerate(list_items):
+                b2b = item.get("_b2b_item", {})
+                pid = str(b2b.get("id", ""))
+                puid = b2b.get("uuid", "")
+                title = item.get("title", "")
+
+                if not pid:
+                    details.append(self._empty_detail(item))
                     continue
 
-                items = parse_list_page(html)
+                logger.info(f"📄 [{i+1}/{len(list_items)}] {title[:50]}...")
 
-                # 去重
-                new_items = []
-                for item in items:
-                    if item["title"] not in seen_titles:
-                        seen_titles.add(item["title"])
-                        new_items.append(item)
+                try:
+                    resp = await client.post(
+                        "https://b2b.10086.cn/api-b2b/api-sync-es/white_list_api/b2b/publish/queryDetail",
+                        json={
+                            "publishId": pid,
+                            "publishUuid": puid,
+                            "publishType": "PROCUREMENT",
+                            "sfactApplColumn5": "PC",
+                        },
+                        headers=detail_headers,
+                    )
 
-                all_items.extend(new_items)
-                logger.info(f"搜索 '{keyword_combo}' 获取 {len(new_items)} 条去重新公告")
+                    content_text = ""
+                    if resp.status_code == 200:
+                        detail = resp.json().get("data", {})
+                        b64 = detail.get("noticeContent", "")
+                        if b64:
+                            try:
+                                import fitz
+                                pdf_bytes = base64.b64decode(b64)
+                                doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+                                pages = []
+                                for pn in range(len(doc)):
+                                    t = doc[pn].get_text()
+                                    if t.strip():
+                                        pages.append(t)
+                                doc.close()
+                                content_text = "\n".join(pages)
+                            except Exception as e:
+                                logger.debug(f"  PDF decode failed: {e}")
 
-            except Exception as e:
-                logger.error(f"搜索 '{keyword_combo}' 失败: {e}")
-                continue
+                    # 提取城市
+                    city = self._extract_city(title)
 
-        return all_items
+                    # LLM 分类
+                    from app.services.keyword_filter import filter_with_llm_fallback
+                    classify_result = filter_with_llm_fallback(title, content_text)
+
+                    # LLM 预算提取
+                    budget_info = {}
+                    if classify_result["is_ad"]:
+                        try:
+                            from app.services.budget_extractor import extract_budget_hybrid
+                            budget_info = extract_budget_hybrid(title, content_text)
+                        except Exception:
+                            pass
+
+                    entry = {
+                        "title": title,
+                        "purchaser": "",
+                        "purchaser_level": "省公司" if "分公司" not in title else "地市公司",
+                        "procurement_method": "公开招标",
+                        "budget": budget_info.get("budget"),
+                        "registration_fee": budget_info.get("registration_fee"),
+                        "deposit": budget_info.get("deposit"),
+                        "project_category": classify_result.get("category", ""),
+                        "announce_date": b2b.get("publishDate", ""),
+                        "deadline": b2b.get("bidEndDate", "") or "",
+                        "qualification_requirements": content_text[:2000] if content_text else "",
+                        "original_content": content_text[:50000] if content_text else title,
+                        "score_weight": None,
+                        "source_url": item.get("detail_url", ""),
+                        "city": city,
+                        "industry": b2b.get("companyName", ""),
+                        "province": self._extract_province(title, b2b),
+                        "_is_ad": classify_result["is_ad"],
+                        "_classifier": classify_result.get("classifier", ""),
+                    }
+                    details.append(entry)
+                    logger.info(f"  ✅ [{classify_result.get('classifier','?')}] "
+                                f"{classify_result.get('category','')} | budget={entry['budget']}")
+
+                except Exception as e:
+                    logger.error(f"  详情抓取失败: {e}")
+                    details.append(self._empty_detail(item))
+
+        return details
+
+    def _empty_detail(self, item: dict) -> dict:
+        return {
+            "title": item.get("title", ""),
+            "purchaser": "", "purchaser_level": "",
+            "procurement_method": "", "budget": None,
+            "project_category": "", "announce_date": "",
+            "deadline": "", "qualification_requirements": "",
+            "score_weight": None, "source_url": item.get("detail_url", ""),
+            "original_content": "", "city": "", "industry": "",
+            "province": "", "_is_ad": False, "_classifier": "",
+        }
+
+    def _extract_city(self, title: str) -> str:
+        cities = [
+            "广州", "深圳", "东莞", "佛山", "珠海", "惠州", "中山",
+            "江门", "汕头", "湛江", "茂名", "肇庆", "梅州", "汕尾",
+            "河源", "阳江", "清远", "韶关", "潮州", "揭阳", "云浮",
+            "南宁", "柳州", "桂林", "玉林", "梧州", "北海", "贵港",
+            "钦州", "百色", "河池", "贺州", "来宾", "崇左", "防城港",
+            "福州", "厦门", "泉州", "漳州", "龙岩", "三明", "南平", "莆田", "宁德",
+            "海口", "三亚", "儋州",
+            "杭州", "宁波", "温州", "嘉兴", "湖州", "绍兴", "金华", "衢州", "舟山", "台州", "丽水",
+            "长沙", "株洲", "湘潭", "衡阳", "邵阳", "岳阳", "常德",
+            "张家界", "益阳", "郴州", "永州", "怀化", "娄底",
+            "合肥", "芜湖", "蚌埠", "淮南", "马鞍山", "淮北", "铜陵",
+            "安庆", "黄山", "滁州", "阜阳", "宿州", "六安", "亳州", "池州", "宣城",
+            "济南", "青岛", "淄博", "枣庄", "东营", "烟台", "潍坊",
+            "济宁", "泰安", "威海", "日照", "临沂", "德州", "聊城", "滨州", "菏泽",
+        ]
+        for c in sorted(cities, key=lambda x: -len(x)):
+            if c in title:
+                return c
+        return ""
+
+    def _extract_province(self, title: str, b2b_item: dict) -> str:
+        provinces = [
+            "广东", "广西", "福建", "海南", "浙江", "湖南", "安徽", "山东",
+            "江苏", "四川", "湖北", "河南", "河北", "辽宁", "江西", "陕西",
+            "山西", "云南", "贵州", "吉林", "黑龙江", "甘肃", "内蒙古",
+            "新疆", "西藏", "青海", "宁夏", "北京", "上海", "天津", "重庆",
+        ]
+        for p in sorted(provinces, key=lambda x: -len(x)):
+            if p in title:
+                return p
+        region = b2b_item.get("regionName", "") or b2b_item.get("region", "")
+        return region
 
     # ── 详情页抓取 ──
 

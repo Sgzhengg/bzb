@@ -32,15 +32,19 @@ class ZhaobiaoAdapter(BaseAdapter):
     BASE_URL = "https://s.zhaobiao.cn"
     SEARCH_URL = "https://s.zhaobiao.cn/s"
 
-    # 广告类搜索关键词组合
-    AD_KEYWORDS = [
-        "广东移动 广告", "广东移动 品牌", "广东移动 宣传",
-        "广东移动 活动", "广东移动 策划", "广东移动 创意",
-        "广东移动 设计", "广东移动 媒介", "广东移动 投放",
-        "广东移动 物料", "广东移动 制作", "广东移动 新媒体",
-        "广东移动 视频", "广东移动 直播", "广东移动 营销",
-        "中国移动广东 广告", "中国移动广东 品牌", "中国移动广东 宣传",
+    # 广告类搜索关键词组合（多省份扩展模板，运行时通过 config["search_keyword"] 覆盖）
+    AD_KEYWORDS_TEMPLATE = [
+        "{province}移动 广告", "{province}移动 品牌", "{province}移动 宣传",
+        "{province}移动 活动", "{province}移动 策划", "{province}移动 创意",
+        "{province}移动 设计", "{province}移动 媒介", "{province}移动 投放",
+        "{province}移动 物料", "{province}移动 制作", "{province}移动 新媒体",
+        "{province}移动 视频", "{province}移动 直播", "{province}移动 营销",
     ]
+
+    @classmethod
+    def build_keywords(cls, province: str) -> List[str]:
+        """根据省份名生成搜索关键词列表"""
+        return [kw.format(province=province) for kw in cls.AD_KEYWORDS_TEMPLATE]
 
     def __init__(self, config: dict = None):
         default_config = {

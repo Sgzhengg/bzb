@@ -9,17 +9,42 @@
 # 中国移动采购与招标网 — 公告列表页
 BASE_URL = "https://b2b.10086.cn"
 
-# 列表页 URL（广东地区招标公告）
+# 列表页 URL（广东地区招标公告 — 保留作为默认值）
 LIST_URL = (
     f"{BASE_URL}/b2b/main/listVendorNotice.html"
     "?noticeType=2&region=广东"
 )
 
-# 备选：直接搜索 "广东移动广告" 的 API 接口
+# 备选：直接搜索的 API 接口
 SEARCH_API_URL = f"{BASE_URL}/b2b/main/searchNotice.html"
 
-# 搜索关键词
+# 搜索关键词（保留作为默认值，实际使用时从 provinces 配置动态生成）
 SEARCH_KEYWORDS = ["广东移动", "广告", "品牌", "宣传", "营销", "活动"]
+
+# ============================================================
+# 多省份搜索关键词生成（V2 扩展）
+# ============================================================
+
+def get_search_keywords_for_province(province_name: str, include_ad_topics: bool = True) -> list:
+    """
+    根据省份名生成搜索关键词组合。
+    b2b API 不支持空格复合词，直接用 "{省份}移动" 搜索，
+    后续由 pipeline 的关键词过滤器筛选广告类。
+    """
+    return [f"{province_name}移动"]
+
+
+def get_default_province_list_url(province_name: str) -> str:
+    """
+    根据省份名生成 b2b.10086.cn 的地区筛选列表页 URL。
+
+    Args:
+        province_name: 省份名（如 "广东"）
+
+    Returns:
+        带 region 参数的完整 URL
+    """
+    return f"{BASE_URL}/b2b/main/listVendorNotice.html?noticeType=2&region={province_name}"
 
 # ============================================================
 # 请求配置

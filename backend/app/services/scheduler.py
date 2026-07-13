@@ -90,26 +90,14 @@ def _print_jobs(sched: AsyncIOScheduler):
 # ============================================================
 
 def _register_jobs(sched: AsyncIOScheduler):
-    """注册所有定时任务。"""
+    """注册所有定时任务（V2 多省份扩展）。"""
     from app.core.config import settings
 
     if settings.CRAWLER_ENABLED:
-        # 每日 08:00 抓取
-        sched.add_job(
-            _job_fetch_announcements,
-            CronTrigger(hour=8, minute=0),
-            id="fetch_morning",
-            name="每日早间抓取",
-            replace_existing=True,
-        )
-        # 每日 20:00 抓取
-        sched.add_job(
-            _job_fetch_announcements,
-            CronTrigger(hour=20, minute=0),
-            id="fetch_evening",
-            name="每日晚间抓取",
-            replace_existing=True,
-        )
+        sched.add_job(_job_fetch_announcements, CronTrigger(hour=8, minute=0),
+            id="fetch_morning", name="每日早间抓取", replace_existing=True)
+        sched.add_job(_job_fetch_announcements, CronTrigger(hour=20, minute=0),
+            id="fetch_evening", name="每日晚间抓取", replace_existing=True)
     else:
         logger.info("爬虫已禁用，跳过抓取任务注册")
 
@@ -161,7 +149,6 @@ async def _job_fetch_announcements():
         from data_collector import get_collector
 
         collector = get_collector()
-        # 使用默认适配器（当前: zhaobiao），自动入库
         results = await collector.collect_async(save_to_db=True)
 
         if results:
@@ -175,6 +162,45 @@ async def _job_fetch_announcements():
             logger.info("[定时任务] 未发现新广告类公告")
     except Exception as e:
         logger.error(f"[定时任务] 抓取失败: {e}")
+
+
+async def _job_fetch_normal_provinces():
+    """
+    低频采集普通省份（每天一次，凌晨执行）。
+    仅采集省公司级别，不深入各地市。
+    """
+    logger.info("🕷️ [定时任务] 开始普通省份低频采集...")
+    try:
+        from config.provinces import NORMAL_PROVINCES
+        from app.services.crawler.config import get_search_keywords_for_province
+
+        total_new = 0
+
+        for idx, province_config in enumerate(NORMAL_PROVINCES):
+            province_name = province_config.name
+            keywords = get_search_keywords_for_province(province_name, include_ad_topics=True)
+
+            logger.info(f"  📍 [{idx+1}/{len(NORMAL_PROVINCES)}] 低频采集: {province_name}")
+
+            try:
+                from data_collector import get_collector
+                collector = get_collector()
+                results = await collector.collect_async(save_to_db=True)
+
+                if results:
+                    total_new += len(results)
+                    logger.info(f"     ✅ {province_name}: 新增 {len(results)} 条")
+            except Exception as e:
+                logger.warning(f"     ⚠️ {province_name}: {e}")
+
+            if idx < len(NORMAL_PROVINCES) - 1:
+                import asyncio as _asyncio
+                await _asyncio.sleep(60)
+
+        logger.info(f"[定时任务] 普通省份采集完成: 共新增 {total_new} 条")
+
+    except Exception as e:
+        logger.error(f"[定时任务] 普通省份采集失败: {e}")
 
 
 async def _job_check_alerts():
@@ -342,3 +368,4 @@ class CrawlerMonitor:
 
 
 crawler_monitor = CrawlerMonitor()
+

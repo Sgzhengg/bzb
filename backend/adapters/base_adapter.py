@@ -212,6 +212,9 @@ class BaseAdapter(ABC):
             "bid_number": raw.get("bid_number", ""),
             "is_ad": filter_result["is_ad"],
             "matched_keywords": filter_result["matched_keywords"],
+            "province": raw.get("province", ""),
+            "city": raw.get("city", ""),
+            "industry": raw.get("purchaser", ""),
         }
 
     # ── 主流程 ──
@@ -306,6 +309,9 @@ class BaseAdapter(ABC):
                         qualification_requirements=record.get("qualification_requirements", ""),
                         original_content=record.get("original_content", ""),
                         source_url=record.get("source_url", ""),
+                        province=record.get("province", ""),
+                        city=record.get("city", ""),
+                        industry=record.get("industry", ""),
                     )
                     db.add(ann)
                     await db.commit()
@@ -340,11 +346,12 @@ def _parse_datetime(s: str):
     from datetime import datetime
     import re
     if not s:
-        return None
+        return datetime(1900, 1, 1)
     m = re.match(r"(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})[T\s]?(\d{1,2}):(\d{2})", s)
     if m:
         return datetime(int(m.group(1)), int(m.group(2)), int(m.group(3)),
                         int(m.group(4)), int(m.group(5)))
+    return datetime(1900, 1, 1)
     m = re.match(r"(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})", s)
     if m:
         return datetime(int(m.group(1)), int(m.group(2)), int(m.group(3)), 17, 0)

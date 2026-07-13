@@ -47,10 +47,10 @@ export async function getOpportunityList(params = {}) {
 }
 
 /**
- * 触发数据采集
+ * 触发数据采集（后台异步，立即返回）
  */
 export async function fetchNewAnnouncements() {
-  return apiClient.post("/announcements/fetch");
+  return apiClient.post("/announcements/fetch", null, { timeout: 30000 });
 }
 
 /**

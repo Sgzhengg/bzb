@@ -6,6 +6,7 @@ HTTP 抓取模块
 import asyncio
 import random
 import time
+import ssl
 import logging
 from typing import Optional, Dict, Tuple
 
@@ -21,6 +22,15 @@ from .config import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+def _get_ssl_context() -> ssl.SSLContext:
+    """创建兼容 b2b.10086.cn 的 SSL Context（旧版 TLS 重协商）。"""
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+    ctx.options |= 0x4  # SSL_OP_LEGACY_SERVER_CONNECT
+    return ctx
 
 
 class RateLimiter:
@@ -91,6 +101,7 @@ class BiddingFetcher:
                 timeout=httpx.Timeout(self._timeout),
                 follow_redirects=True,
                 limits=httpx.Limits(max_connections=5),
+                verify=_get_ssl_context(),
             )
 
     async def close(self):

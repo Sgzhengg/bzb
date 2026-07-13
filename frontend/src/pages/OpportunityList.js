@@ -8,10 +8,11 @@ import {
   SearchOutlined,
   ThunderboltOutlined,
   StarOutlined, StarFilled,
+  CloudDownloadOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useOpportunityList } from "../services/apiHooks";
-import { toggleFavorite, getAnnouncementOriginal } from "../services/api";
+import { toggleFavorite, getAnnouncementOriginal, fetchNewAnnouncements } from "../services/api";
 
 const { Title, Text } = Typography;
 
@@ -37,21 +38,45 @@ const METHOD_OPTIONS = [
   { value: "单一来源", label: "单一来源" },
 ];
 
-const LEVEL_OPTIONS = [
-  { value: "", label: "全部层级" },
-  { value: "省公司", label: "省公司" },
-  { value: "广州分公司", label: "广州分公司" },
-  { value: "深圳分公司", label: "深圳分公司" },
-  { value: "东莞分公司", label: "东莞分公司" },
-  { value: "佛山分公司", label: "佛山分公司" },
-];
-
 const PROBABILITY_OPTIONS = [
   { value: "", label: "全部陪跑概率" },
   { value: "低", label: "低陪跑概率" },
   { value: "中", label: "中陪跑概率" },
   { value: "高", label: "高陪跑概率" },
 ];
+
+// V2 新增：省份选项（重点省份 + 全部）
+const PROVINCE_OPTIONS = [
+  { value: "", label: "全部省份" },
+  { value: "广东", label: "广东" },
+  { value: "广西", label: "广西" },
+  { value: "福建", label: "福建" },
+  { value: "海南", label: "海南" },
+  { value: "浙江", label: "浙江" },
+  { value: "湖南", label: "湖南" },
+  { value: "安徽", label: "安徽" },
+  { value: "山东", label: "山东" },
+  { value: "江苏", label: "江苏" },
+  { value: "四川", label: "四川" },
+  { value: "湖北", label: "湖北" },
+  { value: "河南", label: "河南" },
+  { value: "北京", label: "北京" },
+  { value: "上海", label: "上海" },
+  { value: "重庆", label: "重庆" },
+  { value: "天津", label: "天津" },
+];
+
+// 省份→城市 映射（用于联动筛选）
+const PROVINCE_CITIES = {
+  "广东": ["全部城市", "广州", "深圳", "东莞", "佛山", "珠海", "惠州", "中山", "江门", "汕头", "湛江", "茂名", "肇庆", "梅州", "汕尾", "河源", "阳江", "清远", "韶关", "潮州", "揭阳", "云浮"],
+  "广西": ["全部城市", "南宁", "柳州", "桂林", "玉林", "梧州", "北海", "贵港", "钦州", "百色", "河池", "贺州", "来宾", "崇左", "防城港"],
+  "福建": ["全部城市", "福州", "厦门", "泉州", "漳州", "龙岩", "三明", "南平", "莆田", "宁德"],
+  "海南": ["全部城市", "海口", "三亚", "儋州"],
+  "浙江": ["全部城市", "杭州", "宁波", "温州", "嘉兴", "湖州", "绍兴", "金华", "衢州", "舟山", "台州", "丽水"],
+  "湖南": ["全部城市", "长沙", "株洲", "湘潭", "衡阳", "邵阳", "岳阳", "常德", "张家界", "益阳", "郴州", "永州", "怀化", "娄底"],
+  "安徽": ["全部城市", "合肥", "芜湖", "蚌埠", "淮南", "马鞍山", "淮北", "铜陵", "安庆", "黄山", "滁州", "阜阳", "宿州", "六安", "亳州", "池州", "宣城"],
+  "山东": ["全部城市", "济南", "青岛", "淄博", "枣庄", "东营", "烟台", "潍坊", "济宁", "泰安", "威海", "日照", "临沂", "德州", "聊城", "滨州", "菏泽"],
+};
 
 // ============================================================
 // 辅助函数
@@ -73,22 +98,51 @@ function OpportunityList() {
   const [searchText, setSearchText] = useState("");
 
   // 筛选状态
-  const [filterLevel, setFilterLevel] = useState("");
+  const [filterProvince, setFilterProvince] = useState("");   // V2 新增
+  const [filterCity, setFilterCity] = useState("");           // V2 新增
   const [filterCategory, setFilterCategory] = useState("");
   const [filterMethod, setFilterMethod] = useState("");
   const [filterProbability, setFilterProbability] = useState("");
   const [budgetRange, setBudgetRange] = useState([0, 1000]);
   const [showFavorites, setShowFavorites] = useState(false);
+  const [fetching, setFetching] = useState(false);
 
-  // 公告内容模态框状态
-  const [contentModalVisible, setContentModalVisible] = useState(false);
-  const [contentData, setContentData] = useState(null);
+  const handleFetch = async () => {
+    setFetching(true);
+    try {
+      const result = await fetchNewAnnouncements();
+      message.success(result.message || "采集任务已启动");
+      setTimeout(() => refetch(), 5000);
+      setTimeout(() => refetch(), 15000);
+    } catch {
+      message.error("启动采集失败");
+    } finally {
+      setFetching(false);
+    }
+  };
+
+  // 城市选项（根据选中省份联动）
+  const cityOptions = useMemo(() => {
+    if (!filterProvince) return [{ value: "", label: "请先选省份" }];
+    const cities = PROVINCE_CITIES[filterProvince] || ["全部城市"];
+    return cities.map(c => ({
+      value: c === "全部城市" ? "" : c,
+      label: c,
+    }));
+  }, [filterProvince]);
+
+  // 省份切换时重置城市
+  const handleProvinceChange = (val) => {
+    setFilterProvince(val);
+    setFilterCity("");
+  };
 
   // 构建查询参数
   const params = useMemo(() => {
     const result = {
       sort: "score_desc",
-      purchaser_level: filterLevel || undefined,
+      province: filterProvince || undefined,           // V2 新增
+      city: filterCity || undefined,                   // V2 新增
       project_category: filterCategory || undefined,
       procurement_method: filterMethod || undefined,
       probability_label: filterProbability || undefined,
@@ -100,7 +154,11 @@ function OpportunityList() {
     // 清除 undefined 值
     Object.keys(result).forEach(k => result[k] === undefined && delete result[k]);
     return result;
-  }, [filterLevel, filterCategory, filterMethod, filterProbability, budgetRange, searchText, showFavorites]);
+  }, [filterProvince, filterCity, filterCategory, filterMethod, filterProbability, budgetRange, searchText, showFavorites]);
+
+  // 公告内容模态框状态
+  const [contentModalVisible, setContentModalVisible] = useState(false);
+  const [contentData, setContentData] = useState(null);
 
   // 使用 React Query hooks
   const { data: response, isLoading, refetch } = useOpportunityList(params);
@@ -334,6 +392,13 @@ function OpportunityList() {
         <Col>
           <Space>
             <Button
+              icon={<CloudDownloadOutlined />}
+              onClick={handleFetch}
+              loading={fetching}
+            >
+              采集数据
+            </Button>
+            <Button
               type={showFavorites ? "primary" : "default"}
               icon={showFavorites ? <StarFilled /> : <StarOutlined />}
               onClick={() => setShowFavorites(!showFavorites)}
@@ -356,13 +421,25 @@ function OpportunityList() {
               allowClear
             />
           </Col>
-          <Col xs={12} sm={6} md={4}>
+          <Col xs={12} sm={6} md={2}>
             <Select
-              value={filterLevel}
-              onChange={setFilterLevel}
-              options={LEVEL_OPTIONS}
+              value={filterProvince}
+              onChange={handleProvinceChange}
+              options={PROVINCE_OPTIONS}
               style={{ width: "100%" }}
-              placeholder="采购方层级"
+              placeholder="省份"
+              allowClear
+            />
+          </Col>
+          <Col xs={12} sm={6} md={2}>
+            <Select
+              value={filterCity}
+              onChange={setFilterCity}
+              options={cityOptions}
+              style={{ width: "100%" }}
+              placeholder="城市"
+              allowClear
+              disabled={!filterProvince}
             />
           </Col>
           <Col xs={12} sm={6} md={4}>
