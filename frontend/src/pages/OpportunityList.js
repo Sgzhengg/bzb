@@ -12,6 +12,7 @@ import {
   LoadingOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  LinkOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useOpportunityList } from "../services/apiHooks";
@@ -136,8 +137,8 @@ function OpportunityList() {
   const handleFetch = async () => {
     setFetching(true);
     try {
-      // 采集目标：使用筛选栏选中的省份，未选则为"广东"
-      const targetProvince = filterProvince || "广东";
+      // 采集目标：筛选栏"全部省份"→全国模式，否则用所选省份
+      const targetProvince = filterProvince || "全国";
       const result = await fetchNewAnnouncements(targetProvince);
       if (result.task_id) {
         // 开始轮询进度
@@ -351,8 +352,8 @@ function OpportunityList() {
             详情
           </a>
           <Divider type="vertical" />
-          <a href={record.source_url} target="_blank" rel="noopener noreferrer">
-            原文
+          <a href={record.source_url} target="_blank" rel="noopener noreferrer" style={{ color: '#1677ff' }}>
+            <LinkOutlined /> 原文
           </a>
         </Space>
       ),

@@ -52,6 +52,16 @@ class B2b10086Adapter(BaseAdapter):
         self._client = None
         self._seen_ids = set()
         self._current_item = None  # 当前正在处理的 b2b item（传递 uuid 用）
+        self.search_keywords = [
+            # 精准广告关键词（优先匹配真实广告类项目）
+            "广告设计", "品牌推广", "活动策划", "新媒体运营",
+            "媒介投放", "视频制作", "创意设计", "品牌宣传",
+            "广告代理", "营销策划", "内容制作", "直播运营",
+            "广告物料", "宣传品制作", "喷绘制作", "展会搭建",
+            "路演活动", "短视频", "H5制作",
+            # 广义兜底
+            "广告", "宣传", "活动", "品牌", "新媒体", "视频", "物料", "设计",
+        ]
 
     def get_source_name(self) -> str:
         return "b2b_10086"
@@ -77,36 +87,37 @@ class B2b10086Adapter(BaseAdapter):
 
     def fetch_list(self, page: int = 1) -> str:
         """通过 JSON API 搜索，返回 JSON 字符串。"""
-        keywords = ["移动", "广告", "宣传", "活动", "品牌", "营销", "新媒体", "视频", "物料", "设计"]
+        keywords = self.search_keywords
         client = self._get_client()
 
         all_items = []
         seen = set()
 
         for kw in keywords:
-            try:
-                self._random_delay()
-                resp = client.post(
-                    self.LIST_API,
-                    json={
-                        "name": kw,
-                        "publishType": "PROCUREMENT",
-                        "size": 20,
-                        "current": page,
-                        "sfactApplColumn5": "PC",
-                    },
-                )
-                if resp.status_code == 200:
-                    data = resp.json()
-                    items = data.get("data", {}).get("content", [])
-                    for item in items:
-                        pid = str(item.get("id", ""))
-                        if pid and pid not in seen:
-                            seen.add(pid)
-                            item["_publishType"] = "PROCUREMENT"
-                            all_items.append(item)
-            except Exception as e:
-                self.logger.warning(f"搜索失败 '{kw}': {e}")
+            for ptype in ["PROCUREMENT", "PURCHASE_SERVICE"]:
+                try:
+                    self._random_delay()
+                    resp = client.post(
+                        self.LIST_API,
+                        json={
+                            "name": kw,
+                            "publishType": ptype,
+                            "size": 20,
+                            "current": page,
+                            "sfactApplColumn5": "PC",
+                        },
+                    )
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        items = data.get("data", {}).get("content", [])
+                        for item in items:
+                            pid = str(item.get("id", ""))
+                            if pid and pid not in seen:
+                                seen.add(pid)
+                                item["_publishType"] = ptype
+                                all_items.append(item)
+                except Exception as e:
+                    self.logger.warning(f"搜索失败 '{kw}' ({ptype}): {e}")
 
         import json as _json
         return _json.dumps(all_items)
@@ -146,7 +157,16 @@ class B2b10086Adapter(BaseAdapter):
                 continue
 
             pid = item.get("id", "")
-            detail_url = f"{self.BASE_URL}/b2b/main/viewNoticeContent.html?noticeBean.id={pid}"
+            puid = item.get("uuid", "")
+            one_type = item.get("publishOneType", "PROCUREMENT")
+            # 使用 SPA 路由格式，可直接在浏览器打开公告详情页
+            detail_url = (
+                f"{self.BASE_URL}/#/noticeDetail"
+                f"?publishId={pid}"
+                f"&publishUuid={puid}"
+                f"&publishType=PROCUREMENT"
+                f"&publishOneType={one_type}"
+            )
 
             results.append({
                 "title": title,
@@ -209,12 +229,17 @@ class B2b10086Adapter(BaseAdapter):
     # ── 详情页 ──
 
     def fetch_detail(self, url: str) -> Tuple[str, Optional[bytes]]:
-        """通过 queryDetail API 获取 PDF 内容。"""
-        # url 格式: viewNoticeContent.html?noticeBean.id=xxx
+        """通过 queryDetail API 获取 PDF 内容。支持新旧两种 URL 格式。"""
         notice_id = ""
-        m = re.search(r"noticeBean\.id=(\d+)", url)
+        # 新格式: #/noticeDetail?publishId=xxx
+        m = re.search(r"publishId=(\d+)", url)
         if m:
             notice_id = m.group(1)
+        # 旧格式: viewNoticeContent.html?noticeBean.id=xxx
+        if not notice_id:
+            m = re.search(r"noticeBean\.id=(\d+)", url)
+            if m:
+                notice_id = m.group(1)
 
         if not notice_id:
             return "", None
@@ -321,7 +346,19 @@ class B2b10086Adapter(BaseAdapter):
         all_results = []
         seen_urls = set()
 
+        # 重置去重集合，确保每次采集独立
+        self._seen_ids.clear()
+
         self.logger.info(f"===== {self.name} 开始采集 (省份={province_filter or '不限'}) =====")
+
+        # 如果指定了省份，将省份名加入搜索关键词
+        if province_filter:
+            # 省份关键词放前面，确保优先搜索该省相关公告
+            province_keywords = [
+                f"{province_filter}移动",
+                province_filter,
+            ]
+            self.search_keywords = province_keywords + self.search_keywords
 
         for page in range(1, self.max_pages + 1):
             self.logger.info(f"--- 列表页 第 {page} 页 ---")

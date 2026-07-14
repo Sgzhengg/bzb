@@ -407,48 +407,54 @@ async def fetch_announcements(
             collector = get_collector()
 
             if is_nationwide:
-                # 全国模式：使用所有已启用适配器
+                # 全国模式：b2b 不限省份采集
                 _fetch_tasks[task_id].update(
                     status="running", progress=5,
-                    message="全国采集模式：正在初始化多数据源适配器...",
+                    message="全国采集模式：正在搜索全国移动招标公告...",
                     phase="init",
                 )
 
                 _fetch_tasks[task_id].update(
                     progress=15, phase="search",
-                    message="正在从 b2b.10086.cn + 各省平台搜索招标公告...",
+                    message="正在从 b2b.10086.cn 搜索全国各省公告...",
                 )
 
-                # 启动心跳
+                _fetch_tasks[task_id].update(
+                    progress=25, phase="extract",
+                    message="正在逐条提取全国公告详情（预计 3-5 分钟）...",
+                )
+
                 import asyncio as _asyncio
                 heartbeat_running = True
 
                 async def _heartbeat():
-                    p = 15
+                    p = 25
                     while heartbeat_running and p < 90:
-                        await _asyncio.sleep(8)
-                        p = min(p + 8, 90)
+                        await _asyncio.sleep(12)
+                        p = min(p + 6, 90)
                         if heartbeat_running:
                             _fetch_tasks[task_id].update(
                                 progress=p, phase="extract",
-                                message=f"全国多源采集进行中（已完成约 {p}%）...",
+                                message=f"全国采集进行中（已完成约 {p}%）...",
                             )
 
                 heartbeat_task = _asyncio.ensure_future(_heartbeat())
 
                 try:
-                    all_results = collector.collect_all_enabled(save_to_db=True)
-                    total = sum(len(v) for v in all_results.values())
+                    # 不限省份 = 空字符串，parse_list 不做省份过滤
+                    results = await collector.collect_async(
+                        save_to_db=True, province="",
+                    )
                 finally:
                     heartbeat_running = False
                     heartbeat_task.cancel()
 
                 _fetch_tasks[task_id].update(
                     status="completed", progress=100,
-                    message=f"全国采集完成，共获取 {total} 条公告",
-                    result_count=total, phase="done",
+                    message=f"全国采集完成，共获取 {len(results)} 条公告",
+                    result_count=len(results), phase="done",
                 )
-                logger.info(f"[全国] 采集完成: {total} 条, 来源: {list(all_results.keys())}")
+                logger.info(f"[全国] 采集完成: {len(results)} 条")
 
             else:
                 # 单省份模式：b2b 采集 + 省份过滤

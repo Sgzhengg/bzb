@@ -368,15 +368,15 @@ def filter_advertisement_projects(
             "reason": "",
         }
 
-    # ── 第2层：采购单位 + 地域 + 广告暗示 ──
+    # ── 第2层：采购单位 + 地域 + 广告暗示（需≥2个暗示词）──
     if _is_mobile_purchaser(title):
         hints = _match_keywords(combined_text, _SHORT_AD_HINTS)
-        if hints:
+        if len(hints) >= 2:  # 至少2个暗示词才能确认，避免"设计""运营"等单泛词误判
             return {
                 "is_ad": True,
                 "matched_keywords": hints,
                 "category": _identify_category(title, content),
-                "reason": "采购单位+地域+广告暗示",
+                "reason": "采购单位+地域+多个广告暗示",
             }
 
     # ── 第3层：硬排除（仅在无安全词时生效）──
@@ -500,21 +500,26 @@ def filter_with_llm_fallback(
     import logging
     _logger = logging.getLogger(__name__)
 
-    # ── 关键词初筛 ──
+    # ── 关键词初筛（仅做排除，不做确认）──
     kw_result = filter_advertisement_projects(title, content)
 
-    # 关键词明确排除（硬排除词命中）→ 直接返回
+    # 关键词明确排除（非移动采购主体 / 硬排除词）→ 直接拒绝
     if not kw_result["is_ad"]:
         kw_result["classifier"] = "keyword"
         return kw_result
 
-    # 关键词判定为广告类 → 仍需 LLM 最终确认
+    # 非中国移动采购主体 → 直接拒绝
     if not _is_mobile_purchaser(title):
         return {
             "is_ad": False, "matched_keywords": [],
             "category": "", "reason": "非中国移动采购主体",
             "classifier": "keyword",
         }
+
+    # ── 以上只是粗筛（Step 1），以下 LLM 逐条精判（Step 2）──
+    # 不设任何关键词跳过 LLM 的捷径。
+    # 即使是"广告设计"这类看似明确的标题，也可能实际是"广告位招租"等非采购公告。
+    # 所有候选公告必须经 LLM 阅读全文后最终判定。
 
     # ── LLM 最终判定 ──
     try:

@@ -165,61 +165,132 @@ class BaseAdapter(ABC):
         """将适配器原始字段映射为系统标准 announcements 表结构。"""
         import sys, os
         sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        try:
-            from app.services.keyword_filter import filter_with_llm_fallback
-        except ImportError:
-            from services.keyword_filter import filter_with_llm_fallback
 
         title = raw.get("title", "")
         content = raw.get("content_text", "")
 
-        # 混合分类：关键词优先 + LLM 兜底
-        filter_result = filter_with_llm_fallback(title, content)
+        # ── Step 1 粗筛：关键词预过滤（仅排除明显非广告，不做确认）──
+        try:
+            from app.services.keyword_filter import filter_advertisement_projects, _is_mobile_purchaser
+        except ImportError:
+            from services.keyword_filter import filter_advertisement_projects, _is_mobile_purchaser
 
-        # 中标公示强制标记为非广告（应入 awards 表）
-        if filter_result["is_ad"]:
-            winning_keywords = ["中选候选人", "中选结果", "中选人", "中标候选人", "中标结果", "中标人", "成交候选人", "成交结果"]
-            if any(kw in title for kw in winning_keywords):
-                filter_result["is_ad"] = False
-                filter_result["category"] = "中标公示"
-                self.logger.info(f"  ⏭️ 中标公示跳过: {title[:60]}")
+        kw_result = filter_advertisement_projects(title, content)
+        if not kw_result["is_ad"] or not _is_mobile_purchaser(title):
+            return {
+                "title": title,
+                "purchaser": raw.get("purchaser", ""),
+                "purchaser_level": raw.get("purchaser_level", ""),
+                "procurement_method": raw.get("procurement_method", "公开招标"),
+                "budget": raw.get("budget"),
+                "registration_fee": raw.get("registration_fee"),
+                "deposit": raw.get("deposit"),
+                "project_category": "",
+                "announce_date": raw.get("publish_date", ""),
+                "deadline": raw.get("deadline", ""),
+                "bid_date": raw.get("bid_date"),
+                "qualification_requirements": content[:2000],
+                "original_content": content,
+                "score_weight": raw.get("score_weight"),
+                "source_url": raw.get("source_url", ""),
+                "notice_type": raw.get("notice_type", "招标公告"),
+                "bid_number": raw.get("bid_number", ""),
+                "is_ad": False,
+                "matched_keywords": [],
+                "province": raw.get("province", ""),
+                "city": raw.get("city", ""),
+                "industry": raw.get("purchaser", ""),
+            }
 
-        # 预算提取：正则优先 → LLM 兜底
+        # 中标公示强制标记为非广告
+        winning_keywords = ["中选候选人", "中选结果", "中选人", "中标候选人", "中标结果", "中标人", "成交候选人", "成交结果"]
+        if any(kw in title for kw in winning_keywords):
+            self.logger.info(f"  ⏭️ 中标公示跳过: {title[:60]}")
+            result = {  # same as above but is_ad=False
+                "title": title, "purchaser": raw.get("purchaser", ""),
+                "purchaser_level": raw.get("purchaser_level", ""),
+                "procurement_method": raw.get("procurement_method", "公开招标"),
+                "budget": raw.get("budget"), "registration_fee": raw.get("registration_fee"),
+                "deposit": raw.get("deposit"), "project_category": "中标公示",
+                "announce_date": raw.get("publish_date", ""), "deadline": raw.get("deadline", ""),
+                "bid_date": raw.get("bid_date"),
+                "qualification_requirements": content[:2000], "original_content": content,
+                "score_weight": raw.get("score_weight"), "source_url": raw.get("source_url", ""),
+                "notice_type": raw.get("notice_type", "招标公告"),
+                "bid_number": raw.get("bid_number", ""), "is_ad": False,
+                "matched_keywords": [], "province": raw.get("province", ""),
+                "city": raw.get("city", ""), "industry": raw.get("purchaser", ""),
+            }
+            return result
+
+        # ── Step 2+3 合并：一次 LLM 调用完成「分类 + 提取全部字段」──
+        is_ad = False
+        category = ""
         budget = raw.get("budget")
         registration_fee = raw.get("registration_fee")
         deposit = raw.get("deposit")
+        deadline = raw.get("deadline", "")
+        bid_date = raw.get("bid_date")
+        procurement_method = raw.get("procurement_method", "公开招标")
 
-        if not budget or budget == 0:
-            try:
-                from app.services.budget_extractor import extract_budget_hybrid
-                budget_result = extract_budget_hybrid(title, content, existing_budget=budget)
-                budget = budget_result.get("budget") or budget
-                registration_fee = budget_result.get("registration_fee") or registration_fee
-                deposit = budget_result.get("deposit") or deposit
-                if budget_result.get("extractor") == "llm" and budget:
-                    self.logger.info(f"  💰 LLM提取预算: {budget}万元 ({title[:40]})")
-            except Exception as e:
-                self.logger.debug(f"预算提取跳过: {e}")
+        try:
+            from app.services.llm_classifier import classify_and_extract
+            unified = classify_and_extract(title, content)
+
+            is_ad = unified.get("is_ad", False)
+            category = unified.get("category", "")
+
+            if is_ad:
+                # LLM 提取的值优先
+                if unified.get("budget"):
+                    budget = unified["budget"]
+                if unified.get("registration_fee"):
+                    registration_fee = unified["registration_fee"]
+                if unified.get("deposit"):
+                    deposit = unified["deposit"]
+                if unified.get("deadline"):
+                    deadline = unified["deadline"]
+                if unified.get("bid_date"):
+                    bid_date = unified["bid_date"]
+                if unified.get("procurement_method"):
+                    procurement_method = unified["procurement_method"]
+
+                extra = f", 截止{deadline}" if deadline else ""
+                if bid_date:
+                    extra += f", 投标{bid_date}"
+                self.logger.info(
+                    f"  {'✅' if is_ad else '⏭️'} [{category}] {title[:40]}"
+                    f" | 预算{budget}万{extra}"
+                )
+            else:
+                self.logger.debug(f"  ⏭️ LLM排除: {title[:50]} — {unified.get('reason','')}")
+
+        except Exception as e:
+            self.logger.warning(f"统一LLM调用失败，回退: {e}")
+            # LLM 失败时回退到关键词结果
+            is_ad = True  # 已通过关键词预筛
+            category = kw_result.get("category", "其他营销类")
 
         return {
             "title": title,
             "purchaser": raw.get("purchaser", ""),
             "purchaser_level": raw.get("purchaser_level", ""),
-            "procurement_method": raw.get("procurement_method", "公开招标"),
+            "procurement_method": procurement_method,
             "budget": budget,
             "registration_fee": registration_fee,
             "deposit": deposit,
-            "project_category": filter_result.get("category", ""),
+            "project_category": category,
             "announce_date": raw.get("publish_date", ""),
-            "deadline": raw.get("deadline", ""),
+            "deadline": deadline,
+            "bid_date": bid_date,
             "qualification_requirements": content[:2000],
             "original_content": content,
             "score_weight": raw.get("score_weight"),
             "source_url": raw.get("source_url", ""),
             "notice_type": raw.get("notice_type", "招标公告"),
             "bid_number": raw.get("bid_number", ""),
-            "is_ad": filter_result["is_ad"],
-            "matched_keywords": filter_result["matched_keywords"],
+            "is_ad": is_ad,
+            "matched_keywords": kw_result.get("matched_keywords", []),
             "province": raw.get("province", ""),
             "city": raw.get("city", ""),
             "industry": raw.get("purchaser", ""),
