@@ -30,7 +30,8 @@ const SCORE_LABELS = {
   category_match: "赛道匹配度",
   budget_health: "预算健康度",
   incumbent_advantage: "在位者优势",
-  client_relation: "客情关系",
+  freshness: "时效新鲜度",
+  completeness: "信息完整度",
 };
 
 // ============================================================
@@ -260,8 +261,10 @@ function AnnouncementDetail() {
         <Col xs={24} lg={14}>
           <Card title="📋 基本信息" style={{ marginBottom: 16 }}>
             <Descriptions column={{ xs: 1, sm: 2 }} size="small" bordered>
-              <Descriptions.Item label="采购方">{data.purchaser}</Descriptions.Item>
-              <Descriptions.Item label="层级">{data.purchaser_level}</Descriptions.Item>
+              <Descriptions.Item label="采购方">{data.purchaser || data.industry || "—"}</Descriptions.Item>
+              <Descriptions.Item label="层级">{data.purchaser_level || "—"}</Descriptions.Item>
+              <Descriptions.Item label="省份">{data.province || "—"}</Descriptions.Item>
+              <Descriptions.Item label="城市">{data.city || "—"}</Descriptions.Item>
               <Descriptions.Item label="项目类别">{data.project_category}</Descriptions.Item>
               <Descriptions.Item label="采购方式">
                 <Tag color={PROCUREMENT_COLORS[data.procurement_method]}>{data.procurement_method}</Tag>

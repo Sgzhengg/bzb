@@ -18,7 +18,7 @@ data_collector:
         max_pages: 3
     # V2 新增：各省公共资源交易平台适配器
     gx_ggzy:
-      enabled: true
+      enabled: false   # province_ggzy_adapter 尚未实现
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -26,7 +26,7 @@ data_collector:
         province: "广西"
         max_pages: 3
     fj_ggzy:
-      enabled: true
+      enabled: false   # province_ggzy_adapter 尚未实现
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -34,7 +34,7 @@ data_collector:
         province: "福建"
         max_pages: 3
     zj_ggzy:
-      enabled: true
+      enabled: false   # province_ggzy_adapter 尚未实现
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -42,7 +42,7 @@ data_collector:
         province: "浙江"
         max_pages: 3
     hn_ggzy:
-      enabled: true
+      enabled: false   # province_ggzy_adapter 尚未实现
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -50,7 +50,7 @@ data_collector:
         province: "湖南"
         max_pages: 3
     ah_ggzy:
-      enabled: true
+      enabled: false   # province_ggzy_adapter 尚未实现
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -58,7 +58,7 @@ data_collector:
         province: "安徽"
         max_pages: 3
     sd_ggzy:
-      enabled: true
+      enabled: false   # province_ggzy_adapter 尚未实现
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -66,7 +66,7 @@ data_collector:
         province: "山东"
         max_pages: 3
     hi_ggzy:
-      enabled: true
+      enabled: false   # province_ggzy_adapter 尚未实现
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:

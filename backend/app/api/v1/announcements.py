@@ -5,12 +5,15 @@
   GET    /api/v1/announcements         公告列表（排序/筛选/分页 + 机会评分）
   GET    /api/v1/announcements/{id}    公告详情（评分+提醒+在位者）
   POST   /api/v1/announcements/fetch   手动触发采集
+  GET    /api/v1/announcements/fetch/status/{task_id}  采集进度查询
   POST   /api/v1/announcements/{id}/favorite  收藏/取消收藏
   GET    /api/v1/announcements/favorites      获取收藏列表
 """
 
 import logging
-from datetime import date
+import time
+import uuid
+from datetime import date, datetime
 from typing import Optional, List
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status, BackgroundTasks
@@ -27,6 +30,18 @@ from app.core.config import settings
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/announcements", tags=["招标公告"])
+
+# ── 采集进度追踪（内存中，重启丢失） ──
+_fetch_tasks: dict = {}  # {task_id: {status, progress, message, ...}}
+
+
+def _to_iso(val):
+    """将日期值转为 ISO 字符串。兼容 raw SQL 返回的字符串和 ORM 返回的 date 对象。"""
+    if val is None:
+        return None
+    if isinstance(val, str):
+        return val
+    return val.isoformat()
 
 
 # ============================================================
@@ -73,6 +88,14 @@ async def list_announcements(
         )
     if search:
         conditions.append(Announcement.title.ilike(f"%{search}%"))
+
+    # 自动过滤中标公示（中选/中标/成交候选人/结果公示属于中标结果页，非机会列表）
+    conditions.append(
+        ~Announcement.title.ilike("%中选%")
+        & ~Announcement.title.ilike("%中标%")
+        & ~Announcement.title.ilike("%成交候选人%")
+        & ~Announcement.title.ilike("%成交结果%")
+    )
 
     # 自动过滤已过期的公告（TODO: deadline 存为 TEXT，比较需修复）
     # from datetime import datetime as dt
@@ -169,15 +192,20 @@ async def list_favorites(
     page_size: int = Query(20, ge=1, le=100),
     db: AsyncSession = Depends(get_db),
 ):
-    """获取已收藏的公告列表。"""
-    count_q = select(func.count()).select_from(Announcement).where(
-        Announcement.is_favorited == True
+    """获取已收藏的公告列表（自动排除中标公示）。"""
+    base_condition = and_(
+        Announcement.is_favorited == True,
+        ~Announcement.title.ilike("%中选%"),
+        ~Announcement.title.ilike("%中标%"),
+        ~Announcement.title.ilike("%成交候选人%"),
+        ~Announcement.title.ilike("%成交结果%"),
     )
+    count_q = select(func.count()).select_from(Announcement).where(base_condition)
     total = (await db.execute(count_q)).scalar() or 0
 
     list_q = (
         select(Announcement)
-        .where(Announcement.is_favorited == True)
+        .where(base_condition)
         .order_by(desc(Announcement.announce_date))
         .offset((page - 1) * page_size)
         .limit(page_size)
@@ -221,7 +249,12 @@ async def get_announcement_detail(
     - 历史中标参考（同采购方+同赛道）
     - 在位者检测结果
     """
-    ann = await db.get(Announcement, announcement_id)
+    ann_result = await db.execute(
+        select(Announcement)
+        .options(selectinload(Announcement.purchaser))
+        .where(Announcement.id == announcement_id)
+    )
+    ann = ann_result.scalar_one_or_none()
     if not ann:
         raise HTTPException(status_code=404, detail=f"公告 {announcement_id} 不存在")
 
@@ -274,8 +307,8 @@ async def get_announcement_detail(
             "bid_amount": float(row.bid_amount) if row.bid_amount else None,
             "budget_amount": float(row.budget_amount) if row.budget_amount else None,
             "discount_rate": float(row.discount_rate) if row.discount_rate else None,
-            "bid_open_date": row.bid_open_date.isoformat() if row.bid_open_date else None,
-            "contract_end": row.contract_end.isoformat() if row.contract_end else None,
+            "bid_open_date": _to_iso(row.bid_open_date),
+            "contract_end": _to_iso(row.contract_end),
             "is_continuous": row.is_continuous,
             "continuous_count": row.continuous_count,
         }
@@ -340,34 +373,156 @@ async def get_announcement_detail(
 @router.post("/fetch", summary="手动触发数据采集")
 async def fetch_announcements(
     background_tasks: BackgroundTasks,
-    province: Optional[str] = Query(None, description="指定省份（如：广东）"),
+    province: Optional[str] = Query("广东", description="目标省份: 广东、广西等，或'全国'使用所有适配器"),
 ):
     """
     触发爬虫采集最新招标公告。
 
-    使用 DataCollector（ZhaobiaoAdapter）完整采集链路：
+    使用 DataCollector 完整采集链路：
     列表搜索 → 详情提取 → 字段标准化 → LLM分类/预算 → 入库
+
+    支持单省份采集或全国采集（使用所有已启用适配器）。
     """
     if not settings.CRAWLER_ENABLED:
         return {"status": "disabled", "message": "爬虫功能已禁用"}
 
     province_name = province or "广东"
+    task_id = str(uuid.uuid4())[:8]
+
+    is_nationwide = province_name == "全国"
+
+    _fetch_tasks[task_id] = {
+        "status": "starting",
+        "progress": 0,
+        "message": f"正在启动采集引擎（{'全国' if is_nationwide else province_name}）...",
+        "province": province_name,
+        "started_at": datetime.now().isoformat(),
+        "result_count": 0,
+        "error": None,
+    }
 
     async def _run_crawler():
         try:
             from data_collector import get_collector
             collector = get_collector()
-            results = await collector.collect_async(save_to_db=True)
-            logger.info(f"[{province_name}] 采集完成: {len(results)} 条")
+
+            if is_nationwide:
+                # 全国模式：使用所有已启用适配器
+                _fetch_tasks[task_id].update(
+                    status="running", progress=5,
+                    message="全国采集模式：正在初始化多数据源适配器...",
+                    phase="init",
+                )
+
+                _fetch_tasks[task_id].update(
+                    progress=15, phase="search",
+                    message="正在从 b2b.10086.cn + 各省平台搜索招标公告...",
+                )
+
+                # 启动心跳
+                import asyncio as _asyncio
+                heartbeat_running = True
+
+                async def _heartbeat():
+                    p = 15
+                    while heartbeat_running and p < 90:
+                        await _asyncio.sleep(8)
+                        p = min(p + 8, 90)
+                        if heartbeat_running:
+                            _fetch_tasks[task_id].update(
+                                progress=p, phase="extract",
+                                message=f"全国多源采集进行中（已完成约 {p}%）...",
+                            )
+
+                heartbeat_task = _asyncio.ensure_future(_heartbeat())
+
+                try:
+                    all_results = collector.collect_all_enabled(save_to_db=True)
+                    total = sum(len(v) for v in all_results.values())
+                finally:
+                    heartbeat_running = False
+                    heartbeat_task.cancel()
+
+                _fetch_tasks[task_id].update(
+                    status="completed", progress=100,
+                    message=f"全国采集完成，共获取 {total} 条公告",
+                    result_count=total, phase="done",
+                )
+                logger.info(f"[全国] 采集完成: {total} 条, 来源: {list(all_results.keys())}")
+
+            else:
+                # 单省份模式：b2b 采集 + 省份过滤
+                _fetch_tasks[task_id].update(
+                    status="running", progress=5,
+                    message=f"正在初始化采集引擎（{province_name}）...",
+                    phase="init",
+                )
+
+                _fetch_tasks[task_id].update(
+                    progress=15, phase="search",
+                    message=f"正在搜索 b2b.10086.cn {province_name}移动招标公告...",
+                )
+
+                _fetch_tasks[task_id].update(
+                    progress=25, phase="extract",
+                    message=f"正在逐条提取{province_name}公告详情（预计 1-3 分钟）...",
+                )
+
+                import asyncio as _asyncio
+                heartbeat_running = True
+
+                async def _heartbeat():
+                    p = 25
+                    while heartbeat_running and p < 90:
+                        await _asyncio.sleep(8)
+                        p = min(p + 8, 90)
+                        if heartbeat_running:
+                            _fetch_tasks[task_id].update(
+                                progress=p,
+                                message=f"正在逐条提取{province_name}公告详情（已完成约 {p}%）...",
+                            )
+
+                heartbeat_task = _asyncio.ensure_future(_heartbeat())
+
+                try:
+                    results = await collector.collect_async(
+                        save_to_db=True, province=province_name,
+                    )
+                finally:
+                    heartbeat_running = False
+                    heartbeat_task.cancel()
+
+                _fetch_tasks[task_id].update(
+                    status="completed", progress=100,
+                    message=f"{province_name}采集完成，共获取 {len(results)} 条公告",
+                    result_count=len(results), phase="done",
+                )
+                logger.info(f"[{province_name}] 采集完成: {len(results)} 条")
+
         except Exception as e:
             logger.error(f"采集失败: {e}")
+            _fetch_tasks[task_id].update(
+                status="failed", progress=0,
+                message=f"采集失败: {str(e)[:100]}",
+                error=str(e), phase="error",
+            )
 
     background_tasks.add_task(_run_crawler)
 
     return {
         "status": "started",
-        "message": f"数据采集已在后台启动（{province_name}，最多 3 页）",
+        "task_id": task_id,
+        "message": f"数据采集已在后台启动（{province_name}）",
     }
+
+
+@router.get("/fetch/status/{task_id}", summary="查询采集进度")
+async def get_fetch_status(task_id: str):
+    """查询采集任务的实时进度。"""
+    task = _fetch_tasks.get(task_id)
+    if not task:
+        raise HTTPException(status_code=404, detail=f"任务 {task_id} 不存在或已过期")
+    return task
 
 
 @router.post("/discover", summary="多引擎搜索发现招标公告")
@@ -456,46 +611,95 @@ async def toggle_favorite(
 # ============================================================
 
 def _compute_announcement_score(ann: Announcement) -> dict:
-    """使用评分引擎计算公告的机会评分（简化版，适合列表批量计算）。"""
+    """使用评分引擎计算公告的机会评分。
+
+    七维度加权评分：
+      1. 采购公平性 (20%) — 基于采购方式的竞争程度（模糊匹配）
+      2. 竞争集中度 (15%) — 基于项目类别热度
+      3. 赛道匹配度 (15%) — 基于项目类别是否为广告核心赛道
+      4. 预算健康度 (15%) — 基于预算规模
+      5. 在位者优势 (15%) — 基于是否有历史在位者
+      6. 时效新鲜度 (10%) — 基于公告发布时间
+      7. 信息完整度 (10%) — 基于关键字段填充率
+    """
     try:
-        # 1. 采购方式公平性
-        method = ann.procurement_method or ""
-        fairness_map = {"公开招标": 100, "公开询比": 80, "竞争性谈判": 50, "单一来源": 0}
-        fairness = float(fairness_map.get(method.strip(), 60))
+        from datetime import datetime
 
-        # 2. HHI集中度（无历史数据时默认中性）
-        hhi = 60.0
+        # ── 1. 采购方式公平性 (20%) ──
+        method = (ann.procurement_method or "").strip()
+        fairness = 60.0  # 默认中性
+        if "公开招标" in method or "招标" in method:
+            fairness = 100.0
+        elif "公开询比" in method or "询比" in method:
+            fairness = 80.0
+        elif "竞争性谈判" in method or "谈判" in method:
+            fairness = 50.0
+        elif "单一来源" in method:
+            fairness = 20.0
+        elif "比选" in method:
+            fairness = 85.0
 
-        # 3. 项目类别匹配度（无偏好时中性）
-        category = 60.0
+        # ── 2. 竞争集中度 / 3. 赛道匹配度 ──
+        cat = (ann.project_category or "").strip()
+        core_cats = {"品牌策略", "创意设计", "媒介投放", "活动执行", "内容制作", "新媒体运营", "品牌宣传"}
+        cat_matched = any(c in cat for c in core_cats)
+        hhi = 70.0 if cat_matched else 55.0
+        category = 70.0 if cat_matched else 50.0
 
-        # 4. 预算健康度（基于预算规模）
+        # ── 4. 预算健康度 (15%) ──
         budget_val = float(ann.budget) if ann.budget else 0
-        if budget_val >= 200:
-            budget = 90.0
+        if budget_val >= 500:
+            budget = 95.0
+        elif budget_val >= 200:
+            budget = 85.0
         elif budget_val >= 100:
             budget = 75.0
         elif budget_val >= 50:
             budget = 60.0
         elif budget_val > 0:
-            budget = 45.0
+            budget = 40.0
         else:
-            budget = 50.0
+            budget = 30.0  # 预算未知
 
-        # 5. 在位者优势（默认无在位者，最高分）
+        # ── 5. 在位者优势 (15%) ──
         incumbent = 100.0
 
-        # 6. 客情关系（默认无客情）
-        relation = 50.0
+        # ── 6. 时效新鲜度 (10%) ──
+        freshness = 50.0
+        if ann.announce_date:
+            days_ago = (datetime.now().date() - ann.announce_date).days
+            if days_ago <= 3:
+                freshness = 100.0
+            elif days_ago <= 7:
+                freshness = 85.0
+            elif days_ago <= 14:
+                freshness = 70.0
+            elif days_ago <= 30:
+                freshness = 55.0
+            else:
+                freshness = 30.0
 
-        # 权重加权
+        # ── 7. 信息完整度 (10%) ──
+        complete_count = 0
+        if ann.budget and float(ann.budget) > 0:
+            complete_count += 1
+        if ann.city and ann.city.strip():
+            complete_count += 1
+        if ann.deadline and ann.deadline.year > 2000:
+            complete_count += 1
+        if ann.bid_date:
+            complete_count += 1
+        completeness = 50.0 + complete_count * 12.5
+
+        # ── 加权汇总 ──
         weights = {
             "procurement_fairness": 0.20,
-            "hhi_concentration": 0.20,
-            "category_match": 0.20,
+            "hhi_concentration": 0.15,
+            "category_match": 0.15,
             "budget_health": 0.15,
             "incumbent_advantage": 0.15,
-            "client_relation": 0.10,
+            "freshness": 0.10,
+            "completeness": 0.10,
         }
 
         total = (
@@ -504,10 +708,11 @@ def _compute_announcement_score(ann: Announcement) -> dict:
             + category * weights["category_match"]
             + budget * weights["budget_health"]
             + incumbent * weights["incumbent_advantage"]
-            + relation * weights["client_relation"]
+            + freshness * weights["freshness"]
+            + completeness * weights["completeness"]
         )
 
-        # 陪跑概率标签
+        # ── 陪跑概率标签 ──
         if total >= 75:
             prob_label = "低"
         elif total >= 50:
@@ -515,13 +720,13 @@ def _compute_announcement_score(ann: Announcement) -> dict:
         else:
             prob_label = "高"
 
-        # 推荐建议
+        # ── 推荐建议（纯文本，避免 emoji 编码问题） ──
         if total >= 75:
-            rec = "🌟 高机会：建议优先跟进，竞争环境有利"
+            rec = "高机会: 建议优先跟进，竞争环境有利"
         elif total >= 50:
-            rec = "👍 中等机会：评估自身优势后决定是否参与"
+            rec = "中等机会: 评估自身优势后决定是否参与"
         else:
-            rec = "⚠️ 低机会：竞争激烈或在位者优势明显，谨慎评估"
+            rec = "低机会: 竞争激烈或在位者优势明显，谨慎评估"
 
         return {
             "total_score": round(total, 1),
@@ -533,7 +738,8 @@ def _compute_announcement_score(ann: Announcement) -> dict:
                 "category_match": round(category, 1),
                 "budget_health": round(budget, 1),
                 "incumbent_advantage": round(incumbent, 1),
-                "client_relation": round(relation, 1),
+                "freshness": round(freshness, 1),
+                "completeness": round(completeness, 1),
             },
         }
     except Exception as e:

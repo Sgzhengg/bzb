@@ -176,6 +176,14 @@ class BaseAdapter(ABC):
         # 混合分类：关键词优先 + LLM 兜底
         filter_result = filter_with_llm_fallback(title, content)
 
+        # 中标公示强制标记为非广告（应入 awards 表）
+        if filter_result["is_ad"]:
+            winning_keywords = ["中选候选人", "中选结果", "中选人", "中标候选人", "中标结果", "中标人", "成交候选人", "成交结果"]
+            if any(kw in title for kw in winning_keywords):
+                filter_result["is_ad"] = False
+                filter_result["category"] = "中标公示"
+                self.logger.info(f"  ⏭️ 中标公示跳过: {title[:60]}")
+
         # 预算提取：正则优先 → LLM 兜底
         budget = raw.get("budget")
         registration_fee = raw.get("registration_fee")

@@ -111,8 +111,8 @@ class B2b10086Adapter(BaseAdapter):
         import json as _json
         return _json.dumps(all_items)
 
-    def parse_list(self, html: str) -> List[Dict]:
-        """解析 JSON 列表结果。"""
+    def parse_list(self, html: str, province: str = "") -> List[Dict]:
+        """解析 JSON 列表结果。province 参数用于过滤目标省份。"""
         import json as _json
         try:
             items = _json.loads(html)
@@ -121,6 +121,7 @@ class B2b10086Adapter(BaseAdapter):
             return []
 
         results = []
+        province_matched = 0
         for item in items:
             item_id = str(item.get("id", ""))
             title = item.get("name", "")
@@ -132,6 +133,16 @@ class B2b10086Adapter(BaseAdapter):
             self._seen_ids.add(item_id)
 
             if not self._is_mobile(title):
+                continue
+
+            # 跳过中标公示
+            if self._is_winning_announcement(title):
+                self.logger.debug(f"  ⏭️ 跳过中标公示: {title[:60]}")
+                continue
+
+            # 省份过滤（如果指定了省份）
+            if province and not self._match_province(title, province):
+                province_matched += 1
                 continue
 
             pid = item.get("id", "")
@@ -160,6 +171,39 @@ class B2b10086Adapter(BaseAdapter):
             "北京移动", "上海移动", "天津移动", "重庆移动",
             "移动通信集团",
         ]
+        return any(kw in title for kw in keywords)
+
+    def _is_winning_announcement(self, title: str) -> bool:
+        """判断是否为中标公示（中选/中标候选人/结果公示），应入 awards 表而非 announcements。"""
+        patterns = [
+            "中选候选人", "中选结果", "中选人",
+            "中标候选人", "中标结果", "中标人",
+            "成交候选人", "成交结果",
+            "_中选", "_中标", "_成交",
+        ]
+        return any(p in title for p in patterns)
+
+    def _match_province(self, title: str, province: str) -> bool:
+        """检查标题是否匹配指定省份。"""
+        province_map = {
+            "广东": ["广东", "广州", "深圳", "东莞", "佛山", "珠海", "惠州", "中山", "江门", "汕头", "湛江", "茂名", "肇庆", "梅州", "汕尾", "河源", "阳江", "清远", "韶关", "潮州", "揭阳", "云浮"],
+            "广西": ["广西", "南宁", "柳州", "桂林", "玉林", "梧州", "北海", "贵港", "钦州", "百色", "河池", "贺州", "来宾", "崇左", "防城港"],
+            "福建": ["福建", "福州", "厦门", "泉州", "漳州", "龙岩", "三明", "南平", "莆田", "宁德"],
+            "海南": ["海南", "海口", "三亚", "儋州"],
+            "浙江": ["浙江", "杭州", "宁波", "温州", "嘉兴", "湖州", "绍兴", "金华", "衢州", "舟山", "台州", "丽水"],
+            "湖南": ["湖南", "长沙", "株洲", "湘潭", "衡阳", "邵阳", "岳阳", "常德", "张家界", "益阳", "郴州", "永州", "怀化", "娄底"],
+            "安徽": ["安徽", "合肥", "芜湖", "蚌埠", "淮南", "马鞍山", "淮北", "铜陵", "安庆", "黄山", "滁州", "阜阳", "宿州", "六安", "亳州", "池州", "宣城"],
+            "山东": ["山东", "济南", "青岛", "淄博", "枣庄", "东营", "烟台", "潍坊", "济宁", "泰安", "威海", "日照", "临沂", "德州", "聊城", "滨州", "菏泽"],
+            "江苏": ["江苏", "南京", "苏州", "无锡", "常州", "南通", "扬州", "镇江", "泰州", "盐城", "徐州", "淮安", "连云港", "宿迁"],
+            "四川": ["四川", "成都", "绵阳", "德阳", "宜宾", "南充", "泸州", "达州", "乐山"],
+            "湖北": ["湖北", "武汉", "宜昌", "襄阳", "荆州", "黄冈", "孝感", "十堰", "荆门"],
+            "河南": ["河南", "郑州", "洛阳", "南阳", "许昌", "周口", "新乡", "商丘"],
+            "北京": ["北京", "东城", "西城", "朝阳", "海淀"],
+            "上海": ["上海", "浦东", "黄浦", "徐汇", "静安"],
+            "重庆": ["重庆", "渝中", "江北", "南岸", "渝北"],
+            "天津": ["天津", "和平", "河东", "河西", "南开", "滨海"],
+        }
+        keywords = province_map.get(province, [province])
         return any(kw in title for kw in keywords)
 
     # ── 详情页 ──
@@ -266,18 +310,24 @@ class B2b10086Adapter(BaseAdapter):
 
     # ── 主流程（覆盖基类以传递 uuid） ──
 
-    def run(self, save_to_db: bool = True) -> List[Dict]:
-        """执行完整采集流程，在抓取详情前设置 _current_item 用于传递 uuid。"""
+    def run(self, save_to_db: bool = True, **kwargs) -> List[Dict]:
+        """执行完整采集流程，在抓取详情前设置 _current_item 用于传递 uuid。
+        
+        Args:
+            save_to_db: 是否入库
+            **kwargs: 支持 province 参数进行省份过滤
+        """
+        province_filter = kwargs.get("province", "")
         all_results = []
         seen_urls = set()
 
-        self.logger.info(f"===== {self.name} 开始采集 =====")
+        self.logger.info(f"===== {self.name} 开始采集 (省份={province_filter or '不限'}) =====")
 
         for page in range(1, self.max_pages + 1):
             self.logger.info(f"--- 列表页 第 {page} 页 ---")
             try:
                 html = self.fetch_list(page=page)
-                items = self.parse_list(html)
+                items = self.parse_list(html, province=province_filter)
 
                 if not items:
                     self.logger.info("无更多公告，翻页结束")

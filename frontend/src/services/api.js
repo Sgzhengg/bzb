@@ -48,9 +48,20 @@ export async function getOpportunityList(params = {}) {
 
 /**
  * 触发数据采集（后台异步，立即返回）
+ * @param {string} province - 目标省份，默认广东
  */
-export async function fetchNewAnnouncements() {
-  return apiClient.post("/announcements/fetch", null, { timeout: 30000 });
+export async function fetchNewAnnouncements(province = "广东") {
+  return apiClient.post("/announcements/fetch", null, {
+    params: { province },
+    timeout: 30000,
+  });
+}
+
+/**
+ * 查询采集进度
+ */
+export async function getFetchStatus(taskId) {
+  return apiClient.get(`/announcements/fetch/status/${taskId}`);
 }
 
 /**

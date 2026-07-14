@@ -1,18 +1,21 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import {
   Card, Table, Tag, Progress, Button, Space, Input, Select,
   Row, Col, Typography, Badge, Tooltip, message, Spin, Empty,
-  Slider, Modal, Descriptions, Divider,
+  Slider, Modal, Descriptions, Divider, Steps,
 } from "antd";
 import {
   SearchOutlined,
   ThunderboltOutlined,
   StarOutlined, StarFilled,
   CloudDownloadOutlined,
+  LoadingOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useOpportunityList } from "../services/apiHooks";
-import { toggleFavorite, getAnnouncementOriginal, fetchNewAnnouncements } from "../services/api";
+import { toggleFavorite, getAnnouncementOriginal, fetchNewAnnouncements, getFetchStatus } from "../services/api";
 
 const { Title, Text } = Typography;
 
@@ -76,6 +79,14 @@ const PROVINCE_CITIES = {
   "湖南": ["全部城市", "长沙", "株洲", "湘潭", "衡阳", "邵阳", "岳阳", "常德", "张家界", "益阳", "郴州", "永州", "怀化", "娄底"],
   "安徽": ["全部城市", "合肥", "芜湖", "蚌埠", "淮南", "马鞍山", "淮北", "铜陵", "安庆", "黄山", "滁州", "阜阳", "宿州", "六安", "亳州", "池州", "宣城"],
   "山东": ["全部城市", "济南", "青岛", "淄博", "枣庄", "东营", "烟台", "潍坊", "济宁", "泰安", "威海", "日照", "临沂", "德州", "聊城", "滨州", "菏泽"],
+  "江苏": ["全部城市", "南京", "苏州", "无锡", "常州", "南通", "扬州", "镇江", "泰州", "盐城", "徐州", "淮安", "连云港", "宿迁"],
+  "四川": ["全部城市", "成都", "绵阳", "德阳", "宜宾", "南充", "泸州", "达州", "乐山", "凉山", "内江", "自贡", "眉山", "广安", "遂宁", "攀枝花", "广元", "资阳", "巴中", "雅安"],
+  "湖北": ["全部城市", "武汉", "宜昌", "襄阳", "荆州", "黄冈", "孝感", "十堰", "荆门", "黄石", "咸宁", "恩施", "鄂州", "随州"],
+  "河南": ["全部城市", "郑州", "洛阳", "南阳", "许昌", "周口", "新乡", "商丘", "驻马店", "信阳", "平顶山", "开封", "安阳", "焦作", "濮阳", "漯河", "三门峡", "鹤壁"],
+  "北京": ["全部城市", "东城", "西城", "朝阳", "海淀", "丰台", "石景山", "通州", "大兴", "顺义", "昌平", "房山"],
+  "上海": ["全部城市", "浦东新区", "黄浦", "徐汇", "长宁", "静安", "普陀", "虹口", "杨浦", "闵行", "宝山", "嘉定", "松江"],
+  "重庆": ["全部城市", "渝中", "江北", "南岸", "沙坪坝", "九龙坡", "大渡口", "北碚", "渝北", "巴南", "万州", "涪陵"],
+  "天津": ["全部城市", "和平", "河东", "河西", "南开", "河北", "红桥", "滨海新区", "东丽", "西青", "津南", "北辰", "武清"],
 };
 
 // ============================================================
@@ -107,16 +118,73 @@ function OpportunityList() {
   const [showFavorites, setShowFavorites] = useState(false);
   const [fetching, setFetching] = useState(false);
 
+  // 采集进度状态
+  const [fetchProgress, setFetchProgress] = useState(null); // {taskId, status, progress, message, ...}
+  const pollingRef = useRef(null);
+
+  // 停止轮询
+  const stopPolling = () => {
+    if (pollingRef.current) {
+      clearInterval(pollingRef.current);
+      pollingRef.current = null;
+    }
+  };
+
+  // 组件卸载时清理
+  useEffect(() => () => stopPolling(), []);
+
   const handleFetch = async () => {
     setFetching(true);
     try {
-      const result = await fetchNewAnnouncements();
-      message.success(result.message || "采集任务已启动");
-      setTimeout(() => refetch(), 5000);
-      setTimeout(() => refetch(), 15000);
+      // 采集目标：使用筛选栏选中的省份，未选则为"广东"
+      const targetProvince = filterProvince || "广东";
+      const result = await fetchNewAnnouncements(targetProvince);
+      if (result.task_id) {
+        // 开始轮询进度
+        setFetchProgress({
+          taskId: result.task_id,
+          status: "starting",
+          progress: 0,
+          message: result.message || "正在启动...",
+        });
+
+        stopPolling();
+        pollingRef.current = setInterval(async () => {
+          try {
+            const status = await getFetchStatus(result.task_id);
+            setFetchProgress(prev => ({
+              ...prev,
+              ...status,
+            }));
+
+            if (status.status === "completed") {
+              stopPolling();
+              message.success(status.message || "采集完成！");
+              setTimeout(() => {
+                setFetchProgress(null);
+                setFetching(false);
+                refetch();
+              }, 2000);
+            } else if (status.status === "failed") {
+              stopPolling();
+              message.error(status.message || "采集失败");
+              setTimeout(() => {
+                setFetchProgress(null);
+                setFetching(false);
+              }, 3000);
+            }
+          } catch {
+            // 轮询出错，静默继续
+          }
+        }, 1500);
+      } else {
+        message.success(result.message || "采集任务已启动");
+        setFetching(false);
+        setTimeout(() => refetch(), 5000);
+        setTimeout(() => refetch(), 15000);
+      }
     } catch {
       message.error("启动采集失败");
-    } finally {
       setFetching(false);
     }
   };
@@ -270,7 +338,6 @@ function OpportunityList() {
       dataIndex: "budget",
       key: "budget",
       width: 110,
-      sorter: (a, b) => (a.budget || 0) - (b.budget || 0),
       render: (val) => (val != null && val !== 0) ? <Text strong>{val} 万</Text> : <Text type="secondary">—</Text>,
     },
     {
@@ -295,7 +362,6 @@ function OpportunityList() {
       dataIndex: "deadline",
       key: "deadline",
       width: 115,
-      sorter: (a, b) => new Date(a.deadline) - new Date(b.deadline),
       render: (val) => <Text>{formatDate(val)}</Text>,
     },
     {
@@ -324,8 +390,6 @@ function OpportunityList() {
       dataIndex: "total_score",
       key: "total_score",
       width: 150,
-      sorter: (a, b) => a.total_score - b.total_score,
-      defaultSortOrder: "descend",
       render: (score) => (
         <Progress
           percent={score}
@@ -498,7 +562,8 @@ function OpportunityList() {
               pagination={{
                 pageSize: 20,
                 showSizeChanger: true,
-                showTotal: (total) => `共 ${total} 条`,
+                showTotal: (total, range) => `第 ${range[0]}-${range[1]} 条，共 ${total} 条`,
+                total: response?.total || 0,
               }}
               scroll={{ x: 1800 }}
               size="small"
@@ -573,6 +638,99 @@ function OpportunityList() {
             </div>
           </div>
         )}
+      </Modal>
+
+      {/* 采集进度模态框 */}
+      <Modal
+        title={
+          <Space>
+            {fetchProgress?.status === "completed" ? (
+              <CheckCircleOutlined style={{ color: "#52c41a" }} />
+            ) : fetchProgress?.status === "failed" ? (
+              <CloseCircleOutlined style={{ color: "#ff4d4f" }} />
+            ) : (
+              <LoadingOutlined spin style={{ color: "#1677ff" }} />
+            )}
+            <span>数据采集进度</span>
+          </Space>
+        }
+        open={!!fetchProgress}
+        footer={null}
+        closable={fetchProgress?.status === "completed" || fetchProgress?.status === "failed"}
+        onCancel={() => {
+          stopPolling();
+          setFetchProgress(null);
+          setFetching(false);
+        }}
+        maskClosable={false}
+        width={500}
+      >
+        {fetchProgress && (() => {
+          // 根据 phase 计算当前步骤
+          const phaseMap = { init: 0, search: 1, extract: 2, done: 3, error: -1 };
+          const currentStep = phaseMap[fetchProgress.phase] ?? 0;
+          const isExtracting = fetchProgress.phase === "extract";
+
+          return (
+            <div style={{ padding: "16px 0" }}>
+              <Steps
+                current={currentStep}
+                status={
+                  fetchProgress.status === "failed" ? "error"
+                  : fetchProgress.status === "completed" ? "finish"
+                  : "process"
+                }
+                size="small"
+                items={[
+                  { title: "初始化", description: "启动采集引擎" },
+                  { title: "搜索列表", description: "扫描招标公告" },
+                  { title: "提取详情", description: isExtracting ? "逐条解析中..." : "解析公告内容" },
+                  { title: "入库完成", description: "数据写入数据库" },
+                ]}
+                style={{ marginBottom: 24 }}
+              />
+              <div style={{ textAlign: "center", marginBottom: 16 }}>
+                <Progress
+                  type="circle"
+                  percent={isExtracting ? Math.round(fetchProgress.progress) : fetchProgress.progress}
+                  strokeColor={
+                    fetchProgress.status === "failed" ? "#ff4d4f"
+                    : fetchProgress.status === "completed" ? "#52c41a"
+                    : { "0%": "#108ee9", "100%": "#87d068" }
+                  }
+                  status={
+                    fetchProgress.status === "failed" ? "exception"
+                    : fetchProgress.status === "completed" ? "success"
+                    : "active"
+                  }
+                  size={100}
+                />
+              </div>
+              <div style={{ textAlign: "center" }}>
+                <Text style={{ fontSize: 14 }}>
+                  {fetchProgress.message}
+                </Text>
+                {isExtracting && (
+                  <div style={{ marginTop: 8 }}>
+                    <Text type="secondary" style={{ fontSize: 12 }}>
+                      此过程需要 1-3 分钟，请耐心等待...
+                    </Text>
+                  </div>
+                )}
+                {fetchProgress.result_count > 0 && (
+                  <div style={{ marginTop: 8 }}>
+                    <Tag color="green">共采集 {fetchProgress.result_count} 条公告</Tag>
+                  </div>
+                )}
+                {fetchProgress.status === "failed" && fetchProgress.error && (
+                  <div style={{ marginTop: 8 }}>
+                    <Text type="danger" style={{ fontSize: 12 }}>{fetchProgress.error}</Text>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })()}
       </Modal>
     </div>
   );

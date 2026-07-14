@@ -203,8 +203,8 @@ class DataCollector:
             if "max_pages" in kwargs:
                 adapter.max_pages = kwargs["max_pages"]
 
-            # 执行采集
-            results = adapter.run(save_to_db=save_to_db)
+            # 执行采集（传递 kwargs 如 province）
+            results = adapter.run(save_to_db=save_to_db, **kwargs)
 
             elapsed = round(time.time() - start, 1)
             task_entry["status"] = "success"
