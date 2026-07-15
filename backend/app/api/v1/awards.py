@@ -110,20 +110,10 @@ async def award_stats(
     amount_q = select(func.sum(HistoricalAward.bid_amount)).select_from(HistoricalAward)
     total_amount = (await db.execute(amount_q)).scalar() or 0
 
-    # 按中标方类型统计
-    type_q = (
-        select(
-            HistoricalAward.winner_type,
-            func.count().label("count"),
-        )
-        .group_by(HistoricalAward.winner_type)
-        .order_by(desc("count"))
-    )
-    type_result = await db.execute(type_q)
-    type_stats = [
-        {"type": row.winner_type, "count": row.count}
-        for row in type_result.fetchall()
-    ]
+    # 去重中标方数
+    from sqlalchemy import distinct
+    winner_count_q = select(func.count(distinct(HistoricalAward.winner_name))).select_from(HistoricalAward)
+    winner_count = (await db.execute(winner_count_q)).scalar() or 0
 
     # 按项目类别统计
     cat_q = (
@@ -143,7 +133,7 @@ async def award_stats(
     return {
         "total": total,
         "total_amount": round(float(total_amount), 1),
-        "winner_types": type_stats,
+        "winner_count": winner_count,
         "categories": cat_stats,
     }
 

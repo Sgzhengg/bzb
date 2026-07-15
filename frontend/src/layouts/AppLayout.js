@@ -35,13 +35,13 @@ function AppLayout() {
     try {
       const seen = getLastSeen();
       const [annRes, awardRes] = await Promise.all([
-        apiClient.get("/announcements", { params: { page_size: 1, sort: "date_desc" } }),
+        apiClient.get("/announcements", { params: { page_size: 1 } }),
         apiClient.get("/awards", { params: { page_size: 1 } }),
       ]);
-      const latestAnnId = annRes?.items?.[0]?.id || 0;
-      const latestAwardId = awardRes?.items?.[0]?.id || 0;
-      const annNew = Math.max(0, latestAnnId - (seen.annId || 0));
-      const awardNew = Math.max(0, latestAwardId - (seen.awardId || 0));
+      const annTotal = annRes?.total || 0;
+      const awardTotal = awardRes?.total || 0;
+      const annNew = Math.max(0, annTotal - (seen.annTotal || 0));
+      const awardNew = Math.max(0, awardTotal - (seen.awardTotal || 0));
       if (annNew > 0) setNewAnnBadge(prev => Math.max(prev, annNew));
       if (awardNew > 0) setNewAwardBadge(prev => Math.max(prev, awardNew));
     } catch {}
@@ -59,14 +59,14 @@ function AppLayout() {
     if (key === "/opportunities") {
       setNewAnnBadge(0);
       try {
-        const res = await apiClient.get("/announcements", { params: { page_size: 1, sort: "date_desc" } });
-        saveLastSeen({ ...seen, annId: res?.items?.[0]?.id || seen.annId || 0 });
+        const res = await apiClient.get("/announcements", { params: { page_size: 1 } });
+        saveLastSeen({ ...seen, annTotal: res?.total || seen.annTotal || 0 });
       } catch {}
     } else if (key === "/winning-results") {
       setNewAwardBadge(0);
       try {
         const res = await apiClient.get("/awards", { params: { page_size: 1 } });
-        saveLastSeen({ ...seen, awardId: res?.items?.[0]?.id || seen.awardId || 0 });
+        saveLastSeen({ ...seen, awardTotal: res?.total || seen.awardTotal || 0 });
       } catch {}
     }
     navigate(key);

@@ -79,6 +79,11 @@ def extract_budget(content: str) -> float | None:
 
 def extract_deadline(content: str) -> str:
     patterns = [
+        # 反馈截止时间
+        r"(?:于|在)\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*(?:日)?\s*(?:前|之前|截止).*?(?:反馈|提交|意见)",
+        r"(?:反馈|意见).*?(?:截止|于|在)\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})",
+        r"请.*?(?:于|在)\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2}).*?(?:前|之前).*?(?:提交|反馈)",
+        # 投标/报名截止时间
         r"(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*(?:日)?\s*(?:前|截止|之前)?.*?(?:投标|递交|提交|应答)",
         r"(?:投标|递交|提交|应答).*?截止.*?(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})",
         r"截止时间[：:]\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})",
@@ -132,6 +137,77 @@ def extract_deposit(content: str) -> float | None:
                 return val / 10000
             return val
     return None
+
+
+def extract_qualification(content: str) -> str:
+    """从公告正文中提取资格要求章节"""
+    if not content:
+        return ""
+
+    # 资格要求章节的可能标题
+    qual_headers = [
+        r"资格要求",
+        r"资格条件",
+        r"投标人资格要求",
+        r"投标人资格条件",
+        r"供应商资格要求",
+        r"申请人资格要求",
+        r"应答人资格要求",
+        r"资质要求",
+        r"资质条件",
+        r"投标人资质要求",
+        r"资格证明文件",
+        r"(?:二|三|四|五|六|七|八|九|十)[、.]?\s*投标人资格",
+        r"(?:二|三|四|五|六|七|八|九|十)[、.]?\s*资格",
+    ]
+
+    # 后续章节标题（资格章节到此结束）
+    end_headers = [
+        r"(?:三|四|五|六|七|八|九|十)[、.]",
+        r"获取(?:招标|采购|比选|询价|谈判|磋商)文件",
+        r"项目(?:概况|需求|内容)",
+        r"技术(?:规范|要求|需求)",
+        r"评审(?:办法|标准|方法)",
+        r"投标(?:文件|须知)",
+        r"联系(?:方式|人)",
+        r"发布(?:公告|媒体)",
+        r"监督(?:部门|电话)",
+        r"采购(?:需求|内容|范围)",
+        r"合同(?:条款|期限)",
+        r"附件[：:]",
+        r"招标(?:内容|范围)",
+    ]
+
+    # 拼接正则：匹配资格标题
+    header_pattern = "|".join(qual_headers)
+    end_pattern = "|".join(end_headers)
+
+    # 找到资格章节起点
+    match = re.search(rf"({header_pattern})", content, re.IGNORECASE)
+    if not match:
+        return ""
+
+    start = match.start()
+    # 跳过标题行本身
+    rest = content[match.end():]
+
+    # 找到下一个章节标题作为终点
+    end_match = re.search(rf"(?:^|\n)\s*({end_pattern})", rest, re.IGNORECASE)
+    if end_match:
+        qual_text = rest[:end_match.start()].strip()
+    else:
+        # 没有明确的结束标志，取后续 2000 字
+        qual_text = rest[:2000].strip()
+
+    # 清理：删除多余空白和无关前缀
+    qual_text = re.sub(r"\n{3,}", "\n\n", qual_text)
+    qual_text = qual_text[:2000]  # 限制长度
+
+    # 如果提取到的内容太短（<20字），可能匹配有误
+    if len(qual_text) < 20:
+        return ""
+
+    return qual_text
 
 
 def _normalize_date(raw: str) -> str:
@@ -233,6 +309,9 @@ async def backfill():
 
             # 结构化字段直接从 API 获取
             company_name = detail.get("companyName", "") or ""
+            api_publish_date = detail.get("publishDate", "") or ""
+            api_deadline = detail.get("tenderSaleDeadline", "") or ""
+            api_back_date = detail.get("backDate", "") or ""
 
             # HTML 正文
             notice_html = detail.get("noticeContent", "") or ""
@@ -242,14 +321,33 @@ async def backfill():
                 skipped += 1
                 continue
 
-            # 从文本提取字段
+            # 从文本提取字段（API结构化数据优先）
+            deadline_from_content = extract_deadline(content_text)
+            bid_date_from_content = extract_bid_date(content_text)
+
+            # deadline: 优先用API的 tenderSaleDeadline，否则用正则
+            deadline = None
+            if api_deadline and not api_deadline.startswith("1900"):
+                deadline = _normalize_date(api_deadline)
+            elif deadline_from_content:
+                deadline = deadline_from_content
+
+            # bid_date: 优先用API的 backDate
+            bid_date = None
+            if api_back_date and not api_back_date.startswith("1900"):
+                bid_date = _normalize_date(api_back_date)
+            elif bid_date_from_content:
+                bid_date = bid_date_from_content
+
             fields = {
                 "industry": extract_purchaser(title, content_text, company_name),
+                "announce_date": _normalize_date(api_publish_date) if api_publish_date and not api_publish_date.startswith("1900") else None,
                 "budget": extract_budget(content_text),
-                "deadline": extract_deadline(content_text),
-                "bid_date": extract_bid_date(content_text),
+                "deadline": deadline,
+                "bid_date": bid_date,
                 "registration_fee": extract_registration_fee(content_text),
                 "deposit": extract_deposit(content_text),
+                "qualification": extract_qualification(content_text),
             }
 
             # 只更新有值的字段
@@ -258,6 +356,13 @@ async def backfill():
                 existing = (ann.industry or "").strip()
                 if fields["industry"] != existing:
                     updates["industry"] = fields["industry"]
+            if fields["announce_date"]:
+                d = parse_date(fields["announce_date"])
+                if d:
+                    existing = ann.announce_date
+                    # Update if different day (not just today's default)
+                    if existing and hasattr(existing, 'strftime'):
+                        updates["announce_date"] = d
             if fields["budget"] is not None:
                 existing = float(ann.budget or 0)
                 if existing == 0 or abs(existing - fields["budget"]) > 0.01:
@@ -278,6 +383,10 @@ async def backfill():
                 existing = float(ann.deposit or 0)
                 if existing == 0:
                     updates["deposit"] = fields["deposit"]
+            if fields["qualification"]:
+                existing = (ann.qualification_requirements or "").strip()
+                if not existing or len(existing) < 50:
+                    updates["qualification_requirements"] = fields["qualification"]
 
             if updates:
                 async with AsyncSessionLocal() as db:

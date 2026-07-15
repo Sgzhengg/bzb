@@ -63,6 +63,7 @@ async def list_announcements(
     budget_max: Optional[float] = Query(None, description="预算上限"),
     search: Optional[str] = Query(None, description="项目名称搜索"),
     favorites_only: bool = Query(False, description="仅显示收藏"),
+    notice_type: Optional[str] = Query(None, description="公告类型: opinion=征集意见, bidding=招标公告"),
     db: AsyncSession = Depends(get_db),
 ):
     """获取招标公告列表，支持多维筛选、排序和分页。"""
@@ -89,11 +90,11 @@ async def list_announcements(
     if search:
         conditions.append(Announcement.title.ilike(f"%{search}%"))
 
-    # 自动过滤中标公示（中选/中标/成交候选人/结果公示属于中标结果页，非机会列表）
+    # 自动过滤中标公示（中选/中标/候选人/结果公示属于中标结果页，非机会列表）
     conditions.append(
         ~Announcement.title.ilike("%中选%")
         & ~Announcement.title.ilike("%中标%")
-        & ~Announcement.title.ilike("%成交候选人%")
+        & ~Announcement.title.ilike("%候选人%")
         & ~Announcement.title.ilike("%成交结果%")
     )
 
@@ -105,6 +106,22 @@ async def list_announcements(
     # 仅显示收藏
     if favorites_only:
         conditions.append(Announcement.is_favorited == True)
+
+    # 公告类型筛选
+    if notice_type == "opinion":
+        # 征集意见公告：URL含PURCHASE_OPINION 或 标题含征集/意见
+        conditions.append(
+            Announcement.source_url.ilike("%PURCHASE_OPINION%")
+            | Announcement.title.ilike("%征集%")
+            | Announcement.title.ilike("%意见%")
+        )
+    elif notice_type == "bidding":
+        # 招标公告：排除征集意见类
+        conditions.append(
+            ~Announcement.source_url.ilike("%PURCHASE_OPINION%")
+            & ~Announcement.title.ilike("%征集%")
+            & ~Announcement.title.ilike("%意见%")
+        )
 
     # 总数
     count_q = select(func.count()).select_from(Announcement)
@@ -462,6 +479,9 @@ async def get_announcement_detail(
         "procurement_method": ann.procurement_method,
         "budget": float(ann.budget) if ann.budget is not None else None,
         "deadline": ann.deadline.isoformat() if ann.deadline else None,
+        "bid_date": ann.bid_date.isoformat() if getattr(ann, 'bid_date', None) else None,
+        "registration_fee": float(getattr(ann, 'registration_fee', 0) or 0),
+        "deposit": float(getattr(ann, 'deposit', 0) or 0),
         "announce_date": ann.announce_date.isoformat() if ann.announce_date else None,
         "qualification_requirements": ann.qualification_requirements,
         "original_content": ann.original_content if hasattr(ann, 'original_content') else "",

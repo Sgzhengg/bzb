@@ -124,6 +124,8 @@ function OpportunityList() {
   const [showFavorites, setShowFavorites] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [provinceModalVisible, setProvinceModalVisible] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
 
   // 采集进度状态
   const [fetchProgress, setFetchProgress] = useState(null); // {taskId, status, progress, message, ...}
@@ -211,7 +213,13 @@ function OpportunityList() {
   const handleProvinceChange = (val) => {
     setFilterProvince(val);
     setFilterCity("");
+    setCurrentPage(1);
   };
+
+  // 筛选变更时回到第1页
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterNoticeType, filterCategory, filterMethod, searchText]);
 
   // 构建查询参数
   const params = useMemo(() => {
@@ -226,11 +234,14 @@ function OpportunityList() {
       budget_max: budgetRange[1] || undefined,
       search: searchText || undefined,
       favorites_only: showFavorites || undefined,
+      notice_type: filterNoticeType || undefined,
+      page: currentPage,
+      page_size: pageSize,
     };
     // 清除 undefined 值
     Object.keys(result).forEach(k => result[k] === undefined && delete result[k]);
     return result;
-  }, [filterProvince, filterCity, filterCategory, filterMethod, budgetRange, searchText, showFavorites]);
+  }, [filterProvince, filterCity, filterCategory, filterMethod, filterNoticeType, budgetRange, searchText, showFavorites, currentPage, pageSize]);
 
   // 公告内容模态框状态
   const [contentModalVisible, setContentModalVisible] = useState(false);
@@ -239,28 +250,7 @@ function OpportunityList() {
   // 使用 React Query hooks
   const { data: response, isLoading, refetch } = useOpportunityList(params);
 
-  // 判断是否为征集意见公告（通过 source_url 中的 publishOneType 或标题关键词）
-  const isOpinionNotice = (item) => {
-    const url = item.source_url || "";
-    // 方式1：URL 中包含 PURCHASE_OPINION 即为征集意见公告
-    if (/PURCHASE_OPINION/i.test(url)) return true;
-    // 方式2：标题中包含"征集"或"意见"关键词
-    const title = item.title || "";
-    if (/征集|意见/.test(title)) return true;
-    return false;
-  };
-
-  // 根据公告类型筛选（客户端过滤）
-  const rawData = response?.items || [];
-  const data = useMemo(() => {
-    if (!filterNoticeType) return rawData;
-    return rawData.filter(item => {
-      const isOpinion = isOpinionNotice(item);
-      if (filterNoticeType === "opinion") return isOpinion;
-      if (filterNoticeType === "bidding") return !isOpinion;
-      return true;
-    });
-  }, [rawData, filterNoticeType]);
+  const data = response?.items || [];
 
   // 处理公告内容查看 - 优先直达详情页，否则显示模态框
   const handleViewOriginal = async (record) => {
@@ -362,6 +352,13 @@ function OpportunityList() {
       render: (val) => (val != null && val !== 0) ? <Text strong>{val} 万</Text> : <Text type="secondary">—</Text>,
     },
     {
+      title: "公告日期",
+      dataIndex: "announce_date",
+      key: "announce_date",
+      width: 105,
+      render: (val) => <Text>{formatDate(val)}</Text>,
+    },
+    {
       title: "网址",
       dataIndex: "source_url",
       key: "source_url",
@@ -379,10 +376,10 @@ function OpportunityList() {
       ),
     },
     {
-      title: "报名截止日期",
+      title: "报名/反馈截止日期",
       dataIndex: "deadline",
       key: "deadline",
-      width: 115,
+      width: 130,
       render: (val) => <Text>{formatDate(val)}</Text>,
     },
     {
@@ -593,10 +590,15 @@ function OpportunityList() {
               dataSource={data}
               rowKey="id"
               pagination={{
-                pageSize: 20,
+                current: currentPage,
+                pageSize: pageSize,
                 showSizeChanger: true,
                 showTotal: (total, range) => `第 ${range[0]}-${range[1]} 条，共 ${total} 条`,
                 total: response?.total || 0,
+                onChange: (page, size) => {
+                  setCurrentPage(page);
+                  setPageSize(size);
+                },
               }}
               scroll={{ x: 1800 }}
               size="small"
