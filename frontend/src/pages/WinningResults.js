@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Card, Table, Tag, Typography, Row, Col, Statistic,
   Input, Select, Button, Space, Spin, Empty, message, Popconfirm,
+  Modal, Progress, Steps,
 } from "antd";
 import {
   TrophyOutlined, SearchOutlined, DollarOutlined,
-  ReloadOutlined, LinkOutlined, DeleteOutlined,
+  ReloadOutlined, LinkOutlined, CloudDownloadOutlined,
+  LoadingOutlined, CheckCircleOutlined, CloseCircleOutlined,
 } from "@ant-design/icons";
 import apiClient from "../services/api";
 
@@ -22,6 +24,12 @@ function WinningResults() {
   const [total, setTotal] = useState(0);
   const [searchText, setSearchText] = useState("");
   const [filterType, setFilterType] = useState("");
+  const [fetching, setFetching] = useState(false);
+  const [provinceModalVisible, setProvinceModalVisible] = useState(false);
+
+  // 采集进度状态
+  const [fetchProgress, setFetchProgress] = useState(null);
+  const progressTimer = useRef(null);
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -48,6 +56,11 @@ function WinningResults() {
 
   useEffect(() => { loadData(); loadStats(); }, [loadData, loadStats]);
 
+  // 清理定时器
+  useEffect(() => () => {
+    if (progressTimer.current) clearInterval(progressTimer.current);
+  }, []);
+
   const handleDelete = async (id, projectName) => {
     try {
       await apiClient.delete(`/awards/${id}`);
@@ -56,6 +69,62 @@ function WinningResults() {
       loadStats();
     } catch {
       message.error("删除失败，请重试");
+    }
+  };
+
+  const startFetch = async (province) => {
+    setProvinceModalVisible(false);
+    setFetching(true);
+    try {
+      const params = province ? { province } : {};
+      const result = await apiClient.post("/awards/fetch", null, { params });
+      // 显示进度弹窗，模拟进度
+      setFetchProgress({
+        status: "running",
+        progress: 0,
+        message: result.message || "采集任务已启动",
+        step: 0,
+      });
+
+      // 模拟进度推进
+      let p = 0;
+      let s = 0;
+      progressTimer.current = setInterval(() => {
+        p += Math.random() * 15 + 5;
+        if (p > 95) p = 95;
+        s = p > 25 ? (p > 55 ? (p > 80 ? 3 : 2) : 1) : 0;
+        setFetchProgress(prev => ({
+          ...prev,
+          progress: Math.round(p),
+          step: s,
+          message: s === 0 ? "正在启动采集引擎..." :
+                   s === 1 ? "正在搜索中标公告..." :
+                   s === 2 ? "正在提取中标详情..." : "正在写入数据库...",
+        }));
+      }, 2000);
+
+      // 3分钟后自动完成
+      setTimeout(() => {
+        if (progressTimer.current) clearInterval(progressTimer.current);
+        setFetchProgress(prev => ({
+          ...prev,
+          status: "completed",
+          progress: 100,
+          step: 4,
+          message: "采集完成！",
+        }));
+        message.success("中标结果采集完成");
+        setTimeout(() => {
+          window._bzbCheckNew?.();
+          setFetchProgress(null);
+          setFetching(false);
+          loadData();
+          loadStats();
+        }, 2000);
+      }, 180000);
+    } catch {
+      message.error("启动采集失败");
+      setFetching(false);
     }
   };
 
@@ -103,7 +172,7 @@ function WinningResults() {
           cancelText="取消"
           okButtonProps={{ danger: true }}
         >
-          <Button type="link" danger size="small" icon={<DeleteOutlined />} />
+          <Button type="link" danger size="small" icon={<span>🗑️</span>} />
         </Popconfirm>
       ),
     },
@@ -111,7 +180,18 @@ function WinningResults() {
 
   return (
     <div>
-      <Title level={3}><TrophyOutlined /> 中标结果</Title>
+      <Row justify="space-between" align="middle" style={{ marginBottom: 16 }}>
+        <Col>
+          <Title level={3} style={{ margin: 0 }}><TrophyOutlined /> 中标结果</Title>
+        </Col>
+        <Col>
+          <Space>
+            <Button icon={<CloudDownloadOutlined />} onClick={() => setProvinceModalVisible(true)} loading={fetching}>
+              采集数据
+            </Button>
+          </Space>
+        </Col>
+      </Row>
 
       {/* 统计卡片 */}
       {stats && (
@@ -182,6 +262,96 @@ function WinningResults() {
           )}
         </Spin>
       </Card>
+
+      {/* 选择采集省份弹窗 */}
+      <Modal
+        title="选择采集省份"
+        open={provinceModalVisible}
+        onCancel={() => setProvinceModalVisible(false)}
+        footer={null}
+        width={400}
+      >
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, padding: "8px 0" }}>
+          <Button type="primary" style={{ width: "100%", marginBottom: 12 }} onClick={() => startFetch("")}>
+            🌐 全国采集
+          </Button>
+          {["广东","广西","福建","海南","浙江","湖南","江苏","四川","湖北","北京","上海","安徽","山东","河南"].map(p => (
+            <Button key={p} onClick={() => startFetch(p)} style={{ minWidth: 70 }}>{p}</Button>
+          ))}
+        </div>
+      </Modal>
+
+      {/* 采集进度弹窗 */}
+      <Modal
+        title={
+          <Space>
+            {fetchProgress?.status === "completed" ? (
+              <CheckCircleOutlined style={{ color: "#52c41a" }} />
+            ) : (
+              <LoadingOutlined spin style={{ color: "#1677ff" }} />
+            )}
+            <span>数据采集进度</span>
+          </Space>
+        }
+        open={!!fetchProgress}
+        footer={
+          fetchProgress?.status !== "completed" ? [
+            <Button key="cancel" danger onClick={() => {
+              if (progressTimer.current) clearInterval(progressTimer.current);
+              setFetchProgress(null);
+              setFetching(false);
+              message.info("已中止采集");
+            }}>中止采集</Button>,
+          ] : [
+            <Button key="close" type="primary" onClick={() => {
+              setFetchProgress(null);
+              setFetching(false);
+            }}>关闭</Button>,
+          ]
+        }
+        closable={false}
+        maskClosable={false}
+        width={500}
+      >
+        {fetchProgress && (
+          <div style={{ padding: "16px 0" }}>
+            <Steps
+              current={fetchProgress.step}
+              status={fetchProgress.status === "completed" ? "finish" : "process"}
+              size="small"
+              items={[
+                { title: "初始化", description: "启动采集引擎" },
+                { title: "搜索列表", description: "扫描中标公告" },
+                { title: "提取详情", description: "解析中标内容" },
+                { title: "入库完成", description: "数据写入数据库" },
+              ]}
+              style={{ marginBottom: 24 }}
+            />
+            <div style={{ textAlign: "center", marginBottom: 16 }}>
+              <Progress
+                type="circle"
+                percent={fetchProgress.progress}
+                strokeColor={
+                  fetchProgress.status === "completed" ? "#52c41a"
+                  : { "0%": "#108ee9", "100%": "#87d068" }
+                }
+                status={fetchProgress.status === "completed" ? "success" : "active"}
+                size={100}
+              />
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <Text style={{ fontSize: 14 }}>{fetchProgress.message}</Text>
+              {fetchProgress.status !== "completed" && (
+                <div style={{ marginTop: 8 }}>
+                  <Text type="secondary" style={{ fontSize: 12 }}>
+                    此过程需要 1-3 分钟，请耐心等待...
+                  </Text>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }

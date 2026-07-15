@@ -373,7 +373,16 @@ class BaseAdapter(ABC):
             from datetime import date, datetime
 
             async def _save():
+                from sqlalchemy import select as _select
                 async with AsyncSessionLocal() as db:
+                    # 按标题去重：同标题公告不重复入库
+                    existing = await db.execute(
+                        _select(Announcement).where(Announcement.title == record["title"]).limit(1)
+                    )
+                    if existing.scalar_one_or_none():
+                        self.logger.debug(f"  ⏭️ 已存在: {record['title'][:50]}")
+                        return
+
                     ann = Announcement(
                         title=record["title"],
                         purchaser_id=1,

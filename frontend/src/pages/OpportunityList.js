@@ -1,14 +1,18 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import {
-  Card, Table, Tag, Progress, Button, Space, Input, Select,
-  Row, Col, Typography, Badge, Tooltip, message, Spin, Empty,
+  Card, Table, Tag, Button, Space, Input, Select, Progress,
+  Row, Col, Typography, Tooltip, message, Spin, Empty,
   Slider, Modal, Descriptions, Divider, Steps,
 } from "antd";
 import {
   SearchOutlined,
   ThunderboltOutlined,
   StarOutlined, StarFilled,
+  ArrowLeftOutlined,
   CloudDownloadOutlined,
+  DownloadOutlined,
+  DeleteOutlined,
+  ExclamationCircleOutlined,
   LoadingOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -16,7 +20,7 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useOpportunityList } from "../services/apiHooks";
-import { toggleFavorite, getAnnouncementOriginal, fetchNewAnnouncements, getFetchStatus } from "../services/api";
+import { toggleFavorite, getAnnouncementOriginal, fetchNewAnnouncements, getFetchStatus, deleteAnnouncement, exportFavoritesUrl } from "../services/api";
 
 const { Title, Text } = Typography;
 
@@ -42,11 +46,10 @@ const METHOD_OPTIONS = [
   { value: "单一来源", label: "单一来源" },
 ];
 
-const PROBABILITY_OPTIONS = [
-  { value: "", label: "全部陪跑概率" },
-  { value: "低", label: "低陪跑概率" },
-  { value: "中", label: "中陪跑概率" },
-  { value: "高", label: "高陪跑概率" },
+const NOTICE_TYPE_OPTIONS = [
+  { value: "", label: "全部公告" },
+  { value: "opinion", label: "征集意见公告" },
+  { value: "bidding", label: "招标公告" },
 ];
 
 // V2 新增：省份选项（重点省份 + 全部）
@@ -97,7 +100,9 @@ const PROVINCE_CITIES = {
 function formatDate(dateStr) {
   if (!dateStr) return "—";
   const d = new Date(dateStr);
-  if (isNaN(d.getTime())) return dateStr;
+  if (isNaN(d.getTime())) return "—";
+  // 1900-01-01 为数据库默认值，视为无数据
+  if (d.getFullYear() < 2000) return "—";
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
@@ -114,10 +119,11 @@ function OpportunityList() {
   const [filterCity, setFilterCity] = useState("");           // V2 新增
   const [filterCategory, setFilterCategory] = useState("");
   const [filterMethod, setFilterMethod] = useState("");
-  const [filterProbability, setFilterProbability] = useState("");
+  const [filterNoticeType, setFilterNoticeType] = useState(""); // 公告类型筛选
   const [budgetRange, setBudgetRange] = useState([0, 1000]);
   const [showFavorites, setShowFavorites] = useState(false);
   const [fetching, setFetching] = useState(false);
+  const [provinceModalVisible, setProvinceModalVisible] = useState(false);
 
   // 采集进度状态
   const [fetchProgress, setFetchProgress] = useState(null); // {taskId, status, progress, message, ...}
@@ -134,11 +140,11 @@ function OpportunityList() {
   // 组件卸载时清理
   useEffect(() => () => stopPolling(), []);
 
-  const handleFetch = async () => {
+  const startFetch = async (province) => {
+    setProvinceModalVisible(false);
     setFetching(true);
     try {
-      // 采集目标：筛选栏"全部省份"→全国模式，否则用所选省份
-      const targetProvince = filterProvince || "全国";
+      const targetProvince = province || "全国";
       const result = await fetchNewAnnouncements(targetProvince);
       if (result.task_id) {
         // 开始轮询进度
@@ -162,6 +168,7 @@ function OpportunityList() {
               stopPolling();
               message.success(status.message || "采集完成！");
               setTimeout(() => {
+                window._bzbCheckNew?.();
                 setFetchProgress(null);
                 setFetching(false);
                 refetch();
@@ -214,7 +221,7 @@ function OpportunityList() {
       city: filterCity || undefined,                   // V2 新增
       project_category: filterCategory || undefined,
       procurement_method: filterMethod || undefined,
-      probability_label: filterProbability || undefined,
+
       budget_min: budgetRange[0] || undefined,
       budget_max: budgetRange[1] || undefined,
       search: searchText || undefined,
@@ -223,7 +230,7 @@ function OpportunityList() {
     // 清除 undefined 值
     Object.keys(result).forEach(k => result[k] === undefined && delete result[k]);
     return result;
-  }, [filterProvince, filterCity, filterCategory, filterMethod, filterProbability, budgetRange, searchText, showFavorites]);
+  }, [filterProvince, filterCity, filterCategory, filterMethod, budgetRange, searchText, showFavorites]);
 
   // 公告内容模态框状态
   const [contentModalVisible, setContentModalVisible] = useState(false);
@@ -232,7 +239,28 @@ function OpportunityList() {
   // 使用 React Query hooks
   const { data: response, isLoading, refetch } = useOpportunityList(params);
 
-  const data = response?.items || [];
+  // 判断是否为征集意见公告（通过 source_url 中的 publishOneType 或标题关键词）
+  const isOpinionNotice = (item) => {
+    const url = item.source_url || "";
+    // 方式1：URL 中包含 PURCHASE_OPINION 即为征集意见公告
+    if (/PURCHASE_OPINION/i.test(url)) return true;
+    // 方式2：标题中包含"征集"或"意见"关键词
+    const title = item.title || "";
+    if (/征集|意见/.test(title)) return true;
+    return false;
+  };
+
+  // 根据公告类型筛选（客户端过滤）
+  const rawData = response?.items || [];
+  const data = useMemo(() => {
+    if (!filterNoticeType) return rawData;
+    return rawData.filter(item => {
+      const isOpinion = isOpinionNotice(item);
+      if (filterNoticeType === "opinion") return isOpinion;
+      if (filterNoticeType === "bidding") return !isOpinion;
+      return true;
+    });
+  }, [rawData, filterNoticeType]);
 
   // 处理公告内容查看 - 优先直达详情页，否则显示模态框
   const handleViewOriginal = async (record) => {
@@ -281,21 +309,13 @@ function OpportunityList() {
     setContentData(null);
   };
 
-  // 表格列定义 — 对齐「致合项目查询汇总」Excel 模板
+  // 表格列定义
   const columns = useMemo(() => [
-    {
-      title: "招标单位",
-      dataIndex: "industry",
-      key: "industry",
-      width: 220,
-      ellipsis: true,
-      render: (val) => val ? <Text>{val}</Text> : <Text type="secondary">—</Text>,
-    },
     {
       title: "省份",
       dataIndex: "province",
       key: "province",
-      width: 70,
+      width: 80,
       render: (val) => val || <Text type="secondary">—</Text>,
     },
     {
@@ -387,42 +407,10 @@ function OpportunityList() {
       render: (val) => val ? <Text>¥{val.toLocaleString()}</Text> : <Text>无</Text>,
     },
     {
-      title: "推荐指数",
-      dataIndex: "total_score",
-      key: "total_score",
-      width: 150,
-      render: (score) => (
-        <Progress
-          percent={score}
-          size="small"
-          strokeColor={score >= 75 ? "#52c41a" : score >= 50 ? "#faad14" : "#ff4d4f"}
-          format={(p) => `${p}分`}
-          style={{ minWidth: 110 }}
-        />
-      ),
-    },
-    {
-      title: "陪跑概率",
-      dataIndex: "probability_label",
-      key: "probability_label",
-      width: 95,
-      render: (label) => (
-        <Badge
-          status={label === "低" ? "success" : label === "中" ? "warning" : "error"}
-          text={
-            <Text strong style={{ color: { "低": "green", "中": "orange", "高": "red" }[label] }}>
-              {label === "低" ? "🟢 低" : label === "中" ? "🟡 中" : "🔴 高"}
-            </Text>
-          }
-        />
-      ),
-    },
-    {
       title: "关注",
       dataIndex: "is_favorited",
       key: "favorite",
-      width: 65,
-      fixed: "right",
+      width: 55,
       render: (val, record) => (
         <Tooltip title={val ? "取消关注" : "添加关注"}>
           <Button
@@ -443,6 +431,42 @@ function OpportunityList() {
         </Tooltip>
       ),
     },
+    {
+      title: "操作",
+      dataIndex: "actions",
+      key: "actions",
+      width: 55,
+      render: (_, record) => (
+        <Tooltip title="删除">
+          <Button
+            type="text"
+            size="small"
+            danger
+            icon={<span style={{ fontSize: 14 }}>🗑️</span>}
+            onClick={(e) => {
+              e.stopPropagation();
+              Modal.confirm({
+                title: "确认删除",
+                icon: <ExclamationCircleOutlined />,
+                content: `确定要删除"${record.title?.substring(0, 50)}..."吗？`,
+                okText: "删除",
+                okType: "danger",
+                cancelText: "取消",
+                onOk: async () => {
+                  try {
+                    await deleteAnnouncement(record.id);
+                    message.success("已删除");
+                    refetch();
+                  } catch {
+                    message.error("删除失败");
+                  }
+                },
+              });
+            }}
+          />
+        </Tooltip>
+      ),
+    },
   ], []);
 
   return (
@@ -458,17 +482,25 @@ function OpportunityList() {
           <Space>
             <Button
               icon={<CloudDownloadOutlined />}
-              onClick={handleFetch}
+              onClick={() => setProvinceModalVisible(true)}
               loading={fetching}
             >
               采集数据
             </Button>
+            {showFavorites && (
+              <Button
+                icon={<DownloadOutlined />}
+                onClick={() => window.open(exportFavoritesUrl(), '_blank')}
+              >
+                下载Excel
+              </Button>
+            )}
             <Button
-              type={showFavorites ? "primary" : "default"}
-              icon={showFavorites ? <StarFilled /> : <StarOutlined />}
+              type={showFavorites ? "default" : "default"}
+              icon={showFavorites ? <ArrowLeftOutlined /> : <StarOutlined />}
               onClick={() => setShowFavorites(!showFavorites)}
             >
-              {showFavorites ? "我的收藏" : "仅看收藏"}
+              {showFavorites ? "返回列表" : "仅看收藏"}
             </Button>
           </Space>
         </Col>
@@ -527,11 +559,11 @@ function OpportunityList() {
           </Col>
           <Col xs={12} sm={6} md={3}>
             <Select
-              value={filterProbability}
-              onChange={setFilterProbability}
-              options={PROBABILITY_OPTIONS}
+              value={filterNoticeType}
+              onChange={setFilterNoticeType}
+              options={NOTICE_TYPE_OPTIONS}
               style={{ width: "100%" }}
-              placeholder="陪跑概率"
+              placeholder="公告类型"
             />
           </Col>
           <Col xs={24} sm={12} md={3}>
@@ -641,6 +673,34 @@ function OpportunityList() {
         )}
       </Modal>
 
+      {/* 选择采集省份弹窗 */}
+      <Modal
+        title="选择采集省份"
+        open={provinceModalVisible}
+        onCancel={() => setProvinceModalVisible(false)}
+        footer={null}
+        width={400}
+      >
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, padding: "8px 0" }}>
+          <Button
+            type="primary"
+            style={{ width: "100%", marginBottom: 12 }}
+            onClick={() => startFetch("")}
+          >
+            🌐 全国采集
+          </Button>
+          {PROVINCE_OPTIONS.filter(p => p.value).map(p => (
+            <Button
+              key={p.value}
+              onClick={() => startFetch(p.value)}
+              style={{ minWidth: 70 }}
+            >
+              {p.label}
+            </Button>
+          ))}
+        </div>
+      </Modal>
+
       {/* 采集进度模态框 */}
       <Modal
         title={
@@ -656,13 +716,23 @@ function OpportunityList() {
           </Space>
         }
         open={!!fetchProgress}
-        footer={null}
-        closable={fetchProgress?.status === "completed" || fetchProgress?.status === "failed"}
-        onCancel={() => {
-          stopPolling();
-          setFetchProgress(null);
-          setFetching(false);
-        }}
+        footer={
+          fetchProgress?.status !== "completed" && fetchProgress?.status !== "failed" ? [
+            <Button key="cancel" danger onClick={() => {
+              stopPolling();
+              setFetchProgress(null);
+              setFetching(false);
+              message.info("已中止采集");
+            }}>中止采集</Button>,
+          ] : [
+            <Button key="close" type="primary" onClick={() => {
+              stopPolling();
+              setFetchProgress(null);
+              setFetching(false);
+            }}>关闭</Button>,
+          ]
+        }
+        closable={false}
         maskClosable={false}
         width={500}
       >

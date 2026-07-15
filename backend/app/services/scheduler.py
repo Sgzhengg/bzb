@@ -2,9 +2,8 @@
 标中宝 V1 — 定时任务调度器
 
 任务:
-  每日 08:00    抓取最新招标公告
-  每日 20:00    再次抓取（确保不漏采）
-  每 30 分钟    检查新公告 → 触发客情关联提醒
+  每日 08:00    抓取招标公告 + 中标结果，自动分类入库
+  每日 20:00    再次抓取招标公告（重点）
   每周一 09:00  生成上周机会周报
 """
 
@@ -13,8 +12,6 @@ from datetime import datetime, date, timedelta
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
-from apscheduler.triggers.interval import IntervalTrigger
-from apscheduler.jobstores.base import JobLookupError
 
 logger = logging.getLogger(__name__)
 
@@ -42,11 +39,10 @@ def start_scheduler():
         logger.info("调度器已在运行中")
         return
 
-    # ── 注册任务 ──
     _register_jobs(sched)
 
     sched.start()
-    logger.info("⏰ 定时任务调度器已启动（4 个任务）")
+    logger.info("⏰ 定时任务调度器已启动（3 个任务）")
     _print_jobs(sched)
 
 
@@ -90,25 +86,18 @@ def _print_jobs(sched: AsyncIOScheduler):
 # ============================================================
 
 def _register_jobs(sched: AsyncIOScheduler):
-    """注册所有定时任务（V2 多省份扩展）。"""
+    """注册所有定时任务。"""
     from app.core.config import settings
 
     if settings.CRAWLER_ENABLED:
-        sched.add_job(_job_fetch_announcements, CronTrigger(hour=8, minute=0),
-            id="fetch_morning", name="每日早间抓取", replace_existing=True)
+        # 每日 08:00 — 公告 + 中标结果一起采集
+        sched.add_job(_job_fetch_all, CronTrigger(hour=8, minute=0),
+            id="fetch_morning", name="早间采集（公告+中标）", replace_existing=True)
+        # 每日 20:00 — 仅公告二次采集
         sched.add_job(_job_fetch_announcements, CronTrigger(hour=20, minute=0),
-            id="fetch_evening", name="每日晚间抓取", replace_existing=True)
+            id="fetch_evening", name="晚间采集（公告）", replace_existing=True)
     else:
         logger.info("爬虫已禁用，跳过抓取任务注册")
-
-    # 每 30 分钟客情关联检查
-    sched.add_job(
-        _job_check_alerts,
-        IntervalTrigger(minutes=30),
-        id="alert_check",
-        name="客情关联检查（每30分钟）",
-        replace_existing=True,
-    )
 
     # 每周一 09:00 周报
     sched.add_job(
@@ -119,103 +108,75 @@ def _register_jobs(sched: AsyncIOScheduler):
         replace_existing=True,
     )
 
-    # 每日 06:00 历史中标结果采集
-    sched.add_job(
-        _job_collect_winning_results,
-        CronTrigger(hour=6, minute=0),
-        id="collect_winning",
-        name="每日中标结果采集",
-        replace_existing=True,
-    )
-
-    # 每日 23:59 数据验证（检查漏采）
-    sched.add_job(
-        _job_daily_validation,
-        CronTrigger(hour=23, minute=59),
-        id="daily_validation",
-        name="每日数据验证",
-        replace_existing=True,
-    )
-
 
 # ============================================================
 # 任务实现
 # ============================================================
 
-async def _job_fetch_announcements():
-    """定时抓取招标公告（通过 DataCollector 统一调度）。"""
-    logger.info("🕷️ [定时任务] 开始抓取最新招标公告...")
+async def _job_fetch_all():
+    """早间采集：公告 + 中标结果一起抓取。"""
+    logger.info("🕷️ [早间] 开始采集公告...")
     try:
         from data_collector import get_collector
-
         collector = get_collector()
         results = await collector.collect_async(save_to_db=True)
-
-        if results:
-            from app.db.session import AsyncSessionLocal
-            from app.services.alert_service import batch_process_new_announcements
-            async with AsyncSessionLocal() as db:
-                alert_stats = await batch_process_new_announcements(db, limit=200)
-                logger.info(f"[定时任务] 新增公告 {len(results)} 条, "
-                            f"创建提醒 {alert_stats['alerts_created']} 条")
-        else:
-            logger.info("[定时任务] 未发现新广告类公告")
+        logger.info(f"[早间] 公告采集完成: {len(results)} 条")
+        from app.services.notification import notify_collection_done
+        await notify_collection_done("公告", len(results))
     except Exception as e:
-        logger.error(f"[定时任务] 抓取失败: {e}")
+        logger.error(f"[早间] 公告采集失败: {e}")
 
-
-async def _job_fetch_normal_provinces():
-    """
-    低频采集普通省份（每天一次，凌晨执行）。
-    仅采集省公司级别，不深入各地市。
-    """
-    logger.info("🕷️ [定时任务] 开始普通省份低频采集...")
+    logger.info("🕷️ [早间] 开始采集中标结果...")
     try:
-        from config.provinces import NORMAL_PROVINCES
-        from app.services.crawler.config import get_search_keywords_for_province
-
-        total_new = 0
-
-        for idx, province_config in enumerate(NORMAL_PROVINCES):
-            province_name = province_config.name
-            keywords = get_search_keywords_for_province(province_name, include_ad_topics=True)
-
-            logger.info(f"  📍 [{idx+1}/{len(NORMAL_PROVINCES)}] 低频采集: {province_name}")
-
-            try:
-                from data_collector import get_collector
-                collector = get_collector()
-                results = await collector.collect_async(save_to_db=True)
-
-                if results:
-                    total_new += len(results)
-                    logger.info(f"     ✅ {province_name}: 新增 {len(results)} 条")
-            except Exception as e:
-                logger.warning(f"     ⚠️ {province_name}: {e}")
-
-            if idx < len(NORMAL_PROVINCES) - 1:
-                import asyncio as _asyncio
-                await _asyncio.sleep(60)
-
-        logger.info(f"[定时任务] 普通省份采集完成: 共新增 {total_new} 条")
-
+        from crawl_winning_results import main
+        await main()
+        logger.info("[早间] 中标结果采集完成")
     except Exception as e:
-        logger.error(f"[定时任务] 普通省份采集失败: {e}")
+        logger.error(f"[早间] 中标结果采集失败: {e}")
+
+    # 采集后清理过期公告
+    await _cleanup_expired()
 
 
-async def _job_check_alerts():
-    """定时检查新公告并创建客情关联提醒。"""
+async def _job_fetch_announcements():
+    """定时抓取招标公告（晚间二次采集）。"""
+    logger.info("🕷️ [晚间] 开始抓取最新招标公告...")
+    try:
+        from data_collector import get_collector
+        collector = get_collector()
+        results = await collector.collect_async(save_to_db=True)
+        logger.info(f"[晚间] 公告采集完成: {len(results)} 条")
+        from app.services.notification import notify_collection_done
+        await notify_collection_done("公告", len(results))
+    except Exception as e:
+        logger.error(f"[晚间] 公告采集失败: {e}")
+
+    # 采集后清理过期公告
+    await _cleanup_expired()
+
+
+async def _cleanup_expired():
+    """删除已过期的公告（报名截止日期已过）。"""
     try:
         from app.db.session import AsyncSessionLocal
-        from app.services.alert_service import batch_process_new_announcements
+        from app.models.announcement import Announcement
+        from sqlalchemy import delete
+        from datetime import datetime as dt
 
+        today = dt.now()
         async with AsyncSessionLocal() as db:
-            stats = await batch_process_new_announcements(db, limit=100)
-            if stats["total_checked"] > 0:
-                logger.info(f"[定时任务] 客情检查: 处理{stats['total_checked']}条, "
-                            f"创建{stats['alerts_created']}条提醒")
+            result = await db.execute(
+                delete(Announcement).where(
+                    Announcement.deadline < today,
+                    Announcement.deadline > dt(2000, 1, 1),  # 排除默认值 1900-01-01
+                )
+            )
+            await db.commit()
+            count = result.rowcount
+            if count > 0:
+                logger.info(f"🧹 [清理] 已删除 {count} 条过期公告")
     except Exception as e:
-        logger.error(f"[定时任务] 客情检查失败: {e}")
+        logger.error(f"[清理] 过期公告清理失败: {e}")
 
 
 async def _job_weekly_report():

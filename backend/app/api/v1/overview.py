@@ -16,6 +16,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.session import get_db
 from app.models.announcement import Announcement
+from app.models.historical_award import HistoricalAward
 
 logger = logging.getLogger(__name__)
 
@@ -24,24 +25,30 @@ router = APIRouter(prefix="/overview", tags=["概览"])
 
 @router.get("/today", summary="今日概览")
 async def today_overview(db: AsyncSession = Depends(get_db)):
-    """返回今日新增数和有预算项目数。"""
+    """返回今日新增公告、中标结果等统计。"""
     today = date.today()
 
-    # 今日新增
-    new_q = select(func.count()).select_from(Announcement).where(
+    # 今日新增公告
+    ann_q = select(func.count()).select_from(Announcement).where(
         Announcement.announce_date == today
     )
-    new_today = (await db.execute(new_q)).scalar() or 0
+    new_announcements = (await db.execute(ann_q)).scalar() or 0
 
-    # 有预算的项目（预算>0）
-    budget_q = select(func.count()).select_from(Announcement).where(
-        Announcement.budget > 0
+    # 今日新增中标
+    award_q = select(func.count()).select_from(HistoricalAward).where(
+        HistoricalAward.bid_open_date == today
     )
-    high_opp = (await db.execute(budget_q)).scalar() or 0
+    new_awards = (await db.execute(award_q)).scalar() or 0
+
+    # 公告总数
+    total_q = select(func.count()).select_from(Announcement)
+    total = (await db.execute(total_q)).scalar() or 0
 
     return {
-        "new_today": new_today,
-        "high_opp": high_opp,
+        "new_today": new_announcements,
+        "new_announcements": new_announcements,
+        "new_awards": new_awards,
+        "total": total,
     }
 
 

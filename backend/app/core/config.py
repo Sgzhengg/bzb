@@ -71,6 +71,10 @@ class Settings:
     SCHEDULER_ENABLED: bool = os.getenv("BZB_SCHEDULER_ENABLED", "false").lower() == "true"
     ALERT_BATCH_INTERVAL: int = int(os.getenv("BZB_ALERT_BATCH_INTERVAL", "3600"))
 
+    # 钉钉机器人通知
+    DINGTALK_WEBHOOK_URL: str = os.getenv("BZB_DINGTALK_WEBHOOK_URL", "")
+    SITE_URL: str = os.getenv("BZB_SITE_URL", "http://localhost:3000")
+
 
 settings = Settings()
 

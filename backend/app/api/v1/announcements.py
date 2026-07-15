@@ -233,6 +233,121 @@ async def list_favorites(
     return {"total": total, "page": page, "page_size": page_size, "items": items}
 
 
+@router.get("/favorites/export", summary="导出收藏为Excel")
+async def export_favorites(
+    db: AsyncSession = Depends(get_db),
+):
+    """将所有收藏公告导出为美观的 Excel（.xlsx）文件。"""
+    from fastapi.responses import StreamingResponse
+    from io import BytesIO
+    from openpyxl import Workbook
+    from openpyxl.styles import Font, Alignment, PatternFill, Border, Side, numbers
+    from openpyxl.utils import get_column_letter
+
+    result = await db.execute(
+        select(Announcement)
+        .where(Announcement.is_favorited == True)
+        .order_by(desc(Announcement.announce_date))
+    )
+    announcements = result.scalars().all()
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "收藏公告"
+
+    # ── 样式定义 ──
+    header_font = Font(name="微软雅黑", size=11, bold=True, color="FFFFFF")
+    header_fill = PatternFill(start_color="2F5496", end_color="2F5496", fill_type="solid")
+    header_align = Alignment(horizontal="center", vertical="center", wrap_text=True)
+
+    data_font = Font(name="微软雅黑", size=10)
+    data_align = Alignment(vertical="center", wrap_text=False)
+    data_align_center = Alignment(horizontal="center", vertical="center")
+    link_font = Font(name="微软雅黑", size=10, color="0563C1", underline="single")
+
+    thin_border = Border(
+        left=Side(style="thin"),
+        right=Side(style="thin"),
+        top=Side(style="thin"),
+        bottom=Side(style="thin"),
+    )
+    even_fill = PatternFill(start_color="D6E4F0", end_color="D6E4F0", fill_type="solid")
+
+    # ── 表头 ──
+    headers = ["序号", "省份", "地市", "项目名称", "种类", "采购方式", "预算(万)", "报名截止", "投标日期", "报名费(元)", "保证金(万)", "网址"]
+    for col_idx, header in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=col_idx, value=header)
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.alignment = header_align
+        cell.border = thin_border
+
+    # 冻结表头
+    ws.freeze_panes = "A2"
+
+    # ── 数据行 ──
+    for row_idx, ann in enumerate(announcements, 2):
+        row_data = [
+            row_idx - 1,  # 序号
+            ann.province or "",
+            ann.city or "",
+            ann.title or "",
+            ann.project_category or "",
+            ann.procurement_method or "",
+            float(ann.budget) if ann.budget else "",
+            ann.deadline.strftime("%Y-%m-%d") if ann.deadline and ann.deadline.year > 2000 else "",
+            ann.bid_date.strftime("%Y-%m-%d") if ann.bid_date else "",
+            float(ann.registration_fee) if ann.registration_fee else "",
+            float(ann.deposit) if ann.deposit else "",
+            ann.source_url or "",
+        ]
+
+        for col_idx, value in enumerate(row_data, 1):
+            cell = ws.cell(row=row_idx, column=col_idx, value=value)
+            cell.font = data_font
+            cell.border = thin_border
+
+            if col_idx in (1, 2, 3, 7, 8, 9, 10, 11):
+                cell.alignment = data_align_center
+            elif col_idx == 12 and value:
+                # URL 列：设为超链接
+                cell.value = "打开链接"
+                cell.hyperlink = value
+                cell.font = link_font
+                cell.alignment = data_align_center
+            elif col_idx == 4:
+                cell.alignment = Alignment(vertical="center", wrap_text=True)
+
+            # 偶数行浅蓝背景
+            if row_idx % 2 == 0:
+                cell.fill = even_fill
+
+    # ── 列宽 ──
+    col_widths = [6, 8, 10, 55, 14, 14, 12, 13, 13, 13, 13, 14]
+    for i, w in enumerate(col_widths, 1):
+        ws.column_dimensions[get_column_letter(i)].width = w
+
+    # 表头行高
+    ws.row_dimensions[1].height = 28
+
+    # 自动筛选
+    ws.auto_filter.ref = f"A1:{get_column_letter(len(headers))}{len(announcements) + 1}"
+
+    buf = BytesIO()
+    wb.save(buf)
+    buf.seek(0)
+
+    from urllib.parse import quote
+
+    filename = f"收藏公告_{date.today().isoformat()}.xlsx"
+    encoded_filename = quote(filename)
+    return StreamingResponse(
+        buf,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": f"attachment; filename*=UTF-8''{encoded_filename}"},
+    )
+
+
 # ============================================================
 # 公告详情（含评分、在位者、提醒、历史参考）
 # ============================================================
@@ -455,6 +570,8 @@ async def fetch_announcements(
                     result_count=len(results), phase="done",
                 )
                 logger.info(f"[全国] 采集完成: {len(results)} 条")
+                from app.services.notification import notify_collection_done
+                await notify_collection_done("公告", len(results))
 
             else:
                 # 单省份模式：b2b 采集 + 省份过滤
@@ -504,6 +621,8 @@ async def fetch_announcements(
                     result_count=len(results), phase="done",
                 )
                 logger.info(f"[{province_name}] 采集完成: {len(results)} 条")
+                from app.services.notification import notify_collection_done
+                await notify_collection_done("公告", len(results), province_name)
 
         except Exception as e:
             logger.error(f"采集失败: {e}")
@@ -611,6 +730,30 @@ async def toggle_favorite(
         "is_favorited": ann.is_favorited,
         "message": "已收藏" if ann.is_favorited else "已取消收藏",
     }
+
+
+# ============================================================
+# 删除公告
+# ============================================================
+
+@router.delete("/{announcement_id}", summary="删除公告")
+async def delete_announcement(
+    announcement_id: int,
+    db: AsyncSession = Depends(get_db),
+):
+    """软删除一条公告记录。"""
+    ann = await db.get(Announcement, announcement_id)
+    if not ann:
+        raise HTTPException(status_code=404, detail=f"公告 {announcement_id} 不存在")
+
+    await db.delete(ann)
+    await db.commit()
+
+    return {
+        "announcement_id": announcement_id,
+        "message": "已删除",
+    }
+
 
 # ============================================================
 # 机会评分辅助函数

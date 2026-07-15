@@ -11,7 +11,7 @@
 import logging
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, BackgroundTasks
 from sqlalchemy import select, func, and_, desc
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -159,6 +159,27 @@ async def get_award_detail(
         raise HTTPException(status_code=404, detail=f"中标记录 {award_id} 不存在")
 
     return award.to_dict()
+
+
+@router.post("/fetch", summary="手动触发中标结果采集")
+async def fetch_awards(
+    background_tasks: BackgroundTasks,
+    province: Optional[str] = Query(None, description="目标省份，空为全国"),
+):
+    """后台触发中标结果数据采集。"""
+    import asyncio as _asyncio
+
+    async def _run():
+        logger.info(f"🕷️ 中标结果采集开始 (省份={province or '全国'})...")
+        try:
+            from crawl_winning_results import main
+            await main()
+            logger.info("✅ 中标结果采集完成")
+        except Exception as e:
+            logger.error(f"❌ 中标结果采集失败: {e}")
+
+    background_tasks.add_task(_run)
+    return {"message": "中标结果采集已在后台启动，预计1-3分钟完成"}
 
 
 @router.delete("/{award_id}", summary="删除中标结果")

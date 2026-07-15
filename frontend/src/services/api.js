@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:8000/api/v1",
+  baseURL: process.env.REACT_APP_API_URL || "/api/v1",
   timeout: 15000,
   headers: {
     "Content-Type": "application/json",
@@ -161,6 +161,14 @@ export async function resetPreferences() {
 
 export async function toggleFavorite(id) {
   return apiClient.post(`/announcements/${id}/favorite`);
+}
+
+export async function deleteAnnouncement(id) {
+  return apiClient.delete(`/announcements/${id}`);
+}
+
+export function exportFavoritesUrl() {
+  return (process.env.REACT_APP_API_URL || "/api/v1") + "/announcements/favorites/export";
 }
 
 export async function getFavorites(params = {}) {
