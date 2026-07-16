@@ -240,6 +240,12 @@ class BaseAdapter(ABC):
             is_ad = unified.get("is_ad", False)
             category = unified.get("category", "")
 
+            # LLM 未配置或返回 is_ad=False 时，回退到关键词过滤器的结果
+            if not is_ad:
+                is_ad = kw_result.get("is_ad", False)
+                category = kw_result.get("category", category)
+                self.logger.debug(f"  LLM未确认，回退关键词: [{category}] {title[:50]}")
+
             if is_ad:
                 # LLM 提取的值优先
                 if unified.get("budget"):
@@ -365,58 +371,51 @@ class BaseAdapter(ABC):
         return all_results
 
     def _save_to_db(self, record: Dict):
-        """将记录保存到数据库（异步包装）。"""
+        """将记录保存到数据库（同步版本，线程安全，短超时）。"""
         try:
-            import asyncio
-            from app.db.session import AsyncSessionLocal
-            from app.models.announcement import Announcement
-            from datetime import date, datetime
-
-            async def _save():
-                from sqlalchemy import select as _select
-                async with AsyncSessionLocal() as db:
-                    # 按标题去重：同标题公告不重复入库
-                    existing = await db.execute(
-                        _select(Announcement).where(Announcement.title == record["title"]).limit(1)
-                    )
-                    if existing.scalar_one_or_none():
-                        self.logger.debug(f"  ⏭️ 已存在: {record['title'][:50]}")
-                        return
-
-                    ann = Announcement(
-                        title=record["title"],
-                        purchaser_id=1,
-                        purchaser_level=record.get("purchaser_level", ""),
-                        procurement_method=record.get("procurement_method", "公开招标"),
-                        budget=record.get("budget"),
-                        registration_fee=record.get("registration_fee"),
-                        deposit=record.get("deposit"),
-                        project_category=record.get("project_category", ""),
-                        announce_date=_parse_date(record.get("announce_date", "")),
-                        deadline=_parse_datetime(record.get("deadline", "")),
-                        qualification_requirements=record.get("qualification_requirements", ""),
-                        original_content=record.get("original_content", ""),
-                        source_url=record.get("source_url", ""),
-                        province=record.get("province", ""),
-                        city=record.get("city", ""),
-                        industry=record.get("industry", ""),
-                    )
-                    db.add(ann)
-                    await db.commit()
-                    self.logger.info(f"  💾 入库: {record['title'][:50]}")
-
-            try:
-                loop = asyncio.get_event_loop()
-                if loop.is_running():
-                    import nest_asyncio
-                    nest_asyncio.apply()
-                asyncio.run(_save())
-            except RuntimeError:
-                asyncio.run(_save())
-        except ImportError as e:
-            self.logger.warning(f"数据库模块不可用，跳过入库: {e}")
+            import sqlite3
+            import os
+            db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "biaozhongbao.db")
+            conn = sqlite3.connect(db_path, timeout=3)
+            conn.execute("PRAGMA journal_mode=WAL")
+            
+            cur = conn.execute("SELECT id FROM announcements WHERE title = ? LIMIT 1", (record["title"],))
+            if cur.fetchone():
+                conn.close()
+                return
+            
+            conn.execute("""
+                INSERT INTO announcements (title, purchaser_id, purchaser_level, procurement_method,
+                    budget, registration_fee, deposit, project_category, announce_date, deadline,
+                    qualification_requirements, original_content, source_url, province, city, industry)
+                VALUES (?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                record["title"],
+                record.get("purchaser_level", ""),
+                record.get("procurement_method", "公开招标"),
+                record.get("budget"),
+                record.get("registration_fee"),
+                record.get("deposit"),
+                record.get("project_category", ""),
+                _parse_date(record.get("announce_date", "")),
+                _parse_datetime(record.get("deadline", "")),
+                record.get("qualification_requirements", "")[:2000],
+                record.get("original_content", ""),
+                record.get("source_url", ""),
+                record.get("province", ""),
+                record.get("city", ""),
+                record.get("industry", ""),
+            ))
+            conn.commit()
+            conn.close()
+            self.logger.info(f"  💾 入库: {record['title'][:50]}")
+        except sqlite3.OperationalError as e:
+            if "locked" in str(e) or "database is locked" in str(e):
+                self.logger.debug(f"  🔒 DB锁定，跳过入库: {record['title'][:30]}")
+            else:
+                self.logger.error(f"入库失败 [{record.get('title','')[:30]}]: {e}")
         except Exception as e:
-            self.logger.error(f"入库失败: {e}")
+            self.logger.error(f"入库失败 [{record.get('title','')[:30]}]: {e}")
 
 
 def _parse_date(s: str):

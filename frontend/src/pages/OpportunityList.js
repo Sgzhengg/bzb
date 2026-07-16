@@ -143,12 +143,11 @@ function OpportunityList() {
   // 组件卸载时清理
   useEffect(() => () => stopPolling(), []);
 
-  const startFetch = async (province) => {
+  const startFetch = async (province, adapter = "") => {
     setProvinceModalVisible(false);
     setFetching(true);
     try {
-      const targetProvince = province || "全国";
-      const result = await fetchNewAnnouncements(targetProvince);
+      const result = await fetchNewAnnouncements(province, adapter);
       if (result.task_id) {
         // 开始轮询进度
         setFetchProgress({
@@ -676,20 +675,46 @@ function OpportunityList() {
 
       {/* 选择采集省份弹窗 */}
       <Modal
-        title="选择采集省份"
+        title="选择采集范围"
         open={provinceModalVisible}
         onCancel={() => setProvinceModalVisible(false)}
         footer={null}
-        width={400}
+        width={480}
       >
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, padding: "8px 0" }}>
-          <Button
-            type="primary"
-            style={{ width: "100%", marginBottom: 12 }}
-            onClick={() => startFetch("")}
-          >
-            🌐 全国采集
-          </Button>
+        {/* 运营商选择 */}
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontWeight: 500, marginBottom: 8, color: "#666" }}>📡 按运营商采集</div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <Button
+              type="primary"
+              style={{ flex: 1 }}
+              onClick={() => startFetch("", "all")}
+            >
+              🌐 全部运营商
+            </Button>
+            <Button
+              style={{ flex: 1, background: "#e6f7ff", borderColor: "#91d5ff", color: "#1890ff" }}
+              onClick={() => startFetch("", "b2b_10086")}
+            >
+              📶 移动
+            </Button>
+            <Button
+              style={{ flex: 1, background: "#fff7e6", borderColor: "#ffd591", color: "#fa8c16" }}
+              onClick={() => startFetch("", "telecom")}
+            >
+              📡 电信
+            </Button>
+            <Button
+              style={{ flex: 1, background: "#f6ffed", borderColor: "#b7eb8f", color: "#52c41a" }}
+              onClick={() => startFetch("", "unicom")}
+            >
+              📞 联通
+            </Button>
+          </div>
+        </div>
+
+        <div style={{ fontWeight: 500, marginBottom: 8, color: "#666" }}>📍 按省份采集（中国移动）</div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {PROVINCE_OPTIONS.filter(p => p.value).map(p => (
             <Button
               key={p.value}

@@ -158,6 +158,8 @@ class DataCollector:
             "gd_zbtb": "GzZbtbAdapter",
             "gd_ygp": "GdYgpAdapter",
             "b2b_10086": "B2b10086Adapter",
+            "telecom": "TelecomAdapter",
+            "unicom": "UnicomAdapter",
         }
         return mapping.get(name, name.title().replace("_", "") + "Adapter")
 
@@ -371,6 +373,15 @@ class DataCollector:
         return await loop.run_in_executor(
             None,
             lambda: self.collect(adapter_name=adapter_name, save_to_db=save_to_db, **kwargs),
+        )
+
+    async def collect_all_enabled_async(self, save_to_db: bool = True) -> Dict[str, List[Dict]]:
+        """异步包装 collect_all_enabled()，在线程池中运行。"""
+        import asyncio
+        loop = asyncio.get_event_loop()
+        return await loop.run_in_executor(
+            None,
+            lambda: self.collect_all_enabled(save_to_db=save_to_db),
         )
 
 

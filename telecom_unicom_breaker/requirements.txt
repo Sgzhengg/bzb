@@ -1,0 +1,10 @@
+# 标中宝 — 电信/联通平台独立攻关脚本依赖
+# 安装方式:
+#   pip install -r requirements.txt
+#   playwright install chromium
+
+httpx>=0.27.0
+playwright>=1.44.0
+beautifulsoup4>=4.12.0
+lxml>=5.2.0
+selenium>=4.21.0

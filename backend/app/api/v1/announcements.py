@@ -13,6 +13,7 @@
 import logging
 import time
 import uuid
+import asyncio
 from datetime import date, datetime
 from typing import Optional, List
 
@@ -549,29 +550,39 @@ async def get_announcement_detail(
 @router.post("/fetch", summary="手动触发数据采集")
 async def fetch_announcements(
     background_tasks: BackgroundTasks,
-    province: Optional[str] = Query("广东", description="目标省份: 广东、广西等，或'全国'使用所有适配器"),
+    province: Optional[str] = Query(None, description="目标省份: 广东、广西等；为空则不限省份"),
+    adapter: Optional[str] = Query(None, description="指定适配器: b2b_10086(移动)/telecom(电信)/unicom(联通)/all(全部)"),
 ):
     """
     触发爬虫采集最新招标公告。
 
-    使用 DataCollector 完整采集链路：
-    列表搜索 → 详情提取 → 字段标准化 → LLM分类/预算 → 入库
-
-    支持单省份采集或全国采集（使用所有已启用适配器）。
+    支持三种模式：
+      - adapter=all → 运行所有已启用适配器（移动+电信+联通+广东平台）
+      - adapter=b2b_10086/telecom/unicom → 单独运行指定运营商
+      - 仅 province → 使用默认适配器 + 省份过滤（向后兼容）
     """
     if not settings.CRAWLER_ENABLED:
         return {"status": "disabled", "message": "爬虫功能已禁用"}
 
-    province_name = province or "广东"
+    province_name = province or ""
+    adapter_name = adapter or ""
     task_id = str(uuid.uuid4())[:8]
 
-    is_nationwide = province_name == "全国"
+    # 判断模式
+    use_all_adapters = adapter_name == "all"
+    use_specific = adapter_name in ("b2b_10086", "telecom", "unicom")
+
+    desc = "全部运营商" if use_all_adapters else (
+        f"中国{'移动' if adapter_name == 'b2b_10086' else '电信' if adapter_name == 'telecom' else '联通'}"
+        if use_specific else (province_name or "不限省份")
+    )
 
     _fetch_tasks[task_id] = {
         "status": "starting",
         "progress": 0,
-        "message": f"正在启动采集引擎（{'全国' if is_nationwide else province_name}）...",
+        "message": f"正在启动采集引擎（{desc}）...",
         "province": province_name,
+        "adapter": adapter_name,
         "started_at": datetime.now().isoformat(),
         "result_count": 0,
         "error": None,
@@ -582,45 +593,44 @@ async def fetch_announcements(
             from data_collector import get_collector
             collector = get_collector()
 
-            if is_nationwide:
-                # 全国模式：b2b 不限省份采集
+            if use_all_adapters:
+                # 全部适配器模式
                 _fetch_tasks[task_id].update(
                     status="running", progress=5,
-                    message="全国采集模式：正在搜索全国移动招标公告...",
+                    message="全部运营商模式：正在运行移动+电信+联通+广东平台...",
                     phase="init",
                 )
 
                 _fetch_tasks[task_id].update(
-                    progress=15, phase="search",
-                    message="正在从 b2b.10086.cn 搜索全国各省公告...",
+                    progress=10, phase="search",
+                    message="正在从 b2b.10086.cn（中国移动）采集...",
                 )
 
-                _fetch_tasks[task_id].update(
-                    progress=25, phase="extract",
-                    message="正在逐条提取全国公告详情（预计 3-5 分钟）...",
-                )
-
-                import asyncio as _asyncio
                 heartbeat_running = True
 
                 async def _heartbeat():
-                    p = 25
+                    p = 10
                     while heartbeat_running and p < 90:
-                        await _asyncio.sleep(12)
-                        p = min(p + 6, 90)
+                        await asyncio.sleep(15)
+                        p = min(p + 10, 90)
                         if heartbeat_running:
                             _fetch_tasks[task_id].update(
                                 progress=p, phase="extract",
-                                message=f"全国采集进行中（已完成约 {p}%）...",
+                                message=f"全国采集进行中（多平台并行，已完成约 {p}%）...",
                             )
 
-                heartbeat_task = _asyncio.ensure_future(_heartbeat())
+                heartbeat_task = asyncio.ensure_future(_heartbeat())
 
                 try:
-                    # 不限省份 = 空字符串，parse_list 不做省份过滤
-                    results = await collector.collect_async(
-                        save_to_db=True, province="",
+                    all_results = await asyncio.to_thread(
+                        collector.collect_all_enabled,
+                        save_to_db=True,
                     )
+                    # 汇总所有适配器的结果
+                    results = []
+                    for name, adapter_results in all_results.items():
+                        results.extend(adapter_results)
+                        logger.info(f"[全国] {name}: {len(adapter_results)} 条")
                 finally:
                     heartbeat_running = False
                     heartbeat_task.cancel()
@@ -634,42 +644,99 @@ async def fetch_announcements(
                 from app.services.notification import notify_collection_done
                 await notify_collection_done("公告", len(results))
 
-            else:
-                # 单省份模式：b2b 采集 + 省份过滤
+            elif use_specific:
+                # 指定运营商模式
+                adapter_label = {
+                    "b2b_10086": "中国移动", "telecom": "中国电信", "unicom": "中国联通"
+                }.get(adapter_name, adapter_name)
+
                 _fetch_tasks[task_id].update(
                     status="running", progress=5,
-                    message=f"正在初始化采集引擎（{province_name}）...",
+                    message=f"正在初始化 {adapter_label} 采集引擎...",
                     phase="init",
                 )
-
                 _fetch_tasks[task_id].update(
                     progress=15, phase="search",
-                    message=f"正在搜索 b2b.10086.cn {province_name}移动招标公告...",
+                    message=f"正在从 {adapter_label} 平台搜索公告...",
                 )
-
                 _fetch_tasks[task_id].update(
                     progress=25, phase="extract",
-                    message=f"正在逐条提取{province_name}公告详情（预计 1-3 分钟）...",
+                    message=f"正在提取 {adapter_label} 公告详情...",
                 )
 
-                import asyncio as _asyncio
                 heartbeat_running = True
 
                 async def _heartbeat():
                     p = 25
                     while heartbeat_running and p < 90:
-                        await _asyncio.sleep(8)
+                        await asyncio.sleep(8)
                         p = min(p + 8, 90)
                         if heartbeat_running:
                             _fetch_tasks[task_id].update(
                                 progress=p,
-                                message=f"正在逐条提取{province_name}公告详情（已完成约 {p}%）...",
+                                message=f"{adapter_label} 采集进行中（已完成约 {p}%）...",
                             )
 
-                heartbeat_task = _asyncio.ensure_future(_heartbeat())
+                heartbeat_task = asyncio.ensure_future(_heartbeat())
 
                 try:
-                    results = await collector.collect_async(
+                    logger.info(f"[DEBUG] 开始调用 collector.collect(adapter={adapter_name}, province={province_name})")
+                    results = await asyncio.to_thread(
+                        collector.collect,
+                        adapter_name=adapter_name, save_to_db=True,
+                        province=province_name,
+                    )
+                    logger.info(f"[DEBUG] collector.collect 返回 {len(results)} 条结果")
+                finally:
+                    heartbeat_running = False
+                    heartbeat_task.cancel()
+
+                _fetch_tasks[task_id].update(
+                    status="completed", progress=100,
+                    message=f"{adapter_label} 采集完成，共获取 {len(results)} 条公告",
+                    result_count=len(results), phase="done",
+                )
+                logger.info(f"[{adapter_label}] 采集完成: {len(results)} 条")
+                from app.services.notification import notify_collection_done
+                await notify_collection_done("公告", len(results))
+
+            else:
+                # 省份模式（向后兼容）：默认适配器 + 省份过滤
+                label = province_name or "不限省份"
+                _fetch_tasks[task_id].update(
+                    status="running", progress=5,
+                    message=f"正在初始化采集引擎（{label}）...",
+                    phase="init",
+                )
+
+                _fetch_tasks[task_id].update(
+                    progress=15, phase="search",
+                    message=f"正在搜索 b2b.10086.cn {label}移动招标公告...",
+                )
+
+                _fetch_tasks[task_id].update(
+                    progress=25, phase="extract",
+                    message=f"正在逐条提取{label}公告详情（预计 1-3 分钟）...",
+                )
+
+                heartbeat_running = True
+
+                async def _heartbeat():
+                    p = 25
+                    while heartbeat_running and p < 90:
+                        await asyncio.sleep(8)
+                        p = min(p + 8, 90)
+                        if heartbeat_running:
+                            _fetch_tasks[task_id].update(
+                                progress=p,
+                                message=f"正在逐条提取{label}公告详情（已完成约 {p}%）...",
+                            )
+
+                heartbeat_task = asyncio.ensure_future(_heartbeat())
+
+                try:
+                    results = await asyncio.to_thread(
+                        collector.collect,
                         save_to_db=True, province=province_name,
                     )
                 finally:
@@ -678,10 +745,10 @@ async def fetch_announcements(
 
                 _fetch_tasks[task_id].update(
                     status="completed", progress=100,
-                    message=f"{province_name}采集完成，共获取 {len(results)} 条公告",
+                    message=f"{label}采集完成，共获取 {len(results)} 条公告",
                     result_count=len(results), phase="done",
                 )
-                logger.info(f"[{province_name}] 采集完成: {len(results)} 条")
+                logger.info(f"[{label}] 采集完成: {len(results)} 条")
                 from app.services.notification import notify_collection_done
                 await notify_collection_done("公告", len(results), province_name)
 
@@ -698,7 +765,7 @@ async def fetch_announcements(
     return {
         "status": "started",
         "task_id": task_id,
-        "message": f"数据采集已在后台启动（{province_name}）",
+        "message": f"数据采集已在后台启动（{desc}）",
     }
 
 
