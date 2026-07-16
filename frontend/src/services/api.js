@@ -167,8 +167,20 @@ export async function deleteAnnouncement(id) {
   return apiClient.delete(`/announcements/${id}`);
 }
 
-export function exportFavoritesUrl() {
-  return (process.env.REACT_APP_API_URL || "/api/v1") + "/announcements/favorites/export";
+export function exportFavoritesUrl(favoritesOnly = false, filters = {}) {
+  const base = process.env.REACT_APP_API_URL || "/api/v1";
+  const absolute = base.startsWith("http") ? base : window.location.origin + base;
+  const params = new URLSearchParams();
+  if (favoritesOnly) params.set("favorites_only", "true");
+  if (filters.notice_type) params.set("notice_type", filters.notice_type);
+  if (filters.budget_min != null) params.set("budget_min", filters.budget_min);
+  if (filters.budget_max != null) params.set("budget_max", filters.budget_max);
+  if (filters.project_category) params.set("project_category", filters.project_category);
+  if (filters.procurement_method) params.set("procurement_method", filters.procurement_method);
+  if (filters.province) params.set("province", filters.province);
+  if (filters.search) params.set("search", filters.search);
+  const qs = params.toString();
+  return absolute + "/announcements/favorites/export" + (qs ? "?" + qs : "");
 }
 
 export async function getFavorites(params = {}) {

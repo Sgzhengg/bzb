@@ -6,9 +6,7 @@ import zhCN from "antd/locale/zh_CN";
 import AppLayout from "./layouts/AppLayout";
 import OpportunityList from "./pages/OpportunityList";
 import AnnouncementDetail from "./pages/AnnouncementDetail";
-import PurchaserProfile from "./pages/PurchaserProfile";
 import RelationManagement from "./pages/RelationManagement";
-import CityCompare from "./pages/CityCompare";
 import Settings from "./pages/Settings";
 import WinningResults from "./pages/WinningResults";
 import "./App.css";
@@ -51,9 +49,7 @@ function App() {
                 <Route path="/" element={<OpportunityList />} />
                 <Route path="/opportunities" element={<OpportunityList />} />
                 <Route path="/opportunities/:id" element={<AnnouncementDetail />} />
-                <Route path="/purchaser-profile" element={<PurchaserProfile />} />
                 <Route path="/client-relations" element={<RelationManagement />} />
-                <Route path="/region-compare" element={<CityCompare />} />
                 <Route path="/winning-results" element={<WinningResults />} />
                 <Route path="/settings" element={<Settings />} />
               </Route>

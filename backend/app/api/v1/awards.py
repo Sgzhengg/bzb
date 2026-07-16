@@ -138,6 +138,95 @@ async def award_stats(
     }
 
 
+@router.get("/export", summary="导出中标结果为Excel")
+async def export_awards(
+    db: AsyncSession = Depends(get_db),
+):
+    """将所有中标结果导出为 Excel 文件。"""
+    from io import BytesIO
+    from datetime import date
+    from openpyxl import Workbook
+    from openpyxl.styles import Font, Alignment, PatternFill, Border, Side
+    from openpyxl.utils import get_column_letter
+    from fastapi.responses import StreamingResponse
+    from urllib.parse import quote
+
+    result = await db.execute(
+        select(HistoricalAward).order_by(desc(HistoricalAward.bid_open_date))
+    )
+    awards = result.scalars().all()
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "中标结果"
+
+    header_font = Font(name="微软雅黑", size=11, bold=True, color="FFFFFF")
+    header_fill = PatternFill(start_color="2F5496", end_color="2F5496", fill_type="solid")
+    header_align = Alignment(horizontal="center", vertical="center")
+    data_font = Font(name="微软雅黑", size=10)
+    data_align = Alignment(vertical="center")
+    data_align_center = Alignment(horizontal="center", vertical="center")
+    link_font = Font(name="微软雅黑", size=10, color="0563C1", underline="single")
+    thin_border = Border(
+        left=Side(style="thin"), right=Side(style="thin"),
+        top=Side(style="thin"), bottom=Side(style="thin"),
+    )
+    even_fill = PatternFill(start_color="D6E4F0", end_color="D6E4F0", fill_type="solid")
+
+    headers = ["序号", "项目名称", "中标方", "中标份额(%)", "项目类别", "公示日期", "公告链接"]
+    for col_idx, header in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=col_idx, value=header)
+        cell.font = header_font
+        cell.fill = header_fill
+        cell.alignment = header_align
+        cell.border = thin_border
+
+    ws.freeze_panes = "A2"
+
+    for row_idx, award in enumerate(awards, 2):
+        row_data = [
+            row_idx - 1,
+            award.project_name or "",
+            award.winner_name or "",
+            float(award.discount_rate) if award.discount_rate else "",
+            award.project_category or "",
+            award.bid_open_date.strftime("%Y-%m-%d") if award.bid_open_date else "",
+            award.source_url or "",
+        ]
+        for col_idx, value in enumerate(row_data, 1):
+            cell = ws.cell(row=row_idx, column=col_idx, value=value)
+            cell.font = data_font
+            cell.border = thin_border
+            if col_idx in (1, 4, 5, 6):
+                cell.alignment = data_align_center
+            elif col_idx == 7 and value:
+                cell.value = "打开链接"
+                cell.hyperlink = value
+                cell.font = link_font
+                cell.alignment = data_align_center
+            elif col_idx == 2:
+                cell.alignment = Alignment(vertical="center", wrap_text=True)
+            if row_idx % 2 == 0:
+                cell.fill = even_fill
+
+    col_widths = [6, 55, 20, 14, 14, 13, 14]
+    for i, w in enumerate(col_widths, 1):
+        ws.column_dimensions[get_column_letter(i)].width = w
+    ws.row_dimensions[1].height = 28
+    ws.auto_filter.ref = f"A1:{get_column_letter(len(headers))}{len(awards) + 1}"
+
+    buf = BytesIO()
+    wb.save(buf)
+    buf.seek(0)
+
+    filename = f"中标结果_{date.today().isoformat()}.xlsx"
+    return StreamingResponse(
+        buf,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": f"attachment; filename*=UTF-8''{quote(filename)}"},
+    )
+
+
 @router.get("/{award_id}", summary="获取中标结果详情")
 async def get_award_detail(
     award_id: int,

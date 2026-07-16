@@ -6,7 +6,7 @@ import {
 } from "antd";
 import {
   TrophyOutlined, SearchOutlined,
-  ReloadOutlined, LinkOutlined, CloudDownloadOutlined,
+  ReloadOutlined, LinkOutlined, CloudDownloadOutlined, DownloadOutlined,
   LoadingOutlined, CheckCircleOutlined, CloseCircleOutlined,
 } from "@ant-design/icons";
 import apiClient from "../services/api";
@@ -166,6 +166,14 @@ function WinningResults() {
           <Space>
             <Button icon={<CloudDownloadOutlined />} onClick={() => setProvinceModalVisible(true)} loading={fetching}>
               采集数据
+            </Button>
+            <Button icon={<DownloadOutlined />}
+              onClick={() => {
+                const base = apiClient.defaults.baseURL;
+                const url = (base.startsWith("http") ? base : window.location.origin + base) + "/awards/export";
+                window.open(url, '_blank');
+              }}>
+              下载Excel
             </Button>
           </Space>
         </Col>

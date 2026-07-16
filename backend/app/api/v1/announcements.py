@@ -250,27 +250,66 @@ async def list_favorites(
     return {"total": total, "page": page, "page_size": page_size, "items": items}
 
 
-@router.get("/favorites/export", summary="导出收藏为Excel")
+@router.get("/favorites/export", summary="导出公告为Excel")
 async def export_favorites(
+    favorites_only: bool = Query(False, description="仅导出收藏项目"),
+    notice_type: Optional[str] = Query(None, description="公告类型: opinion/bidding"),
+    budget_min: Optional[float] = Query(None, description="预算下限（万元）"),
+    budget_max: Optional[float] = Query(None, description="预算上限（万元）"),
+    project_category: Optional[str] = Query(None, description="项目类别"),
+    procurement_method: Optional[str] = Query(None, description="采购方式"),
+    province: Optional[str] = Query(None, description="省份"),
+    search: Optional[str] = Query(None, description="搜索关键词"),
     db: AsyncSession = Depends(get_db),
 ):
-    """将所有收藏公告导出为美观的 Excel（.xlsx）文件。"""
+    """将所有公告（支持与列表相同的筛选条件）导出为 Excel 文件。"""
     from fastapi.responses import StreamingResponse
     from io import BytesIO
     from openpyxl import Workbook
     from openpyxl.styles import Font, Alignment, PatternFill, Border, Side, numbers
     from openpyxl.utils import get_column_letter
 
-    result = await db.execute(
-        select(Announcement)
-        .where(Announcement.is_favorited == True)
-        .order_by(desc(Announcement.announce_date))
+    query = select(Announcement)
+    # 与列表页保持一致：自动过滤中标公示
+    query = query.where(
+        ~Announcement.title.ilike("%中选%")
+        & ~Announcement.title.ilike("%中标%")
+        & ~Announcement.title.ilike("%候选人%")
+        & ~Announcement.title.ilike("%成交结果%")
     )
+    if favorites_only:
+        query = query.where(Announcement.is_favorited == True)
+    if notice_type == "opinion":
+        query = query.where(
+            Announcement.source_url.ilike("%PURCHASE_OPINION%")
+            | Announcement.title.ilike("%征集%")
+            | Announcement.title.ilike("%意见%")
+        )
+    elif notice_type == "bidding":
+        query = query.where(
+            ~Announcement.source_url.ilike("%PURCHASE_OPINION%")
+            & ~Announcement.title.ilike("%征集%")
+            & ~Announcement.title.ilike("%意见%")
+        )
+    if project_category:
+        query = query.where(Announcement.project_category == project_category)
+    if procurement_method:
+        query = query.where(Announcement.procurement_method == procurement_method)
+    if province:
+        query = query.where(Announcement.province == province)
+    if budget_min is not None:
+        query = query.where((Announcement.budget >= budget_min) | (Announcement.budget == None))
+    if budget_max is not None:
+        query = query.where((Announcement.budget <= budget_max) | (Announcement.budget == None))
+    if search:
+        query = query.where(Announcement.title.ilike(f"%{search}%"))
+    query = query.order_by(desc(Announcement.announce_date))
+    result = await db.execute(query)
     announcements = result.scalars().all()
 
     wb = Workbook()
     ws = wb.active
-    ws.title = "收藏公告"
+    ws.title = "公告列表"
 
     # ── 样式定义 ──
     header_font = Font(name="微软雅黑", size=11, bold=True, color="FFFFFF")
@@ -291,7 +330,7 @@ async def export_favorites(
     even_fill = PatternFill(start_color="D6E4F0", end_color="D6E4F0", fill_type="solid")
 
     # ── 表头 ──
-    headers = ["序号", "省份", "地市", "项目名称", "种类", "采购方式", "预算(万)", "报名截止", "投标日期", "报名费(元)", "保证金(万)", "网址"]
+    headers = ["序号", "公告类型", "省份", "地市", "项目名称", "种类", "预算(万)", "公告日期", "报名/反馈截止", "投标日期", "报名费(元)", "保证金(万)", "网址"]
     for col_idx, header in enumerate(headers, 1):
         cell = ws.cell(row=1, column=col_idx, value=header)
         cell.font = header_font
@@ -304,14 +343,16 @@ async def export_favorites(
 
     # ── 数据行 ──
     for row_idx, ann in enumerate(announcements, 2):
+        notice_label = "征集意见公告" if (ann.source_url and "PURCHASE_OPINION" in ann.source_url) else "招标公告"
         row_data = [
             row_idx - 1,  # 序号
+            notice_label,
             ann.province or "",
             ann.city or "",
             ann.title or "",
             ann.project_category or "",
-            ann.procurement_method or "",
             float(ann.budget) if ann.budget else "",
+            ann.announce_date.strftime("%Y-%m-%d") if ann.announce_date else "",
             ann.deadline.strftime("%Y-%m-%d") if ann.deadline and ann.deadline.year > 2000 else "",
             ann.bid_date.strftime("%Y-%m-%d") if ann.bid_date else "",
             float(ann.registration_fee) if ann.registration_fee else "",
@@ -324,7 +365,7 @@ async def export_favorites(
             cell.font = data_font
             cell.border = thin_border
 
-            if col_idx in (1, 2, 3, 7, 8, 9, 10, 11):
+            if col_idx in (1, 2, 3, 4, 7, 8, 9, 10, 11, 12):
                 cell.alignment = data_align_center
             elif col_idx == 12 and value:
                 # URL 列：设为超链接
@@ -340,7 +381,7 @@ async def export_favorites(
                 cell.fill = even_fill
 
     # ── 列宽 ──
-    col_widths = [6, 8, 10, 55, 14, 14, 12, 13, 13, 13, 13, 14]
+    col_widths = [6, 14, 8, 10, 55, 14, 12, 13, 15, 13, 13, 13, 14]
     for i, w in enumerate(col_widths, 1):
         ws.column_dimensions[get_column_letter(i)].width = w
 
@@ -356,7 +397,7 @@ async def export_favorites(
 
     from urllib.parse import quote
 
-    filename = f"收藏公告_{date.today().isoformat()}.xlsx"
+    filename = f"公告列表_{date.today().isoformat()}.xlsx"
     encoded_filename = quote(filename)
     return StreamingResponse(
         buf,

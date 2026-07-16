@@ -124,6 +124,7 @@ function OpportunityList() {
   const [showFavorites, setShowFavorites] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [provinceModalVisible, setProvinceModalVisible] = useState(false);
+  const [exportModalVisible, setExportModalVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
 
@@ -484,14 +485,12 @@ function OpportunityList() {
             >
               采集数据
             </Button>
-            {showFavorites && (
-              <Button
-                icon={<DownloadOutlined />}
-                onClick={() => window.open(exportFavoritesUrl(), '_blank')}
-              >
-                下载Excel
-              </Button>
-            )}
+            <Button
+              icon={<DownloadOutlined />}
+              onClick={() => setExportModalVisible(true)}
+            >
+              下载Excel
+            </Button>
             <Button
               type={showFavorites ? "default" : "default"}
               icon={showFavorites ? <ArrowLeftOutlined /> : <StarOutlined />}
@@ -804,6 +803,57 @@ function OpportunityList() {
             </div>
           );
         })()}
+      </Modal>
+
+      {/* 选择导出范围弹窗 */}
+      <Modal
+        title="导出 Excel"
+        open={exportModalVisible}
+        onCancel={() => setExportModalVisible(false)}
+        footer={null}
+        width={360}
+      >
+        <div style={{ padding: "16px 0", textAlign: "center" }}>
+          <Space direction="vertical" size={16} style={{ width: "100%" }}>
+            <Button
+              type="primary"
+              block
+              size="large"
+              icon={<DownloadOutlined />}
+              onClick={() => {
+                const filters = {
+                  notice_type: filterNoticeType || undefined,
+                  budget_min: budgetRange[0] || undefined,
+                  budget_max: budgetRange[1] || undefined,
+                  project_category: filterCategory || undefined,
+                  procurement_method: filterMethod || undefined,
+                  province: filterProvince || undefined,
+                  search: searchText || undefined,
+                };
+                window.open(exportFavoritesUrl(false, filters), '_blank');
+                setExportModalVisible(false);
+              }}
+            >
+              导出全部公告（跟随筛选）
+            </Button>
+            <Button
+              block
+              size="large"
+              icon={<StarOutlined />}
+              onClick={() => {
+                const filters = {
+                  notice_type: filterNoticeType || undefined,
+                  budget_min: budgetRange[0] || undefined,
+                  budget_max: budgetRange[1] || undefined,
+                };
+                window.open(exportFavoritesUrl(true, filters), '_blank');
+                setExportModalVisible(false);
+              }}
+            >
+              仅导出收藏项目
+            </Button>
+          </Space>
+        </div>
       </Modal>
     </div>
   );

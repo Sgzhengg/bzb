@@ -2,9 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Layout, Menu, Typography, Badge, Space, Statistic, Card } from "antd";
 import {
-  ThunderboltOutlined, BankOutlined, UserOutlined,
-  EnvironmentOutlined, SettingOutlined, BellOutlined,
-  FileTextOutlined, TrophyOutlined,
+  ThunderboltOutlined, TrophyOutlined, UserOutlined, SettingOutlined, BellOutlined, FileTextOutlined,
 } from "@ant-design/icons";
 import { getRelationReminders } from "../services/api";
 import apiClient from "../services/api";
@@ -79,9 +77,7 @@ function AppLayout() {
     { key: "/winning-results", icon: <TrophyOutlined />, label: (
       <span>中标结果 {newAwardBadge > 0 && <Badge count={newAwardBadge} size="small" style={{ marginLeft: 6 }} />}</span>
     )},
-    { key: "/purchaser-profile", icon: <BankOutlined />, label: "采购方画像" },
     { key: "/client-relations", icon: <UserOutlined />, label: "客情管理" },
-    { key: "/region-compare", icon: <EnvironmentOutlined />, label: "地市对比" },
     { key: "/settings", icon: <SettingOutlined />, label: "设置" },
   ];
 
