@@ -291,7 +291,7 @@ async def export_favorites(
     even_fill = PatternFill(start_color="D6E4F0", end_color="D6E4F0", fill_type="solid")
 
     # ── 表头 ──
-    headers = ["序号", "省份", "地市", "项目名称", "种类", "预算(万)", "公告日期", "关键截止日期", "投标日期", "报名费(元)", "保证金(万)", "网址"]
+    headers = ["序号", "省份", "地市", "项目名称", "种类", "采购方式", "预算(万)", "报名截止", "投标日期", "报名费(元)", "保证金(万)", "网址"]
     for col_idx, header in enumerate(headers, 1):
         cell = ws.cell(row=1, column=col_idx, value=header)
         cell.font = header_font
@@ -310,8 +310,8 @@ async def export_favorites(
             ann.city or "",
             ann.title or "",
             ann.project_category or "",
+            ann.procurement_method or "",
             float(ann.budget) if ann.budget else "",
-            ann.announce_date.strftime("%Y-%m-%d") if ann.announce_date else "",
             ann.deadline.strftime("%Y-%m-%d") if ann.deadline and ann.deadline.year > 2000 else "",
             ann.bid_date.strftime("%Y-%m-%d") if ann.bid_date else "",
             float(ann.registration_fee) if ann.registration_fee else "",
@@ -324,7 +324,7 @@ async def export_favorites(
             cell.font = data_font
             cell.border = thin_border
 
-            if col_idx in (1, 2, 3, 6, 7, 8, 9, 10, 11):
+            if col_idx in (1, 2, 3, 7, 8, 9, 10, 11):
                 cell.alignment = data_align_center
             elif col_idx == 12 and value:
                 # URL 列：设为超链接
@@ -340,7 +340,7 @@ async def export_favorites(
                 cell.fill = even_fill
 
     # ── 列宽 ──
-    col_widths = [6, 8, 10, 55, 14, 12, 13, 14, 13, 13, 13, 14]
+    col_widths = [6, 8, 10, 55, 14, 14, 12, 13, 13, 13, 13, 14]
     for i, w in enumerate(col_widths, 1):
         ws.column_dimensions[get_column_letter(i)].width = w
 

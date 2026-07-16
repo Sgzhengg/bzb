@@ -99,7 +99,7 @@ function AnnouncementDetail() {
             <Tag color={PROCUREMENT_COLORS[data.procurement_method]}>{data.procurement_method}</Tag>
           </Descriptions.Item>
           <Descriptions.Item label="公告日期">{data.announce_date || "—"}</Descriptions.Item>
-          <Descriptions.Item label="关键截止日期">
+          <Descriptions.Item label="报名/反馈截止日期">
             <ClockCircleOutlined style={{ marginRight: 4 }} />
             {data.deadline && !data.deadline.startsWith("1900") ? data.deadline : "—"}
           </Descriptions.Item>

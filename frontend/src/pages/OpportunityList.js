@@ -376,7 +376,7 @@ function OpportunityList() {
       ),
     },
     {
-      title: "关键截止日期",
+      title: "报名/反馈截止日期",
       dataIndex: "deadline",
       key: "deadline",
       width: 130,
