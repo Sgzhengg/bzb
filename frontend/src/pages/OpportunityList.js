@@ -52,6 +52,16 @@ const NOTICE_TYPE_OPTIONS = [
   { value: "bidding", label: "招标公告" },
 ];
 
+// V3 新增：数据来源选项
+const DATA_SOURCE_OPTIONS = [
+  { value: "", label: "全部来源" },
+  { value: "b2b_10086", label: "中国移动" },
+  { value: "telecom", label: "中国电信" },
+  { value: "unicom", label: "中国联通" },
+  { value: "gd_zbtb", label: "广东招标监管网" },
+  { value: "gd_ygp", label: "广东公共资源平台" },
+];
+
 // V2 新增：省份选项（重点省份 + 全部）
 const PROVINCE_OPTIONS = [
   { value: "", label: "全部省份" },
@@ -120,6 +130,7 @@ function OpportunityList() {
   const [filterCategory, setFilterCategory] = useState("");
   const [filterMethod, setFilterMethod] = useState("");
   const [filterNoticeType, setFilterNoticeType] = useState(""); // 公告类型筛选
+  const [filterDataSource, setFilterDataSource] = useState("");   // V3: 数据来源筛选
   const [budgetRange, setBudgetRange] = useState([0, 1000]);
   const [showFavorites, setShowFavorites] = useState(false);
   const [fetching, setFetching] = useState(false);
@@ -128,7 +139,9 @@ function OpportunityList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
 
-  // 采集进度状态
+  // 采集弹窗状态
+  const [selectedAdapter, setSelectedAdapter] = useState("b2b_10086");
+  const [selectedProvinces, setSelectedProvinces] = useState([]);
   const [fetchProgress, setFetchProgress] = useState(null); // {taskId, status, progress, message, ...}
   const pollingRef = useRef(null);
 
@@ -183,8 +196,15 @@ function OpportunityList() {
                 setFetching(false);
               }, 3000);
             }
-          } catch {
-            // 轮询出错，静默继续
+          } catch (err) {
+            // 404 表示任务已过期，停止轮询
+            if (err?.response?.status === 404) {
+              stopPolling();
+              setFetchProgress(null);
+              setFetching(false);
+              message.warning("任务已过期，请重新采集");
+            }
+            // 其他错误静默继续
           }
         }, 1500);
       } else {
@@ -219,7 +239,7 @@ function OpportunityList() {
   // 筛选变更时回到第1页
   useEffect(() => {
     setCurrentPage(1);
-  }, [filterNoticeType, filterCategory, filterMethod, searchText]);
+  }, [filterNoticeType, filterCategory, filterMethod, filterDataSource, searchText]);
 
   // 构建查询参数
   const params = useMemo(() => {
@@ -229,7 +249,7 @@ function OpportunityList() {
       city: filterCity || undefined,                   // V2 新增
       project_category: filterCategory || undefined,
       procurement_method: filterMethod || undefined,
-
+      data_source: filterDataSource || undefined,       // V3: 数据来源
       budget_min: budgetRange[0] || undefined,
       budget_max: budgetRange[1] || undefined,
       search: searchText || undefined,
@@ -241,7 +261,7 @@ function OpportunityList() {
     // 清除 undefined 值
     Object.keys(result).forEach(k => result[k] === undefined && delete result[k]);
     return result;
-  }, [filterProvince, filterCity, filterCategory, filterMethod, filterNoticeType, budgetRange, searchText, showFavorites, currentPage, pageSize]);
+  }, [filterProvince, filterCity, filterCategory, filterMethod, filterNoticeType, filterDataSource, budgetRange, searchText, showFavorites, currentPage, pageSize]);
 
   // 公告内容模态框状态
   const [contentModalVisible, setContentModalVisible] = useState(false);
@@ -301,6 +321,23 @@ function OpportunityList() {
 
   // 表格列定义
   const columns = useMemo(() => [
+    {
+      title: "来源",
+      dataIndex: "data_source",
+      key: "data_source",
+      width: 90,
+      render: (val) => {
+        const sourceMap = {
+          "b2b_10086": { label: "移动", color: "#1677ff" },
+          "telecom": { label: "电信", color: "#52c41a" },
+          "unicom": { label: "联通", color: "#fa541c" },
+          "gd_zbtb": { label: "广东招标", color: "#722ed1" },
+          "gd_ygp": { label: "广东资源", color: "#13c2c2" },
+        };
+        const info = sourceMap[val];
+        return info ? <Tag color={info.color}>{info.label}</Tag> : (val ? <Tag>{val}</Tag> : <Text type="secondary">—</Text>);
+      },
+    },
     {
       title: "省份",
       dataIndex: "province",
@@ -561,6 +598,15 @@ function OpportunityList() {
               placeholder="公告类型"
             />
           </Col>
+          <Col xs={12} sm={6} md={3}>
+            <Select
+              value={filterDataSource}
+              onChange={setFilterDataSource}
+              options={DATA_SOURCE_OPTIONS}
+              style={{ width: "100%" }}
+              placeholder="数据来源"
+            />
+          </Col>
           <Col xs={24} sm={12} md={3}>
             <Tooltip title={`预算: ${budgetRange[0]}万 - ${budgetRange[1]}万`}>
               <Slider
@@ -673,58 +719,62 @@ function OpportunityList() {
         )}
       </Modal>
 
-      {/* 选择采集省份弹窗 */}
+      {/* P3: 省份+运营商联合选择 */}
       <Modal
         title="选择采集范围"
         open={provinceModalVisible}
         onCancel={() => setProvinceModalVisible(false)}
         footer={null}
-        width={480}
+        width={520}
       >
-        {/* 运营商选择 */}
         <div style={{ marginBottom: 16 }}>
-          <div style={{ fontWeight: 500, marginBottom: 8, color: "#666" }}>📡 按运营商采集</div>
-          <div style={{ display: "flex", gap: 8 }}>
-            <Button
-              type="primary"
-              style={{ flex: 1 }}
-              onClick={() => startFetch("", "all")}
-            >
-              🌐 全部运营商
-            </Button>
-            <Button
-              style={{ flex: 1, background: "#e6f7ff", borderColor: "#91d5ff", color: "#1890ff" }}
-              onClick={() => startFetch("", "b2b_10086")}
-            >
-              📶 移动
-            </Button>
-            <Button
-              style={{ flex: 1, background: "#fff7e6", borderColor: "#ffd591", color: "#fa8c16" }}
-              onClick={() => startFetch("", "telecom")}
-            >
-              📡 电信
-            </Button>
-            <Button
-              style={{ flex: 1, background: "#f6ffed", borderColor: "#b7eb8f", color: "#52c41a" }}
-              onClick={() => startFetch("", "unicom")}
-            >
-              📞 联通
-            </Button>
-          </div>
+          <div style={{ fontWeight: 500, marginBottom: 8, color: "#666" }}>📡 选择运营商</div>
+          <Select
+            value={selectedAdapter}
+            onChange={setSelectedAdapter}
+            style={{ width: "100%" }}
+            options={[
+              { value: "all", label: "🌐 全部运营商（移动+电信+联通）" },
+              { value: "b2b_10086", label: "📶 中国移动" },
+              { value: "telecom", label: "📡 中国电信" },
+              { value: "unicom", label: "📞 中国联通" },
+            ]}
+          />
         </div>
 
-        <div style={{ fontWeight: 500, marginBottom: 8, color: "#666" }}>📍 按省份采集（中国移动）</div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-          {PROVINCE_OPTIONS.filter(p => p.value).map(p => (
-            <Button
-              key={p.value}
-              onClick={() => startFetch(p.value)}
-              style={{ minWidth: 70 }}
-            >
-              {p.label}
-            </Button>
-          ))}
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontWeight: 500, marginBottom: 8, color: "#666" }}>📍 限定省份（可多选，留空=全国）</div>
+          <Select
+            mode="multiple"
+            value={selectedProvinces}
+            onChange={setSelectedProvinces}
+            placeholder="选择省份，留空则采集全国"
+            style={{ width: "100%" }}
+            maxTagCount={6}
+            options={PROVINCE_OPTIONS.filter(p => p.value).map(p => ({ value: p.value, label: p.label }))}
+            allowClear
+          />
         </div>
+
+        <Divider style={{ margin: "12px 0" }} />
+
+        <Button
+          type="primary"
+          block
+          size="large"
+          icon={<CloudDownloadOutlined />}
+          loading={fetching}
+          onClick={() => {
+            const province = selectedProvinces.join(",");
+            const adapter = selectedAdapter === "all" ? "all" : selectedAdapter;
+            const desc = `${adapter === "all" ? "全部运营商" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : "联通"} × ${province || "全国"}`;
+            message.info(`开始采集: ${desc}`);
+            startFetch(province, adapter);
+          }}
+        >
+          开始采集（{selectedAdapter === "all" ? "全部运营商" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : "联通"}
+          {selectedProvinces.length > 0 ? ` × ${selectedProvinces.join("、")}` : " × 全国"}）
+        </Button>
       </Modal>
 
       {/* 采集进度模态框 */}

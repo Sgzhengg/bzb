@@ -16,6 +16,7 @@ data_collector:
       config:
         base_url: "https://b2b.10086.cn"
         max_pages: 3
+        source_key: "b2b_10086"
     # V3 新增：电信/联通采购平台适配器
     telecom:
       enabled: true
@@ -24,6 +25,7 @@ data_collector:
       config:
         base_url: "https://caigou.chinatelecom.com.cn"
         max_pages: 3
+        source_key: "telecom"
     unicom:
       enabled: true
       module: "adapters.unicom_adapter"
@@ -31,6 +33,7 @@ data_collector:
       config:
         base_url: "https://www.chinaunicombidding.cn"
         max_pages: 3
+        source_key: "unicom"
     # V2 新增：各省公共资源交易平台适配器
     gx_ggzy:
       enabled: false   # province_ggzy_adapter 尚未实现
@@ -95,6 +98,7 @@ data_collector:
       config:
         base_url: "https://zbtb.gd.gov.cn"
         max_pages: 5
+        source_key: "gd_zbtb"
     gd_ygp:
       enabled: true
       module: "adapters.gd_ygp_adapter"
@@ -102,6 +106,7 @@ data_collector:
       config:
         base_url: "https://ygp.gdzwfw.gov.cn"
         max_pages: 5
+        source_key: "gd_ygp"
 
 # ── 各数据源详细配置 ──
 

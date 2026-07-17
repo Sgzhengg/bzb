@@ -45,6 +45,11 @@ class PreferenceUpdate(BaseModel):
     llm_api_key: Optional[str] = Field(None, description="LLM API Key")
     llm_model: Optional[str] = Field(None, description="LLM 模型")
     llm_base_url: Optional[str] = Field(None, description="LLM API 地址")
+    # V3: 采集偏好
+    default_data_sources: Optional[List[str]] = Field(None, description="默认采集源列表")
+    default_provinces: Optional[List[str]] = Field(None, description="默认采集省份列表")
+    auto_collect_enabled: Optional[str] = Field(None, description="自动采集开关: true/false")
+    collect_frequency: Optional[str] = Field(None, description="采集频率: manual/daily/twice_daily")
 
 
 # ============================================================
@@ -111,6 +116,15 @@ async def update_preferences(
         pref.llm_model = body.llm_model
     if body.llm_base_url is not None:
         pref.llm_base_url = body.llm_base_url
+    # V3: 采集偏好
+    if body.default_data_sources is not None:
+        pref.default_data_sources = UserPreference.build_categories(body.default_data_sources)
+    if body.default_provinces is not None:
+        pref.default_provinces = UserPreference.build_categories(body.default_provinces)
+    if body.auto_collect_enabled is not None:
+        pref.auto_collect_enabled = body.auto_collect_enabled
+    if body.collect_frequency is not None:
+        pref.collect_frequency = body.collect_frequency
 
     await db.commit()
     await db.refresh(pref)

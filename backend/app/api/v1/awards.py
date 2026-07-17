@@ -31,6 +31,7 @@ async def list_awards(
     winner_type: Optional[str] = Query(None, description="中标方类型"),
     purchaser_id: Optional[int] = Query(None, description="采购方ID"),
     search: Optional[str] = Query(None, description="项目名称/中标方搜索"),
+    data_source: Optional[str] = Query(None, description="数据来源: b2b_10086(移动)/telecom(电信)/unicom(联通)/gd_zbtb/gd_ygp"),
     db: AsyncSession = Depends(get_db),
 ):
     """获取历史中标结果列表，支持筛选和分页。"""
@@ -42,6 +43,8 @@ async def list_awards(
         conditions.append(HistoricalAward.winner_type == winner_type)
     if purchaser_id:
         conditions.append(HistoricalAward.purchaser_id == purchaser_id)
+    if data_source:
+        conditions.append(HistoricalAward.data_source == data_source)
     if search:
         conditions.append(
             HistoricalAward.project_name.ilike(f"%{search}%")
@@ -85,6 +88,7 @@ async def list_awards(
             "is_continuous": a.is_continuous,
             "continuous_count": a.continuous_count,
             "source_url": a.source_url or "",
+            "data_source": a.data_source or "",
         }
         for a in awards
     ]

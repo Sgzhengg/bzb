@@ -32,6 +32,7 @@ class HistoricalAward(Base):
     is_continuous = Column(Boolean, nullable=False, default=False, comment="是否连续中标")
     continuous_count = Column(Integer, default=0, comment="连续中标次数")
     source_url = Column(String(1000), default="", comment="中标公告原始链接")
+    data_source = Column(String(30), default="", comment="数据来源: b2b_10086(移动)/telecom(电信)/unicom(联通)/gd_zbtb/gd_ygp")
     created_at = Column(DateTime, server_default=func.now(), nullable=False)
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
@@ -42,6 +43,7 @@ class HistoricalAward(Base):
         Index("ix_historical_awards_bid_open_date", "bid_open_date"),
         Index("ix_historical_awards_project_category", "project_category"),
         Index("ix_historical_awards_winner_name", "winner_name"),
+        Index("ix_historical_awards_data_source", "data_source"),
     )
 
     def to_dict(self) -> dict:
@@ -61,6 +63,7 @@ class HistoricalAward(Base):
             "is_continuous": self.is_continuous,
             "continuous_count": self.continuous_count,
             "source_url": self.source_url or "",
+            "data_source": self.data_source or "",
         }
 
     def __repr__(self):

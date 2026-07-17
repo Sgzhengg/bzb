@@ -51,11 +51,12 @@ export async function getOpportunityList(params = {}) {
  * @param {string} province - 目标省份，默认广东
  * @param {string} adapter - 指定适配器: b2b_10086(移动)/telecom(电信)/unicom(联通)/all(全部)
  */
-export async function fetchNewAnnouncements(province = "广东", adapter = "") {
+export async function fetchNewAnnouncements(province = "", adapter = "") {
   const params = {};
   if (adapter) {
     params.adapter = adapter;
-  } else if (province) {
+  }
+  if (province) {
     params.province = province;
   }
   return apiClient.post("/announcements/fetch", null, {

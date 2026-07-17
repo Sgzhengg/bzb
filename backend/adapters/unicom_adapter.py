@@ -47,12 +47,13 @@ class UnicomAdapter(BaseAdapter):
         default_config = {
             "name": "中国联通采购平台",
             "base_url": self.BASE_URL,
-            "min_delay": 3.0,
-            "max_delay": 6.0,
+            "min_delay": 1.0,
+            "max_delay": 2.0,
             "max_retries": 2,
             "timeout": 30,
             "max_pages": 3,
             "search_keyword": "广告 宣传 品牌 活动策划 新媒体 视频制作 营销 设计 物料",
+            "source_key": "unicom",
         }
         if config:
             default_config.update(config)
@@ -177,11 +178,17 @@ class UnicomAdapter(BaseAdapter):
                 self.logger.debug(f"  ⏭️ 跳过公示: {title[:60]}")
                 continue
 
+            # 跳过明显非广告类公告
+            if self._is_non_ad_keyword(title):
+                self.logger.debug(f"  ⏭️ 非广告类: {title[:60]}")
+                continue
+
             # 省份过滤
             if province and not self._match_province(title, province):
                 continue
 
-            detail_url = f"{self.DETAIL_PAGE}?id={item_id}"
+            # 公开访问 URL
+            detail_url = f"{self.BASE_URL}/bidInformation/detail?id={item_id}"
 
             results.append({
                 "title": title,
@@ -222,6 +229,22 @@ class UnicomAdapter(BaseAdapter):
         ]
         return any(p in title for p in patterns)
 
+    def _is_non_ad_keyword(self, title: str) -> bool:
+        """黑名单：标题含以下关键词的明显非广告类公告。"""
+        blacklist = [
+            "基站", "机房", "光缆", "光纤", "电缆", "配电", "UPS",
+            "服务器", "路由器", "交换机", "防火墙", "存储设备",
+            "手机终端", "二手手机", "终端采购", "终端设备",
+            "云计算", "云服务", "大数据", "数据中心",
+            "软件采购", "系统集成", "网络设备", "通信设备",
+            "空调", "电源", "蓄电池", "发电机组",
+            "车辆", "办公家具", "办公用品", "装修", "物业",
+            "维保服务", "代维", "网优", "工程监理", "工程设计",
+            "人力资源", "安保服务", "保洁", "食堂",
+            "ICT", "物联网", "AI平台", "芯片",
+        ]
+        return any(kw in title for kw in blacklist)
+
     def _match_province(self, title: str, province: str) -> bool:
         """检查标题是否匹配指定省份。"""
         province_map = {
@@ -242,8 +265,13 @@ class UnicomAdapter(BaseAdapter):
             "重庆": ["重庆"],
             "天津": ["天津"],
         }
-        keywords = province_map.get(province, [province])
-        return any(kw in title for kw in keywords)
+        # 支持逗号分隔的多省份
+        targets = [p.strip() for p in province.split(",") if p.strip()]
+        for target in targets:
+            keywords = province_map.get(target, [target])
+            if any(kw in title for kw in keywords):
+                return True
+        return not targets  # 空省份不过滤
 
     # ── 详情页 ──
 
@@ -333,11 +361,18 @@ class UnicomAdapter(BaseAdapter):
         seen_urls = set()
 
         self._seen_ids.clear()
+        existing_titles = self._load_existing_titles()  # 加载已有标题，跳过重复
 
         self.logger.info(f"===== {self.name} 开始采集 (省份={province_filter or '不限'}) =====")
 
         for page in range(1, self.max_pages + 1):
             self.logger.info(f"--- 列表页 第 {page} 页 ---")
+
+            # 计算当前页的进度范围
+            page_progress_start = 10 + (page - 1) * 80 // self.max_pages
+            page_progress_end = 10 + page * 80 // self.max_pages
+            self._report_progress(page_progress_start, f"正在处理第 {page}/{self.max_pages} 页...")
+
             try:
                 html = self.fetch_list(page=page)
                 items = self.parse_list(html, province=province_filter)
@@ -346,13 +381,30 @@ class UnicomAdapter(BaseAdapter):
                     self.logger.info("无更多公告，翻页结束")
                     break
 
+                # 报告当前页的项目数量
+                self._report_progress(
+                    page_progress_start + 5,
+                    f"第 {page} 页找到 {len(items)} 个公告，开始处理详情..."
+                )
+
                 for i, item in enumerate(items):
+                    # 计算当前项目的进度
+                    item_progress = page_progress_start + 5 + (i + 1) * 70 // self.max_pages // len(items)
+
                     detail_url = item.get("detail_url", "")
                     if not detail_url or detail_url in seen_urls:
                         continue
                     seen_urls.add(detail_url)
 
                     self._current_item = item.get("_unicom_item", {})
+
+                    # 跳过数据库中已存在的记录
+                    title_check = item.get("title", "")
+                    if title_check in existing_titles:
+                        self.logger.debug(f"  ⏭️ 已存在，跳过: {title_check[:60]}")
+                        continue
+
+                    self._report_progress(item_progress, f"处理第 {page} 页第 {i+1}/{len(items)} 个公告...")
 
                     try:
                         html_detail, pdf_bytes = self.fetch_detail(detail_url)
@@ -384,7 +436,9 @@ class UnicomAdapter(BaseAdapter):
                 break
 
         self.logger.info(f"===== {self.name} 采集完成: {len(all_results)} 条广告类 =====")
+        self._report_progress(95, f"采集完成，正在保存 {len(all_results)} 条公告...")
         self.close()
+        self._report_progress(100, f"完成！共获取 {len(all_results)} 条公告")
         return all_results
 
     # ── 字段提取辅助 ──

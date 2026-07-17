@@ -9,7 +9,7 @@ import logging
 import random
 import time
 from abc import ABC, abstractmethod
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, Callable
 from urllib.parse import urljoin
 
 import httpx
@@ -52,10 +52,48 @@ class BaseAdapter(ABC):
         self.max_retries = config.get("max_retries", 3)
         self.timeout = config.get("timeout", 30)
         self.max_pages = config.get("max_pages", 5)
+        self.source_key = config.get("source_key", "")  # b2b_10086/telecom/unicom/gd_zbtb/gd_ygp
 
         self.logger = logging.getLogger(f"adapter.{self.name}")
         self._ua_index = 0
         self._client: Optional[httpx.Client] = None
+        self._progress_callback: Optional[Callable[[int, str], None]] = None
+
+    def set_progress_callback(self, callback: Callable[[int, str], None]):
+        """设置进度回调函数。
+
+        Args:
+            callback: 接收 (progress_percent, message) 的回调函数
+        """
+        self._progress_callback = callback
+
+    def _report_progress(self, progress: int, message: str = ""):
+        """报告进度，如果设置了回调函数则调用。
+
+        Args:
+            progress: 进度百分比 (0-100)
+            message: 进度消息
+        """
+        if self._progress_callback:
+            self._progress_callback(progress, message)
+
+    def _load_existing_titles(self) -> set:
+        """从数据库加载已有的公告标题集合，用于跳过已采集的记录。"""
+        try:
+            import sqlite3
+            import os
+            db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "biaozhongbao.db")
+            if not os.path.exists(db_path):
+                return set()
+            conn = sqlite3.connect(db_path, timeout=5)
+            cur = conn.execute("SELECT title FROM announcements")
+            titles = {row[0] for row in cur.fetchall()}
+            conn.close()
+            self.logger.info(f"📋 数据库中已有 {len(titles)} 条记录，将跳过重复项")
+            return titles
+        except Exception as e:
+            self.logger.warning(f"加载已有标题失败: {e}")
+            return set()
 
     # ── HTTP 客户端 ──
 
@@ -206,12 +244,32 @@ class BaseAdapter(ABC):
         winning_keywords = ["中选候选人", "中选结果", "中选人", "中标候选人", "中标结果", "中标人", "成交候选人", "成交结果"]
         if any(kw in title for kw in winning_keywords):
             self.logger.info(f"  ⏭️ 中标公示跳过: {title[:60]}")
-            result = {  # same as above but is_ad=False
+            result = {
                 "title": title, "purchaser": raw.get("purchaser", ""),
                 "purchaser_level": raw.get("purchaser_level", ""),
                 "procurement_method": raw.get("procurement_method", "公开招标"),
                 "budget": raw.get("budget"), "registration_fee": raw.get("registration_fee"),
                 "deposit": raw.get("deposit"), "project_category": "中标公示",
+                "announce_date": raw.get("publish_date", ""), "deadline": raw.get("deadline", ""),
+                "bid_date": raw.get("bid_date"),
+                "qualification_requirements": content[:2000], "original_content": content,
+                "score_weight": raw.get("score_weight"), "source_url": raw.get("source_url", ""),
+                "notice_type": raw.get("notice_type", "招标公告"),
+                "bid_number": raw.get("bid_number", ""), "is_ad": False,
+                "matched_keywords": [], "province": raw.get("province", ""),
+                "city": raw.get("city", ""), "industry": raw.get("purchaser", ""),
+            }
+            return result
+
+        # 意见征求/技术规范书征求意见 → 非正式招标，跳过
+        if "意见征求" in title or "技术规范书" in title or "技术评分表" in title:
+            self.logger.info(f"  ⏭️ 意见征求跳过: {title[:60]}")
+            result = {
+                "title": title, "purchaser": raw.get("purchaser", ""),
+                "purchaser_level": raw.get("purchaser_level", ""),
+                "procurement_method": raw.get("procurement_method", "公开招标"),
+                "budget": raw.get("budget"), "registration_fee": raw.get("registration_fee"),
+                "deposit": raw.get("deposit"), "project_category": "意见征求",
                 "announce_date": raw.get("publish_date", ""), "deadline": raw.get("deadline", ""),
                 "bid_date": raw.get("bid_date"),
                 "qualification_requirements": content[:2000], "original_content": content,
@@ -304,12 +362,13 @@ class BaseAdapter(ABC):
 
     # ── 主流程 ──
 
-    def run(self, save_to_db: bool = True) -> List[Dict]:
+    def run(self, save_to_db: bool = True, **kwargs) -> List[Dict]:
         """
         执行完整采集流程：列表翻页 → 详情抓取 → 解析 → 过滤 → 入库。
 
         Args:
             save_to_db: 是否自动入库（通过 announcements 表）
+            **kwargs: 额外参数（如 province）
 
         Returns:
             采集到的广告类项目列表
@@ -319,8 +378,16 @@ class BaseAdapter(ABC):
 
         self.logger.info(f"===== {self.name} 开始采集 =====")
 
+        # 初始进度报告
+        self._report_progress(10, f"开始采集 {self.name}...")
+
         for page in range(1, self.max_pages + 1):
             self.logger.info(f"--- 列表页 第 {page} 页 ---")
+
+            # 计算当前页的进度范围
+            page_progress_start = 10 + (page - 1) * 80 // self.max_pages
+            page_progress_end = 10 + page * 80 // self.max_pages
+            self._report_progress(page_progress_start, f"正在处理第 {page}/{self.max_pages} 页...")
             try:
                 html = self.fetch_list(page=page)
                 items = self.parse_list(html)
@@ -387,8 +454,8 @@ class BaseAdapter(ABC):
             conn.execute("""
                 INSERT INTO announcements (title, purchaser_id, purchaser_level, procurement_method,
                     budget, registration_fee, deposit, project_category, announce_date, deadline,
-                    qualification_requirements, original_content, source_url, province, city, industry)
-                VALUES (?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    qualification_requirements, original_content, source_url, province, city, industry, data_source)
+                VALUES (?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 record["title"],
                 record.get("purchaser_level", ""),
@@ -405,6 +472,7 @@ class BaseAdapter(ABC):
                 record.get("province", ""),
                 record.get("city", ""),
                 record.get("industry", ""),
+                self.source_key,
             ))
             conn.commit()
             conn.close()

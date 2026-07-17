@@ -64,6 +64,9 @@ class Announcement(Base):
     # 收藏标记
     is_favorited = Column(Boolean, default=False, comment="是否收藏")
 
+    # ── 数据来源 ──
+    data_source = Column(String(30), default="", comment="数据来源: b2b_10086(移动)/telecom(电信)/unicom(联通)/gd_zbtb/gd_ygp")
+
     # 关联
     purchaser = relationship("Purchaser", backref="announcements", lazy="joined")
 
@@ -79,6 +82,7 @@ class Announcement(Base):
         Index("ix_announcements_is_favorited", "is_favorited"),  # 收藏查询
         Index("ix_announcements_city_date", "city", "announce_date"),  # 组合查询
         Index("ix_announcements_category_date", "project_category", "announce_date"),  # 组合查询
+        Index("ix_announcements_data_source", "data_source"),  # 数据来源筛选
         {"comment": "招标公告信息表"},
     )
 

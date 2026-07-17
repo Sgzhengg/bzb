@@ -223,8 +223,13 @@ class B2b10086Adapter(BaseAdapter):
             "重庆": ["重庆", "渝中", "江北", "南岸", "渝北"],
             "天津": ["天津", "和平", "河东", "河西", "南开", "滨海"],
         }
-        keywords = province_map.get(province, [province])
-        return any(kw in title for kw in keywords)
+        # 支持逗号分隔的多省份
+        targets = [p.strip() for p in province.split(",") if p.strip()]
+        for target in targets:
+            keywords = province_map.get(target, [target])
+            if any(kw in title for kw in keywords):
+                return True
+        return not targets  # 空省份不过滤
 
     # ── 详情页 ──
 
@@ -337,7 +342,7 @@ class B2b10086Adapter(BaseAdapter):
 
     def run(self, save_to_db: bool = True, **kwargs) -> List[Dict]:
         """执行完整采集流程，在抓取详情前设置 _current_item 用于传递 uuid。
-        
+
         Args:
             save_to_db: 是否入库
             **kwargs: 支持 province 参数进行省份过滤
@@ -348,6 +353,7 @@ class B2b10086Adapter(BaseAdapter):
 
         # 重置去重集合，确保每次采集独立
         self._seen_ids.clear()
+        existing_titles = self._load_existing_titles()  # 加载已有标题，跳过重复
 
         self.logger.info(f"===== {self.name} 开始采集 (省份={province_filter or '不限'}) =====")
 
@@ -360,8 +366,18 @@ class B2b10086Adapter(BaseAdapter):
             ]
             self.search_keywords = province_keywords + self.search_keywords
 
+        # 计算总工作量（用于进度估算）
+        total_work = self.max_pages * len(self.search_keywords) * 2  # 页数 × 关键词数 × 2种类型
+        current_work = 0
+
         for page in range(1, self.max_pages + 1):
             self.logger.info(f"--- 列表页 第 {page} 页 ---")
+
+            # 计算当前页的进度范围
+            page_progress_start = 10 + (page - 1) * 80 // self.max_pages
+            page_progress_end = 10 + page * 80 // self.max_pages
+            self._report_progress(page_progress_start, f"正在处理第 {page}/{self.max_pages} 页...")
+
             try:
                 html = self.fetch_list(page=page)
                 items = self.parse_list(html, province=province_filter)
@@ -370,7 +386,16 @@ class B2b10086Adapter(BaseAdapter):
                     self.logger.info("无更多公告，翻页结束")
                     break
 
+                # 报告当前页的项目数量
+                self._report_progress(
+                    page_progress_start + 5,
+                    f"第 {page} 页找到 {len(items)} 个公告，开始处理详情..."
+                )
+
                 for i, item in enumerate(items):
+                    # 计算当前项目的进度
+                    item_progress = page_progress_start + 5 + (i + 1) * 70 // self.max_pages // len(items)
+
                     detail_url = item.get("detail_url", "")
                     if not detail_url or detail_url in seen_urls:
                         continue
@@ -378,6 +403,14 @@ class B2b10086Adapter(BaseAdapter):
 
                     # 设置当前 b2b item（用于 fetch_detail 获取 uuid）
                     self._current_item = item.get("_b2b_item", {})
+
+                    # 跳过数据库中已存在的记录
+                    title_check = item.get("title", "")
+                    if title_check in existing_titles:
+                        self.logger.debug(f"  ⏭️ 已存在，跳过: {title_check[:60]}")
+                        continue
+
+                    self._report_progress(item_progress, f"处理第 {page} 页第 {i+1}/{len(items)} 个公告...")
 
                     try:
                         html_detail, pdf_bytes = self.fetch_detail(detail_url)
@@ -407,7 +440,9 @@ class B2b10086Adapter(BaseAdapter):
                 break
 
         self.logger.info(f"===== {self.name} 采集完成: {len(all_results)} 条广告类 =====")
+        self._report_progress(95, f"采集完成，正在保存 {len(all_results)} 条公告...")
         self.close()
+        self._report_progress(100, f"完成！共获取 {len(all_results)} 条公告")
         return all_results
 
     # ── 字段提取辅助 ──

@@ -169,6 +169,7 @@ class DataCollector:
         self,
         adapter_name: str = None,
         save_to_db: bool = True,
+        progress_callback: callable = None,
         **kwargs,
     ) -> List[Dict]:
         """
@@ -177,6 +178,7 @@ class DataCollector:
         Args:
             adapter_name: 适配器名称。None 则使用默认适配器。
             save_to_db: 是否自动入库。
+            progress_callback: 进度回调函数，接收 (progress_percent, message)。
             **kwargs: 传递给适配器 run() 的额外参数。
 
         Returns:
@@ -200,6 +202,10 @@ class DataCollector:
         try:
             # 加载适配器
             adapter = self._load_adapter(adapter_name)
+
+            # 设置进度回调（如果提供）
+            if progress_callback and hasattr(adapter, 'set_progress_callback'):
+                adapter.set_progress_callback(progress_callback)
 
             # 覆盖 max_pages（如果传入）
             if "max_pages" in kwargs:
@@ -315,25 +321,42 @@ class DataCollector:
 
     # ── 便捷方法 ──
 
-    def collect_all_enabled(self, save_to_db: bool = True) -> Dict[str, List[Dict]]:
+    def collect_all_enabled(self, save_to_db: bool = True, progress_callback: callable = None) -> Dict[str, List[Dict]]:
         """
         使用所有已启用的适配器分别采集。
+
+        Args:
+            save_to_db: 是否自动入库。
+            progress_callback: 进度回调函数，接收 (progress_percent, message)。
 
         Returns:
             {adapter_name: [records]}
         """
         all_results = {}
-        for name, cfg in self._adapters.items():
-            if not cfg.get("enabled", True):
-                continue
+        enabled_adapters = [(name, cfg) for name, cfg in self._adapters.items() if cfg.get("enabled", True)]
+
+        for idx, (name, cfg) in enumerate(enabled_adapters):
+            # 计算当前适配器在整体进度中的位置
+            adapter_start_progress = idx * 100 // len(enabled_adapters)
+            adapter_end_progress = (idx + 1) * 100 // len(enabled_adapters)
+
             try:
+                # 为每个适配器创建一个带偏移的进度回调
+                def adapter_progress_callback(progress, message):
+                    if progress_callback:
+                        # 将适配器的进度映射到整体进度范围
+                        adjusted_progress = adapter_start_progress + (progress * (adapter_end_progress - adapter_start_progress) // 100)
+                        progress_callback(adjusted_progress, f"[{name}] {message}")
+
                 all_results[name] = self.collect(
                     adapter_name=name,
                     save_to_db=save_to_db,
+                    progress_callback=adapter_progress_callback,
                 )
             except Exception as e:
                 self.logger.error(f"{name} 采集失败: {e}")
                 all_results[name] = []
+
         return all_results
 
     def list_adapters(self) -> List[dict]:

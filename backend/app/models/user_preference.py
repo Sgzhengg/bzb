@@ -25,6 +25,11 @@ class UserPreference(Base):
     llm_api_key = Column(Text, default="", comment="LLM API Key")
     llm_model = Column(String(100), default="deepseek-chat", comment="LLM模型")
     llm_base_url = Column(Text, default="https://api.deepseek.com/v1", comment="LLM API地址")
+    # V3: 采集偏好
+    default_data_sources = Column(Text, default='["b2b_10086"]', comment="默认采集源，JSON数组")
+    default_provinces = Column(Text, default='["广东"]', comment="默认采集省份，JSON数组")
+    auto_collect_enabled = Column(String(10), default="false", comment="是否启用自动采集")
+    collect_frequency = Column(String(20), default="manual", comment="采集频率: manual/daily/twice_daily")
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
 
@@ -40,8 +45,22 @@ class UserPreference(Base):
             "llm_api_key": self.llm_api_key or "",
             "llm_model": self.llm_model or "deepseek-chat",
             "llm_base_url": self.llm_base_url or "https://api.deepseek.com/v1",
+            "default_data_sources": self._parse_json_list(self.default_data_sources),
+            "default_provinces": self._parse_json_list(self.default_provinces),
+            "auto_collect_enabled": self.auto_collect_enabled or "false",
+            "collect_frequency": self.collect_frequency or "manual",
             "updated_at": str(self.updated_at) if self.updated_at else "",
         }
+
+    @staticmethod
+    def _parse_json_list(val) -> list:
+        import json
+        if not val:
+            return []
+        try:
+            return json.loads(val)
+        except (json.JSONDecodeError, TypeError):
+            return []
 
     def _parse_categories(self) -> list:
         """解析 preferred_categories JSON 字符串为列表。"""

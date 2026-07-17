@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Card, Table, Tag, Typography, Row, Col,
-  Input, Button, Space, Spin, Empty, message, Popconfirm,
+  Input, Button, Space, Spin, Empty, message, Popconfirm, Select,
   Modal, Progress, Steps,
 } from "antd";
 import {
@@ -17,6 +17,7 @@ function WinningResults() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
+  const [filterDataSource, setFilterDataSource] = useState("");
   const [fetching, setFetching] = useState(false);
   const [provinceModalVisible, setProvinceModalVisible] = useState(false);
 
@@ -29,6 +30,7 @@ function WinningResults() {
     try {
       const params = {};
       if (searchText) params.search = searchText;
+      if (filterDataSource) params.data_source = filterDataSource;
       const result = await apiClient.get("/awards", { params });
       setData(result.items || []);
     } catch {
@@ -36,7 +38,7 @@ function WinningResults() {
     } finally {
       setLoading(false);
     }
-  }, [searchText]);
+  }, [searchText, filterDataSource]);
 
   useEffect(() => { loadData(); }, [loadData]);
 
@@ -55,11 +57,21 @@ function WinningResults() {
     }
   };
 
-  const startFetch = async (province) => {
+  const dataSourceOptions = [
+    { value: "", label: "全部来源" },
+    { value: "b2b_10086", label: "中国移动" },
+    { value: "telecom", label: "中国电信" },
+    { value: "unicom", label: "中国联通" },
+    { value: "gd_zbtb", label: "广东招标监管网" },
+    { value: "gd_ygp", label: "广东公共资源平台" },
+  ];
+
+  const startFetch = async (province, adapter = "") => {
     setProvinceModalVisible(false);
     setFetching(true);
     try {
       const params = province ? { province } : {};
+      if (adapter) params.adapter = adapter;
       const result = await apiClient.post("/awards/fetch", null, { params });
       // 显示进度弹窗，模拟进度
       setFetchProgress({
@@ -110,7 +122,22 @@ function WinningResults() {
     }
   };
 
+  // P3: 添加数据来源列
   const columns = [
+    {
+      title: "来源", dataIndex: "data_source", key: "data_source", width: 90,
+      render: (val) => {
+        const sourceMap = {
+          "b2b_10086": { label: "移动", color: "#1677ff" },
+          "telecom": { label: "电信", color: "#52c41a" },
+          "unicom": { label: "联通", color: "#fa541c" },
+          "gd_zbtb": { label: "广东招标", color: "#722ed1" },
+          "gd_ygp": { label: "广东资源", color: "#13c2c2" },
+        };
+        const info = sourceMap[val];
+        return info ? <Tag color={info.color}>{info.label}</Tag> : (val ? <Tag>{val}</Tag> : <Text type="secondary">—</Text>);
+      },
+    },
     {
       title: "项目名称", dataIndex: "project_name", key: "project_name",
       width: 300, ellipsis: true,
@@ -185,6 +212,10 @@ function WinningResults() {
           <Col xs={24} sm={12} md={6}>
             <Input prefix={<SearchOutlined />} placeholder="搜索项目/中标方..."
               value={searchText} onChange={e => setSearchText(e.target.value)} allowClear />
+          </Col>
+          <Col xs={24} sm={12} md={4}>
+            <Select placeholder="数据来源" value={filterDataSource} onChange={setFilterDataSource}
+              options={dataSourceOptions} style={{ width: "100%" }} allowClear />
           </Col>
           <Col>
             <Button icon={<ReloadOutlined />} onClick={loadData}>刷新</Button>
