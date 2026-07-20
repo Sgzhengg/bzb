@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
-  Card, Descriptions, Tag, Typography, Spin, Empty, Button, Space, message, Tooltip,
+  Card, Descriptions, Tag, Typography, Spin, Empty, Button, Space, App, Tooltip,
 } from "antd";
 import {
   ArrowLeftOutlined, StarOutlined, StarFilled, LinkOutlined, ClockCircleOutlined,
@@ -17,22 +17,29 @@ const PROCUREMENT_COLORS = {
 function AnnouncementDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { message } = App.useApp();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFav, setIsFav] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   const loadDetail = useCallback(async () => {
     setLoading(true);
+    setNotFound(false);
     try {
       const result = await getAnnouncementDetail(id);
       setData(result);
       setIsFav(result.is_favorited || false);
-    } catch {
-      message.error("加载公告详情失败");
+    } catch (err) {
+      if (err.response && err.response.status === 404) {
+        setNotFound(true);
+      } else {
+        message.error("加载公告详情失败");
+      }
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, [id, message]);
 
   useEffect(() => { loadDetail(); }, [loadDetail]);
 
@@ -47,7 +54,15 @@ function AnnouncementDetail() {
   };
 
   if (loading) return <Spin size="large" style={{ display: "block", margin: "100px auto" }} />;
-  if (!data) return <Empty description="公告不存在" />;
+  if (!data) {
+    return (
+      <Empty description={notFound ? `公告 #${id} 不存在（可能已被删除）` : "公告不存在"}>
+        <Button type="primary" onClick={() => navigate("/opportunities")}>
+          返回列表
+        </Button>
+      </Empty>
+    );
+  }
 
   return (
     <div>

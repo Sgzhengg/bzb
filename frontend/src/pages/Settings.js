@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-  Card, Typography, Button, Space, message, Row, Col,
+  Card, Typography, Button, Space, App, Row, Col,
   Divider, Input, Select, Switch, Statistic, Spin,
 } from "antd";
 import {
@@ -13,6 +13,7 @@ import apiClient from "../services/api";
 const { Title, Text, Paragraph } = Typography;
 
 function Settings() {
+  const { message } = App.useApp();
   const [llmEnabled, setLLMEnabled] = useState(true);
   const [llmApiKey, setLLMApiKey] = useState("");
   const [llmModel, setLLMModel] = useState("deepseek-chat");

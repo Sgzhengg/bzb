@@ -336,7 +336,7 @@ async def export_favorites(
     even_fill = PatternFill(start_color="D6E4F0", end_color="D6E4F0", fill_type="solid")
 
     # ── 表头 ──
-    headers = ["序号", "公告类型", "省份", "地市", "项目名称", "种类", "预算(万)", "公告日期", "报名/反馈截止", "投标日期", "报名费(元)", "保证金(万)", "网址"]
+    headers = ["序号", "公告类型", "来源", "省份", "地市", "项目名称", "种类", "预算(万)", "公告日期", "报名/反馈截止", "投标日期", "报名费(元)", "保证金(万)", "网址"]
     for col_idx, header in enumerate(headers, 1):
         cell = ws.cell(row=1, column=col_idx, value=header)
         cell.font = header_font
@@ -350,9 +350,26 @@ async def export_favorites(
     # ── 数据行 ──
     for row_idx, ann in enumerate(announcements, 2):
         notice_label = "征集意见公告" if (ann.source_url and "PURCHASE_OPINION" in ann.source_url) else "招标公告"
+        # 数据来源映射为中文（支持从 URL 推断空来源）
+        source_map = {"b2b_10086": "移动", "telecom": "电信", "unicom": "联通",
+                       "gd_zbtb": "广东招标", "gd_ygp": "广东阳光", "zhaobiao": "招标网"}
+        source_label = source_map.get(ann.data_source, "")
+        if not source_label and ann.source_url:
+            url_lower = ann.source_url.lower()
+            if "b2b.10086" in url_lower:
+                source_label = "移动"
+            elif "chinaunicom" in url_lower:
+                source_label = "联通"
+            elif "chinatelecom" in url_lower:
+                source_label = "电信"
+            elif "zbtb" in url_lower or "ygp" in url_lower:
+                source_label = "广东招标"
+            else:
+                source_label = ann.data_source or ""
         row_data = [
             row_idx - 1,  # 序号
             notice_label,
+            source_label,
             ann.province or "",
             ann.city or "",
             ann.title or "",
@@ -371,14 +388,15 @@ async def export_favorites(
             cell.font = data_font
             cell.border = thin_border
 
-            if col_idx in (1, 2, 3, 4, 7, 8, 9, 10, 11, 12):
+            if col_idx in (1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13):
                 cell.alignment = data_align_center
-            elif col_idx == 13 and value:
-                # URL 列：用 HYPERLINK 公式替代直接超链接（兼容含 # 的 SPA 路由）
-                cell.value = f'=HYPERLINK("{value}","打开链接")'
+            elif col_idx == 14 and value:
+                # URL 列：设置显示文本 + 原生超链接
+                cell.value = "打开链接"
+                cell.hyperlink = value
                 cell.font = link_font
                 cell.alignment = data_align_center
-            elif col_idx == 4:
+            elif col_idx == 6:
                 cell.alignment = Alignment(vertical="center", wrap_text=True)
 
             # 偶数行浅蓝背景
@@ -386,7 +404,7 @@ async def export_favorites(
                 cell.fill = even_fill
 
     # ── 列宽 ──
-    col_widths = [6, 14, 8, 10, 55, 14, 12, 13, 15, 13, 13, 13, 14]
+    col_widths = [6, 14, 8, 8, 10, 55, 14, 12, 13, 15, 13, 13, 13, 14]
     for i, w in enumerate(col_widths, 1):
         ws.column_dimensions[get_column_letter(i)].width = w
 

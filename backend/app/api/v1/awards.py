@@ -9,7 +9,12 @@
 """
 
 import logging
-from typing import Optional
+import uuid
+import asyncio
+import os
+import sys
+from datetime import datetime
+from typing import Optional, Dict
 
 from fastapi import APIRouter, Depends, HTTPException, Query, BackgroundTasks
 from sqlalchemy import select, func, and_, desc
@@ -21,6 +26,9 @@ from app.models.historical_award import HistoricalAward
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/awards", tags=["中标结果"])
+
+# ── 采集进度追踪（内存中，重启丢失） ──
+_fetch_tasks: Dict[str, dict] = {}  # {task_id: {status, progress, message, ...}}
 
 
 @router.get("", summary="获取中标结果列表")
@@ -249,20 +257,79 @@ async def fetch_awards(
     background_tasks: BackgroundTasks,
     province: Optional[str] = Query(None, description="目标省份，空为全国"),
 ):
-    """后台触发中标结果数据采集。"""
-    import asyncio as _asyncio
+    """后台触发中标结果数据采集，返回 task_id 用于轮询进度。"""
+    task_id = str(uuid.uuid4())[:8]
+    province_name = province or "全国"
+
+    _fetch_tasks[task_id] = {
+        "status": "starting",
+        "progress": 0,
+        "message": f"正在启动中标结果采集引擎（{province_name}）...",
+        "province": province_name,
+        "started_at": datetime.now().isoformat(),
+        "result_count": 0,
+        "error": None,
+    }
 
     async def _run():
-        logger.info(f"🕷️ 中标结果采集开始 (省份={province or '全国'})...")
+        logger.info(f"🕷️ 中标结果采集开始 (省份={province_name}, task={task_id})...")
         try:
-            from crawl_winning_results import main
-            await main()
-            logger.info("✅ 中标结果采集完成")
+            _fetch_tasks[task_id].update(
+                status="running", progress=10,
+                message=f"正在搜索{province_name}中标公告...",
+            )
+
+            # 使用线程池运行子进程，避免 asyncio 子进程在 Windows/Python 3.14 的问题
+            import subprocess
+            cwd = os.path.dirname(os.path.abspath(__file__))
+            cwd = os.path.dirname(os.path.dirname(os.path.dirname(cwd)))  # -> backend/
+            env = os.environ.copy()
+            if sys.platform == "win32":
+                env["PYTHONASYNCIODEFAULTLOOPPOLICY"] = "WindowsProactorEventLoopPolicy"
+            proc = await asyncio.to_thread(
+                subprocess.run,
+                [sys.executable, "crawl_winning_results.py"],
+                capture_output=True, text=True, cwd=cwd, timeout=600, env=env,
+            )
+
+            if proc.returncode == 0:
+                _fetch_tasks[task_id].update(
+                    status="completed", progress=100,
+                    message=f"{province_name}中标结果采集完成！",
+                )
+                logger.info(f"✅ 中标结果采集完成 (task={task_id})")
+            else:
+                err_msg = proc.stderr[:200] if proc.stderr else f"退出码: {proc.returncode}"
+                _fetch_tasks[task_id].update(
+                    status="failed", progress=0,
+                    message=f"采集失败",
+                    error=err_msg,
+                )
+                logger.error(f"❌ 中标结果采集失败 (task={task_id}): {err_msg}")
         except Exception as e:
-            logger.error(f"❌ 中标结果采集失败: {e}")
+            logger.error(f"❌ 中标结果采集失败 (task={task_id}): {e}")
+            _fetch_tasks[task_id].update(
+                status="failed", progress=0,
+                message=f"采集失败: {str(e)}",
+                error=str(e),
+            )
 
     background_tasks.add_task(_run)
-    return {"message": "中标结果采集已在后台启动，预计1-3分钟完成"}
+
+    return {
+        "status": "started",
+        "task_id": task_id,
+        "message": f"中标结果采集已在后台启动（{province_name}）",
+    }
+
+
+@router.get("/fetch/status/{task_id}", summary="查询中标采集进度")
+async def get_fetch_status(task_id: str):
+    """查询采集任务的实时进度。"""
+    task = _fetch_tasks.get(task_id)
+    if not task:
+        raise HTTPException(status_code=404, detail=f"任务 {task_id} 不存在或已过期")
+    return task
 
 
 @router.delete("/{award_id}", summary="删除中标结果")

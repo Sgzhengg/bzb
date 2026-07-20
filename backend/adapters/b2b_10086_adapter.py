@@ -160,6 +160,7 @@ class B2b10086Adapter(BaseAdapter):
             puid = item.get("uuid", "")
             one_type = item.get("publishOneType", "PROCUREMENT")
             # 使用 SPA 路由格式，可直接在浏览器打开公告详情页
+            # publishType 在 URL 中固定为 PROCUREMENT，子类型由 publishOneType 区分
             detail_url = (
                 f"{self.BASE_URL}/#/noticeDetail"
                 f"?publishId={pid}"
@@ -249,10 +250,12 @@ class B2b10086Adapter(BaseAdapter):
         if not notice_id:
             return "", None
 
-        # 从 _current_item 获取 uuid
+        # 从 _current_item 获取 uuid 和 publishType
         puid = ""
+        ptype = "PROCUREMENT"
         if hasattr(self, "_current_item") and self._current_item:
             puid = self._current_item.get("uuid", "")
+            ptype = self._current_item.get("_publishType", "PROCUREMENT")
 
         client = self._get_client()
         self._random_delay()
@@ -260,7 +263,7 @@ class B2b10086Adapter(BaseAdapter):
         try:
             body = {
                 "publishId": notice_id,
-                "publishType": "PROCUREMENT",
+                "publishType": ptype,
                 "sfactApplColumn5": "PC",
             }
             if puid:

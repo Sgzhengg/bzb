@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Card, Table, Tag, Typography, Row, Col,
-  Input, Button, Space, Spin, Empty, message, Popconfirm, Select,
-  Modal, Progress, Steps,
+  Input, Button, Space, Spin, Empty, App, Popconfirm, Select,
+  Modal, Progress, Divider,
 } from "antd";
 import {
   TrophyOutlined, SearchOutlined,
@@ -14,12 +14,15 @@ import apiClient from "../services/api";
 const { Title, Text } = Typography;
 
 function WinningResults() {
+  const { message } = App.useApp();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [filterDataSource, setFilterDataSource] = useState("");
   const [fetching, setFetching] = useState(false);
   const [provinceModalVisible, setProvinceModalVisible] = useState(false);
+  const [selectedAdapter, setSelectedAdapter] = useState("b2b_10086");
+  const [selectedProvinces, setSelectedProvinces] = useState([]);
 
   // 采集进度状态
   const [fetchProgress, setFetchProgress] = useState(null);
@@ -73,49 +76,50 @@ function WinningResults() {
       const params = province ? { province } : {};
       if (adapter) params.adapter = adapter;
       const result = await apiClient.post("/awards/fetch", null, { params });
-      // 显示进度弹窗，模拟进度
-      setFetchProgress({
-        status: "running",
-        progress: 0,
-        message: result.message || "采集任务已启动",
-        step: 0,
-      });
+      if (result.task_id) {
+        setFetchProgress({
+          taskId: result.task_id,
+          status: "starting",
+          progress: 0,
+          message: result.message || "正在启动...",
+        });
 
-      // 模拟进度推进
-      let p = 0;
-      let s = 0;
-      progressTimer.current = setInterval(() => {
-        p += Math.random() * 15 + 5;
-        if (p > 95) p = 95;
-        s = p > 25 ? (p > 55 ? (p > 80 ? 3 : 2) : 1) : 0;
-        setFetchProgress(prev => ({
-          ...prev,
-          progress: Math.round(p),
-          step: s,
-          message: s === 0 ? "正在启动采集引擎..." :
-                   s === 1 ? "正在搜索中标公告..." :
-                   s === 2 ? "正在提取中标详情..." : "正在写入数据库...",
-        }));
-      }, 2000);
+        progressTimer.current = setInterval(async () => {
+          try {
+            const status = await apiClient.get(`/awards/fetch/status/${result.task_id}`);
+            setFetchProgress(prev => ({ ...prev, ...status }));
 
-      // 3分钟后自动完成
-      setTimeout(() => {
-        if (progressTimer.current) clearInterval(progressTimer.current);
-        setFetchProgress(prev => ({
-          ...prev,
-          status: "completed",
-          progress: 100,
-          step: 4,
-          message: "采集完成！",
-        }));
-        message.success("中标结果采集完成");
-        setTimeout(() => {
-          window._bzbCheckNew?.();
-          setFetchProgress(null);
-          setFetching(false);
-          loadData();
-        }, 2000);
-      }, 180000);
+            if (status.status === "completed") {
+              clearInterval(progressTimer.current);
+              message.success(status.message || "中标结果采集完成！");
+              setTimeout(() => {
+                window._bzbCheckNew?.();
+                setFetchProgress(null);
+                setFetching(false);
+                loadData();
+              }, 2000);
+            } else if (status.status === "failed") {
+              clearInterval(progressTimer.current);
+              message.error(status.message || "采集失败");
+              setTimeout(() => {
+                setFetchProgress(null);
+                setFetching(false);
+              }, 3000);
+            }
+          } catch (err) {
+            if (err?.response?.status === 404) {
+              clearInterval(progressTimer.current);
+              setFetchProgress(null);
+              setFetching(false);
+              message.warning("任务已过期，请重新采集");
+            }
+          }
+        }, 1500);
+      } else {
+        message.success(result.message || "采集任务已启动");
+        setFetching(false);
+        setTimeout(() => loadData(), 5000);
+      }
     } catch {
       message.error("启动采集失败");
       setFetching(false);
@@ -236,22 +240,62 @@ function WinningResults() {
         </Spin>
       </Card>
 
-      {/* 选择采集省份弹窗 */}
+      {/* 选择采集范围弹窗 */}
       <Modal
-        title="选择采集省份"
+        title="选择采集范围"
         open={provinceModalVisible}
         onCancel={() => setProvinceModalVisible(false)}
         footer={null}
-        width={400}
+        width={520}
       >
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, padding: "8px 0" }}>
-          <Button type="primary" style={{ width: "100%", marginBottom: 12 }} onClick={() => startFetch("")}>
-            🌐 全国采集
-          </Button>
-          {["广东","广西","福建","海南","浙江","湖南","江苏","四川","湖北","北京","上海","安徽","山东","河南"].map(p => (
-            <Button key={p} onClick={() => startFetch(p)} style={{ minWidth: 70 }}>{p}</Button>
-          ))}
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontWeight: 500, marginBottom: 8, color: "#666" }}>📡 选择运营商</div>
+          <Select
+            value={selectedAdapter}
+            onChange={setSelectedAdapter}
+            style={{ width: "100%" }}
+            options={[
+              { value: "all", label: "🌐 全部运营商（移动+电信+联通）" },
+              { value: "b2b_10086", label: "📶 中国移动" },
+              { value: "telecom", label: "📡 中国电信" },
+              { value: "unicom", label: "📞 中国联通" },
+            ]}
+          />
         </div>
+
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontWeight: 500, marginBottom: 8, color: "#666" }}>📍 限定省份（可多选，留空=全国）</div>
+          <Select
+            mode="multiple"
+            value={selectedProvinces}
+            onChange={setSelectedProvinces}
+            placeholder="选择省份，留空则采集全国"
+            style={{ width: "100%" }}
+            maxTagCount={6}
+            options={["广东","广西","福建","海南","浙江","湖南","江苏","四川","湖北","北京","上海","安徽","山东","河南"].map(p => ({ value: p, label: p }))}
+            allowClear
+          />
+        </div>
+
+        <Divider style={{ margin: "12px 0" }} />
+
+        <Button
+          type="primary"
+          block
+          size="large"
+          icon={<CloudDownloadOutlined />}
+          loading={fetching}
+          onClick={() => {
+            const province = selectedProvinces.join(",");
+            const adapter = selectedAdapter === "all" ? "all" : selectedAdapter;
+            const desc = `${adapter === "all" ? "全部运营商" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : "联通"} × ${province || "全国"}`;
+            message.info(`开始采集: ${desc}`);
+            startFetch(province, adapter);
+          }}
+        >
+          开始采集（{selectedAdapter === "all" ? "全部运营商" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : "联通"}
+          {selectedProvinces.length > 0 ? ` × ${selectedProvinces.join("、")}` : " × 全国"}）
+        </Button>
       </Modal>
 
       {/* 采集进度弹窗 */}
@@ -288,22 +332,10 @@ function WinningResults() {
       >
         {fetchProgress && (
           <div style={{ padding: "16px 0" }}>
-            <Steps
-              current={fetchProgress.step}
-              status={fetchProgress.status === "completed" ? "finish" : "process"}
-              size="small"
-              items={[
-                { title: "初始化", description: "启动采集引擎" },
-                { title: "搜索列表", description: "扫描中标公告" },
-                { title: "提取详情", description: "解析中标内容" },
-                { title: "入库完成", description: "数据写入数据库" },
-              ]}
-              style={{ marginBottom: 24 }}
-            />
             <div style={{ textAlign: "center", marginBottom: 16 }}>
               <Progress
                 type="circle"
-                percent={fetchProgress.progress}
+                percent={fetchProgress.progress || 0}
                 strokeColor={
                   fetchProgress.status === "completed" ? "#52c41a"
                   : { "0%": "#108ee9", "100%": "#87d068" }

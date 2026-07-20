@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import {
   Card, Table, Tag, Button, Space, Input, Select, Progress,
-  Row, Col, Typography, Tooltip, message, Spin, Empty,
+  Row, Col, Typography, Tooltip, App, Spin, Empty,
   Slider, Modal, Descriptions, Divider, Steps,
 } from "antd";
 import {
@@ -122,6 +122,7 @@ function formatDate(dateStr) {
 
 function OpportunityList() {
   const navigate = useNavigate();
+  const { message } = App.useApp();
   const [searchText, setSearchText] = useState("");
 
   // 筛选状态
