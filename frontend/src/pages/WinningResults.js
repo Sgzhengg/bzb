@@ -242,14 +242,14 @@ function WinningResults() {
 
       {/* 选择采集范围弹窗 */}
       <Modal
-        title="选择采集范围"
+        title="选择采集范围 — b2b.10086.cn 中国移动中标公示"
         open={provinceModalVisible}
         onCancel={() => setProvinceModalVisible(false)}
         footer={null}
         width={520}
       >
         <div style={{ marginBottom: 16 }}>
-          <div style={{ fontWeight: 500, marginBottom: 8, color: "#666" }}>📡 选择运营商</div>
+          <div style={{ fontWeight: 500, marginBottom: 8, color: "#666" }}>� 选择运营商</div>
           <Select
             value={selectedAdapter}
             onChange={setSelectedAdapter}
