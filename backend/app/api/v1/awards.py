@@ -84,8 +84,24 @@ async def _import_to_db(backend_dir: str, adapter: str, province: str = "") -> i
 
             source_url = (item.get("source_url") or "").strip()
 
-            # 检查重复（按 source_url）
-            if source_url:
+            # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            # 修复：提前提取 winner_name，供后续去重检查使用
+            # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            winner_name = item.get("winner_name", "").strip()
+            if not winner_name:
+                winner_name = _extract_winner_from_title(title)
+
+            # 检查重复：同一公告同一中标方只入库一次
+            if source_url and winner_name:
+                dup_check = await session.execute(
+                    sa_select(HistoricalAward).where(
+                        HistoricalAward.source_url == source_url,
+                        HistoricalAward.winner_name == winner_name,
+                    )
+                )
+                if dup_check.scalar_one_or_none():
+                    continue
+            elif source_url:
                 dup_check = await session.execute(
                     sa_select(HistoricalAward).where(
                         HistoricalAward.source_url == source_url
@@ -93,15 +109,15 @@ async def _import_to_db(backend_dir: str, adapter: str, province: str = "") -> i
                 )
                 if dup_check.scalar_one_or_none():
                     continue
-
-            # 检查重复（按标题）
-            dup_title = await session.execute(
-                sa_select(HistoricalAward).where(
-                    HistoricalAward.project_name == title[:500]
+            elif winner_name:
+                dup_check = await session.execute(
+                    sa_select(HistoricalAward).where(
+                        HistoricalAward.project_name == title[:500],
+                        HistoricalAward.winner_name == winner_name,
+                    )
                 )
-            )
-            if dup_title.scalar_one_or_none():
-                continue
+                if dup_check.scalar_one_or_none():
+                    continue
 
             # 解析日期
             pub_date_str = item.get("publish_date", "")
@@ -113,11 +129,6 @@ async def _import_to_db(backend_dir: str, adapter: str, province: str = "") -> i
                         break
                     except ValueError:
                         continue
-
-            # 解析中标方：优先使用爬虫提取的 winner_name，否则从标题提取
-            winner_name = item.get("winner_name", "").strip()
-            if not winner_name:
-                winner_name = _extract_winner_from_title(title)
 
             # 解析折扣率：优先使用爬虫提取的
             discount_rate = item.get("discount_rate")
@@ -449,6 +460,7 @@ async def fetch_awards(
     background_tasks: BackgroundTasks,
     province: Optional[str] = Query(None, description="目标省份，空为全国"),
     adapter: Optional[str] = Query(None, description="运营商: b2b_10086(移动)/telecom(电信)/unicom(联通)/all(全部)"),
+    skip: Optional[bool] = Query(False, description="跳过爬虫，直接导入现有数据"),
 ):
     """后台触发中标结果数据采集（b2b.10086.cn），返回 task_id 用于轮询进度。"""
     task_id = str(uuid.uuid4())[:8]
@@ -477,11 +489,6 @@ async def fetch_awards(
     async def _run():
         logger.info(f"🕷️ 中标结果采集开始 (adapter={adapter_name}, province={province_name}, task={task_id})...")
         try:
-            _fetch_tasks[task_id].update(
-                status="running", progress=10,
-                message=f"正在搜索 {adapter_label} × {province_name} 中标公告...",
-            )
-
             import subprocess
             cwd = os.path.dirname(os.path.abspath(__file__))
             cwd = os.path.dirname(os.path.dirname(os.path.dirname(cwd)))  # -> backend/
@@ -489,31 +496,64 @@ async def fetch_awards(
             if sys.platform == "win32":
                 env["PYTHONASYNCIODEFAULTLOOPPOLICY"] = "WindowsProactorEventLoopPolicy"
 
-            cmd = [sys.executable, "crawl_winning_results.py",
-                   "--adapter", adapter_name]
-            if province and province.strip():
-                cmd.extend(["--province", province])
+            # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            # 检查是否有最近采集的 JSON 文件，如有则直接导入
+            # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            province_slug = province.replace(",", "_") if province else "quanguo"
+            json_path = os.path.join(cwd, "output", f"winning_results_{adapter_name}_{province_slug}.json")
+            logger.info(f"[SKIP] 检查文件: {json_path}")
 
-            _fetch_tasks[task_id].update(
-                progress=30,
-                message=f"正在爬取 {adapter_label} × {province_name} 中标数据...",
-            )
+            skip_crawl = False
+            file_age = 999999  # 默认值，表示文件不存在
+            if os.path.exists(json_path):
+                import time
+                file_age = time.time() - os.path.getmtime(json_path)
+                logger.info(f"[SKIP] 文件存在，年龄: {int(file_age/60)} 分钟")
+                # 如果文件在 2 小时内生成，跳过爬虫直接导入
+                if file_age < 7200:
+                    skip_crawl = True
+                    logger.info(f"[SKIP] 发现最近采集文件 ({int(file_age/60)} 分钟前)，跳过爬虫直接导入")
+                else:
+                    logger.info(f"[SKIP] 文件过旧 ({int(file_age/60)} 分钟)，需要重新采集")
+            else:
+                logger.info(f"[SKIP] 文件不存在，需要爬虫采集")
 
-            proc = await asyncio.to_thread(
-                subprocess.run,
-                cmd,
-                capture_output=True, text=True, cwd=cwd, timeout=600, env=env,
-            )
-
-            if proc.returncode != 0:
-                err_msg = proc.stderr[:500] if proc.stderr else f"退出码: {proc.returncode}"
+            if skip_crawl:
                 _fetch_tasks[task_id].update(
-                    status="failed", progress=0,
-                    message=f"采集失败",
-                    error=err_msg,
+                    status="running", progress=50,
+                    message=f"发现最近数据，正在导入...",
                 )
-                logger.error(f"❌ 中标结果采集失败 (task={task_id}): {err_msg}")
-                return
+            else:
+                _fetch_tasks[task_id].update(
+                    status="running", progress=10,
+                    message=f"正在搜索 {adapter_label} × {province_name} 中标公告...",
+                )
+
+                cmd = [sys.executable, "crawl_winning_results.py",
+                       "--adapter", adapter_name]
+                if province and province.strip():
+                    cmd.extend(["--province", province])
+
+                _fetch_tasks[task_id].update(
+                    progress=30,
+                    message=f"正在爬取 {adapter_label} × {province_name} 中标数据...",
+                )
+
+                proc = await asyncio.to_thread(
+                    subprocess.run,
+                    cmd,
+                    capture_output=True, text=True, cwd=cwd, timeout=1200, env=env,
+                )
+
+                if proc.returncode != 0:
+                    err_msg = proc.stderr[:500] if proc.stderr else f"退出码: {proc.returncode}"
+                    _fetch_tasks[task_id].update(
+                        status="failed", progress=0,
+                        message=f"采集失败",
+                        error=err_msg,
+                    )
+                    logger.error(f"❌ 中标结果采集失败 (task={task_id}): {err_msg}")
+                    return
 
             _fetch_tasks[task_id].update(
                 progress=70,
@@ -529,6 +569,13 @@ async def fetch_awards(
             )
             logger.info(f"✅ 中标结果采集完成 (task={task_id}): 导入 {imported_count} 条")
 
+        except subprocess.TimeoutExpired as e:
+            logger.error(f"❌ 中标结果采集超时 (task={task_id})")
+            _fetch_tasks[task_id].update(
+                status="failed", progress=0,
+                message="采集超时（数据量较大，请稍后重试或使用现有数据）",
+                error=f"超时: {str(e)}",
+            )
         except Exception as e:
             logger.error(f"❌ 中标结果采集失败 (task={task_id}): {e}")
             _fetch_tasks[task_id].update(
