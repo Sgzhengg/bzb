@@ -64,7 +64,7 @@ python test_b2b_auto.py
 ```bash
 # 启动后端
 cd backend
-python run.py
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 # 调用 API
 curl -X POST "http://localhost:8000/api/v1/announcements/extract-budget/batch?limit=1"
