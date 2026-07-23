@@ -34,6 +34,118 @@ router = APIRouter(prefix="/awards", tags=["中标结果"])
 _fetch_tasks: Dict[str, dict] = {}  # {task_id: {status, progress, message, ...}}
 
 
+def _compute_eta(task: dict) -> dict:
+    """根据已用时间和进度百分比，动态估算剩余时间"""
+    import time as _time
+    started = task.get("started_at")
+    progress = task.get("progress", 0)
+    if not started or progress <= 0 or progress >= 100:
+        return {}
+    try:
+        elapsed = _time.time() - datetime.fromisoformat(started).timestamp()
+        if elapsed < 2:
+            return {}
+        eta_total = elapsed / (progress / 100.0)
+        remaining = max(0, eta_total - elapsed)
+        return {"elapsed_seconds": round(elapsed), "eta_seconds": round(remaining)}
+    except Exception:
+        return {}
+
+
+async def _classify_award(title: str, content: str = "", data_source: str = "") -> dict:
+    """复用公告采集的核心二步管线：keyword_filter → classify_and_extract。
+    跳过 _is_mobile_purchaser 和 中标公示过滤（中标结果本就含这些词）。
+    """
+    import sys as _sys, os as _os
+    _backend = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+    _sys.path.insert(0, _backend)
+
+    content = content or ""
+
+    # ── Step 1: keyword_filter（仅用安全词+排除词，不检查采购单位）──
+    def _step1():
+        try:
+            from app.services.keyword_filter import (
+                SAFETY_KEYWORDS, HARD_EXCLUDE_KEYWORDS, _match_keywords
+            )
+        except ImportError:
+            from services.keyword_filter import (
+                SAFETY_KEYWORDS, HARD_EXCLUDE_KEYWORDS, _match_keywords
+            )
+        combined = f"{title} {content}"
+        excluded = _match_keywords(combined, HARD_EXCLUDE_KEYWORDS)
+        if excluded:
+            return False, "", f"命中排除词: {excluded[0]}"
+        matched = _match_keywords(combined, SAFETY_KEYWORDS)
+        if not matched:
+            return False, "", "未命中广告安全词"
+        return True, matched, ""
+
+    is_ad, matched, reason = await asyncio.to_thread(_step1)
+    if not is_ad:
+        return {"is_ad": False, "category": "", "reason": reason}
+
+    # ── Step 2: LLM 精确分类 ──
+    try:
+        def _step2():
+            try:
+                from app.services.llm_classifier import classify_and_extract
+            except ImportError:
+                from services.llm_classifier import classify_and_extract
+            return classify_and_extract(title, content)
+
+        unified = await asyncio.to_thread(_step2)
+        llm_category = unified.get("category", "")
+        llm_budget = unified.get("budget")
+        is_ad = True
+        category = llm_category or ""
+        budget = llm_budget
+    except Exception as e:
+        logger.warning(f"LLM step failed, using keyword result: {e}")
+        is_ad, category, budget = True, "", None
+
+    # ── Step 3: LLM 折扣率提取（从PDF正文中提取中标折扣率/金额）──
+    discount_rate = None
+    if content and len(content) > 100:
+        try:
+            def _extract_discount():
+                import httpx as _hx
+                from app.core.config import settings as _cfg
+                if not _cfg.LLM_API_KEY:
+                    return None
+                prompt = f"""从以下中标公示正文中提取中标折扣率或中标金额。
+折扣率格式如"折扣率85%"、"中标折扣82.5%"、"应答折扣率90%"等。
+金额格式如"中标金额123.5万元"。
+仅回复JSON：{{"discount_rate": 数字(百分比,如85.5), "amount": 数字(万元)}}，未找到则null。
+
+正文：{content[:3000]}"""
+                with _hx.Client(timeout=15) as client:
+                    resp = client.post(
+                        f"{_cfg.LLM_API_BASE}/chat/completions",
+                        headers={"Authorization": f"Bearer {_cfg.LLM_API_KEY}", "Content-Type": "application/json"},
+                        json={"model": _cfg.LLM_MODEL, "temperature": 0, "max_tokens": 100,
+                              "messages": [{"role": "user", "content": prompt}]},
+                    )
+                    text = resp.json()["choices"][0]["message"]["content"]
+                    import re as _re, json as _json
+                    m = _re.search(r'\{[^}]+\}', text)
+                    if m:
+                        d = _json.loads(m.group())
+                        return d.get("discount_rate") or d.get("amount")
+                return None
+            discount_rate = await asyncio.to_thread(_extract_discount)
+        except Exception:
+            pass
+
+    return {
+        "is_ad": is_ad,
+        "category": category,
+        "budget": budget,
+        "discount_rate": discount_rate,
+        "reason": "",
+    }
+
+
 async def _import_to_db(backend_dir: str, adapter: str, province: str = "") -> int:
     """将 crawl_winning_results.py 输出的 JSON 导入 historical_awards 表。
 
@@ -130,32 +242,65 @@ async def _import_to_db(backend_dir: str, adapter: str, province: str = "") -> i
                     except ValueError:
                         continue
 
-            # 解析折扣率：优先使用爬虫提取的
+            # 解析折扣率（先取爬虫值，后面LLM可能覆盖）
             discount_rate = item.get("discount_rate")
             if discount_rate is not None:
                 try:
                     discount_rate = float(discount_rate)
                 except (ValueError, TypeError):
-                    discount_rate = 0
+                    discount_rate = None
             else:
-                discount_rate = 0
+                discount_rate = None
 
             # 确定数据来源
             data_source = item.get("data_source", "") or item.get("adapter", "") or adapter
 
-            # 确定项目类别
+            # 确定项目类别（先用关键词猜测，LLM 有结果则覆盖）
             project_category = _guess_category(title)
+
+            # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            # 第二步：关键词+LLM 二步法鉴定（对标公告采集管线）
+            # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+            try:
+                classify_result = await _classify_award(title, item.get("original_content", ""), data_source)
+                if not classify_result.get("is_ad"):
+                    logger.info(f"  ⏭️ 二步法判定非广告: {title[:60]}")
+                    continue
+                # LLM category 覆盖关键词猜测（但仅当LLM类别为广告类赛道时）
+                llm_category = classify_result.get("category", "")
+                AD_CATEGORIES = {"广告类", "广告创意设计", "物料制作印刷", "活动策划执行",
+                    "品牌宣传传播", "视频内容制作", "新媒体运营类", "媒介投放类",
+                    "渠道营销类", "渠道营销推广", "内容制作类", "创意设计类", "其他"}
+                if llm_category in AD_CATEGORIES:
+                    project_category = llm_category
+                # LLM discount_rate
+                llm_discount = classify_result.get("discount_rate")
+                if not discount_rate and llm_discount:
+                    try:
+                        discount_rate = float(llm_discount)
+                    except (ValueError, TypeError):
+                        pass
+                # LLM budget
+                llm_budget = classify_result.get("budget")
+                if not discount_rate and llm_budget:
+                    try:
+                        discount_rate = float(llm_budget)
+                    except (ValueError, TypeError):
+                        pass
+                logger.info(f"  ✅ 广告类 [{project_category}] 份额={discount_rate}: {title[:60]}")
+            except Exception as e:
+                logger.warning(f"  ⚠️ 分类异常，按关键词结果入库: {e}")
 
             try:
                 award = HistoricalAward(
                     project_name=title[:500],
-                    purchaser_id=1,  # 默认采购方
+                    purchaser_id=1,
                     winner_name=winner_name or "未知中标方",
                     winner_type="头部常客",
                     bid_amount=0,
                     budget_amount=0,
                     discount_rate=discount_rate,
-                    project_category=project_category,
+                    project_category=project_category or "其他",
                     bid_open_date=bid_open_date,
                     is_continuous=False,
                     continuous_count=0,
@@ -243,6 +388,8 @@ async def list_awards(
     purchaser_id: Optional[int] = Query(None, description="采购方ID"),
     search: Optional[str] = Query(None, description="项目名称/中标方搜索"),
     data_source: Optional[str] = Query(None, description="数据来源: b2b_10086(移动)/telecom(电信)/unicom(联通)/gd_zbtb/gd_ygp"),
+    collected_from: Optional[str] = Query(None, description="采集时间起 (YYYY-MM-DD)"),
+    collected_to: Optional[str] = Query(None, description="采集时间止 (YYYY-MM-DD)"),
     db: AsyncSession = Depends(get_db),
 ):
     """获取历史中标结果列表，支持筛选和分页。"""
@@ -250,6 +397,10 @@ async def list_awards(
 
     if project_category:
         conditions.append(HistoricalAward.project_category == project_category)
+    if collected_from:
+        conditions.append(HistoricalAward.created_at >= collected_from)
+    if collected_to:
+        conditions.append(HistoricalAward.created_at < collected_to + "T23:59:59")
     if winner_type:
         conditions.append(HistoricalAward.winner_type == winner_type)
     if purchaser_id:
@@ -356,6 +507,7 @@ async def award_stats(
 @router.get("/export", summary="导出中标结果为Excel")
 async def export_awards(
     db: AsyncSession = Depends(get_db),
+    data_source: str = Query(None, description="数据源筛选: b2b_10086/telecom/unicom"),
 ):
     """将所有中标结果导出为 Excel 文件。"""
     from io import BytesIO
@@ -366,10 +518,26 @@ async def export_awards(
     from fastapi.responses import StreamingResponse
     from urllib.parse import quote
 
-    result = await db.execute(
-        select(HistoricalAward).order_by(desc(HistoricalAward.bid_open_date))
-    )
-    awards = result.scalars().all()
+    # 仅导出广告类中标结果
+    AD_KEYWORDS = [
+        "广告", "宣传", "品牌", "活动策划", "新媒体", "视频制作",
+        "营销", "设计", "物料", "推广", "传播", "策划", "会展",
+        "发布", "创意", "公关", "媒介", "视觉", "拍摄", "制作",
+        "印刷", "展示", "展览", "路演", "地推", "促销",
+    ]
+
+    query = select(HistoricalAward).order_by(desc(HistoricalAward.bid_open_date))
+    if data_source:
+        query = query.where(HistoricalAward.data_source == data_source)
+    result = await db.execute(query)
+    all_awards = result.scalars().all()
+
+    # 过滤非广告类
+    awards = []
+    for a in all_awards:
+        title = a.project_name or ""
+        if any(kw in title for kw in AD_KEYWORDS):
+            awards.append(a)
 
     wb = Workbook()
     ws = wb.active
@@ -377,7 +545,7 @@ async def export_awards(
 
     header_font = Font(name="微软雅黑", size=11, bold=True, color="FFFFFF")
     header_fill = PatternFill(start_color="2F5496", end_color="2F5496", fill_type="solid")
-    header_align = Alignment(horizontal="center", vertical="center")
+    header_align = Alignment(horizontal="center", vertical="center", wrap_text=True)
     data_font = Font(name="微软雅黑", size=10)
     data_align = Alignment(vertical="center")
     data_align_center = Alignment(horizontal="center", vertical="center")
@@ -388,7 +556,7 @@ async def export_awards(
     )
     even_fill = PatternFill(start_color="D6E4F0", end_color="D6E4F0", fill_type="solid")
 
-    headers = ["序号", "项目名称", "中标方", "中标份额(%)", "项目类别", "公示日期", "公告链接"]
+    headers = ["序号", "项目名称", "中标方", "中标份额(%)", "项目类别", "公示日期", "来源", "公示链接"]
     for col_idx, header in enumerate(headers, 1):
         cell = ws.cell(row=1, column=col_idx, value=header)
         cell.font = header_font
@@ -398,36 +566,44 @@ async def export_awards(
 
     ws.freeze_panes = "A2"
 
+    SOURCE_LABELS = {"b2b_10086": "中国移动", "telecom": "中国电信", "unicom": "中国联通"}
+
     for row_idx, award in enumerate(awards, 2):
+        source_url = award.source_url or ""
+        source_label = SOURCE_LABELS.get(award.data_source, award.data_source or "")
+
         row_data = [
             row_idx - 1,
             award.project_name or "",
             award.winner_name or "",
             float(award.discount_rate) if award.discount_rate else "",
-            award.project_category or "",
+            award.project_category or "其他",
             award.bid_open_date.strftime("%Y-%m-%d") if award.bid_open_date else "",
-            award.source_url or "",
+            source_label,
+            source_url,
         ]
         for col_idx, value in enumerate(row_data, 1):
             cell = ws.cell(row=row_idx, column=col_idx, value=value)
             cell.font = data_font
             cell.border = thin_border
-            if col_idx in (1, 4, 5, 6):
+            if col_idx in (1, 4, 6, 7):
                 cell.alignment = data_align_center
-            elif col_idx == 7 and value:
+            elif col_idx == 8 and value:
                 cell.value = "打开链接"
                 cell.hyperlink = value
                 cell.font = link_font
                 cell.alignment = data_align_center
             elif col_idx == 2:
                 cell.alignment = Alignment(vertical="center", wrap_text=True)
+            else:
+                cell.alignment = Alignment(vertical="center", wrap_text=True)
             if row_idx % 2 == 0:
                 cell.fill = even_fill
 
-    col_widths = [6, 55, 20, 14, 14, 13, 14]
+    col_widths = [6, 52, 18, 13, 13, 13, 10, 13]
     for i, w in enumerate(col_widths, 1):
         ws.column_dimensions[get_column_letter(i)].width = w
-    ws.row_dimensions[1].height = 28
+    ws.row_dimensions[1].height = 32
     ws.auto_filter.ref = f"A1:{get_column_letter(len(headers))}{len(awards) + 1}"
 
     buf = BytesIO()
@@ -599,7 +775,8 @@ async def get_fetch_status(task_id: str):
     task = _fetch_tasks.get(task_id)
     if not task:
         raise HTTPException(status_code=404, detail=f"任务 {task_id} 不存在或已过期")
-    return task
+    eta = _compute_eta(task)
+    return {**task, **eta}
 
 
 @router.delete("/{award_id}", summary="删除中标结果")

@@ -24,9 +24,13 @@ class Settings:
     DEBUG: bool = os.getenv("BZB_DEBUG", "false").lower() == "true"
 
     # 数据库配置
+    # 默认路径基于 config.py 所在位置（app/core/）向上两级到 backend/ 目录
+    # 这样无论从哪个目录启动 uvicorn，都能正确找到数据库文件
+    _DEFAULT_DB_DIR = Path(__file__).resolve().parent.parent.parent  # backend/
+    _DEFAULT_DB_PATH = (_DEFAULT_DB_DIR / "biaozhongbao.db").as_posix()
     DATABASE_URL: str = os.getenv(
         "BZB_DATABASE_URL",
-        "sqlite+aiosqlite:///./biaozhongbao.db",
+        f"sqlite+aiosqlite:///{_DEFAULT_DB_PATH}",
     )
 
     # Redis（可选，用于缓存）

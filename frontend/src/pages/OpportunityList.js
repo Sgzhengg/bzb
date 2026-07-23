@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from "react";
 import {
   Card, Table, Tag, Button, Space, Input, Select, Progress,
   Row, Col, Typography, Tooltip, App, Spin, Empty,
-  Slider, Modal, Descriptions, Divider, Steps,
+  Slider, Modal, Descriptions, Divider, Steps, DatePicker,
 } from "antd";
 import {
   SearchOutlined,
@@ -132,6 +132,8 @@ function OpportunityList() {
   const [filterMethod, setFilterMethod] = useState("");
   const [filterNoticeType, setFilterNoticeType] = useState(""); // 公告类型筛选
   const [filterDataSource, setFilterDataSource] = useState("");   // V3: 数据来源筛选
+  const [collectedFrom, setCollectedFrom] = useState(null);       // 采集时间起
+  const [collectedTo, setCollectedTo] = useState(null);           // 采集时间止
   const [budgetRange, setBudgetRange] = useState([0, 1000]);
   const [showFavorites, setShowFavorites] = useState(false);
   const [fetching, setFetching] = useState(false);
@@ -240,7 +242,7 @@ function OpportunityList() {
   // 筛选变更时回到第1页
   useEffect(() => {
     setCurrentPage(1);
-  }, [filterNoticeType, filterCategory, filterMethod, filterDataSource, searchText]);
+  }, [filterNoticeType, filterCategory, filterMethod, filterDataSource, searchText, collectedFrom, collectedTo]);
 
   // 构建查询参数
   const params = useMemo(() => {
@@ -251,6 +253,8 @@ function OpportunityList() {
       project_category: filterCategory || undefined,
       procurement_method: filterMethod || undefined,
       data_source: filterDataSource || undefined,       // V3: 数据来源
+      collected_from: collectedFrom ? collectedFrom.format("YYYY-MM-DD") : undefined,
+      collected_to: collectedTo ? collectedTo.format("YYYY-MM-DD") : undefined,
       budget_min: budgetRange[0] || undefined,
       budget_max: budgetRange[1] || undefined,
       search: searchText || undefined,
@@ -262,7 +266,7 @@ function OpportunityList() {
     // 清除 undefined 值
     Object.keys(result).forEach(k => result[k] === undefined && delete result[k]);
     return result;
-  }, [filterProvince, filterCity, filterCategory, filterMethod, filterNoticeType, filterDataSource, budgetRange, searchText, showFavorites, currentPage, pageSize]);
+  }, [filterProvince, filterCity, filterCategory, filterMethod, filterNoticeType, filterDataSource, budgetRange, searchText, showFavorites, currentPage, pageSize, collectedFrom, collectedTo]);
 
   // 公告内容模态框状态
   const [contentModalVisible, setContentModalVisible] = useState(false);
@@ -608,6 +612,19 @@ function OpportunityList() {
               placeholder="数据来源"
             />
           </Col>
+          <Col xs={24} sm={12} md={5}>
+            <DatePicker.RangePicker
+              value={[collectedFrom, collectedTo]}
+              onChange={(dates) => {
+                setCollectedFrom(dates ? dates[0] : null);
+                setCollectedTo(dates ? dates[1] : null);
+              }}
+              style={{ width: "100%" }}
+              placeholder={["采集起", "采集止"]}
+              allowClear
+              format="YYYY-MM-DD"
+            />
+          </Col>
           <Col xs={24} sm={12} md={3}>
             <Tooltip title={`预算: ${budgetRange[0]}万 - ${budgetRange[1]}万`}>
               <Slider
@@ -861,7 +878,11 @@ function OpportunityList() {
                 {isExtracting && (
                   <div style={{ marginTop: 8 }}>
                     <Text type="secondary" style={{ fontSize: 12 }}>
-                      此过程需要 1-3 分钟，请耐心等待...
+                      {fetchProgress.eta_seconds
+                        ? `预计剩余 ${fetchProgress.eta_seconds > 60
+                            ? `${Math.round(fetchProgress.eta_seconds / 60)} 分钟`
+                            : `${fetchProgress.eta_seconds} 秒`}，已耗时 ${Math.round((fetchProgress.elapsed_seconds || 0) / 60)} 分钟`
+                        : "正在计算预计时间..."}
                     </Text>
                   </div>
                 )}

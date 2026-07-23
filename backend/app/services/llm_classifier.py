@@ -207,8 +207,16 @@ UNIFIED_SYSTEM_PROMPT = """你是一名中国移动招标项目分析专家。�
 - budget: 预算金额（万元，原文以"元"为单位请除以10000）
 - registration_fee: 报名费/标书费（元）
 - deposit: 投标保证金（万元）
-- deadline: 报名截止日期（YYYY-MM-DD）
-- bid_date: 投标/开标日期（YYYY-MM-DD）
+- deadline: 报名截止日期（YYYY-MM-DD）。对应"报名截止时间/日期"、"购买标书截止时间"。
+  注意：询比/比选中只有单独写明的"报名截止时间"才映射到deadline，不要将"应答截止时间"映射到deadline
+- bid_date: 投标/开标日期（YYYY-MM-DD）。对应以下任一表述（按优先级）：
+  1. 开标时间/开标日期（公开招标的投标日期即开标日）
+  2. 应答截止时间/应答截止日期（询比/比选的投标日期）
+  3. 递交截止时间/递交截止日期（文件递交截止即投标截止）
+  4. 报价截止时间（询价的投标日期）
+  5. 响应截止时间（竞争性谈判的投标日期）
+  6. 申请截止时间
+  注意：候选人公示中的"公示截止时间"不是投标日期，遇到此类请返回 null
 - procurement_method: 采购方式（公开招标/公开询比/竞争性谈判/单一来源/邀请招标/询价/比选）
 
 只回复 JSON，不包含其他内容。"""
@@ -295,7 +303,7 @@ def classify_and_extract(title: str, content: str = "") -> Dict[str, Any]:
     if not settings.LLM_API_KEY or not settings.LLM_ENABLED:
         return _default_unified_result()
 
-    if not content or len(content.strip()) < 50:
+    if not content or len(content.strip()) < 20:
         logger.debug("公告正文过短，跳过统一LLM调用")
         return _default_unified_result()
 

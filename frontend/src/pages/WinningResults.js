@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Card, Table, Tag, Typography, Row, Col,
   Input, Button, Space, Spin, Empty, App, Popconfirm, Select,
-  Modal, Progress, Divider,
+  Modal, Progress, Divider, DatePicker,
 } from "antd";
 import {
   TrophyOutlined, SearchOutlined,
@@ -19,6 +19,8 @@ function WinningResults() {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [filterDataSource, setFilterDataSource] = useState("");
+  const [collectedFrom, setCollectedFrom] = useState(null);
+  const [collectedTo, setCollectedTo] = useState(null);
   const [fetching, setFetching] = useState(false);
   const [provinceModalVisible, setProvinceModalVisible] = useState(false);
   const [selectedAdapter, setSelectedAdapter] = useState("b2b_10086");
@@ -34,6 +36,8 @@ function WinningResults() {
       const params = {};
       if (searchText) params.search = searchText;
       if (filterDataSource) params.data_source = filterDataSource;
+      if (collectedFrom) params.collected_from = collectedFrom.format("YYYY-MM-DD");
+      if (collectedTo) params.collected_to = collectedTo.format("YYYY-MM-DD");
       const result = await apiClient.get("/awards", { params });
       setData(result.items || []);
     } catch {
@@ -41,7 +45,7 @@ function WinningResults() {
     } finally {
       setLoading(false);
     }
-  }, [searchText, filterDataSource]);
+  }, [searchText, filterDataSource, collectedFrom, collectedTo]);
 
   useEffect(() => { loadData(); }, [loadData]);
 
@@ -221,6 +225,18 @@ function WinningResults() {
             <Select placeholder="数据来源" value={filterDataSource} onChange={setFilterDataSource}
               options={dataSourceOptions} style={{ width: "100%" }} allowClear />
           </Col>
+          <Col xs={24} sm={12} md={6}>
+            <DatePicker.RangePicker
+              value={[collectedFrom, collectedTo]}
+              onChange={(dates) => {
+                setCollectedFrom(dates ? dates[0] : null);
+                setCollectedTo(dates ? dates[1] : null);
+              }}
+              style={{ width: "100%" }}
+              placeholder={["采集起", "采集止"]}
+              allowClear
+            />
+          </Col>
           <Col>
             <Button icon={<ReloadOutlined />} onClick={loadData}>刷新</Button>
           </Col>
@@ -349,7 +365,11 @@ function WinningResults() {
               {fetchProgress.status !== "completed" && (
                 <div style={{ marginTop: 8 }}>
                   <Text type="secondary" style={{ fontSize: 12 }}>
-                    此过程需要 1-3 分钟，请耐心等待...
+                    {fetchProgress.eta_seconds
+                      ? `预计剩余 ${fetchProgress.eta_seconds > 60
+                          ? `${Math.round(fetchProgress.eta_seconds / 60)} 分钟`
+                          : `${fetchProgress.eta_seconds} 秒`}，已耗时 ${Math.round((fetchProgress.elapsed_seconds || 0) / 60)} 分钟`
+                      : "正在计算预计时间..."}
                   </Text>
                 </div>
               )}

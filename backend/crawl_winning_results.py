@@ -8,6 +8,7 @@
     python crawl_winning_results.py --province 广东,广西
 """
 import ssl, sys, os, json, logging, argparse, time, base64, re
+import httpx
 from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -208,8 +209,229 @@ def matches_province(title: str, provinces: list) -> bool:
 
 
 # ═══════════════════════════════════════════════════════════
-# 主采集逻辑
+# 广告关键词（用于过滤非广告类中标结果）
 # ═══════════════════════════════════════════════════════════
+AD_KEYWORDS = [
+    "广告", "宣传", "品牌", "活动策划", "新媒体", "视频制作",
+    "营销", "设计", "物料", "推广", "传播", "策划", "会展",
+    "发布", "创意", "公关", "媒介", "视觉", "拍摄", "制作",
+    "印刷", "展示", "展览", "路演", "地推", "促销",
+]
+
+AD_EXCLUDE = [
+    "基站建设", "光缆铺设", "软件开发", "系统编码", "服务器采购",
+    "物业管理", "食堂承包", "保安服务", "保洁服务", "设备采购",
+    "网络设备", "交换机", "路由器", "机房", "空调", "电梯",
+    "消防", "安防", "监理", "土建", "装修", "绿化", "电力",
+]
+
+
+def is_ad_related(title: str) -> bool:
+    """判断中标结果是否与广告营销相关"""
+    if not title:
+        return False
+    # 排除非广告类
+    for ex in AD_EXCLUDE:
+        if ex in title:
+            return False
+    # 匹配广告关键词
+    for kw in AD_KEYWORDS:
+        if kw in title:
+            return True
+    return False
+
+
+# ═══════════════════════════════════════════════════════════
+# 电信中标采集 (caigou.chinatelecom.com.cn)
+# ═══════════════════════════════════════════════════════════
+TELECOM_API = "https://caigou.chinatelecom.com.cn/portal/base/announcementJoin/queryListNew"
+TELECOM_HEADERS = {
+    "Content-Type": "application/json;charset=UTF-8",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+}
+
+
+def crawl_telecom_winning(province: str = "") -> dict:
+    """从 caigou.chinatelecom.com.cn 采集中标结果（结果公告类型）"""
+    provinces = [p.strip() for p in province.split(",") if p.strip()] if province else []
+    province_label = province or "全国"
+
+    logger.info(f"=== 中国电信 中标采集: {province_label} ===")
+
+    http = httpx.Client(verify=_ctx, timeout=httpx.Timeout(30))
+    results = []
+    seen_titles = set()
+
+    # 先 GET 首页获取 Cookie
+    try:
+        http.get("https://caigou.chinatelecom.com.cn", timeout=15)
+    except Exception:
+        pass
+
+    for kw in AD_KEYWORDS[:10]:  # 只用前10个关键词避免重复
+        for page in range(1, 4):
+            try:
+                r = http.post(TELECOM_API, json={
+                    "pageNum": page,
+                    "pageSize": 20,
+                    "type": "n0eves",  # 结果公告
+                    "name": kw,
+                }, headers=TELECOM_HEADERS)
+                if r.status_code != 200:
+                    break
+                data = r.json()
+                items = data.get("data", {}).get("pageInfo", {}).get("list", [])
+                if not items:
+                    break
+
+                new_count = 0
+                for item in items:
+                    title = item.get("docTitle", "")
+                    if title in seen_titles:
+                        continue
+                    if not is_ad_related(title):
+                        continue
+                    if provinces and not any(p in title for p in provinces):
+                        continue
+                    seen_titles.add(title)
+
+                    # 用列表API字段构造正文（详情API 404，列表数据已含足够信息）
+                    fields = [
+                        item.get("docTitle", ""), item.get("docType", ""),
+                        item.get("provinceName", ""), item.get("createDate", ""),
+                    ]
+                    original_content = " | ".join(f for f in fields if f)[:5000]
+
+                    results.append({
+                        "title": title,
+                        "project_name": title,
+                        "winner_name": "",
+                        "discount_rate": None,
+                        "publish_date": item.get("createDate", ""),
+                        "publish_type": item.get("docType", "结果公告"),
+                        "source_url": f"https://caigou.chinatelecom.com.cn/DeclareDetails?id={item.get('docId', item.get('id', ''))}&docTypeCode={item.get('docTypeCode', '')}",
+                        "data_source": "telecom",
+                        "adapter": "telecom",
+                        "original_content": original_content,
+                    })
+                    new_count += 1
+
+                if new_count > 0:
+                    logger.info(f"  [电信:{kw}] page {page}: +{new_count}")
+                if len(items) < 20:
+                    break
+            except Exception as e:
+                logger.warning(f"  电信 API 错误 [{kw}]: {e}")
+                break
+            time.sleep(0.5)
+
+    http.close()
+    logger.info(f"  电信共找到 {len(results)} 条广告类中标结果")
+
+    return {
+        "adapter": "telecom",
+        "adapter_label": "中国电信",
+        "province": province_label,
+        "total": len(results),
+        "items": results,
+    }
+
+
+# ═══════════════════════════════════════════════════════════
+# 联通中标采集 (chinaunicombidding.cn)
+# ═══════════════════════════════════════════════════════════
+UNICOM_API = "https://www.chinaunicombidding.cn/api/v1/bizAnno/getAnnoList"
+UNICOM_HEADERS = {
+    "Content-Type": "application/json;charset=UTF-8",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+}
+
+
+def crawl_unicom_winning(province: str = "") -> dict:
+    """从 chinaunicombidding.cn 采集中标结果"""
+    provinces = [p.strip() for p in province.split(",") if p.strip()] if province else []
+    province_label = province or "全国"
+
+    logger.info(f"=== 中国联通 中标采集: {province_label} ===")
+
+    http = httpx.Client(timeout=httpx.Timeout(30))
+    results = []
+    seen_titles = set()
+
+    for kw in AD_KEYWORDS[:10]:
+        for page in range(1, 4):
+            try:
+                r = http.post(UNICOM_API, json={
+                    "pageNo": page,
+                    "pageSize": 10,
+                    "modeNo": "BizAnnoVoMtable",
+                    "annoName": kw,
+                }, headers=UNICOM_HEADERS)
+                if r.status_code != 200:
+                    break
+                d = r.json()
+                if not d.get("success"):
+                    break
+                records = d.get("data", {}).get("records", [])
+                if not records:
+                    break
+
+                new_count = 0
+                for item in records:
+                    title = item.get("annoName", "")
+                    atype = item.get("annoType", "")
+                    if title in seen_titles:
+                        continue
+                    # 仅保留中标相关类型
+                    if not any(t in atype for t in ["中标", "候选人", "结果", "成交"]):
+                        continue
+                    if not is_ad_related(title):
+                        continue
+                    if provinces and not any(p in title for p in provinces):
+                        continue
+                    seen_titles.add(title)
+
+                    # 用列表API字段构造正文（详情API 404，列表数据已含足够信息）
+                    fields = [
+                        item.get("annoName", ""), item.get("annoType", ""),
+                        item.get("provinceName", ""), item.get("bidCompany", ""),
+                        item.get("procurementType", ""), item.get("createDate", ""),
+                    ]
+                    original_content = " | ".join(f for f in fields if f)[:5000]
+
+                    results.append({
+                        "title": title,
+                        "project_name": title,
+                        "winner_name": item.get("bidCompany", ""),
+                        "discount_rate": None,
+                        "publish_date": item.get("createDate", ""),
+                        "publish_type": atype,
+                        "source_url": f"https://www.chinaunicombidding.cn/bidInformation/detail?id={item.get('id','')}",
+                        "data_source": "unicom",
+                        "adapter": "unicom",
+                        "original_content": original_content,
+                    })
+                    new_count += 1
+
+                if new_count > 0:
+                    logger.info(f"  [联通:{kw}] page {page}: +{new_count}")
+                if len(records) < 10:
+                    break
+            except Exception as e:
+                logger.warning(f"  联通 API 错误 [{kw}]: {e}")
+                break
+            time.sleep(0.5)
+
+    http.close()
+    logger.info(f"  联通共找到 {len(results)} 条广告类中标结果")
+
+    return {
+        "adapter": "unicom",
+        "adapter_label": "中国联通",
+        "province": province_label,
+        "total": len(results),
+        "items": results,
+    }
 
 def crawl_b2b_winning(province: str = "") -> dict:
     """从 b2b.10086.cn 采集中标结果。"""
@@ -269,6 +491,11 @@ def crawl_b2b_winning(province: str = "") -> dict:
         ptype = item.get("publishOneType", "")
         pub_date = item.get("publishDate", "")
 
+        # 广告关键词过滤
+        if not is_ad_related(title):
+            logger.info(f"  ⏭️ 非广告类跳过: {title[:60]}")
+            continue
+
         logger.info(f"  📄 [{ptype}] {title[:60]}...")
 
         detail = b2b_get_detail(pid, puid)
@@ -312,7 +539,7 @@ def crawl_b2b_winning(province: str = "") -> dict:
 # ═══════════════════════════════════════════════════════════
 
 def main():
-    parser = argparse.ArgumentParser(description="中标结果数据采集 (b2b.10086.cn)")
+    parser = argparse.ArgumentParser(description="中标结果数据采集 (多平台)")
     parser.add_argument("--adapter", default="b2b_10086",
                         choices=["b2b_10086", "telecom", "unicom", "all"],
                         help="运营商 (默认: b2b_10086)")
@@ -320,20 +547,72 @@ def main():
                         help="目标省份，逗号分隔，留空=全国")
     args = parser.parse_args()
 
-    # 目前仅 b2b_10086 通过 b2b.10086.cn API 采集；telecom/unicom/all 暂回退
-    result = crawl_b2b_winning(args.province)
-    total_items = result["total"]
-
-    # ── 保存结果 ──
     province_slug = args.province.replace(",", "_") if args.province else "quanguo"
-    output = {
-        "crawl_time": datetime.now().isoformat(),
-        "source": "b2b.10086.cn",
-        "adapter": args.adapter,
-        "province": args.province or "全国",
-        "total_items": total_items,
-        "adapters": [result],
-    }
+
+    if args.adapter == "all":
+        # 全部运营商：依次采集移动、电信、联通
+        adapters = []
+        total_items = 0
+
+        for adapter_name, adapter_label, crawl_fn in [
+            ("b2b_10086", "中国移动", crawl_b2b_winning),
+            ("telecom", "中国电信", crawl_telecom_winning),
+            ("unicom", "中国联通", crawl_unicom_winning),
+        ]:
+            try:
+                result = crawl_fn(args.province)
+                adapters.append(result)
+                total_items += result["total"]
+                logger.info(f"  [{adapter_label}] 采集完成: {result['total']} 条")
+            except Exception as e:
+                logger.error(f"  [{adapter_label}] 采集失败: {e}")
+                adapters.append({
+                    "adapter": adapter_name,
+                    "adapter_label": adapter_label,
+                    "province": args.province or "全国",
+                    "total": 0,
+                    "items": [],
+                })
+
+        output = {
+            "crawl_time": datetime.now().isoformat(),
+            "source": "多平台采集",
+            "adapter": "all",
+            "province": args.province or "全国",
+            "total_items": total_items,
+            "adapters": adapters,
+        }
+
+        print("\n" + "=" * 70)
+        print(f"[OK] 中标结果采集汇总 (全部运营商 x {args.province or '全国'}):")
+        print("=" * 70)
+        for a in adapters:
+            print(f"  [{a.get('adapter_label', a.get('adapter'))}] {a['total']} 条")
+        print(f"  ────────────────────")
+        print(f"  总计: {total_items} 条\n")
+
+    else:
+        # 单个运营商
+        if args.adapter == "telecom":
+            result = crawl_telecom_winning(args.province)
+        elif args.adapter == "unicom":
+            result = crawl_unicom_winning(args.province)
+        else:
+            result = crawl_b2b_winning(args.province)
+
+        total_items = result["total"]
+        output = {
+            "crawl_time": datetime.now().isoformat(),
+            "source": {
+                "b2b_10086": "b2b.10086.cn",
+                "telecom": "caigou.chinatelecom.com.cn",
+                "unicom": "www.chinaunicombidding.cn",
+            }.get(args.adapter, args.adapter),
+            "adapter": args.adapter,
+            "province": args.province or "全国",
+            "total_items": total_items,
+            "adapters": [result],
+        }
 
     output_path = os.path.join(OUTPUT_DIR, f"winning_results_{args.adapter}_{province_slug}.json")
     with open(output_path, "w", encoding="utf-8") as f:
@@ -341,12 +620,6 @@ def main():
 
     logger.info(f"=== 采集完成: 共 {total_items} 条 ===")
     logger.info(f"结果保存至: {output_path}")
-
-    print("\n" + "=" * 70)
-    print(f"✅ 中标结果采集汇总 (b2b.10086.cn × {args.province or '全国'}):")
-    print("=" * 70)
-    print(f"  [中国移动] {total_items} 条")
-    print()
 
 
 if __name__ == "__main__":

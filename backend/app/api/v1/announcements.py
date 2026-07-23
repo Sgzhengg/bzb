@@ -36,6 +36,24 @@ router = APIRouter(prefix="/announcements", tags=["招标公告"])
 _fetch_tasks: dict = {}  # {task_id: {status, progress, message, ...}}
 
 
+def _compute_eta(task: dict) -> dict:
+    """根据已用时间和进度百分比，动态估算剩余时间"""
+    import time as _time
+    started = task.get("started_at")
+    progress = task.get("progress", 0)
+    if not started or progress <= 0 or progress >= 100:
+        return {}
+    try:
+        elapsed = _time.time() - datetime.fromisoformat(started).timestamp()
+        if elapsed < 2:
+            return {}
+        eta_total = elapsed / (progress / 100.0)
+        remaining = max(0, eta_total - elapsed)
+        return {"elapsed_seconds": round(elapsed), "eta_seconds": round(remaining)}
+    except Exception:
+        return {}
+
+
 def _to_iso(val):
     """将日期值转为 ISO 字符串。兼容 raw SQL 返回的字符串和 ORM 返回的 date 对象。"""
     if val is None:
@@ -66,10 +84,17 @@ async def list_announcements(
     favorites_only: bool = Query(False, description="仅显示收藏"),
     notice_type: Optional[str] = Query(None, description="公告类型: opinion=征集意见, bidding=招标公告"),
     data_source: Optional[str] = Query(None, description="数据来源: b2b_10086(移动)/telecom(电信)/unicom(联通)/gd_zbtb/gd_ygp"),
+    collected_from: Optional[str] = Query(None, description="采集时间起 (YYYY-MM-DD)"),
+    collected_to: Optional[str] = Query(None, description="采集时间止 (YYYY-MM-DD)"),
     db: AsyncSession = Depends(get_db),
 ):
     """获取招标公告列表，支持多维筛选、排序和分页。"""
     conditions = []
+
+    if collected_from:
+        conditions.append(Announcement.created_at >= collected_from)
+    if collected_to:
+        conditions.append(Announcement.created_at < collected_to + "T23:59:59")
 
     if province:
         conditions.append(Announcement.province == province)
@@ -101,6 +126,20 @@ async def list_announcements(
         & ~Announcement.title.ilike("%候选人%")
         & ~Announcement.title.ilike("%成交结果%")
     )
+
+    # 自动过滤非广告类公告（排除词 + 必须含广告关键词）
+    _ad_filter_excludes = [
+        "基站", "光缆", "软件开发", "系统编码", "服务器",
+        "物业", "食堂", "保安", "保洁", "消防", "安防",
+        "空调维保", "空调维修", "电梯", "电力工程", "土建",
+        "建筑施工", "装修工程", "弱电", "钢结构", "车辆维修",
+        "车辆采购", "IT服务", "网络安全", "数据安全", "云计算",
+        "审计服务", "法律服务", "办公用品", "办公设备", "办公家具",
+        "桶装水", "工作服", "通信工程", "网络优化", "网络维护",
+        "线路维护", "配套施工", "管线工程",
+    ]
+    for ex in _ad_filter_excludes:
+        conditions.append(~Announcement.title.ilike(f"%{ex}%"))
 
     # 自动过滤已过期的公告（TODO: deadline 存为 TEXT，比较需修复）
     # from datetime import datetime as dt
@@ -737,7 +776,8 @@ async def get_fetch_status(task_id: str):
     task = _fetch_tasks.get(task_id)
     if not task:
         raise HTTPException(status_code=404, detail=f"任务 {task_id} 不存在或已过期")
-    return task
+    eta = _compute_eta(task)
+    return {**task, **eta}
 
 
 @router.post("/discover", summary="多引擎搜索发现招标公告")
