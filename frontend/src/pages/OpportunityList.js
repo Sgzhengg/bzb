@@ -814,7 +814,7 @@ function OpportunityList() {
             startFetch(province, adapter, dateFrom, dateTo, category);
           }}
         >
-          开始采集（{isAllOp ? "全部运营商" : selectedAdapter === "all_gov" ? "全部政府单位" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : selectedAdapter === "unicom" ? "联通" : selectedAdapter === "ccgp" ? "中国政府采购网" : ""}
+          开始采集（{selectedAdapter === "all_op" ? "全部运营商" : selectedAdapter === "all_gov" ? "全部政府单位" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : selectedAdapter === "unicom" ? "联通" : selectedAdapter === "ccgp" ? "中国政府采购网" : ""}
           {selectedProvinces.length > 0 ? ` × ${selectedProvinces.join("、")}` : " × 全国"}）
         </Button>
       </Modal>

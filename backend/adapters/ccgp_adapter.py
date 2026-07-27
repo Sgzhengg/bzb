@@ -69,9 +69,8 @@ class CcgpAdapter(BaseAdapter):
         """安全抓取列表页，检测反爬。"""
         for attempt in range(self.max_retries):
             try:
-                resp = self._request("GET", url)
-                if resp and resp.status_code == 200:
-                    text = resp.text
+                status, text = self._request(url)
+                if status == 200:
                     if "频繁访问" in text or "过于频繁" in text:
                         self.logger.warning(f"  触发反爬，等待30秒后重试")
                         import time
@@ -135,19 +134,17 @@ class CcgpAdapter(BaseAdapter):
         title = ""
         content_text = ""
         try:
-            resp = self._request("GET", url)
-            if resp and resp.status_code == 200:
-                text = resp.text
+            status, text = self._request(url)
+            if status == 200:
                 if "频繁访问" in text:
                     self.logger.warning("  详情页触发反爬")
+                    import time
                     time.sleep(30)
                     return title, None
                 soup = BeautifulSoup(text, "html.parser")
-                # 标题
                 h1 = soup.find("h1") or soup.find(class_=re.compile(r"title", re.I))
                 if h1:
                     title = h1.get_text(strip=True)
-                # 正文
                 body = (
                     soup.find(class_=re.compile(r"content|article|detail|text|main_con", re.I))
                     or soup.find("body")
