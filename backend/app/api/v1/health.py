@@ -18,7 +18,7 @@ async def health_check():
     return {
         "status": "ok",
         "message": "标中宝服务运行正常",
-        "version": "1.0.0",
+        "version": settings.VERSION,
         "llm": {
             "enabled": settings.LLM_ENABLED,
             "available": llm_available,
