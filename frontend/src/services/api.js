@@ -58,13 +58,19 @@ export async function getOpportunityList(params = {}) {
  * @param {string} province - 目标省份，默认广东
  * @param {string} adapter - 指定适配器: b2b_10086(移动)/telecom(电信)/unicom(联通)/all(全部)
  */
-export async function fetchNewAnnouncements(province = "", adapter = "") {
+export async function fetchNewAnnouncements(province = "", adapter = "", dateFrom = "", dateTo = "") {
   const params = {};
   if (adapter) {
     params.adapter = adapter;
   }
   if (province) {
     params.province = province;
+  }
+  if (dateFrom) {
+    params.date_from = dateFrom;
+  }
+  if (dateTo) {
+    params.date_to = dateTo;
   }
   return apiClient.post("/announcements/fetch", null, {
     params,
@@ -99,6 +105,32 @@ export async function getAnnouncementAlerts(id) {
  */
 export async function getAnnouncementOriginal(id) {
   return apiClient.get(`/announcements/${id}/original`);
+}
+
+/**
+ * 获取公告 AI 智能摘要 + 资格预审分析
+ */
+export async function getAISummary(id, forceRefresh = false) {
+  return apiClient.get(`/announcements/${id}/ai-summary`, {
+    params: { force_refresh: forceRefresh },
+    timeout: 45000,
+  });
+}
+
+/**
+ * 批量生成 AI 摘要
+ */
+export async function batchAISummary(limit = 20, forceRefresh = false) {
+  return apiClient.post("/announcements/ai-summary/batch", null, {
+    params: { limit, force_refresh: forceRefresh },
+  });
+}
+
+/**
+ * 查询批量 AI 摘要进度
+ */
+export async function getBatchAISummaryStatus(taskId) {
+  return apiClient.get(`/announcements/ai-summary/batch/status/${taskId}`);
 }
 
 /**

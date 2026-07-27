@@ -67,6 +67,9 @@ class Announcement(Base):
     # ── 数据来源 ──
     data_source = Column(String(30), default="", comment="数据来源: b2b_10086(移动)/telecom(电信)/unicom(联通)/gd_zbtb/gd_ygp")
 
+    # ── AI 智能分析结果 ──
+    ai_summary = Column(JSON, nullable=True, comment="AI智能摘要+资格预审分析 (JSON)")
+
     # 关联
     purchaser = relationship("Purchaser", backref="announcements", lazy="joined")
 

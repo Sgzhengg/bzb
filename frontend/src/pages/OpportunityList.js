@@ -17,10 +17,11 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
   LinkOutlined,
+  RobotOutlined,
+  CalendarOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useOpportunityList } from "../services/apiHooks";
-import { toggleFavorite, getAnnouncementOriginal, fetchNewAnnouncements, getFetchStatus, deleteAnnouncement, exportFavoritesUrl } from "../services/api";
 
 const { Title, Text } = Typography;
 
@@ -145,6 +146,7 @@ function OpportunityList() {
   // 采集弹窗状态
   const [selectedAdapter, setSelectedAdapter] = useState("b2b_10086");
   const [selectedProvinces, setSelectedProvinces] = useState([]);
+  const [fetchDateRange, setFetchDateRange] = useState(null); // [dayjs, dayjs] 或 null
   const [fetchProgress, setFetchProgress] = useState(null); // {taskId, status, progress, message, ...}
   const pollingRef = useRef(null);
 
@@ -159,11 +161,11 @@ function OpportunityList() {
   // 组件卸载时清理
   useEffect(() => () => stopPolling(), []);
 
-  const startFetch = async (province, adapter = "") => {
+  const startFetch = async (province, adapter = "", dateFrom = "", dateTo = "") => {
     setProvinceModalVisible(false);
     setFetching(true);
     try {
-      const result = await fetchNewAnnouncements(province, adapter);
+      const result = await fetchNewAnnouncements(province, adapter, dateFrom, dateTo);
       if (result.task_id) {
         // 开始轮询进度
         setFetchProgress({
@@ -774,6 +776,17 @@ function OpportunityList() {
           />
         </div>
 
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontWeight: 500, marginBottom: 8, color: "#666" }}><CalendarOutlined /> 采集日期范围（可选）</div>
+          <DatePicker.RangePicker
+            value={fetchDateRange}
+            onChange={setFetchDateRange}
+            style={{ width: "100%" }}
+            allowClear
+            placeholder={["开始日期", "结束日期"]}
+          />
+        </div>
+
         <Divider style={{ margin: "12px 0" }} />
 
         <Button
@@ -785,9 +798,12 @@ function OpportunityList() {
           onClick={() => {
             const province = selectedProvinces.join(",");
             const adapter = selectedAdapter === "all" ? "all" : selectedAdapter;
-            const desc = `${adapter === "all" ? "全部运营商" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : "联通"} × ${province || "全国"}`;
+            const dateFrom = fetchDateRange?.[0]?.format("YYYY-MM-DD") || "";
+            const dateTo = fetchDateRange?.[1]?.format("YYYY-MM-DD") || "";
+            const dateDesc = dateFrom ? ` (${dateFrom}~${dateTo || "至今"})` : "";
+            const desc = `${adapter === "all" ? "全部运营商" : adapter === "b2b_10086" ? "移动" : adapter === "telecom" ? "电信" : "联通"} × ${province || "全国"}${dateDesc}`;
             message.info(`开始采集: ${desc}`);
-            startFetch(province, adapter);
+            startFetch(province, adapter, dateFrom, dateTo);
           }}
         >
           开始采集（{selectedAdapter === "all" ? "全部运营商" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : "联通"}

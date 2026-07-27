@@ -214,6 +214,23 @@ class DataCollector:
             # 执行采集（传递 kwargs 如 province）
             results = adapter.run(save_to_db=save_to_db, **kwargs)
 
+            # 日期过滤
+            date_from = kwargs.get("date_from")
+            date_to = kwargs.get("date_to")
+            if date_from or date_to:
+                filtered = []
+                for r in results:
+                    pub_date = r.get("publish_date") or ""
+                    if pub_date:
+                        if date_from and pub_date < date_from:
+                            continue
+                        if date_to and pub_date > date_to:
+                            continue
+                    filtered.append(r)
+                if len(filtered) < len(results):
+                    self.logger.info(f"  日期过滤: {len(results)} → {len(filtered)} 条 ({date_from or ''} ~ {date_to or ''})")
+                results = filtered
+
             elapsed = round(time.time() - start, 1)
             task_entry["status"] = "success"
             task_entry["items"] = len(results)
@@ -321,7 +338,7 @@ class DataCollector:
 
     # ── 便捷方法 ──
 
-    def collect_all_enabled(self, save_to_db: bool = True, progress_callback: callable = None) -> Dict[str, List[Dict]]:
+    def collect_all_enabled(self, save_to_db: bool = True, progress_callback: callable = None, **kwargs) -> Dict[str, List[Dict]]:
         """
         使用所有已启用的适配器分别采集。
 
@@ -352,6 +369,7 @@ class DataCollector:
                     adapter_name=name,
                     save_to_db=save_to_db,
                     progress_callback=adapter_progress_callback,
+                    **{k: v for k, v in kwargs.items() if k in ("date_from", "date_to")},
                 )
             except Exception as e:
                 self.logger.error(f"{name} 采集失败: {e}")

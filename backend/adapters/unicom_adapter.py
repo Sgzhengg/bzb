@@ -279,8 +279,7 @@ class UnicomAdapter(BaseAdapter):
         """
         获取详情内容。
 
-        优化策略：联通列表 API 已返回足够字段（annoName/createDate/annoType等），
-        直接用列表数据构造内容文本，跳过 HTTP 详情请求（节省 5-10s/条）。
+        优先从详情页 HTML 中提取全文，失败时用列表数据构造内容文本。
         """
         title = ""
         content_parts = []
@@ -290,7 +289,6 @@ class UnicomAdapter(BaseAdapter):
 
         if item:
             title = item.get("annoName", "")
-            # 构造结构化内容文本供 LLM 分类使用
             fields = [
                 ("公告标题", item.get("annoName", "")),
                 ("公告类型", item.get("annoType", "")),
@@ -305,6 +303,47 @@ class UnicomAdapter(BaseAdapter):
 
         if not title:
             title = "未知标题"
+
+        # 尝试从详情页 HTML 提取更多内容
+        full_content = None
+        if url:
+            try:
+                import requests as sync_requests
+                resp = sync_requests.get(
+                    url,
+                    headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"},
+                    timeout=15,
+                )
+                if resp.status_code == 200:
+                    from bs4 import BeautifulSoup
+                    soup = BeautifulSoup(resp.text, "html.parser")
+                    for tag in soup.find_all(["div", "p", "span", "td", "pre"]):
+                        t = tag.get_text(strip=True)
+                        if len(t) > 20:
+                            content_parts.append(t)
+                    full_content = soup.get_text(separator="\n", strip=True)
+                    if full_content and len(full_content) > len("\n".join(content_parts)):
+                        content_parts = [full_content]
+            except Exception:
+                pass
+
+            # 如果 requests 拿到的内容太少（JS渲染页），用 Playwright 渲染
+            combined = "\n".join(content_parts) if content_parts else ""
+            if len(combined) < 500:
+                try:
+                    from playwright.sync_api import sync_playwright
+                    with sync_playwright() as pw:
+                        browser = pw.chromium.launch(headless=True)
+                        page = browser.new_page()
+                        page.goto(url, timeout=30000, wait_until="networkidle")
+                        page.wait_for_timeout(2000)
+                        pw_text = page.inner_text("body") or ""
+                        browser.close()
+                    if pw_text and len(pw_text) > 500:
+                        content_parts = [pw_text]
+                        self.logger.info(f"  🎭 Playwright 渲染成功: {len(pw_text)} 字符")
+                except Exception:
+                    pass  # Playwright 也失败时用列表数据
 
         content_text = "\n".join(content_parts) if content_parts else title
         return title, content_text.encode("utf-8") if content_text else None
@@ -414,6 +453,18 @@ class UnicomAdapter(BaseAdapter):
                         parsed["province"] = parsed["province"] or item.get("province_name", "")
                         parsed["publish_date"] = parsed["publish_date"] or item.get("publish_date", "")
 
+                        # LLM 兜底提取预算（正则失败但有正文时）
+                        if parsed.get("budget") is None and parsed.get("content_text") and len(parsed["content_text"]) > 100:
+                            try:
+                                llm_data = self._extract_budget_with_llm(parsed["title"], parsed["content_text"])
+                                if llm_data and llm_data.get("budget_wan"):
+                                    parsed["budget"] = llm_data["budget_wan"]
+                                    parsed["registration_fee"] = parsed.get("registration_fee") or llm_data.get("registration_fee")
+                                    parsed["deposit"] = parsed.get("deposit") or llm_data.get("deposit")
+                                    self.logger.info(f"  🤖 LLM提取预算: {parsed['budget']}万")
+                            except Exception:
+                                pass
+
                         record = self._normalize_record(parsed)
 
                         if record["is_ad"]:
@@ -469,6 +520,27 @@ class UnicomAdapter(BaseAdapter):
             if m:
                 return float(m.group(1))
         return None
+
+    def _extract_budget_with_llm(self, title: str, content: str) -> Optional[dict]:
+        """LLM 兜底提取预算（同步包装）。"""
+        try:
+            import asyncio
+            from app.services.llm_budget_extractor import extract_budget_with_llm
+
+            async def _call():
+                return await extract_budget_with_llm(title, content[:4000])
+
+            return asyncio.run(_call())
+        except RuntimeError:
+            try:
+                loop = asyncio.get_event_loop()
+                return loop.run_until_complete(
+                    extract_budget_with_llm(title, content[:4000])
+                )
+            except Exception:
+                return None
+        except Exception:
+            return None
 
     def _extract_reg_fee(self, content: str) -> Optional[float]:
         m = re.search(r"(?:招标文件|采购文件|标书|询比文件)[工]?本?费[：:]\s*(\d+(?:\.\d+)?)\s*元?", content)

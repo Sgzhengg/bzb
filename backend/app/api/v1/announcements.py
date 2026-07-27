@@ -84,17 +84,17 @@ async def list_announcements(
     favorites_only: bool = Query(False, description="仅显示收藏"),
     notice_type: Optional[str] = Query(None, description="公告类型: opinion=征集意见, bidding=招标公告"),
     data_source: Optional[str] = Query(None, description="数据来源: b2b_10086(移动)/telecom(电信)/unicom(联通)/gd_zbtb/gd_ygp"),
-    collected_from: Optional[str] = Query(None, description="采集时间起 (YYYY-MM-DD)"),
-    collected_to: Optional[str] = Query(None, description="采集时间止 (YYYY-MM-DD)"),
+    collected_from: Optional[str] = Query(None, description="公告日期起 (YYYY-MM-DD)"),
+    collected_to: Optional[str] = Query(None, description="公告日期止 (YYYY-MM-DD)"),
     db: AsyncSession = Depends(get_db),
 ):
     """获取招标公告列表，支持多维筛选、排序和分页。"""
     conditions = []
 
     if collected_from:
-        conditions.append(Announcement.created_at >= collected_from)
+        conditions.append(Announcement.announce_date >= collected_from)
     if collected_to:
-        conditions.append(Announcement.created_at < collected_to + "T23:59:59")
+        conditions.append(Announcement.announce_date <= collected_to)
 
     if province:
         conditions.append(Announcement.province == province)
@@ -198,8 +198,13 @@ async def list_announcements(
     items = []
     for ann in announcements:
         purchaser_name = ann.purchaser.name if ann.purchaser else ""
-        # 计算机会评分（使用评分引擎）
-        score_data = _compute_announcement_score(ann)
+        # 计算机会评分 — 查询实时在位者数据
+        inc_data = ann.purchaser_id and ann.project_category and await _query_incumbent_fast(
+            db, ann.purchaser_id, ann.project_category or ""
+        ) or (False, "无")
+        score_data = _compute_announcement_score(ann, incumbent_data={
+            "has_incumbent": inc_data[0], "risk_level": inc_data[1],
+        })
 
         items.append({
             "id": ann.id,
@@ -601,6 +606,8 @@ async def get_announcement_detail(
         "alerts": alert_items,
         "history_reference": history_items,
         "incumbent_info": incumbent_info,
+        # AI 摘要缓存
+        "ai_summary": ann.ai_summary,
     }
 
 
@@ -613,6 +620,8 @@ async def fetch_announcements(
     background_tasks: BackgroundTasks,
     province: Optional[str] = Query(None, description="目标省份: 广东、广西等；为空则不限省份"),
     adapter: Optional[str] = Query(None, description="指定适配器: b2b_10086(移动)/telecom(电信)/unicom(联通)/all(全部)"),
+    date_from: Optional[str] = Query(None, description="采集日期起 (YYYY-MM-DD)，仅采集该日期后的公告"),
+    date_to: Optional[str] = Query(None, description="采集日期止 (YYYY-MM-DD)，仅采集该日期前的公告"),
 ):
     """
     触发爬虫采集最新招标公告。
@@ -673,6 +682,8 @@ async def fetch_announcements(
                 collector.collect_all_enabled,
                 save_to_db=True,
                 progress_callback=progress_callback,
+                date_from=date_from,
+                date_to=date_to,
             )
             # 汇总所有适配器的结果
             results = []
@@ -716,6 +727,8 @@ async def fetch_announcements(
                 save_to_db=True,
                 province=province_name,
                 progress_callback=progress_callback,
+                date_from=date_from,
+                date_to=date_to,
             )
             logger.info(f"[DEBUG] collector.collect 返回 {len(results)} 条结果")
 
@@ -750,6 +763,8 @@ async def fetch_announcements(
                 save_to_db=True,
                 province=province_name,
                 progress_callback=progress_callback,
+                date_from=date_from,
+                date_to=date_to,
             )
 
             _fetch_tasks[task_id].update(
@@ -889,7 +904,45 @@ async def delete_announcement(
 # 机会评分辅助函数
 # ============================================================
 
-def _compute_announcement_score(ann: Announcement) -> dict:
+async def _query_incumbent_fast(db, purchaser_id: int, category: str):
+    """
+    快速查询某个采购方+赛道的在位者情况。
+    Returns:
+        (has_incumbent: bool, risk_level: str)
+    """
+    try:
+        from sqlalchemy import text
+        result = await db.execute(
+            text("""
+                SELECT winner_name, continuous_count, contract_end
+                FROM historical_awards
+                WHERE purchaser_id = :pid AND project_category = :cat
+                  AND winner_name IS NOT NULL AND winner_name != ''
+                ORDER BY bid_open_date DESC LIMIT 2
+            """),
+            {"pid": purchaser_id, "cat": category},
+        )
+        rows = result.fetchall()
+        if not rows:
+            return False, "无"
+        latest = rows[0]
+        winner = latest.winner_name or ""
+        cont_count = latest.continuous_count or 0
+        if len(rows) >= 2:
+            second_winner = rows[1].winner_name or ""
+            if second_winner and second_winner != winner:
+                return False, "低"
+        if cont_count >= 3:
+            return True, "高"
+        elif cont_count >= 2:
+            return True, "中"
+        else:
+            return False, "无"
+    except Exception:
+        return False, "无"
+
+
+def _compute_announcement_score(ann: Announcement, incumbent_data: dict = None) -> dict:
     """使用评分引擎计算公告的机会评分。
 
     七维度加权评分：
@@ -940,8 +993,21 @@ def _compute_announcement_score(ann: Announcement) -> dict:
         else:
             budget = 30.0  # 预算未知
 
-        # ── 5. 在位者优势 (15%) ──
-        incumbent = 100.0
+        # ── 5. 在位者优势 (15%) — 真实数据 ──
+        if incumbent_data:
+            has_inc = incumbent_data.get("has_incumbent", False)
+            risk = incumbent_data.get("risk_level", "无")
+        else:
+            has_inc, risk = False, "无"
+
+        if not has_inc or risk == "无":
+            incumbent = 80.0  # 无在位者 → 公平竞争
+        elif risk == "低":
+            incumbent = 60.0  # 有在位者但风险低
+        elif risk == "中":
+            incumbent = 40.0  # 有在位者风险中
+        else:
+            incumbent = 20.0  # 有在位者风险高（连续3次+）
 
         # ── 6. 时效新鲜度 (10%) ──
         freshness = 50.0

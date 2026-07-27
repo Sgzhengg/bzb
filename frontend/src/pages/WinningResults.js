@@ -8,6 +8,7 @@ import {
   TrophyOutlined, SearchOutlined,
   ReloadOutlined, LinkOutlined, CloudDownloadOutlined, DownloadOutlined,
   LoadingOutlined, CheckCircleOutlined, CloseCircleOutlined,
+  CalendarOutlined,
 } from "@ant-design/icons";
 import apiClient from "../services/api";
 
@@ -25,6 +26,7 @@ function WinningResults() {
   const [provinceModalVisible, setProvinceModalVisible] = useState(false);
   const [selectedAdapter, setSelectedAdapter] = useState("b2b_10086");
   const [selectedProvinces, setSelectedProvinces] = useState([]);
+  const [fetchDateRange, setFetchDateRange] = useState(null);
 
   // 采集进度状态
   const [fetchProgress, setFetchProgress] = useState(null);
@@ -73,12 +75,14 @@ function WinningResults() {
     { value: "gd_ygp", label: "广东公共资源平台" },
   ];
 
-  const startFetch = async (province, adapter = "") => {
+  const startFetch = async (province, adapter = "", dateFrom = "", dateTo = "") => {
     setProvinceModalVisible(false);
     setFetching(true);
     try {
-      const params = province ? { province } : {};
+      const params = { province };
       if (adapter) params.adapter = adapter;
+      if (dateFrom) params.date_from = dateFrom;
+      if (dateTo) params.date_to = dateTo;
       const result = await apiClient.post("/awards/fetch", null, { params });
       if (result.task_id) {
         setFetchProgress({
@@ -293,6 +297,17 @@ function WinningResults() {
           />
         </div>
 
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontWeight: 500, marginBottom: 8, color: "#666" }}><CalendarOutlined /> 采集日期范围（可选）</div>
+          <DatePicker.RangePicker
+            value={fetchDateRange}
+            onChange={setFetchDateRange}
+            style={{ width: "100%" }}
+            allowClear
+            placeholder={["开始日期", "结束日期"]}
+          />
+        </div>
+
         <Divider style={{ margin: "12px 0" }} />
 
         <Button
@@ -304,9 +319,12 @@ function WinningResults() {
           onClick={() => {
             const province = selectedProvinces.join(",");
             const adapter = selectedAdapter === "all" ? "all" : selectedAdapter;
-            const desc = `${adapter === "all" ? "全部运营商" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : "联通"} × ${province || "全国"}`;
+            const dateFrom = fetchDateRange?.[0]?.format("YYYY-MM-DD") || "";
+            const dateTo = fetchDateRange?.[1]?.format("YYYY-MM-DD") || "";
+            const dateDesc = dateFrom ? ` (${dateFrom}~${dateTo || "至今"})` : "";
+            const desc = `${adapter === "all" ? "全部运营商" : adapter === "b2b_10086" ? "移动" : adapter === "telecom" ? "电信" : "联通"} × ${province || "全国"}${dateDesc}`;
             message.info(`开始采集: ${desc}`);
-            startFetch(province, adapter);
+            startFetch(province, adapter, dateFrom, dateTo);
           }}
         >
           开始采集（{selectedAdapter === "all" ? "全部运营商" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : "联通"}

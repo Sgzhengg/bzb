@@ -33,3 +33,12 @@ pdfplumber>=0.11.0
 
 # AI 增强爬虫
 crawl4ai>=0.6.0,<1.0.0
+
+# JWT 认证
+PyJWT>=2.8.0
+
+# 限流
+slowapi>=0.1.9
+
+# 环境变量加载
+python-dotenv>=1.0.0

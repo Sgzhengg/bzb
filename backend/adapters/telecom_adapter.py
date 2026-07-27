@@ -419,6 +419,16 @@ class TelecomAdapter(BaseAdapter):
             except (ValueError, TypeError):
                 pass
 
+        # LLM 兜底提取预算
+        if budget is None and content_text and len(content_text) > 100:
+            try:
+                llm_data = self._extract_budget_with_llm(title, content_text)
+                if llm_data and llm_data.get("budget_wan"):
+                    budget = llm_data["budget_wan"]
+                    self.logger.info(f"  🤖 LLM提取预算: {budget}万")
+            except Exception:
+                pass
+
         return {
             "title": title,
             "purchaser": purchaser,
@@ -554,6 +564,27 @@ class TelecomAdapter(BaseAdapter):
             if m:
                 return float(m.group(1))
         return None
+
+    def _extract_budget_with_llm(self, title: str, content: str) -> Optional[dict]:
+        """LLM 兜底提取预算（同步包装）。"""
+        try:
+            import asyncio
+            from app.services.llm_budget_extractor import extract_budget_with_llm
+
+            async def _call():
+                return await extract_budget_with_llm(title, content[:4000])
+
+            return asyncio.run(_call())
+        except RuntimeError:
+            try:
+                loop = asyncio.get_event_loop()
+                return loop.run_until_complete(
+                    extract_budget_with_llm(title, content[:4000])
+                )
+            except Exception:
+                return None
+        except Exception:
+            return None
 
     def _extract_reg_fee(self, content: str) -> Optional[float]:
         m = re.search(r"(?:招标文件|采购文件|标书)[工]?本?费[：:]\s*(\d+(?:\.\d+)?)\s*元?", content)
