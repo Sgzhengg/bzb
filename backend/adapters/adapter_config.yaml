@@ -34,63 +34,70 @@ data_collector:
         base_url: "https://www.chinaunicombidding.cn"
         max_pages: 3
         source_key: "unicom"
-    # V2 新增：各省公共资源交易平台适配器
+    # V2 新增：各省公共资源交易平台适配器（2026年7月启用）
     gx_ggzy:
-      enabled: false   # province_ggzy_adapter 尚未实现
+      enabled: true
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
         base_url: "http://gxggzy.gxzf.gov.cn"
         province: "广西"
         max_pages: 3
+        source_key: "gx_ggzy"
     fj_ggzy:
-      enabled: false   # province_ggzy_adapter 尚未实现
+      enabled: true
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
         base_url: "https://ggzyfw.fj.gov.cn"
         province: "福建"
         max_pages: 3
+        source_key: "fj_ggzy"
     zj_ggzy:
-      enabled: false   # province_ggzy_adapter 尚未实现
+      enabled: true
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
         base_url: "https://zjpubservice.zj.gov.cn"
         province: "浙江"
         max_pages: 3
+        source_key: "zj_ggzy"
     hn_ggzy:
-      enabled: false   # province_ggzy_adapter 尚未实现
+      enabled: true
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
         base_url: "http://ggzy.hunan.gov.cn"
         province: "湖南"
         max_pages: 3
+        source_key: "hn_ggzy"
     ah_ggzy:
-      enabled: false   # province_ggzy_adapter 尚未实现
+      enabled: true
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
         base_url: "https://ggzy.ah.gov.cn"
         province: "安徽"
         max_pages: 3
+        source_key: "ah_ggzy"
     sd_ggzy:
-      enabled: false   # province_ggzy_adapter 尚未实现
+      enabled: true
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
         base_url: "http://ggzyjy.shandong.gov.cn"
         province: "山东"
         max_pages: 3
+        source_key: "sd_ggzy"
     hi_ggzy:
-      enabled: false   # province_ggzy_adapter 尚未实现
+      enabled: true
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
         base_url: "https://zw.hainan.gov.cn/ggzy"
         province: "海南"
         max_pages: 2
+        source_key: "hi_ggzy"
     gd_zbtb:
       enabled: true
       module: "adapters.gd_zbtb_adapter"
