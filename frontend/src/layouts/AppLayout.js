@@ -3,6 +3,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Layout, Menu, Typography, Badge, Space, Statistic, Card } from "antd";
 import {
   ThunderboltOutlined, TrophyOutlined, UserOutlined, SettingOutlined, BellOutlined, FileTextOutlined,
+  DashboardOutlined,
 } from "@ant-design/icons";
 import { getRelationReminders } from "../services/api";
 import apiClient from "../services/api";
@@ -78,6 +79,7 @@ function AppLayout() {
       <span>中标结果 {newAwardBadge > 0 && <Badge count={newAwardBadge} size="small" style={{ marginLeft: 6 }} />}</span>
     )},
     { key: "/client-relations", icon: <UserOutlined />, label: "客情管理" },
+    { key: "/dashboard", icon: <DashboardOutlined />, label: "数据看板" },
     { key: "/settings", icon: <SettingOutlined />, label: "设置" },
   ];
 

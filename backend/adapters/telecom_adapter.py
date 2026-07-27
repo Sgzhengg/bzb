@@ -302,67 +302,135 @@ class TelecomAdapter(BaseAdapter):
 
     def fetch_detail(self, url: str) -> Tuple[str, Optional[bytes]]:
         """
-        构造详情内容用于 LLM/关键词分类。
+        从电信列表API数据中提取结构化字段和正文。
 
-        策略：电信列表 API 返回了关键字段，但标题常不含广告词（API 在正文中匹配）。
-        因此把完整的原始 JSON 字段值拼接成内容，提高关键词命中率。
+        电信 Detail API (queryDetail) 当前不可用（404），
+        因此从列表API返回的结构化数据中提取关键字段作为正文。
+        相比旧版只拼接所有字段值，新版会：
+        1. 优先使用 purchasername/provinceName/cityName 等结构化字段
+        2. 从 docContent/content 字段中提取真正的公告正文（如果有HTML/文本）
+        3. 将结构化字段作为辅助信息附加到正文末尾
         """
-        title = ""
-        content_parts = []
+        import json as _json
 
         item = self._current_item if hasattr(self, "_current_item") and self._current_item else {}
+        title = item.get("docTitle", "") or "未知标题"
 
-        if item:
-            title = item.get("docTitle", "")
-            # 把所有非空字段值都加入内容（提高关键词命中率）
-            for key, val in item.items():
-                if isinstance(val, str) and val and not key.startswith("_"):
-                    content_parts.append(val)
+        if not item:
+            return title, title.encode("utf-8")
 
-        if not title:
-            title = "未知标题"
+        # 1. 提取公告正文（电信列表API有时会返回content/docContent字段包含HTML正文）
+        content_html = item.get("content", "") or item.get("docContent", "") or ""
+        body_text = ""
 
-        content_text = " ".join(content_parts) if content_parts else title
-        return title, content_text.encode("utf-8") if content_text else None
+        if content_html and len(content_html) > 100:
+            try:
+                soup = BeautifulSoup(content_html, "html.parser")
+                body_text = soup.get_text(separator="\n", strip=True)
+            except Exception:
+                body_text = re.sub(r'<[^>]+>', '\n', content_html)
+                body_text = re.sub(r'\n{3,}', '\n\n', body_text).strip()
+
+        # 2. 提取结构化字段（用于后续 parse_detail 精确提取）
+        structured = {
+            "purchasername": item.get("purchasername", "") or item.get("purchaserName", ""),
+            "provinceName": item.get("provinceName", ""),
+            "cityName": item.get("cityName", ""),
+            "createDate": str(item.get("createDate", ""))[:10],
+            "endDate": str(item.get("endDate", ""))[:10],
+            "bidEndDate": str(item.get("bidEndDate", ""))[:10],
+            "purchaseType": item.get("purchaseType", "") or item.get("docType", ""),
+            "budgetAmount": item.get("budgetAmount", ""),
+            "docTypeCode": item.get("docTypeCode", ""),
+        }
+
+        # 3. 组合正文：公告正文 + 结构化元数据
+        parts = []
+        if body_text:
+            parts.append(body_text)
+        # 附加结构化字段（清晰标注，便于LLM和正则提取）
+        meta_lines = []
+        for k, v in structured.items():
+            if v:
+                meta_lines.append(f"{k}: {v}")
+        if meta_lines:
+            parts.append("\n---\n[公告元数据]\n" + "\n".join(meta_lines))
+
+        content_text = "\n\n".join(parts) if parts else title
+
+        # 将结构化数据编码到返回中供 parse_detail 使用
+        result = {
+            "_title": title,
+            "_structured": structured,
+            "_content_text": content_text,
+            "_content_html": content_html,
+        }
+        self.logger.info(f"  电信详情: 正文{len(body_text)}字符, 总计{len(content_text)}字符")
+        return title, _json.dumps(result, ensure_ascii=False, default=str).encode("utf-8")
 
     def parse_detail(self, html: str, pdf_bytes: Optional[bytes] = None) -> Dict:
         """
         解析详情页，提取全部字段。
 
         html 参数为公告标题（由 fetch_detail 传入）
-        pdf_bytes 为详情正文（由 fetch_detail 返回的内容编码）
+        pdf_bytes 为详情正文（由 fetch_detail 返回的JSON编码）
         """
+        import json as _json
+
         title = html or ""
         content_text = ""
+        content_html = ""
+        structured = {}
 
         if pdf_bytes:
             try:
-                content_text = pdf_bytes.decode("utf-8", errors="replace")
-                self.logger.info(f"  详情: {len(content_text)} 字符")
+                raw = pdf_bytes.decode("utf-8", errors="replace")
+                if raw.strip().startswith("{"):
+                    data = _json.loads(raw)
+                    title = data.get("_title", title)
+                    structured = data.get("_structured", {})
+                    content_text = data.get("_content_text", "")
+                    content_html = data.get("_content_html", "")
+                else:
+                    content_text = raw
             except Exception as e:
                 self.logger.warning(f"  内容解码失败: {e}")
+                content_text = raw if pdf_bytes else title
 
         if not content_text:
             content_text = title
 
-        # ── 正则提取字段 ──
-        purchaser = self._extract_purchaser(title, content_text)
+        self.logger.info(f"  详情: {len(content_text)} 字符")
+
+        # ── 优先使用结构化字段，其次正则提取 ──
+        purchaser = structured.get("purchasername") or self._extract_purchaser(title, content_text)
+        province = structured.get("provinceName") or self._extract_province(title)
+        city = structured.get("cityName") or self._extract_city(title)
+        publish_date = structured.get("createDate", "")
+        deadline = structured.get("endDate") or structured.get("bidEndDate") or self._extract_deadline(content_text)
+        procurement_method = structured.get("purchaseType") or self._extract_method(content_text)
+        budget_structured = structured.get("budgetAmount", "")
+
+        # ── 正则提取补充 ──
         budget = self._extract_budget_regex(content_text)
-        deadline = self._extract_deadline(content_text)
-        city = self._extract_city(title)
-        province = self._extract_province(title)
+        if not budget and budget_structured:
+            try:
+                budget = float(budget_structured)
+            except (ValueError, TypeError):
+                pass
 
         return {
             "title": title,
             "purchaser": purchaser,
             "purchaser_level": "省公司" if "分公司" not in title else "地市公司",
-            "procurement_method": self._extract_method(content_text),
+            "procurement_method": procurement_method,
             "budget": budget,
             "registration_fee": self._extract_reg_fee(content_text),
             "deposit": self._extract_deposit_regex(content_text),
-            "publish_date": "",
+            "publish_date": publish_date,
             "deadline": deadline,
             "content_text": content_text[:50000],
+            "content_html": content_html,
             "source_url": "",
             "bid_number": self._extract_bid_number(content_text),
             "city": city,

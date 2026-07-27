@@ -218,7 +218,7 @@ async def _job_weekly_report():
             relation_result = await db.execute(
                 text("""
                     SELECT COUNT(*) FROM client_relations
-                    WHERE created_at::date BETWEEN :start AND :end
+                    WHERE DATE(created_at) BETWEEN :start AND :end
                 """),
                 {"start": last_monday, "end": last_sunday},
             )

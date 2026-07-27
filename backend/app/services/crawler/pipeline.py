@@ -356,53 +356,6 @@ class BiddingCrawlerPipeline:
         region = b2b_item.get("regionName", "") or b2b_item.get("region", "")
         return region
 
-    # ── 详情页抓取 ──
-
-    async def _fetch_details(self, list_items: List[Dict]) -> List[Dict]:
-        """逐一抓取详情页。"""
-        details = []
-
-        for i, item in enumerate(list_items):
-            detail_url = item.get("detail_url", "")
-            if not detail_url:
-                # 无详情链接，用列表页已有字段生成条目
-                entry = {
-                    "title": item.get("title", ""),
-                    "purchaser": "",
-                    "purchaser_level": "",
-                    "procurement_method": item.get("procurement_method", ""),
-                    "budget": None,
-                    "project_category": "",
-                    "announce_date": item.get("publish_date", ""),
-                    "deadline": "",
-                    "qualification_requirements": "",
-                    "score_weight": None,
-                    "source_url": "",
-                }
-                details.append(entry)
-                continue
-
-            logger.debug(f"抓取详情页 [{i + 1}/{len(list_items)}]: {detail_url[:100]}")
-
-            try:
-                status, html = await self.fetcher.fetch(detail_url)
-                if status == 200:
-                    parsed = parse_detail_page(html, url=detail_url)
-                    # 合并列表页已有字段（列表页的日期可能更准）
-                    if not parsed.get("announce_date"):
-                        parsed["announce_date"] = item.get("publish_date", "")
-                    if not parsed.get("procurement_method"):
-                        parsed["procurement_method"] = item.get("procurement_method", "")
-                    details.append(parsed)
-                else:
-                    self.stats["detail_failed"] += 1
-                    logger.warning(f"详情页 {detail_url} 返回 {status}")
-            except Exception as e:
-                self.stats["detail_failed"] += 1
-                logger.error(f"详情页抓取异常: {detail_url} - {e}")
-
-        return details
-
     # ── 关键词过滤 ──
 
     def _apply_keyword_filter(self, details: List[Dict]) -> List[Dict]:

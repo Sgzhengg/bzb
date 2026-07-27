@@ -9,6 +9,10 @@ import AnnouncementDetail from "./pages/AnnouncementDetail";
 import RelationManagement from "./pages/RelationManagement";
 import Settings from "./pages/Settings";
 import WinningResults from "./pages/WinningResults";
+import Dashboard from "./pages/Dashboard";
+import CityCompare from "./pages/CityCompare";
+import PurchaserProfile from "./pages/PurchaserProfile";
+import Admin from "./pages/Admin";
 import "./App.css";
 
 // 创建 React Query 客户端
@@ -52,6 +56,10 @@ function App() {
                 <Route path="/client-relations" element={<RelationManagement />} />
                 <Route path="/winning-results" element={<WinningResults />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/city-compare" element={<CityCompare />} />
+                <Route path="/purchaser-profile" element={<PurchaserProfile />} />
+                <Route path="/admin" element={<Admin />} />
               </Route>
             </Routes>
           </BrowserRouter>

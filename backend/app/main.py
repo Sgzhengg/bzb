@@ -39,6 +39,7 @@ from app.api.v1.charts import router as charts_router
 from app.api.v1.preferences import router as preferences_router
 from app.api.v1.awards import router as awards_router
 from app.api.v1.overview import router as overview_router
+from app.api.v1.auth import router as auth_router
 
 # ============================================================
 # 日志配置（支持文件轮转）
@@ -279,8 +280,9 @@ app.include_router(charts_router, prefix=API_PREFIX)
 app.include_router(preferences_router, prefix=API_PREFIX)
 app.include_router(awards_router, prefix=API_PREFIX)
 app.include_router(overview_router, prefix=API_PREFIX)
+app.include_router(auth_router, prefix=API_PREFIX)
 
-logger.info("已注册路由: health/relations/alerts/purchasers/announcements/scheduler/charts/preferences/awards/overview")
+logger.info("已注册路由: auth/health/relations/alerts/purchasers/announcements/scheduler/charts/preferences/awards/overview")
 
 
 # ============================================================

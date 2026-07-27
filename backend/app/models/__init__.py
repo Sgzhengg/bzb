@@ -4,6 +4,7 @@ from app.models.client_relation import Purchaser, ClientRelation
 from app.models.project_relation_alert import ProjectRelationAlert
 from app.models.user_preference import UserPreference
 from app.models.historical_award import HistoricalAward
+from app.models.user import User
 
 __all__ = [
     "Base",
@@ -13,4 +14,5 @@ __all__ = [
     "ProjectRelationAlert",
     "UserPreference",
     "HistoricalAward",
+    "User",
 ]

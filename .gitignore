@@ -49,6 +49,10 @@ Thumbs.db
 # Environment
 .env
 
+# Browser profiles (Edge/Chrome automation data)
+edge_profile_copy/
+zhaobiao_profile/
+
 # Browser profile data (Playwright/Edge)
 *zhaobiao_profile/
 .env.local

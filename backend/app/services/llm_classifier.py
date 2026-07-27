@@ -176,9 +176,12 @@ def classify_by_llm(title: str, content: str = "") -> Dict[str, Any]:
 
 class AnnouncementExtraction(BaseModel):
     """LLM 从公告中提取的完整结构化数据"""
-    is_ad: bool = Field(description="是否属于广告营销类招标项目")
-    category: str = Field(description="广告赛道: 广告创意设计/物料制作印刷/活动策划执行/品牌宣传传播/视频内容制作/新媒体运营/媒介资源投放/渠道营销推广，非广告则为空字符串")
-    reason: str = Field(description="判断理由，30字以内")
+    model_config = {"extra": "allow"}  # 允许LLM返回额外字段（如is_advertising），避免校验失败
+
+    is_ad: bool = Field(default=False, description="是否属于广告营销类招标项目")
+    is_advertising: Optional[bool] = Field(default=None, description="is_ad的别名兼容")
+    category: Optional[str] = Field(default="", description="广告赛道: 广告创意设计/物料制作印刷/活动策划执行/品牌宣传传播/视频内容制作/新媒体运营/媒介资源投放/渠道营销推广，非广告则为空字符串")
+    reason: Optional[str] = Field(default="", description="判断理由，30字以内")
 
     # 财务字段
     budget: Optional[float] = Field(default=None, description="预算金额（万元），原文以元为单位时除以10000")
@@ -194,6 +197,11 @@ class AnnouncementExtraction(BaseModel):
     budget_text: str = Field(default="", description="原文中预算相关的原始文本片段")
     confidence: str = Field(default="low", description="提取置信度: high/medium/low")
 
+    def model_post_init(self, __context):
+        """兼容 LLM 返回 is_advertising 而非 is_ad 的情况"""
+        if not self.is_ad and self.is_advertising is True:
+            object.__setattr__(self, "is_ad", True)
+
 
 UNIFIED_SYSTEM_PROMPT = """你是一名中国移动招标项目分析专家。请完成两项任务：
 
@@ -203,13 +211,17 @@ UNIFIED_SYSTEM_PROMPT = """你是一名中国移动招标项目分析专家。�
 - 不属于广告营销类的示例：基站建设、光缆铺设、软件开发、系统集成、
   物业管理、食堂承包、保安保洁、通信设备采购、网络技术支撑、工程设计勘察
 
-任务2 — 如果属于广告营销类，提取以下字段；如果不属于，数值字段返回 null：
-- budget: 预算金额（万元，原文以"元"为单位请除以10000）
-- registration_fee: 报名费/标书费（元）
-- deposit: 投标保证金（万元）
-- deadline: 报名截止日期（YYYY-MM-DD）。对应"报名截止时间/日期"、"购买标书截止时间"。
+任务2 — 如果属于广告营销类，提取以下字段；如果不属于，数值字段返回 null。
+必须使用以下精确字段名，不要修改或变体：
+- "is_ad": true/false —— 是否广告营销类
+- "category": "赛道名" —— 广告赛道分类
+- "reason": "判断理由" —— 30字以内
+- "budget": 数字或null —— 预算金额（万元，原文以"元"为单位请除以10000）
+- "registration_fee": 数字或null —— 报名费/标书费（元）
+- "deposit": 数字或null —— 投标保证金（万元）
+- "deadline": "YYYY-MM-DD"或null —— 报名截止日期。对应"报名截止时间/日期"、"购买标书截止时间"。
   注意：询比/比选中只有单独写明的"报名截止时间"才映射到deadline，不要将"应答截止时间"映射到deadline
-- bid_date: 投标/开标日期（YYYY-MM-DD）。对应以下任一表述（按优先级）：
+- "bid_date": "YYYY-MM-DD"或null —— 投标/开标日期。对应以下任一表述（按优先级）：
   1. 开标时间/开标日期（公开招标的投标日期即开标日）
   2. 应答截止时间/应答截止日期（询比/比选的投标日期）
   3. 递交截止时间/递交截止日期（文件递交截止即投标截止）
@@ -217,7 +229,7 @@ UNIFIED_SYSTEM_PROMPT = """你是一名中国移动招标项目分析专家。�
   5. 响应截止时间（竞争性谈判的投标日期）
   6. 申请截止时间
   注意：候选人公示中的"公示截止时间"不是投标日期，遇到此类请返回 null
-- procurement_method: 采购方式（公开招标/公开询比/竞争性谈判/单一来源/邀请招标/询价/比选）
+- "procurement_method": "方式名"或null —— 采购方式（公开招标/公开询比/竞争性谈判/单一来源/邀请招标/询价/比选）
 
 只回复 JSON，不包含其他内容。"""
 
@@ -230,8 +242,8 @@ def _parse_unified_response(text: str) -> Dict[str, Any]:
             return json.loads(raw)
         except json.JSONDecodeError:
             pass
-        # 提取 JSON 块
-        m = re.search(r'\{[^{}]*"is_ad"[^{}]*\}', raw, re.DOTALL)
+        # 提取 JSON 块（兼容 is_ad 和 is_advertising 两种写法）
+        m = re.search(r'\{[^{}]*"is_ad(?:vertising)?"[^{}]*\}', raw, re.DOTALL)
         if m:
             try:
                 return json.loads(m.group())
@@ -244,6 +256,10 @@ def _parse_unified_response(text: str) -> Dict[str, Any]:
         logger.warning(f"LLM响应无法解析: {text[:100]}")
         return _default_unified_result()
 
+    # 兼容 is_advertising → is_ad
+    if "is_advertising" in data and "is_ad" not in data:
+        data["is_ad"] = data.pop("is_advertising")
+
     try:
         extraction = AnnouncementExtraction.model_validate(data)
         result = extraction.model_dump()
@@ -253,9 +269,10 @@ def _parse_unified_response(text: str) -> Dict[str, Any]:
         return result
     except Exception as e:
         logger.warning(f"Pydantic校验失败，回退手动解析: {e}")
-        # 回退：手动提取已知字段
+        # 回退：手动提取已知字段（同时兼容 is_advertising）
+        is_ad_val = data.get("is_ad") or data.get("is_advertising")
         return {
-            "is_ad": bool(data.get("is_ad", False)),
+            "is_ad": bool(is_ad_val),
             "category": str(data.get("category", "")),
             "reason": str(data.get("reason", ""))[:50],
             "budget": _safe_number(data.get("budget")),

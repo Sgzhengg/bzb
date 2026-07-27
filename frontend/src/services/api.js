@@ -11,7 +11,11 @@ const apiClient = axios.create({
 // 请求拦截器
 apiClient.interceptors.request.use(
   (config) => {
-    // 可在此添加 Token 等认证信息
+    // 自动附加 Token
+    const token = localStorage.getItem("bzb_token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => Promise.reject(error)
@@ -21,7 +25,10 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    console.error("API 请求错误:", error);
+    // 401 是未登录的正常状态，不打印错误日志
+    if (error.response?.status !== 401) {
+      console.error("API 请求错误:", error);
+    }
     return Promise.reject(error);
   }
 );
