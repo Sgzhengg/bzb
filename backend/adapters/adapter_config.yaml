@@ -9,17 +9,19 @@ data_collector:
   failure_threshold: 3            # 连续失败多少次后切换
   auto_fallback: true             # true=自动切换, false=手动切换
   adapters:
+    # ═══ 运营商 ═══
     b2b_10086:
       enabled: true
+      category: operator
       module: "adapters.b2b_10086_adapter"
       class_name: "B2b10086Adapter"
       config:
         base_url: "https://b2b.10086.cn"
         max_pages: 3
         source_key: "b2b_10086"
-    # V3 新增：电信/联通采购平台适配器
     telecom:
       enabled: true
+      category: operator
       module: "adapters.telecom_adapter"
       class_name: "TelecomAdapter"
       config:
@@ -28,15 +30,29 @@ data_collector:
         source_key: "telecom"
     unicom:
       enabled: true
+      category: operator
       module: "adapters.unicom_adapter"
       class_name: "UnicomAdapter"
       config:
         base_url: "https://www.chinaunicombidding.cn"
         max_pages: 3
         source_key: "unicom"
-    # V2 新增：各省公共资源交易平台适配器（2026年7月启用）
+
+    # ═══ 政府单位 ═══
+    ccgp:
+      enabled: true
+      category: government
+      module: "adapters.ccgp_adapter"
+      class_name: "CcgpAdapter"
+      config:
+        base_url: "https://www.ccgp.gov.cn"
+        max_pages: 3
+        source_key: "ccgp"
+
+    # ═══ 公共资源交易平台（各省） ═══
     gx_ggzy:
       enabled: true
+      category: government
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -46,6 +62,7 @@ data_collector:
         source_key: "gx_ggzy"
     fj_ggzy:
       enabled: true
+      category: government
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -55,6 +72,7 @@ data_collector:
         source_key: "fj_ggzy"
     zj_ggzy:
       enabled: true
+      category: government
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -64,6 +82,7 @@ data_collector:
         source_key: "zj_ggzy"
     hn_ggzy:
       enabled: true
+      category: government
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -73,6 +92,7 @@ data_collector:
         source_key: "hn_ggzy"
     ah_ggzy:
       enabled: true
+      category: government
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -82,6 +102,7 @@ data_collector:
         source_key: "ah_ggzy"
     sd_ggzy:
       enabled: true
+      category: government
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -91,6 +112,7 @@ data_collector:
         source_key: "sd_ggzy"
     hi_ggzy:
       enabled: true
+      category: government
       module: "adapters.province_ggzy_adapter"
       class_name: "ProvinceGgzyAdapter"
       config:
@@ -100,6 +122,7 @@ data_collector:
         source_key: "hi_ggzy"
     gd_zbtb:
       enabled: true
+      category: government
       module: "adapters.gd_zbtb_adapter"
       class_name: "GzZbtbAdapter"
       config:
@@ -108,6 +131,7 @@ data_collector:
         source_key: "gd_zbtb"
     gd_ygp:
       enabled: true
+      category: government
       module: "adapters.gd_ygp_adapter"
       class_name: "GdYgpAdapter"
       config:
@@ -115,9 +139,7 @@ data_collector:
         max_pages: 5
         source_key: "gd_ygp"
 
-# ── 各数据源详细配置 ──
-
-# 广东招标投标监管网
+# ═══ 各数据源详细配置 ═══
 gd_zbtb:
   name: "广东招标投标监管网"
   base_url: "https://zbtb.gd.gov.cn"
@@ -130,7 +152,6 @@ gd_zbtb:
   search_region: "广东"
   enabled: true
 
-# 全国公共资源交易平台（广东省）
 gd_ygp:
   name: "广东公共资源交易平台"
   base_url: "https://ygp.gdzwfw.gov.cn"
@@ -142,7 +163,6 @@ gd_ygp:
   search_keyword: "广东移动 广告"
   enabled: true
 
-# 中国移动采购与招标网（全国平台，主数据源）
 b2b_10086:
   name: "中国移动采购与招标网"
   base_url: "https://b2b.10086.cn"
@@ -151,14 +171,9 @@ b2b_10086:
   max_retries: 3
   timeout: 30
   max_pages: 3
-  search_keyword: "移动 广告 宣传"  # V2: 去除省份限定
+  search_keyword: "移动 广告 宣传"
   enabled: true
 
-# ══════════════════════════════════════
-# V2 新增：各省公共资源交易平台
-# ══════════════════════════════════════
-
-# 广西公共资源交易平台
 gx_ggzy:
   name: "广西公共资源交易平台"
   base_url: "http://gxggzy.gxzf.gov.cn"
@@ -171,7 +186,6 @@ gx_ggzy:
   search_region: "广西"
   enabled: true
 
-# 福建公共资源交易平台
 fj_ggzy:
   name: "福建公共资源交易平台"
   base_url: "https://ggzyfw.fj.gov.cn"
@@ -184,7 +198,6 @@ fj_ggzy:
   search_region: "福建"
   enabled: true
 
-# 浙江公共资源交易平台
 zj_ggzy:
   name: "浙江公共资源交易平台"
   base_url: "https://zjpubservice.zj.gov.cn"
@@ -197,7 +210,6 @@ zj_ggzy:
   search_region: "浙江"
   enabled: true
 
-# 湖南公共资源交易平台
 hn_ggzy:
   name: "湖南公共资源交易平台"
   base_url: "http://ggzy.hunan.gov.cn"
@@ -210,7 +222,6 @@ hn_ggzy:
   search_region: "湖南"
   enabled: true
 
-# 安徽公共资源交易平台
 ah_ggzy:
   name: "安徽公共资源交易平台"
   base_url: "https://ggzy.ah.gov.cn"
@@ -223,7 +234,6 @@ ah_ggzy:
   search_region: "安徽"
   enabled: true
 
-# 山东公共资源交易平台
 sd_ggzy:
   name: "山东公共资源交易平台"
   base_url: "http://ggzyjy.shandong.gov.cn"
@@ -236,7 +246,6 @@ sd_ggzy:
   search_region: "山东"
   enabled: true
 
-# 海南公共资源交易平台
 hi_ggzy:
   name: "海南公共资源交易平台"
   base_url: "https://zw.hainan.gov.cn/ggzy"
@@ -249,13 +258,10 @@ hi_ggzy:
   search_region: "海南"
   enabled: true
 
-# 采集模式
+# ── 采集模式 ──
 mode:
-  # 可选: sequential（顺序）, parallel（并行）, round_robin（轮询）
   strategy: sequential
-  # 广告类过滤: true=仅采集广告类, false=采集全部
   ad_filter: true
-  # 自动入库
   auto_save: true
 
 # ── 历史数据采集配置 ──
@@ -266,24 +272,13 @@ collector:
   checkpoint_file: "checkpoint.json"
   progress_interval_pages: 10
   progress_interval_items: 50
-
   request_interval:
     min: 3
     max: 8
-
   retry:
     max_attempts: 3
     backoff_factor: 2
-
-  # 按域名每分钟请求数限制
   rpm: 12
-
-  # 代理（可选）
   proxy_enabled: false
   proxy_list: []
-  # proxy_list:
-  #   - "http://user:pass@proxy1:8080"
-  #   - "http://user:pass@proxy2:8080"
-
-  # User-Agent 池（在 request_utils.py 中维护）
-  user_agents: []  # 空列表 = 使用内置 20 个 UA
+  user_agents: []

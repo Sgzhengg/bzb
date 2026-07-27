@@ -338,19 +338,23 @@ class DataCollector:
 
     # ── 便捷方法 ──
 
-    def collect_all_enabled(self, save_to_db: bool = True, progress_callback: callable = None, **kwargs) -> Dict[str, List[Dict]]:
+    def collect_all_enabled(self, save_to_db: bool = True, progress_callback: callable = None, category: str = None, **kwargs) -> Dict[str, List[Dict]]:
         """
         使用所有已启用的适配器分别采集。
 
         Args:
             save_to_db: 是否自动入库。
-            progress_callback: 进度回调函数，接收 (progress_percent, message)。
+            progress_callback: 进度回调函数。
+            category: 分类过滤 (operator/government)，None=全部。
+            **kwargs: 传递给适配器的额外参数。
 
         Returns:
             {adapter_name: [records]}
         """
         all_results = {}
         enabled_adapters = [(name, cfg) for name, cfg in self._adapters.items() if cfg.get("enabled", True)]
+        if category:
+            enabled_adapters = [(n, c) for n, c in enabled_adapters if c.get("category") == category]
 
         for idx, (name, cfg) in enumerate(enabled_adapters):
             # 计算当前适配器在整体进度中的位置

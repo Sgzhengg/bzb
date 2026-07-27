@@ -75,12 +75,13 @@ function WinningResults() {
     { value: "gd_ygp", label: "广东公共资源平台" },
   ];
 
-  const startFetch = async (province, adapter = "", dateFrom = "", dateTo = "") => {
+  const startFetch = async (province, adapter = "", dateFrom = "", dateTo = "", category = "") => {
     setProvinceModalVisible(false);
     setFetching(true);
     try {
       const params = { province };
       if (adapter) params.adapter = adapter;
+      if (category) params.category = category;
       if (dateFrom) params.date_from = dateFrom;
       if (dateTo) params.date_to = dateTo;
       const result = await apiClient.post("/awards/fetch", null, { params });
@@ -274,13 +275,18 @@ function WinningResults() {
             value={selectedAdapter}
             onChange={setSelectedAdapter}
             style={{ width: "100%" }}
-            options={[
-              { value: "all", label: "🌐 全部运营商（移动+电信+联通）" },
-              { value: "b2b_10086", label: "📶 中国移动" },
-              { value: "telecom", label: "📡 中国电信" },
-              { value: "unicom", label: "📞 中国联通" },
-            ]}
-          />
+          >
+            <Select.OptGroup label="📶 运营商">
+              <Select.Option value="all_op">🌐 全部运营商（移动+电信+联通）</Select.Option>
+              <Select.Option value="b2b_10086">📶 中国移动</Select.Option>
+              <Select.Option value="telecom">📡 中国电信</Select.Option>
+              <Select.Option value="unicom">📞 中国联通</Select.Option>
+            </Select.OptGroup>
+            <Select.OptGroup label="🏛️ 政府单位">
+              <Select.Option value="all_gov">🏛️ 全部政府单位</Select.Option>
+              <Select.Option value="ccgp">🏛️ 中国政府采购网</Select.Option>
+            </Select.OptGroup>
+          </Select>
         </div>
 
         <div style={{ marginBottom: 16 }}>
@@ -318,16 +324,19 @@ function WinningResults() {
           loading={fetching}
           onClick={() => {
             const province = selectedProvinces.join(",");
-            const adapter = selectedAdapter === "all" ? "all" : selectedAdapter;
+            const isAllOp = selectedAdapter === "all_op";
+            const isAllGov = selectedAdapter === "all_gov";
+            const adapter = isAllOp || isAllGov ? "all" : selectedAdapter;
+            const category = isAllOp ? "operator" : isAllGov ? "government" : "";
             const dateFrom = fetchDateRange?.[0]?.format("YYYY-MM-DD") || "";
             const dateTo = fetchDateRange?.[1]?.format("YYYY-MM-DD") || "";
             const dateDesc = dateFrom ? ` (${dateFrom}~${dateTo || "至今"})` : "";
-            const desc = `${adapter === "all" ? "全部运营商" : adapter === "b2b_10086" ? "移动" : adapter === "telecom" ? "电信" : "联通"} × ${province || "全国"}${dateDesc}`;
+            const desc = `${isAllOp ? "全部运营商" : isAllGov ? "全部政府单位" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : selectedAdapter === "unicom" ? "联通" : "ccgp"} × ${province || "全国"}${dateDesc}`;
             message.info(`开始采集: ${desc}`);
-            startFetch(province, adapter, dateFrom, dateTo);
+            startFetch(province, adapter, dateFrom, dateTo, category);
           }}
         >
-          开始采集（{selectedAdapter === "all" ? "全部运营商" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : "联通"}
+          开始采集（{isAllOp ? "全部运营商" : selectedAdapter === "all_gov" ? "全部政府单位" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : selectedAdapter === "unicom" ? "联通" : selectedAdapter === "ccgp" ? "中国政府采购网" : ""}
           {selectedProvinces.length > 0 ? ` × ${selectedProvinces.join("、")}` : " × 全国"}）
         </Button>
       </Modal>
