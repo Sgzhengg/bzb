@@ -82,14 +82,16 @@ class CcgpAdapter(BaseAdapter):
                 self.logger.warning(f"  请求失败(尝试{attempt+1}): {e}")
         return ""
 
-    def parse_list(self, html: str) -> List[Dict]:
+    def parse_list(self, html: str, list_url: str = None) -> List[Dict]:
         """解析分类列表页。"""
         if not html:
             return []
         soup = BeautifulSoup(html, "html.parser")
         items = []
-        # ccgp 列表页结构：<ul class="c_list"> 或 <div class="vF_list">
-        for ul in soup.select("ul.c_list, ul.vF_list, div.c_list ul"):
+        # 使用列表页URL作为相对路径的基准，如果没有则使用base_url
+        base = list_url or self.base_url
+        # ccgp 列表页结构：<ul class="c_list_bid"> (2026年更新后的结构)
+        for ul in soup.select("ul.c_list_bid, ul.c_list, ul.vF_list, div.c_list ul"):
             for li in ul.find_all("li"):
                 a = li.find("a")
                 if not a:
@@ -97,7 +99,7 @@ class CcgpAdapter(BaseAdapter):
                 title = a.get_text(strip=True)
                 href = a.get("href", "")
                 if href and not href.startswith("http"):
-                    href = urljoin(self.base_url, href)
+                    href = urljoin(base, href)
                 # 日期通常在 span 或 em 标签中
                 date_el = li.find("span", class_=re.compile(r"date|time")) or li.find("em")
                 date = date_el.get_text(strip=True) if date_el else ""
@@ -142,9 +144,16 @@ class CcgpAdapter(BaseAdapter):
                     time.sleep(30)
                     return title, None
                 soup = BeautifulSoup(text, "html.parser")
-                h1 = soup.find("h1") or soup.find(class_=re.compile(r"title", re.I))
-                if h1:
-                    title = h1.get_text(strip=True)
+                # 标题优先级: h2 > title标签 > h1
+                for sel in ["h2", "title"]:
+                    el = soup.select_one(sel)
+                    if el and len(el.get_text(strip=True)) > 5:
+                        title = el.get_text(strip=True)
+                        break
+                if not title:
+                    h1 = soup.find("h1")
+                    if h1:
+                        title = h1.get_text(strip=True)
                 body = (
                     soup.find(class_=re.compile(r"content|article|detail|text|main_con", re.I))
                     or soup.find("body")
@@ -291,7 +300,7 @@ class CcgpAdapter(BaseAdapter):
                     if not html:
                         break
 
-                    items = self.parse_list(html)
+                    items = self.parse_list(html, list_url=list_url)
                     if not items:
                         self.logger.info(f"  第 {page} 页无结果")
                         break
@@ -321,13 +330,13 @@ class CcgpAdapter(BaseAdapter):
                                     pass
 
                             record = self._normalize_record(parsed)
-                            if record["is_ad"]:
+                            if record.get("is_ad") or record.get("is_target", False):
                                 all_results.append(record)
-                                self.logger.info(f"  ✅ {record['title'][:50]} | {record.get('project_category', '')}")
+                                self.logger.info(f"  ✅ [{record.get('industry_type','')}/{record.get('project_category','')}] {record['title'][:50]}")
                             else:
-                                self.logger.debug(f"  ⏭️ 非广告: {record['title'][:50]}")
+                                self.logger.debug(f"  ⏭️ 跳过: {record['title'][:50]}")
 
-                            if save_to_db and record["is_ad"]:
+                            if save_to_db and (record.get("is_ad") or record.get("is_target", False)):
                                 self._save_to_db(record)
 
                         except Exception as e:

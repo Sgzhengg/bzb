@@ -124,7 +124,7 @@ function MainLayout() {
           }}
         >
           <Title level={4} style={{ margin: 0 }}>
-            广东移动招标情报系统
+            招标情报系统
           </Title>
         </Header>
         <Content

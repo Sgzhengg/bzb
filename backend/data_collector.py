@@ -160,6 +160,7 @@ class DataCollector:
             "b2b_10086": "B2b10086Adapter",
             "telecom": "TelecomAdapter",
             "unicom": "UnicomAdapter",
+            "bank": "BankAdapter",
         }
         return mapping.get(name, name.title().replace("_", "") + "Adapter")
 

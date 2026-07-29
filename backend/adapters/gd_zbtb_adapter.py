@@ -38,7 +38,8 @@ class GzZbtbAdapter(BaseAdapter):
             default_config.update(config)
         super().__init__(default_config)
 
-        self.search_url = urljoin(self.base_url, "/cms/xxgk/listSearch.html")
+        # 新版搜索API（2026年更新）
+        self.search_url = urljoin(self.base_url, "/api/search/announcement")
 
     def get_source_name(self) -> str:
         return "gd_zbtb"

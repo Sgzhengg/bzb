@@ -25,37 +25,26 @@ logger = logging.getLogger(__name__)
 
 # 广告赛道定义（用于 LLM prompt）
 AD_CATEGORIES = """
-- 广告创意设计：广告设计、VI设计、品牌视觉、全案策划、平面设计
-- 物料制作印刷：宣传物料、喷绘写真、标识标牌、门头招牌、印刷品
-- 活动策划执行：活动策划、路演、发布会、展会、客户活动、校园营销
-- 品牌宣传传播：品牌推广、整合营销、公关传播、媒体宣传、企业文化建设
-- 视频内容制作：宣传片拍摄、视频制作、动画制作、微电影
-- 新媒体运营：公众号运营、抖音运营、直播运营、H5制作
-- 媒介资源投放：户外广告、社区广告、公交广告、信息流广告
-- 渠道营销推广：网格营销、门店推广、地推、商圈推广
+- 运营商: 广告创意设计/物料制作印刷/活动策划执行/品牌宣传传播/视频内容制作/新媒体运营/媒介资源投放/渠道营销推广/通信工程建设/ICT系统集成/设备采购/网络维护代维/行政物业
+- 银行: IT设备采购/软件开发集成/网络安全/数据中心建设/网点装修/营销宣传/咨询服务
+- 政府: 信息化建设/设备采购/工程建设/物业服务/咨询服务
+- 保险: IT系统建设/宣传推广/咨询服务
+- 能源: 设备采购/工程建设/IT系统/勘察设计
 """
 
-SYSTEM_PROMPT = f"""你是一名广东移动招标项目分类专家。你的任务是判断招标公告是否属于"广告营销类"。
+SYSTEM_PROMPT = f"""你是一名招标项目分类专家。请对以下招标公告进行行业和类别判定。
 
-广告营销类包括以下赛道：
+各行业下的业务类别：
 {AD_CATEGORIES}
 
-不属于广告营销类的项目示例（应判定为非广告类）：
-- 基站建设、光缆铺设、机房设备、铁塔维护
-- 软件开发、系统集成、IT 运维
-- 物业管理、食堂承包、保安保洁
-- 空调消防、电力电源、综合布线
-- 通信设备采购、网络技术支撑
-
-请严格按以下 JSON 格式回复，不要包含其他内容：
-{{"is_ad": true或false, "category": "赛道名称或空字符串", "reason": "一句话判断理由(不超过30字)"}}"""
+请严格按以下 JSON 格式回复：
+{{"industry_type": "行业名(运营商/银行/政府/保险/能源/其他)", "category": "业务类别", "reason": "判断理由(不超过30字)"}}"""
 
 
 def _build_user_prompt(title: str, content: str) -> str:
-    """构建用户提示词，截取公告关键内容。"""
-    # 截取前 3000 字符，足够 LLM 理解项目性质
+    """构建用户提示词。"""
     body = content[:3000] if content else ""
-    return f"""请判断以下招标公告是否属于广告营销类：
+    return f"""请对以下招标公告进行行业和类别判定：
 
 【项目名称】
 {title}
@@ -66,13 +55,13 @@ def _build_user_prompt(title: str, content: str) -> str:
 
 def _parse_llm_response(text: str) -> Dict[str, Any]:
     """解析 LLM 返回的 JSON，容错处理。"""
-    # 尝试直接解析
     try:
         data = json.loads(text)
         return {
-            "is_ad": bool(data.get("is_ad", False)),
+            "industry_type": str(data.get("industry_type", "其他")),
             "category": str(data.get("category", "")),
             "reason": str(data.get("reason", ""))[:50],
+            "is_ad": True,  # V3: 所有通过LLM判定的都是有效项目
         }
     except json.JSONDecodeError:
         pass

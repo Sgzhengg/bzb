@@ -8,6 +8,7 @@
 import logging
 import random
 import time
+from datetime import date
 from abc import ABC, abstractmethod
 from typing import List, Dict, Optional, Tuple, Callable
 from urllib.parse import urljoin
@@ -200,90 +201,77 @@ class BaseAdapter(ABC):
     # ── 标准化映射 ──
 
     def _normalize_record(self, raw: Dict) -> Dict:
-        """将适配器原始字段映射为系统标准 announcements 表结构。"""
+        """将适配器原始字段映射为系统标准 announcements 表结构。V3: 支持多行业。"""
         import sys, os
         sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
         title = raw.get("title", "")
         content = raw.get("content_text", "")
 
-        # ── Step 1 粗筛：关键词预过滤（仅排除明显非广告，不做确认）──
+        # ── V3: 行业分类器（新增）──
+        try:
+            from app.services.industry_classifier import classify_industry_and_category
+        except ImportError:
+            from services.industry_classifier import classify_industry_and_category
+
+        # ── Step 1 粗筛：关键词预过滤 ──
         try:
             from app.services.keyword_filter import filter_advertisement_projects, _is_mobile_purchaser
         except ImportError:
             from services.keyword_filter import filter_advertisement_projects, _is_mobile_purchaser
 
+        is_operator_source = self.source_key in ("b2b_10086", "telecom", "unicom")
+
+        # ── V3: 非运营商来源，直接用行业分类器判定 ──
+        if not is_operator_source:
+            ind_result = classify_industry_and_category(title, content, self.source_key)
+            # 只跳过明确无用的（中标公示、意见征求）
+            winning_keywords = ["中选候选人", "中选结果", "中选人", "中标候选人", "中标结果", "中标人", "成交候选人", "成交结果"]
+            if any(kw in title for kw in winning_keywords):
+                return self._make_skip_record(title, content, raw, "中标公示")
+            if "意见征求" in title or "技术规范书" in title or "技术评分表" in title:
+                return self._make_skip_record(title, content, raw, "意见征求")
+
+            self.logger.info(
+                f"  ✅ [{ind_result['industry_type']}/{ind_result['project_category']}] {title[:50]}"
+            )
+            return self._build_final_record(title, content, raw, 
+                is_target=True, project_category=ind_result["project_category"],
+                industry_type=ind_result["industry_type"])
+
+        # ── 运营商来源：保留原有广告过滤逻辑 ──
         kw_result = filter_advertisement_projects(title, content)
         if not kw_result["is_ad"] or not _is_mobile_purchaser(title):
-            return {
-                "title": title,
-                "purchaser": raw.get("purchaser", ""),
-                "purchaser_level": raw.get("purchaser_level", ""),
-                "procurement_method": raw.get("procurement_method", "公开招标"),
-                "budget": raw.get("budget"),
-                "registration_fee": raw.get("registration_fee"),
-                "deposit": raw.get("deposit"),
-                "project_category": "",
-                "announce_date": raw.get("publish_date", ""),
-                "deadline": raw.get("deadline", ""),
-                "bid_date": raw.get("bid_date"),
-                "qualification_requirements": content[:2000],
-                "original_content": content,
-                "score_weight": raw.get("score_weight"),
-                "source_url": raw.get("source_url", ""),
-                "notice_type": raw.get("notice_type", "招标公告"),
-                "bid_number": raw.get("bid_number", ""),
-                "is_ad": False,
-                "matched_keywords": [],
-                "province": raw.get("province", ""),
-                "city": raw.get("city", ""),
-                "industry": raw.get("purchaser", ""),
-            }
+            # 不是广告，尝试用行业分类器判定是否为运营商的非广告项目
+            ind_result = classify_industry_and_category(title, content, self.source_key)
+            if ind_result["industry_type"] == "运营商":
+                winning_keywords = ["中选候选人", "中选结果", "中标候选人", "中标结果", "成交候选人", "成交结果"]
+                if any(kw in title for kw in winning_keywords):
+                    return self._make_skip_record(title, content, raw, "中标公示")
+                if "意见征求" in title or "技术规范书" in title:
+                    return self._make_skip_record(title, content, raw, "意见征求")
+                self.logger.info(
+                    f"  ✅ [运营商/{ind_result['project_category']}] {title[:50]}"
+                )
+                return self._build_final_record(title, content, raw,
+                    is_target=True, project_category=ind_result["project_category"],
+                    industry_type="运营商")
+            # 完全无关
+            return self._make_skip_record(title, content, raw, "非目标")
 
-        # 中标公示强制标记为非广告
+        # 中标公示跳过
         winning_keywords = ["中选候选人", "中选结果", "中选人", "中标候选人", "中标结果", "中标人", "成交候选人", "成交结果"]
         if any(kw in title for kw in winning_keywords):
             self.logger.info(f"  ⏭️ 中标公示跳过: {title[:60]}")
-            result = {
-                "title": title, "purchaser": raw.get("purchaser", ""),
-                "purchaser_level": raw.get("purchaser_level", ""),
-                "procurement_method": raw.get("procurement_method", "公开招标"),
-                "budget": raw.get("budget"), "registration_fee": raw.get("registration_fee"),
-                "deposit": raw.get("deposit"), "project_category": "中标公示",
-                "announce_date": raw.get("publish_date", ""), "deadline": raw.get("deadline", ""),
-                "bid_date": raw.get("bid_date"),
-                "qualification_requirements": content[:2000], "original_content": content,
-                "score_weight": raw.get("score_weight"), "source_url": raw.get("source_url", ""),
-                "notice_type": raw.get("notice_type", "招标公告"),
-                "bid_number": raw.get("bid_number", ""), "is_ad": False,
-                "matched_keywords": [], "province": raw.get("province", ""),
-                "city": raw.get("city", ""), "industry": raw.get("purchaser", ""),
-            }
-            return result
+            return self._make_skip_record(title, content, raw, "中标公示")
 
-        # 意见征求/技术规范书征求意见 → 非正式招标，跳过
         if "意见征求" in title or "技术规范书" in title or "技术评分表" in title:
             self.logger.info(f"  ⏭️ 意见征求跳过: {title[:60]}")
-            result = {
-                "title": title, "purchaser": raw.get("purchaser", ""),
-                "purchaser_level": raw.get("purchaser_level", ""),
-                "procurement_method": raw.get("procurement_method", "公开招标"),
-                "budget": raw.get("budget"), "registration_fee": raw.get("registration_fee"),
-                "deposit": raw.get("deposit"), "project_category": "意见征求",
-                "announce_date": raw.get("publish_date", ""), "deadline": raw.get("deadline", ""),
-                "bid_date": raw.get("bid_date"),
-                "qualification_requirements": content[:2000], "original_content": content,
-                "score_weight": raw.get("score_weight"), "source_url": raw.get("source_url", ""),
-                "notice_type": raw.get("notice_type", "招标公告"),
-                "bid_number": raw.get("bid_number", ""), "is_ad": False,
-                "matched_keywords": [], "province": raw.get("province", ""),
-                "city": raw.get("city", ""), "industry": raw.get("purchaser", ""),
-            }
-            return result
+            return self._make_skip_record(title, content, raw, "意见征求")
 
-        # ── Step 2+3 合并：一次 LLM 调用完成「分类 + 提取全部字段」──
+        # ── LLM 分类 ──
         is_ad = False
-        category = ""
+        category = kw_result.get("category", "其他营销类")
         budget = raw.get("budget")
         registration_fee = raw.get("registration_fee")
         deposit = raw.get("deposit")
@@ -335,28 +323,54 @@ class BaseAdapter(ABC):
             is_ad = True  # 已通过关键词预筛
             category = kw_result.get("category", "其他营销类")
 
+        return self._build_final_record(title, content, raw,
+            is_target=is_ad, project_category=category,
+            industry_type="运营商", procurement_method=procurement_method,
+            budget=budget, registration_fee=registration_fee,
+            deposit=deposit, deadline=deadline, bid_date=bid_date,
+            matched_keywords=kw_result.get("matched_keywords", []))
+
+    def _make_skip_record(self, title: str, content: str, raw: Dict, reason: str) -> Dict:
+        """构建跳过记录。"""
         return {
-            "title": title,
-            "purchaser": raw.get("purchaser", ""),
+            "title": title, "purchaser": raw.get("purchaser", ""),
+            "purchaser_level": raw.get("purchaser_level", ""),
+            "procurement_method": raw.get("procurement_method", "公开招标"),
+            "budget": raw.get("budget"), "registration_fee": raw.get("registration_fee"),
+            "deposit": raw.get("deposit"), "project_category": reason,
+            "industry_type": "", "announce_date": raw.get("publish_date", ""),
+            "deadline": raw.get("deadline", ""), "bid_date": raw.get("bid_date"),
+            "qualification_requirements": content[:2000], "original_content": content,
+            "score_weight": raw.get("score_weight"), "source_url": raw.get("source_url", ""),
+            "notice_type": raw.get("notice_type", "招标公告"),
+            "bid_number": raw.get("bid_number", ""), "is_ad": False,
+            "matched_keywords": [], "province": raw.get("province", ""),
+            "city": raw.get("city", ""), "industry": raw.get("purchaser", ""),
+        }
+
+    def _build_final_record(self, title: str, content: str, raw: Dict,
+                            is_target: bool, project_category: str, industry_type: str = "",
+                            procurement_method: str = "公开招标", budget=None,
+                            registration_fee=None, deposit=None, deadline="",
+                            bid_date=None, matched_keywords=None) -> Dict:
+        """构建最终记录。"""
+        if matched_keywords is None:
+            matched_keywords = []
+        return {
+            "title": title, "purchaser": raw.get("purchaser", ""),
             "purchaser_level": raw.get("purchaser_level", ""),
             "procurement_method": procurement_method,
-            "budget": budget,
-            "registration_fee": registration_fee,
-            "deposit": deposit,
-            "project_category": category,
+            "budget": budget, "registration_fee": registration_fee,
+            "deposit": deposit, "project_category": project_category,
+            "industry_type": industry_type,
             "announce_date": raw.get("publish_date", ""),
-            "deadline": deadline,
-            "bid_date": bid_date,
-            "qualification_requirements": content[:2000],
-            "original_content": content,
-            "score_weight": raw.get("score_weight"),
-            "source_url": raw.get("source_url", ""),
+            "deadline": deadline, "bid_date": bid_date,
+            "qualification_requirements": content[:2000], "original_content": content,
+            "score_weight": raw.get("score_weight"), "source_url": raw.get("source_url", ""),
             "notice_type": raw.get("notice_type", "招标公告"),
-            "bid_number": raw.get("bid_number", ""),
-            "is_ad": is_ad,
-            "matched_keywords": kw_result.get("matched_keywords", []),
-            "province": raw.get("province", ""),
-            "city": raw.get("city", ""),
+            "bid_number": raw.get("bid_number", ""), "is_ad": is_target,
+            "matched_keywords": matched_keywords,
+            "province": raw.get("province", ""), "city": raw.get("city", ""),
             "industry": raw.get("purchaser", ""),
         }
 
@@ -407,6 +421,9 @@ class BaseAdapter(ABC):
                         parsed = self.parse_detail(html_detail, pdf_bytes)
                         parsed["source_url"] = detail_url
                         parsed["notice_type"] = item.get("notice_type", parsed.get("notice_type", ""))
+                        # 从列表项继承日期（如果 parse_detail 没返回）
+                        if not parsed.get("publish_date"):
+                            parsed["publish_date"] = item.get("publish_date", "")
 
                         # 标准化 + 关键词过滤
                         record = self._normalize_record(parsed)
@@ -453,9 +470,10 @@ class BaseAdapter(ABC):
             
             conn.execute("""
                 INSERT INTO announcements (title, purchaser_id, purchaser_level, procurement_method,
-                    budget, registration_fee, deposit, project_category, announce_date, deadline,
-                    qualification_requirements, original_content, source_url, province, city, industry, data_source)
-                VALUES (?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    budget, registration_fee, deposit, project_category, industry_type,
+                    announce_date, deadline, qualification_requirements, original_content,
+                    source_url, province, city, industry, data_source)
+                VALUES (?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 record["title"],
                 record.get("purchaser_level", ""),
@@ -464,7 +482,8 @@ class BaseAdapter(ABC):
                 record.get("registration_fee"),
                 record.get("deposit"),
                 record.get("project_category", ""),
-                _parse_date(record.get("announce_date", "")),
+                record.get("industry_type", ""),
+                _parse_date(record.get("announce_date", "")) or date.today(),
                 _parse_datetime(record.get("deadline", "")),
                 record.get("qualification_requirements", "")[:2000],
                 record.get("original_content", ""),
@@ -490,24 +509,30 @@ def _parse_date(s: str):
     from datetime import date
     import re
     if not s:
-        return date.today()
-    m = re.match(r"(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})", s)
-    if m:
-        return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
-    return date.today()
+        return None  # 空日期返回 None，不造假日期
+    # 多种格式
+    for fmt in [
+        r"(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})",
+        r"(\d{4})(\d{2})(\d{2})",
+    ]:
+        m = re.match(fmt, s.strip())
+        if m:
+            return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    return None
 
 
 def _parse_datetime(s: str):
     from datetime import datetime
     import re
     if not s:
-        return datetime(1900, 1, 1)
-    m = re.match(r"(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})[T\s]?(\d{1,2}):(\d{2})", s)
+        return None
+    # 完整日期时间
+    m = re.match(r"(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})[T\s]?(\d{1,2}):(\d{2})", s.strip())
     if m:
         return datetime(int(m.group(1)), int(m.group(2)), int(m.group(3)),
                         int(m.group(4)), int(m.group(5)))
-    return datetime(1900, 1, 1)
-    m = re.match(r"(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})", s)
+    # 仅日期
+    m = re.match(r"(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})", s.strip())
     if m:
         return datetime(int(m.group(1)), int(m.group(2)), int(m.group(3)), 17, 0)
     return None

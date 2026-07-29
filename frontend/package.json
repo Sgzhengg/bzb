@@ -2,7 +2,7 @@
   "name": "biaozhongbao-frontend",
   "version": "1.0.0",
   "private": true,
-  "description": "标中宝 - 广东移动招标情报系统前端",
+  "description": "标中宝 - 招标情报系统前端",
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
     "@tanstack/react-query": "^5.101.2",

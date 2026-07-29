@@ -84,6 +84,7 @@ async def list_announcements(
     favorites_only: bool = Query(False, description="仅显示收藏"),
     notice_type: Optional[str] = Query(None, description="公告类型: opinion=征集意见, bidding=招标公告"),
     data_source: Optional[str] = Query(None, description="数据来源: b2b_10086(移动)/telecom(电信)/unicom(联通)/gd_zbtb/gd_ygp"),
+    industry_type: Optional[str] = Query(None, description="行业: 运营商/银行/政府/保险/能源/其他"),
     collected_from: Optional[str] = Query(None, description="公告日期起 (YYYY-MM-DD)"),
     collected_to: Optional[str] = Query(None, description="公告日期止 (YYYY-MM-DD)"),
     db: AsyncSession = Depends(get_db),
@@ -103,11 +104,13 @@ async def list_announcements(
     if purchaser_level:
         conditions.append(Announcement.purchaser_level == purchaser_level)
     if project_category:
-        conditions.append(Announcement.project_category == project_category)
+        conditions.append(Announcement.project_category.ilike(f"%{project_category}%"))
     if procurement_method:
         conditions.append(Announcement.procurement_method == procurement_method)
     if data_source:
         conditions.append(Announcement.data_source == data_source)
+    if industry_type:
+        conditions.append(Announcement.industry_type == industry_type)
     if budget_min is not None:
         conditions.append(
             (Announcement.budget >= budget_min) | (Announcement.budget == None)
@@ -126,20 +129,23 @@ async def list_announcements(
         & ~Announcement.title.ilike("%候选人%")
         & ~Announcement.title.ilike("%成交结果%")
     )
+    # 过滤直接采购公告（单一来源成交结果，非招标机会）
+    conditions.append(
+        ~Announcement.title.ilike("%直接采购信息公告%")
+        & ~Announcement.title.ilike("%直接采购需求公示%")
+        & ~Announcement.title.ilike("%直接采购公示%")
+    )
+    # 过滤信息核查公告（供应商资质预审，非实际招标）
+    conditions.append(
+        ~Announcement.title.ilike("%信息核查%")
+    )
+    # 过滤技术规范/评分表征求意见（非招标机会）
+    conditions.append(
+        ~Announcement.title.ilike("%技术规范书%")
+        & ~Announcement.title.ilike("%技术评分表%")
+    )
 
-    # 自动过滤非广告类公告（排除词 + 必须含广告关键词）
-    _ad_filter_excludes = [
-        "基站", "光缆", "软件开发", "系统编码", "服务器",
-        "物业", "食堂", "保安", "保洁", "消防", "安防",
-        "空调维保", "空调维修", "电梯", "电力工程", "土建",
-        "建筑施工", "装修工程", "弱电", "钢结构", "车辆维修",
-        "车辆采购", "IT服务", "网络安全", "数据安全", "云计算",
-        "审计服务", "法律服务", "办公用品", "办公设备", "办公家具",
-        "桶装水", "工作服", "通信工程", "网络优化", "网络维护",
-        "线路维护", "配套施工", "管线工程",
-    ]
-    for ex in _ad_filter_excludes:
-        conditions.append(~Announcement.title.ilike(f"%{ex}%"))
+    # V3 全品类：移除广告专属排除词，改用 industry_type + project_category 筛选
 
     # 自动过滤已过期的公告（TODO: deadline 存为 TEXT，比较需修复）
     # from datetime import datetime as dt
@@ -234,6 +240,8 @@ async def list_announcements(
             "is_favorited": getattr(ann, 'is_favorited', False) or False,
             # 数据来源
             "data_source": getattr(ann, 'data_source', '') or '',
+            # 行业分类
+            "industry_type": getattr(ann, 'industry_type', '') or '',
             # 评分（来自评分引擎）
             "total_score": score_data.get("total_score"),
             "probability_label": score_data.get("probability_label", ""),
@@ -612,6 +620,52 @@ async def get_announcement_detail(
 
 
 # ============================================================
+# AI 摘要
+# ============================================================
+
+@router.get("/{announcement_id}/ai-summary", summary="获取/生成公告AI摘要")
+async def get_ai_summary(
+    announcement_id: int,
+    force_refresh: bool = Query(False, description="强制重新生成"),
+    db: AsyncSession = Depends(get_db),
+):
+    """获取公告的 AI 智能摘要和资格预审分析。已缓存则直接返回。"""
+    result = await db.execute(
+        select(Announcement).where(Announcement.id == announcement_id)
+    )
+    ann = result.scalar_one_or_none()
+    if not ann:
+        raise HTTPException(status_code=404, detail="公告不存在")
+
+    # 有缓存且非强制刷新，直接返回
+    if ann.ai_summary and not force_refresh:
+        return {"id": announcement_id, "ai_summary": ann.ai_summary, "cached": True}
+
+    # 调用 LLM 生成摘要
+    title = ann.title or ""
+    content = getattr(ann, "original_content", "") or ""
+    if not content or len(content) < 50:
+        # 内容不足时，用标题作为内容进行降级分析
+        logger.warning(f"公告 #{announcement_id} 内容不足 (len={len(content)})，使用标题降级分析")
+        content = title
+
+    from app.services.llm_summarizer import generate_summary_async
+
+    summary = await generate_summary_async(title, content)
+    if not summary:
+        # LLM 不可用时，返回空摘要让前端显示降级提示
+        logger.warning(f"公告 #{announcement_id} AI摘要生成失败（LLM不可用）")
+        return {"id": announcement_id, "ai_summary": None, "cached": False, "error": "LLM不可用"}
+
+    # 存入数据库
+    ann.ai_summary = summary
+    await db.commit()
+    await db.refresh(ann)
+
+    return {"id": announcement_id, "ai_summary": summary, "cached": False}
+
+
+# ============================================================
 # 手动触发采集
 # ============================================================
 
@@ -619,7 +673,8 @@ async def get_announcement_detail(
 async def fetch_announcements(
     background_tasks: BackgroundTasks,
     province: Optional[str] = Query(None, description="目标省份: 广东、广西等；为空则不限省份"),
-    adapter: Optional[str] = Query(None, description="指定适配器: b2b_10086(移动)/telecom(电信)/unicom(联通)/ccgp(政府)/all(全部)"),
+    city: Optional[str] = Query(None, description="目标城市: 广州、深圳等"),
+    adapter: Optional[str] = Query(None, description="指定适配器: b2b_10086(移动)/telecom(电信)/unicom(联通)/ccgp(政府)/bank(银行)/all(全部)"),
     category: Optional[str] = Query(None, description="分类: operator(运营商)/government(政府单位)，仅 adapter=all 时生效"),
     date_from: Optional[str] = Query(None, description="采集日期起 (YYYY-MM-DD)，仅采集该日期后的公告"),
     date_to: Optional[str] = Query(None, description="采集日期止 (YYYY-MM-DD)，仅采集该日期前的公告"),
@@ -641,10 +696,18 @@ async def fetch_announcements(
 
     # 判断模式
     use_all_adapters = adapter_name == "all"
-    use_specific = adapter_name in ("b2b_10086", "telecom", "unicom")
+    # 所有已配置的适配器（运营商 + 政府平台）
+    _all_adapter_names = (
+        "b2b_10086", "telecom", "unicom",
+    )
+    use_specific = adapter_name in _all_adapter_names
 
-    desc = "全部运营商" if use_all_adapters else (
-        f"中国{'移动' if adapter_name == 'b2b_10086' else '电信' if adapter_name == 'telecom' else '联通'}"
+    _adapter_labels = {
+        "b2b_10086": "中国移动", "telecom": "中国电信", "unicom": "中国联通",
+    }
+
+    desc = "全部已启用适配器" if use_all_adapters else (
+        _adapter_labels.get(adapter_name, adapter_name)
         if use_specific else (province_name or "不限省份")
     )
 
@@ -703,10 +766,8 @@ async def fetch_announcements(
             await notify_collection_done("公告", len(results))
 
         elif use_specific:
-            # 指定运营商模式
-            adapter_label = {
-                "b2b_10086": "中国移动", "telecom": "中国电信", "unicom": "中国联通"
-            }.get(adapter_name, adapter_name)
+            # 指定适配器模式（运营商 + 政府平台）
+            adapter_label = _adapter_labels.get(adapter_name, adapter_name)
 
             _fetch_tasks[task_id].update(
                 status="running", progress=5,
@@ -722,12 +783,13 @@ async def fetch_announcements(
                     message=message,
                 )
 
-            logger.info(f"[DEBUG] 开始调用 collector.collect(adapter={adapter_name}, province={province_name})")
+            logger.info(f"[DEBUG] 开始调用 collector.collect(adapter={adapter_name}, province={province_name}, city={city})")
             results = await asyncio.to_thread(
                 collector.collect,
                 adapter_name=adapter_name,
                 save_to_db=True,
                 province=province_name,
+                city=city,
                 progress_callback=progress_callback,
                 date_from=date_from,
                 date_to=date_to,
@@ -764,6 +826,7 @@ async def fetch_announcements(
                 collector.collect,
                 save_to_db=True,
                 province=province_name,
+                city=city,
                 progress_callback=progress_callback,
                 date_from=date_from,
                 date_to=date_to,

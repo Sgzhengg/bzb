@@ -61,6 +61,12 @@ class B2b10086Adapter(BaseAdapter):
             "路演活动", "短视频", "H5制作",
             # 广义兜底
             "广告", "宣传", "活动", "品牌", "新媒体", "视频", "物料", "设计",
+            # V3: 非广告类（全品类覆盖）
+            "机房建设", "土建施工", "装修工程", "电力工程", "消防工程",
+            "网络维护", "设备维保", "代维服务", "运维服务",
+            "系统集成", "软件开发", "ICT", "云平台", "大数据",
+            "服务器", "交换机", "路由器", "UPS电源",
+            "物业管理", "保安服务", "保洁服务", "食堂",
         ]
 
     def get_source_name(self) -> str:
@@ -151,6 +157,11 @@ class B2b10086Adapter(BaseAdapter):
                 self.logger.debug(f"  ⏭️ 跳过中标公示: {title[:60]}")
                 continue
 
+            # 跳过供应商信息核查（资质预审，非实际招标机会）
+            if "信息核查" in title:
+                self.logger.debug(f"  ⏭️ 跳过信息核查: {title[:60]}")
+                continue
+
             # 省份过滤（如果指定了省份）
             if province and not self._match_province(title, province):
                 province_matched += 1
@@ -201,6 +212,9 @@ class B2b10086Adapter(BaseAdapter):
             "中标候选人", "中标结果", "中标人",
             "成交候选人", "成交结果",
             "_中选", "_中标", "_成交",
+            "直接采购信息公告",   # 单一来源成交结果
+            "直接采购需求公示",   # 联通单一来源
+            "直接采购公示",       # 联通单一来源
         ]
         return any(p in title for p in patterns)
 

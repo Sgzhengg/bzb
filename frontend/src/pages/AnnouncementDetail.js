@@ -56,11 +56,17 @@ function AnnouncementDetail() {
     setAiLoading(true);
     try {
       const result = await getAISummary(id);
-      setAiStatus(result.status);
-      if (result.summary) setAiSummary(result.summary);
-      if (result.status === "no_content") message.info(result.message || "公告正文为空");
-      else if (result.status === "llm_unavailable") message.warning("LLM 未配置");
-      else if (result.status === "generated") message.success("AI 智能分析已生成");
+      if (result.ai_summary) {
+        setAiSummary(result.ai_summary);
+        setAiStatus("generated");
+        message.success("AI 智能分析已生成");
+      } else if (result.error) {
+        setAiStatus("llm_unavailable");
+        message.warning(result.error);
+      } else {
+        setAiStatus("no_content");
+        message.info("公告正文为空，无法生成分析");
+      }
     } catch (e) {
       message.error("AI 分析请求失败");
     } finally {

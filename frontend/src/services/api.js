@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL || "/api/v1",
-  timeout: 15000,
+  timeout: 30000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -58,7 +58,7 @@ export async function getOpportunityList(params = {}) {
  * @param {string} province - 目标省份，默认广东
  * @param {string} adapter - 指定适配器: b2b_10086(移动)/telecom(电信)/unicom(联通)/all(全部)
  */
-export async function fetchNewAnnouncements(province = "", adapter = "", dateFrom = "", dateTo = "", category = "") {
+export async function fetchNewAnnouncements(province = "", adapter = "", dateFrom = "", dateTo = "", category = "", city = "") {
   const params = {};
   if (adapter) {
     params.adapter = adapter;
@@ -68,6 +68,9 @@ export async function fetchNewAnnouncements(province = "", adapter = "", dateFro
   }
   if (province) {
     params.province = province;
+  }
+  if (city) {
+    params.city = city;
   }
   if (dateFrom) {
     params.date_from = dateFrom;

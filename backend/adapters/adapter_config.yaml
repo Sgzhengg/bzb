@@ -38,6 +38,17 @@ data_collector:
         max_pages: 3
         source_key: "unicom"
 
+    # ═══ 银行 ═══
+    bank:
+      enabled: true
+      category: bank
+      module: "adapters.bank_adapter"
+      class_name: "BankAdapter"
+      config:
+        base_url: "http://www.cfcpn.com"
+        max_pages: 3
+        source_key: "bank"
+
     # ═══ 政府单位 ═══
     ccgp:
       enabled: true

@@ -50,10 +50,10 @@ class GdYgpAdapter(BaseAdapter):
         1. JSON API 接口
         2. 搜索参数 HTML 页面
         """
-        # 模式1: JSON API
+        # 模式1: JSON API（新版接口）
         api_urls = [
-            f"{self.base_url}/ggzy-portal/search/v1/xxfb/news",
-            f"{self.base_url}/#/ggzy-portal/search/v1/xxfb/news",
+            f"{self.base_url}/ggzy-portal/api/search/news",
+            f"{self.base_url}/api/search/announcement",
         ]
         for api_url in api_urls:
             try:

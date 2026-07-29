@@ -67,6 +67,9 @@ class Announcement(Base):
     # ── 数据来源 ──
     data_source = Column(String(30), default="", comment="数据来源: b2b_10086(移动)/telecom(电信)/unicom(联通)/gd_zbtb/gd_ygp")
 
+    # ── 行业分类（一级）──
+    industry_type = Column(String(20), default="", comment="行业: 运营商/银行/政府/保险/能源/其他")
+
     # ── AI 智能分析结果 ──
     ai_summary = Column(JSON, nullable=True, comment="AI智能摘要+资格预审分析 (JSON)")
 
@@ -81,6 +84,7 @@ class Announcement(Base):
         Index("ix_announcements_announce_date", "announce_date"),  # 时间排序
         Index("ix_announcements_city", "city"),  # 地市筛选
         Index("ix_announcements_project_category", "project_category"),  # 类别筛选
+        Index("ix_announcements_industry_type", "industry_type"),  # 行业筛选
         Index("ix_announcements_purchaser_id", "purchaser_id"),  # 关联查询
         Index("ix_announcements_is_favorited", "is_favorited"),  # 收藏查询
         Index("ix_announcements_city_date", "city", "announce_date"),  # 组合查询

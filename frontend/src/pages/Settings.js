@@ -10,7 +10,7 @@ function Settings() {
       <Title level={3}><SettingOutlined /> 设置</Title>
 
       <Card title="关于标中宝" style={{ maxWidth: 650, marginBottom: 16 }}>
-        <Paragraph>标中宝 V1.0.0 — 广东移动广告招标情报系统</Paragraph>
+        <Paragraph>标中宝 V1.0.0 — 招标情报系统</Paragraph>
         <Paragraph type="secondary">
           技术栈：React 18 + Ant Design 5 + FastAPI + PostgreSQL
         </Paragraph>

@@ -22,6 +22,7 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useOpportunityList } from "../services/apiHooks";
+import { fetchNewAnnouncements, getFetchStatus } from "../services/api";
 
 const { Title, Text } = Typography;
 
@@ -29,15 +30,18 @@ const { Title, Text } = Typography;
 // 常量
 // ============================================================
 
-const CATEGORY_OPTIONS = [
-  { value: "", label: "全部种类" },
-  { value: "品牌策略类", label: "品牌策略" },
-  { value: "创意设计类", label: "创意设计" },
-  { value: "媒介投放类", label: "媒介投放" },
-  { value: "活动执行类", label: "活动执行" },
-  { value: "内容制作类", label: "内容制作" },
-  { value: "新媒体运营类", label: "新媒体运营" },
-];
+// 业务类别选项（仅运营商）
+const CATEGORY_BY_INDUSTRY = {
+  "运营商": [
+    { value: "", label: "业务类别" },
+    { value: "广告", label: "📢 广告类（设计/投放/制作/活动）" },
+    { value: "工程", label: "🏗️ 工程类（施工/建设）" },
+    { value: "维护", label: "🔧 维护类（代维/维保）" },
+    { value: "ICT", label: "💻 ICT集成类（系统/软件/云）" },
+    { value: "设备", label: "🖥️ 设备采购类（服务器/交换机）" },
+    { value: "物业", label: "🏢 物业/后勤类" },
+  ],
+};
 
 const METHOD_OPTIONS = [
   { value: "", label: "全部方式" },
@@ -51,16 +55,6 @@ const NOTICE_TYPE_OPTIONS = [
   { value: "", label: "全部公告" },
   { value: "opinion", label: "征集意见公告" },
   { value: "bidding", label: "招标公告" },
-];
-
-// V3 新增：数据来源选项
-const DATA_SOURCE_OPTIONS = [
-  { value: "", label: "全部来源" },
-  { value: "b2b_10086", label: "中国移动" },
-  { value: "telecom", label: "中国电信" },
-  { value: "unicom", label: "中国联通" },
-  { value: "gd_zbtb", label: "广东招标监管网" },
-  { value: "gd_ygp", label: "广东公共资源平台" },
 ];
 
 // V2 新增：省份选项（重点省份 + 全部）
@@ -132,7 +126,6 @@ function OpportunityList() {
   const [filterCategory, setFilterCategory] = useState("");
   const [filterMethod, setFilterMethod] = useState("");
   const [filterNoticeType, setFilterNoticeType] = useState(""); // 公告类型筛选
-  const [filterDataSource, setFilterDataSource] = useState("");   // V3: 数据来源筛选
   const [collectedFrom, setCollectedFrom] = useState(null);       // 采集时间起
   const [collectedTo, setCollectedTo] = useState(null);           // 采集时间止
   const [budgetRange, setBudgetRange] = useState([0, 1000]);
@@ -161,11 +154,11 @@ function OpportunityList() {
   // 组件卸载时清理
   useEffect(() => () => stopPolling(), []);
 
-  const startFetch = async (province, adapter = "", dateFrom = "", dateTo = "", category = "") => {
+  const startFetch = async (province, adapter = "", dateFrom = "", dateTo = "", category = "", city = "") => {
     setProvinceModalVisible(false);
     setFetching(true);
     try {
-      const result = await fetchNewAnnouncements(province, adapter, dateFrom, dateTo, category);
+      const result = await fetchNewAnnouncements(province, adapter, dateFrom, dateTo, category, city);
       if (result.task_id) {
         // 开始轮询进度
         setFetchProgress({
@@ -234,6 +227,11 @@ function OpportunityList() {
     }));
   }, [filterProvince]);
 
+  // 业务类别选项（仅运营商）
+  const categoryOptions = useMemo(() => {
+    return CATEGORY_BY_INDUSTRY["运营商"];
+  }, []);
+
   // 省份切换时重置城市
   const handleProvinceChange = (val) => {
     setFilterProvince(val);
@@ -241,10 +239,11 @@ function OpportunityList() {
     setCurrentPage(1);
   };
 
+
   // 筛选变更时回到第1页
   useEffect(() => {
     setCurrentPage(1);
-  }, [filterNoticeType, filterCategory, filterMethod, filterDataSource, searchText, collectedFrom, collectedTo]);
+  }, [filterNoticeType, filterCategory, filterMethod, searchText, collectedFrom, collectedTo]);
 
   // 构建查询参数
   const params = useMemo(() => {
@@ -253,8 +252,8 @@ function OpportunityList() {
       province: filterProvince || undefined,           // V2 新增
       city: filterCity || undefined,                   // V2 新增
       project_category: filterCategory || undefined,
+      industry_type: "运营商",
       procurement_method: filterMethod || undefined,
-      data_source: filterDataSource || undefined,       // V3: 数据来源
       collected_from: collectedFrom ? collectedFrom.format("YYYY-MM-DD") : undefined,
       collected_to: collectedTo ? collectedTo.format("YYYY-MM-DD") : undefined,
       budget_min: budgetRange[0] || undefined,
@@ -268,9 +267,15 @@ function OpportunityList() {
     // 清除 undefined 值
     Object.keys(result).forEach(k => result[k] === undefined && delete result[k]);
     return result;
-  }, [filterProvince, filterCity, filterCategory, filterMethod, filterNoticeType, filterDataSource, budgetRange, searchText, showFavorites, currentPage, pageSize, collectedFrom, collectedTo]);
+  }, [filterProvince, filterCity, filterCategory, filterMethod, filterNoticeType, budgetRange, searchText, showFavorites, currentPage, pageSize, collectedFrom, collectedTo]);
 
-  // 公告内容模态框状态
+  // 打开采集弹窗时，自动从主筛选栏预填充省份
+  const openFetchModal = () => {
+    if (filterProvince) {
+      setSelectedProvinces([filterProvince]);
+    }
+    setProvinceModalVisible(true);
+  };
   const [contentModalVisible, setContentModalVisible] = useState(false);
   const [contentData, setContentData] = useState(null);
 
@@ -338,8 +343,10 @@ function OpportunityList() {
           "b2b_10086": { label: "移动", color: "#1677ff" },
           "telecom": { label: "电信", color: "#52c41a" },
           "unicom": { label: "联通", color: "#fa541c" },
+          "bank": { label: "银行", color: "#fa8c16" },
           "gd_zbtb": { label: "广东招标", color: "#722ed1" },
           "gd_ygp": { label: "广东资源", color: "#13c2c2" },
+          "ccgp": { label: "政府采购", color: "#f5222d" },
         };
         const info = sourceMap[val];
         return info ? <Tag color={info.color}>{info.label}</Tag> : (val ? <Tag>{val}</Tag> : <Text type="secondary">—</Text>);
@@ -375,17 +382,21 @@ function OpportunityList() {
       ),
     },
     {
-      title: "种类",
+      title: "业务类别",
       dataIndex: "project_category",
       key: "project_category",
       width: 100,
       render: (cat) => {
         const colorMap = {
-          "品牌策略类": "magenta", "创意设计类": "purple",
-          "媒介投放类": "cyan", "活动执行类": "orange",
-          "内容制作类": "geekblue", "新媒体运营类": "green",
+          "广告创意设计": "magenta", "物料制作印刷": "purple",
+          "活动策划执行": "orange", "品牌宣传传播": "cyan",
+          "视频内容制作": "geekblue", "新媒体运营": "green",
+          "媒介资源投放": "blue", "渠道营销推广": "volcano",
+          "通信工程建设": "red", "ICT系统集成": "gold",
+          "设备采购": "lime", "网络维护代维": "processing",
+          "行政物业": "default",
         };
-        return <Tag color={colorMap[cat] || "default"}>{cat?.replace("类", "")}</Tag>;
+        return <Tag color={colorMap[cat] || "default"}>{cat}</Tag>;
       },
     },
     {
@@ -523,7 +534,7 @@ function OpportunityList() {
           <Space>
             <Button
               icon={<CloudDownloadOutlined />}
-              onClick={() => setProvinceModalVisible(true)}
+              onClick={openFetchModal}
               loading={fetching}
             >
               采集数据
@@ -578,13 +589,13 @@ function OpportunityList() {
               disabled={!filterProvince}
             />
           </Col>
-          <Col xs={12} sm={6} md={4}>
+          <Col xs={12} sm={6} md={3}>
             <Select
               value={filterCategory}
               onChange={setFilterCategory}
-              options={CATEGORY_OPTIONS}
+              options={categoryOptions}
               style={{ width: "100%" }}
-              placeholder="项目类别"
+              placeholder="业务类别"
             />
           </Col>
           <Col xs={12} sm={6} md={4}>
@@ -603,15 +614,6 @@ function OpportunityList() {
               options={NOTICE_TYPE_OPTIONS}
               style={{ width: "100%" }}
               placeholder="公告类型"
-            />
-          </Col>
-          <Col xs={12} sm={6} md={3}>
-            <Select
-              value={filterDataSource}
-              onChange={setFilterDataSource}
-              options={DATA_SOURCE_OPTIONS}
-              style={{ width: "100%" }}
-              placeholder="数据来源"
             />
           </Col>
           <Col xs={24} sm={12} md={5}>
@@ -760,10 +762,6 @@ function OpportunityList() {
               <Select.Option value="telecom">📡 中国电信</Select.Option>
               <Select.Option value="unicom">📞 中国联通</Select.Option>
             </Select.OptGroup>
-            <Select.OptGroup label="🏛️ 政府单位">
-              <Select.Option value="all_gov">🏛️ 全部政府单位</Select.Option>
-              <Select.Option value="ccgp">🏛️ 中国政府采购网</Select.Option>
-            </Select.OptGroup>
           </Select>
         </div>
 
@@ -808,10 +806,12 @@ function OpportunityList() {
             const category = isAllOp ? "operator" : isAllGov ? "government" : "";
             const dateFrom = fetchDateRange?.[0]?.format("YYYY-MM-DD") || "";
             const dateTo = fetchDateRange?.[1]?.format("YYYY-MM-DD") || "";
+            const city = filterCity || "";
             const dateDesc = dateFrom ? ` (${dateFrom}~${dateTo || "至今"})` : "";
-            const desc = `${isAllOp ? "全部运营商" : isAllGov ? "全部政府单位" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : selectedAdapter === "unicom" ? "联通" : "ccgp"} × ${province || "全国"}${dateDesc}`;
+            const cityDesc = city ? ` × ${city}` : "";
+            const desc = `${isAllOp ? "全部运营商" : isAllGov ? "全部政府单位" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : selectedAdapter === "unicom" ? "联通" : selectedAdapter === "ccgp" ? "中国政府采购网" : selectedAdapter === "bank" ? "银行" : ""} × ${province || "全国"}${cityDesc}${dateDesc}`;
             message.info(`开始采集: ${desc}`);
-            startFetch(province, adapter, dateFrom, dateTo, category);
+            startFetch(province, adapter, dateFrom, dateTo, category, city);
           }}
         >
           开始采集（{selectedAdapter === "all_op" ? "全部运营商" : selectedAdapter === "all_gov" ? "全部政府单位" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : selectedAdapter === "unicom" ? "联通" : selectedAdapter === "ccgp" ? "中国政府采购网" : ""}

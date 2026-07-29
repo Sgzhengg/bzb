@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>招标采购信息搜索_招标项目搜索_招标网</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit"/>
+    <meta name="force-rendering" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta name="keywords"
+          content="招标信息,中标信息,招标项目,中标项目,招标公告,招标变更，中标公告,招标采购,行业招标,行业招标信息，行业招标采购">
+    <meta name="description"
+          content="招标网是专业的招标投标信息搜索平台，搜索招标信息、中标信息及招标项目、中标项目、行业招标采购信息等。欢迎您访问招标网招标项目信息搜索平台。">
+    <meta name="applicable-device" content="pc">
+    <meta name="mobile-agent" content="format=html5; url=https://m.zhaobiao.cn/search">
+    <link rel="icon" type="image/x-icon" href="/img/b.ico"/>
+    <link rel="alternate" media="only screen and (max-width: 640px)" href="https://m.zhaobiao.cn/search">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/b.ico"/>
+    <!--<link rel="stylesheet" th:href="@{/css/base/bootstrap.css}" media="screen">-->
+    <link rel="stylesheet" type="text/css" href="/css/base/base.css">
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/css/footer.css}">-->
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/css/new_topmenu.css}">-->
+    <link rel="stylesheet" href="/css/tendersearch.css?v=3.003" type="text/css">
+    <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/js/baseSearch.js?v=5.004"></script>
+</head>
+<body>
+<!-- 页头 -->
+<div><link rel="stylesheet" href="https://res.zhaobiao.cn/css/new_topmenu.css?v=0.1"/><script src="https://res.zhaobiao.cn/js/top.js?v=0.1"></script><div class="topmenu_v2">
+        <div class="box">
+            <p>客服电话<img src="https://res.zhaobiao.cn/img/topmenu/phone.png" width="13"/><span>null</span></p>
+            <div class="fr fr_box pageTopLoginDiv">
+                <!--未登录-->
+                <div class="userbox" id="userbox">
+                    <p><a href="https://user.zhaobiao.cn/login.html" title="登录" class="top_login"
+                              target="_blank" rel="nofollow">您好，请登录</a><a
+                            href="https://user.zhaobiao.cn/register.html" title="免费试用" class="top_use"
+                            target="_blank" rel="nofollow">免费试用</a></p>
+                </div>
+                <ul class="fl fn-clear">
+                    <li class="zzCheckDiv">
+                        <a href=" https://user.zhaobiao.cn/api/signin/auth?position=1&appid=qIz4ZsDDKDUj3BfM&redirect_uri=https://zzc.zhaobiao.cn/OpenPage&response_type=code" title="中招查" target="_blank" style="padding: 0 23px">
+                            中招查
+                            <img src="https://res.zhaobiao.cn/img/topmenu/new.png" style="vertical-align: baseline;" alt="new">
+                        </a>
+                        <div class="zzCheck_info">
+                            <div class="part_line"></div>
+                            <div class="zzCheck_title">中招查：招投标数据分析助手</div>
+                            <ul class="zzCheck_ul">
+                                <li>
+                                    <img src="https://res.zhaobiao.cn/img/topmenu/zzCheck_img1.png" alt="洞察潜在对手">
+                                    <div>洞察潜在对手</div>
+                                </li>
+                                <li>
+                                    <img src="https://res.zhaobiao.cn/img/topmenu/zzCheck_img2.png" alt="挖掘关键关系">
+                                    <div>挖掘关键关系</div>
+                                </li>
+                                <li>
+                                    <img src="https://res.zhaobiao.cn/img/topmenu/zzCheck_img3.png" alt="智能推荐商机">
+                                    <div>智能推荐商机</div>
+                                </li>
+                                <li>
+                                    <img src="https://res.zhaobiao.cn/img/topmenu/zzCheck_img4.png" alt="深度招标分析">
+                                    <div>深度招标分析</div>
+                                </li>
+                            </ul>
+                            <a class="zzCheck_link" href=" https://user.zhaobiao.cn/api/signin/auth?position=1&appid=qIz4ZsDDKDUj3BfM&redirect_uri=https://zzc.zhaobiao.cn/OpenPage&response_type=code" target="_blank">立即体验，开启智能拓客新时代</a>
+                            <div class="split_line"></div>
+                            <div class="zzCheck_notice">首次前往将自动为您注册中招查账户，老用户将直接登录。点击“立即体验”表示您已知晓并同意。</div>
+                        </div>
+                    </li>
+                    <li><i></i><a href="https://zb.zhaobiao.cn" title="招标" target="_blank" id="a_top_zb">招标</a></li>
+                    <li><i></i><a href="https://xm.zhaobiao.cn" title="项目" target="_blank" id="a_top_xm">项目</a></li>
+                    <li><i></i><a href="https://qy.zhaobiao.cn" title="企业" target="_blank">企业</a></li>
+                    <li><i></i><a href="https://news.zhaobiao.cn" title="资讯" target="_blank">资讯</a></li>
+                    <li><i></i><a href="https://user.zhaobiao.cn/homePageUc.do" title="会员中心" target="_blank" id="a_top_center">会员中心</a></li>
+                    <li class="top_more">
+                        <i></i>
+                        <a href="#" title="更多">更多</a><img src="https://res.zhaobiao.cn/img/topmenu/down.png" width="11" class="down">
+                        <div class="more_div">
+                            <img src="https://res.zhaobiao.cn/img/topmenu/more_img.png">
+                            <ul class="fn-clear">
+                                <li><a href="https://help.zhaobiao.cn/helpn/help_huiyuanfuwu.html" title="服务列表"
+                                       target="_blank" id="a_top_help">服务列表</a>
+                                </li>
+                                <li><a href="https://help.zhaobiao.cn/helpn/help_fufei.html" title="付费方式"
+                                       target="_blank">付费方式</a></li>
+                                <li><a href="https://help.zhaobiao.cn/" title="帮助中心" target="_blank">帮助中心</a></li>
+                                <li><a href="https://help.zhaobiao.cn/helpn/help_shiyongbangzhu.html"
+                                       title="使用帮助" target="_blank">使用帮助</a></li>
+                                <li><a href="https://help.zhaobiao.cn/helpn/help_about.html" title="关于我们"
+                                       target="_blank" rel="nofollow">关于我们</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div></div>
+
+<input type="hidden" name="isLogin" id="isLogin" value="false"/>
+<div class="container" style="margin: 150px auto 66px auto">
+    <!--        <th:block th:if="${isTest=='1'}">-->
+    <!--            <p th:text="${isLogin?'已登录':'未登录'}"></p>-->
+    <!--        </th:block>-->
+
+    <div class="logo"></div>
+    <form name="SearchForm" id="SearchForm" action="/s" method="post">
+        <div class="enter" style="height: 36px">
+            <input type="hidden" name="searchtype" value="sj"/>
+            <input type="button" id="nsearch" class="enter-into" value=""
+                   onclick="searchFun(document.SearchForm,'queryword');"/>
+            <input type="text" id="queryword" name="queryword" class="enter-txt" placeholder="搜索商机信息"
+                   autocomplete="off" onBlur="closeSearchHistory()" oninput="listenInputValue(this)"/>
+        </div>
+        <div class="hotsearch">
+            <span>热门搜索：</span>
+            <a href="https://s.zhaobiao.cn/search_q_1005_qs_h_s_01_pro_0_f_03_d_02_p_1.html"
+               title="建筑材料 建材">建筑材料</a><a href="https://s.zhaobiao.cn/search_q_1009_qs_h_s_01_pro_0_f_03_d_02_p_1.html"
+               title="换热制冷">换热制冷</a><a href="https://s.zhaobiao.cn/search_q_1004_qs_h_s_01_pro_0_f_03_d_02_p_1.html"
+               title="弱电">弱电</a><a href="https://s.zhaobiao.cn/search_q_1006_qs_h_s_01_pro_0_f_03_d_02_p_1.html"
+               title="(园林 景观 绿化)+工程">园林景观绿化</a><a href="https://s.zhaobiao.cn/search_q_1003_qs_h_s_01_pro_0_f_03_d_02_p_1.html"
+               title="工程服务">工程服务</a><a href="https://s.zhaobiao.cn/search_q_1002_qs_h_s_01_pro_0_f_03_d_02_p_1.html"
+               title="工程+施工">工程施工</a><a href="https://s.zhaobiao.cn/search_q_1000_qs_h_s_01_pro_0_f_03_d_02_p_1.html"
+               title="施工准备">施工准备</a><a href="https://s.zhaobiao.cn/search_q_1007_qs_h_s_01_pro_0_f_03_d_02_p_1.html"
+               title="通用机械">通用机械</a><a href="https://s.zhaobiao.cn/search_q_1001_qs_h_s_01_pro_0_f_03_d_02_p_1.html"
+               title="(装饰 装修 装潢)+工程">装饰装修</a><a href="https://s.zhaobiao.cn/search_q_1008_qs_h_s_01_pro_0_f_03_d_02_p_1.html"
+               title="阀门">阀门</a>
+        </div>
+    </form>
+    <!-- 搜索联想下拉框 -->
+    <div class="my_search_mh"></div>
+</div>
+
+
+<div class="clearfix"></div>
+<div class="box">
+    <div class="bid_left">
+        <h1 class="search_tit"><span><i class="hot_i"></i>行业热搜</span><a onclick="refreshTrade()">
+            <i class="iconfont">&#xe725;</i>换一批</a></h1>
+        <div class="specific dt" id="hotSearchDiv">
+            <div>
+                <ul>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_1501_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="体育设施">体育设施</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_15010001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="保龄球馆" target="_blank">保龄球馆</a><a href="https://s.zhaobiao.cn/search_q_15010002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="塑胶跑道" target="_blank">塑胶跑道</a><a href="https://s.zhaobiao.cn/search_q_15010003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="体育场" target="_blank">体育场</a><a href="https://s.zhaobiao.cn/search_q_15010004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="体育馆" target="_blank">体育馆</a><a href="https://s.zhaobiao.cn/search_q_15010005_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="游泳池" target="_blank">游泳池</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_0605_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="灌溉">灌溉</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_06050001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="滴灌" target="_blank">滴灌</a><a href="https://s.zhaobiao.cn/search_q_06050002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="干渠" target="_blank">干渠</a><a href="https://s.zhaobiao.cn/search_q_06050003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="节水灌溉" target="_blank">节水灌溉</a><a href="https://s.zhaobiao.cn/search_q_06050004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="农村饮水" target="_blank">农村饮水</a><a href="https://s.zhaobiao.cn/search_q_06050005_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="农田水利" target="_blank">农田水利</a><a href="https://s.zhaobiao.cn/search_q_06050006_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="喷灌" target="_blank">喷灌</a><a href="https://s.zhaobiao.cn/search_q_06050007_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="支渠" target="_blank">支渠</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_0401_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="公路设施">公路设施</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_04010004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="公路机械设备" target="_blank">公路机械设备</a><a href="https://s.zhaobiao.cn/search_q_04010011_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="收费站" target="_blank">收费站</a><a href="https://s.zhaobiao.cn/search_q_04010002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="高速公路" target="_blank">高速公路</a><a href="https://s.zhaobiao.cn/search_q_04010008_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="路面养护" target="_blank">路面养护</a><a href="https://s.zhaobiao.cn/search_q_04010003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="公路工程" target="_blank">公路工程</a><a href="https://s.zhaobiao.cn/search_q_04010006_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="护坡" target="_blank">护坡</a><a href="https://s.zhaobiao.cn/search_q_04010009_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="桥梁" target="_blank">桥梁</a><a href="https://s.zhaobiao.cn/search_q_04010007_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="沥青材料" target="_blank">沥青材料</a><a href="https://s.zhaobiao.cn/search_q_04010001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="防水材料" target="_blank">防水材料</a><a href="https://s.zhaobiao.cn/search_q_04010005_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="公路运输" target="_blank">公路运输</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_0307_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="计生设备">计生设备</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_03070001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="艾滋病检测" target="_blank">艾滋病检测</a><a href="https://s.zhaobiao.cn/search_q_03070002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="安全套" target="_blank">安全套</a><a href="https://s.zhaobiao.cn/search_q_03070003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="避孕药具" target="_blank">避孕药具</a><a href="https://s.zhaobiao.cn/search_q_03070004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="妇科检查床" target="_blank">妇科检查床</a><a href="https://s.zhaobiao.cn/search_q_03070005_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="腹腔镜" target="_blank">腹腔镜</a><a href="https://s.zhaobiao.cn/search_q_03070006_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="宫腔镜" target="_blank">宫腔镜</a><a href="https://s.zhaobiao.cn/search_q_03070007_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="宫腔手术仪" target="_blank">宫腔手术仪</a><a href="https://s.zhaobiao.cn/search_q_03070008_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="人流设备" target="_blank">人流设备</a><a href="https://s.zhaobiao.cn/search_q_03070009_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="乳腺诊断仪" target="_blank">乳腺诊断仪</a><a href="https://s.zhaobiao.cn/search_q_03070010_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="阴道镜" target="_blank">阴道镜</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_1304_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="采油">采油</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_13040001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="DCS" target="_blank">DCS</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_0606_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="除虫">除虫</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_06060001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="白僵菌" target="_blank">白僵菌</a><a href="https://s.zhaobiao.cn/search_q_06060002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="白蚁" target="_blank">白蚁</a><a href="https://s.zhaobiao.cn/search_q_06060003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="除四害" target="_blank">除四害</a><a href="https://s.zhaobiao.cn/search_q_06060004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="动物疫病" target="_blank">动物疫病</a><a href="https://s.zhaobiao.cn/search_q_06060005_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="灭鼠" target="_blank">灭鼠</a><a href="https://s.zhaobiao.cn/search_q_06060006_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="农药" target="_blank">农药</a><a href="https://s.zhaobiao.cn/search_q_06060007_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="杀菌灭藻剂" target="_blank">杀菌灭藻剂</a><a href="https://s.zhaobiao.cn/search_q_06060008_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="引诱剂" target="_blank">引诱剂</a><a href="https://s.zhaobiao.cn/search_q_06060009_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="粘虫板" target="_blank">粘虫板</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_1303_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="炼油">炼油</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_13030001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="催化裂化" target="_blank">催化裂化</a><a href="https://s.zhaobiao.cn/search_q_13030002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="干气脱硫" target="_blank">干气脱硫</a><a href="https://s.zhaobiao.cn/search_q_13030003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="加氢裂化" target="_blank">加氢裂化</a><a href="https://s.zhaobiao.cn/search_q_13030004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="造粒机" target="_blank">造粒机</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_1601_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="知名品牌">知名品牌</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_16010035_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="现代领翔" target="_blank">现代领翔</a><a href="https://s.zhaobiao.cn/search_q_16010004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="比亚迪" target="_blank">比亚迪</a><a href="https://s.zhaobiao.cn/search_q_16010016_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="捷达" target="_blank">捷达</a><a href="https://s.zhaobiao.cn/search_q_16010012_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="阁瑞斯" target="_blank">阁瑞斯</a><a href="https://s.zhaobiao.cn/search_q_16010027_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="三菱" target="_blank">三菱</a><a href="https://s.zhaobiao.cn/search_q_16010010_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="福瑞达" target="_blank">福瑞达</a><a href="https://s.zhaobiao.cn/search_q_16010034_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="夏利" target="_blank">夏利</a><a href="https://s.zhaobiao.cn/search_q_16010019_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="朗逸" target="_blank">朗逸</a><a href="https://s.zhaobiao.cn/search_q_16010039_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="中华尊驰" target="_blank">中华尊驰</a><a href="https://s.zhaobiao.cn/search_q_16010008_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="丰田大霸王" target="_blank">丰田大霸王</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_1504_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="文化器材">文化器材</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_15040001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="乐器" target="_blank">乐器</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_1002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="锻冶设备">锻冶设备</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_10020001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="锻机" target="_blank">锻机</a><a href="https://s.zhaobiao.cn/search_q_10020002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="连铸机" target="_blank">连铸机</a><a href="https://s.zhaobiao.cn/search_q_10020003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="炼钢" target="_blank">炼钢</a><a href="https://s.zhaobiao.cn/search_q_10020004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="炼焦" target="_blank">炼焦</a><a href="https://s.zhaobiao.cn/search_q_10020005_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="落砂机" target="_blank">落砂机</a><a href="https://s.zhaobiao.cn/search_q_10020006_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="喷丸机" target="_blank">喷丸机</a><a href="https://s.zhaobiao.cn/search_q_10020007_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="造型机" target="_blank">造型机</a><a href="https://s.zhaobiao.cn/search_q_10020008_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="轧机" target="_blank">轧机</a><a href="https://s.zhaobiao.cn/search_q_10020009_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="铸铁机" target="_blank">铸铁机</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_0201_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="通用机械">通用机械</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_02010001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="工业内窥镜" target="_blank">工业内窥镜</a><a href="https://s.zhaobiao.cn/search_q_02010002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="锅炉" target="_blank">锅炉</a><a href="https://s.zhaobiao.cn/search_q_02010003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="空气炮" target="_blank">空气炮</a><a href="https://s.zhaobiao.cn/search_q_02010004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="压力容器" target="_blank">压力容器</a><a href="https://s.zhaobiao.cn/search_q_02010005_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="钻机" target="_blank">钻机</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_0308_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="救护车">救护车</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_03080001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="体检车" target="_blank">体检车</a><a href="https://s.zhaobiao.cn/search_q_03080002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="献血车" target="_blank">献血车</a><a href="https://s.zhaobiao.cn/search_q_03080003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="医疗车" target="_blank">医疗车</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_1403_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="图书">图书</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_14030001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="教材" target="_blank">教材</a><a href="https://s.zhaobiao.cn/search_q_14030002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="期刊" target="_blank">期刊</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_2001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="办公设备">办公设备</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_20010001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="办公自动化" target="_blank">办公自动化</a><a href="https://s.zhaobiao.cn/search_q_20010002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="传真机" target="_blank">传真机</a><a href="https://s.zhaobiao.cn/search_q_20010003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="打印机" target="_blank">打印机</a><a href="https://s.zhaobiao.cn/search_q_20010004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="碎纸机" target="_blank">碎纸机</a><a href="https://s.zhaobiao.cn/search_q_20010005_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="投影机" target="_blank">投影机</a><a href="https://s.zhaobiao.cn/search_q_20010006_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="扫描仪" target="_blank">扫描仪</a><a href="https://s.zhaobiao.cn/search_q_20010007_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="复印机" target="_blank">复印机</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_0101_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="施工准备">施工准备</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_01010001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="三通一平" target="_blank">三通一平</a><a href="https://s.zhaobiao.cn/search_q_01010002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="土地整理" target="_blank">土地整理</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_0604_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="大棚">大棚</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_06040001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="PE热收缩膜" target="_blank">PE热收缩膜</a><a href="https://s.zhaobiao.cn/search_q_06040002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="地膜" target="_blank">地膜</a><a href="https://s.zhaobiao.cn/search_q_06040003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="农膜" target="_blank">农膜</a><a href="https://s.zhaobiao.cn/search_q_06040004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="棚膜" target="_blank">棚膜</a><a href="https://s.zhaobiao.cn/search_q_06040005_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="收缩膜" target="_blank">收缩膜</a><a href="https://s.zhaobiao.cn/search_q_06040006_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="蔬菜大棚" target="_blank">蔬菜大棚</a><a href="https://s.zhaobiao.cn/search_q_06040007_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="温室" target="_blank">温室</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_0106_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="建筑材料">建筑材料</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_01060014_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="座椅" target="_blank">座椅</a><a href="https://s.zhaobiao.cn/search_q_01060013_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="土工格栅" target="_blank">土工格栅</a><a href="https://s.zhaobiao.cn/search_q_01060008_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="木构件" target="_blank">木构件</a><a href="https://s.zhaobiao.cn/search_q_01060003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="管材" target="_blank">管材</a><a href="https://s.zhaobiao.cn/search_q_01060010_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="涂料" target="_blank">涂料</a><a href="https://s.zhaobiao.cn/search_q_01060009_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="水泥" target="_blank">水泥</a><a href="https://s.zhaobiao.cn/search_q_01060005_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="建筑钢材" target="_blank">建筑钢材</a><a href="https://s.zhaobiao.cn/search_q_01060007_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="门窗" target="_blank">门窗</a><a href="https://s.zhaobiao.cn/search_q_01060012_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="土工材料" target="_blank">土工材料</a><a href="https://s.zhaobiao.cn/search_q_01060004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="混凝土构件" target="_blank">混凝土构件</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_1402_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="教学仪器">教学仪器</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_14020001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="科研仪器" target="_blank">科研仪器</a><a href="https://s.zhaobiao.cn/search_q_14020002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="实验仪器" target="_blank">实验仪器</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_0504_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="输电设备">输电设备</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_05040001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="电缆" target="_blank">电缆</a><a href="https://s.zhaobiao.cn/search_q_05040002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="绝缘子" target="_blank">绝缘子</a><a href="https://s.zhaobiao.cn/search_q_05040003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="铁塔" target="_blank">铁塔</a>
+                        
+                    </li>
+                    <li>
+                        <span><a
+                                href="https://s.zhaobiao.cn/search_q_0205_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                                title="通风换气">通风换气</a></span>
+                        
+                            <a href="https://s.zhaobiao.cn/search_q_02050001_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="风机" target="_blank">风机</a><a href="https://s.zhaobiao.cn/search_q_02050002_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="空气处理" target="_blank">空气处理</a><a href="https://s.zhaobiao.cn/search_q_02050003_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="空气幕" target="_blank">空气幕</a><a href="https://s.zhaobiao.cn/search_q_02050004_qs_b_s_01_pro_0_f_03_d_02_p_1.html"
+                               title="排风换气" target="_blank">排风换气</a>
+                        
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="bid_right">
+        <div><div class="bid_right_public fn-clear">
+<p class="ztb_hot_bt">推荐招标<img src="/img/bid/right_msg_new.png" class="s_new_img"></p>
+<a href="https://zb.zhaobiao.cn" target="_blank">
+<img src="/img/bid/tabber_botton_more.png" class="bid_more" title="更多">
+</a>
+<div class="clear"></div>
+<ul class="share_ul">
+<li><span></span><a href="https://zb.zhaobiao.cn/property_v_ac2c35e354a1f283d2181de0418a4aec.html" title="聊城市东昌府区公园首府5-6号连体楼租赁权交易公告" target="_blank">聊城市东昌府区公园首府5-6号连体楼租赁权交易公告</a></li>
+<li><span></span><a href="https://zb.zhaobiao.cn/bidding_v_a95d00fde72d5eb2fac892e8a98d3e0b.html" title="聚丙烯酰胺鑫丰矿业[ZB-26.07.28-0021]" target="_blank">聚丙烯酰胺鑫丰矿业[ZB-26.07.28-0021]</a></li>
+<li><span></span><a href="https://zb.zhaobiao.cn/succeed_v_7db2d5814aa2effd193b221f67403945.html" title="20260417/太平岭、陆丰、徐圩、白龙金属软管/打捆采购结果公示" target="_blank">20260417/太平岭、陆丰、徐圩、白龙金属软管/打捆采购结果公示</a></li>
+<li><span></span><a href="https://zb.zhaobiao.cn/succeed_v_4e90cf91df8dd2d702671cfb277c8065.html" title="挥发性有机物出让排污权交易结果公告（2026年第644号）" target="_blank">挥发性有机物出让排污权交易结果公告（2026年第644号）</a></li>
+<li><span></span><a href="https://zb.zhaobiao.cn/succeed_v_8a29d22becd5177945c91ca87243e6e9.html" title="业务用车采购成交结果公告" target="_blank">业务用车采购成交结果公告</a></li>
+<li><span></span><a href="https://zb.zhaobiao.cn/change_v_e81a1f5ba6bfcb694935b31eb3b4ad6a.html" title="中油测井吉林分公司2026-2027年保安服务业务外包招标项目招标方案-2招标/采购异常" target="_blank">中油测井吉林分公司2026-2027年保安服务业务外包招标项目招标方案-2招标/采购异常</a></li>
+<li><span></span><a href="https://zb.zhaobiao.cn/bidding_v_695fbea461310a62310422caf6db841d.html" title="电气箱转接固定座(经济型)详图:FV820000-E" target="_blank">电气箱转接固定座(经济型)详图:FV820000-E</a></li>
+<li><span></span><a href="https://zb.zhaobiao.cn/epro_v_309d8b33bbaf587896f4be3759ab16da.html" title="SP4(L)-热电部（9003279144）两费计划询比采购[干粉灭火器,二氧化碳灭火器,水基型灭火器]" target="_blank">SP4(L)-热电部（9003279144）两费计划询比采购[干粉灭火器,二氧化碳灭火器,水基型灭火器]</a></li>
+<li><span></span><a href="https://zb.zhaobiao.cn/bidding_v_0358e9564ab8c0f39ad723e819b7de64.html" title="踏板#1详图:766FC400" target="_blank">踏板#1详图:766FC400</a></li>
+<li><span></span><a href="https://zb.zhaobiao.cn/other_v_45c101a29a6b233471ac901de75b6224.html" title="株洲市芦淞区教育局关于技术测试和分析服务的网上超市采购项目合同履约验收公告[2701101000023743800]" target="_blank">株洲市芦淞区教育局关于技术测试和分析服务的网上超市采购项目合同履约验收公告[2701101000023743800]</a></li>
+</ul>
+</div>
+</div>
+        <div><div class="bid_right_public fn-clear">
+<p class="ztb_hot_bt">推荐项目<img src="/img/bid/right_msg_new.png" class="s_new_img"></p>
+<a href="https://xm.zhaobiao.cn" target="_blank">
+<img src="/img/bid/tabber_botton_more.png" class="bid_more" title="更多">
+</a>
+<div class="clear"></div>
+<ul class="share_ul">
+<li><span></span><a href="https://xm.zhaobiao.cn/approved_v_5d587dbc07b269b966cdf84746aca468_o.html" title="萧山区杭州钱龙食品有限公司170kW分布式光伏发电项目" target="_blank">萧山区杭州钱龙食品有限公司170kW分布式光伏发电项目</a></li>
+<li><span></span><a href="https://xm.zhaobiao.cn/approved_v_e72d6ed5b512b552aff27a41adef6323_o.html" title="上海市规划和自然资源局国有土地划拨用地批前公示(查询ID:30389600)" target="_blank">上海市规划和自然资源局国有土地划拨用地批前公示(查询ID:30389600)</a></li>
+<li><span></span><a href="https://xm.zhaobiao.cn/approved_v_f2f11b4a2063ee8df02b70e8a2b4635e_o.html" title="北京睿昇集成电路关键零部件研发制造基地项目（零部件车间等16项）" target="_blank">北京睿昇集成电路关键零部件研发制造基地项目（零部件车间等16项）</a></li>
+<li><span></span><a href="https://xm.zhaobiao.cn/approved_v_bce426d1fb422ebd1a6497290126f070_o.html" title="年产2000万套装潢管生产项目" target="_blank">年产2000万套装潢管生产项目</a></li>
+<li><span></span><a href="https://xm.zhaobiao.cn/approved_v_51b8a45a33917fb2db75c974659fcf29_o.html" title="丽水南城SG-01地块（丽水绿谷未来社区）项目" target="_blank">丽水南城SG-01地块（丽水绿谷未来社区）项目</a></li>
+<li><span></span><a href="https://xm.zhaobiao.cn/approved_v_b00c9a748b82c8f306c5fdd3c5c62aa8_o.html" title="贵阳市云岩区自然资源局国有土地划拨用地批前公示" target="_blank">贵阳市云岩区自然资源局国有土地划拨用地批前公示</a></li>
+<li><span></span><a href="https://xm.zhaobiao.cn/approved_v_5e280bd0d7470e425db236012201683f_o.html" title="北京轨道交通22号线（平谷线）工程" target="_blank">北京轨道交通22号线（平谷线）工程</a></li>
+<li><span></span><a href="https://xm.zhaobiao.cn/approved_v_06badf36c26d1cde2536195a181dbf35_o.html" title="高端CNC精度控制领域的国产化替代与产业化落地" target="_blank">高端CNC精度控制领域的国产化替代与产业化落地</a></li>
+<li><span></span><a href="https://xm.zhaobiao.cn/approved_v_830572631d44b29ab363b99d6b0eb575_o.html" title="海淀区温泉镇中关村温泉科技园三期项目周边城市支路道路及市政管线工程-画眉山西路再生水工程" target="_blank">海淀区温泉镇中关村温泉科技园三期项目周边城市支路道路及市政管线工程-画眉山西路再生水工程</a></li>
+<li><span></span><a href="https://xm.zhaobiao.cn/approved_v_debf87704d937ba36e757731085108b9_o.html" title="余杭区杭州茯泰新能源有限责任公司仁和街道永泰村（陈凯凯、徐建华）56kW非自然人户用分布式光伏发电项目（第48批）" target="_blank">余杭区杭州茯泰新能源有限责任公司仁和街道永泰村（陈凯凯、徐建华）56kW非自然人户用分布式光伏发电项目（第48批）</a></li>
+</ul>
+</div>
+</div>
+    </div>
+</div>
+<div class="k"></div>
+<div class="k"></div>
+
+<!-- 页脚 -->
+<div><link rel="stylesheet" href="https://res.zhaobiao.cn/css/footer.css"/>
+    <div class="footer" >
+        <hr class="footer-hr">
+        <ul class="footer-nav">
+            <li><a title="关于招标网" href="https://help.zhaobiao.cn/helpn/help_about.html" target="_blank">关于我们</a></li>
+            <li><span>|</span></li>
+            <li><a title="招标网成功案例" href="https://help.zhaobiao.cn/helpn/help_about_cgal.html" target="_blank">成功案例</a></li>
+            <li><span>|</span></li>
+            <li><a title="招标网知名客户" href="https://help.zhaobiao.cn/helpn/help_about_zmkh.html" target="_blank">知名客户</a></li>
+            <li><span>|</span></li>
+            <li><a title="诚征代理" href="https://help.zhaobiao.cn/helpn/help_about_czdl.html" target="_blank">诚征代理</a></li>
+            <li><span>|</span></li>
+            <li><a title="诚聘英才" href="https://help.zhaobiao.cn/helpn/help_about_cpyc.html" target="_blank">诚聘英才</a></li>
+            <li><span>|</span></li>
+            <li><a title="广告服务" href="https://gg.zhaobiao.cn" target="_blank">广告服务</a></li>
+            <li><span>|</span></li>
+            <li><a title="友情链接" href="https://www.zhaobiao.cn/help/yqlj.jsp" target="_blank">友情链接</a></li>
+            <li><span>|</span></li>
+            <li><a title="招标网帮助中心" href="https://help.zhaobiao.cn" target="_blank">帮助中心</a></li>
+            <li><span>|</span></li>
+            <li><a title="招标网网站地图" href="https://help.zhaobiao.cn/helpn/sitemap.html" target="_blank">网站地图</a></li>
+        </ul>
+        <div class="copyright-code">
+            <img src="https://res.zhaobiao.cn/img/footer/app_code.jpg">
+            <img src="https://res.zhaobiao.cn/img/footer/99900.png">
+        </div>
+        <div class="copyright-box">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow">京ICP备12000126号-6</a>
+            <a><img src="https://res.zhaobiao.cn/img/footer/guohui_icon.png" style="height: 18px"></a>
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802024928" style="color: #999;" target="_blank" rel="nofollow"> 京公网安备11010802024928<br></a>
+            版权信息 Copyright © 2005-2026 <a title="北京中招国联科技有限公司" href="https://www.zhaobiao.cn" target="_blank">北京中招国联科技有限公司</a><br>
+            <a target="cyxyv" href="https://v.yunaq.com/certificate?domain=www.zhaobiao.cn&amp;from=label&amp;code=90030"><img src="https://aqyzmedia.yunaq.com/labels/label_lg_90030.png"></a>
+            <a id="_pingansec_bottomimagesmall_brand" href="http://si.trustutn.org/info?sn=504170831030213924877&amp;certType=1" target="_blank" rel="nofollow">
+                <img src="https://v.trustutn.org/images/cert/brand_bottom_small.jpg">
+            </a>
+        </div>
+        <div class="clear"></div>
+        <script src="https://res.zhaobiao.cn/js/public/push.js" ></script>
+        <script src="https://res.zhaobiao.cn/js/public/statistic.js"></script>
+    </div>
+    <!--通用页脚结束--></div>
+
+<script>
+    $(function () {
+        $("#queryword").bind('input', function () {
+            let keywords = $("#queryword").val();
+            var isLoginSelf = $('#isLogin').val();
+            // keywords不能为空 且 已登录 且 keywords全部为中文
+            if (keywords != null && keywords != '' && keywords.length > 0 && isLoginSelf == 'true' && /^[\u4e00-\u9fa5]+$/.test(keywords)) {
+                showMySearchWindow(keywords)
+            }
+        });
+
+        // 复制当前内容(搜索联想)
+        $(document).on("click", ".my_search_mh_ul li", function () {
+            //选择赋值input框
+            $("#queryword").val($(this).find('p').text())
+            // 执行顶部搜索
+            searchFun(document.SearchForm, 'queryword');
+        });
+
+        // 复制当前内容(搜索联想)
+        $(document).on("click", ".related_num", function () {
+            let queryword = $("#queryword").val()
+            // 跳转企业搜索
+            window.location.href = "/s?searchtype=qy&queryword=" + encodeURI(queryword)
+        });
+
+    })
+
+    // 顶部搜索栏 输入内容为空时 隐藏搜索联想
+    function listenInputValue(val) {
+        if (val.value.length == 0) {
+            $(".my_search_mh").hide()
+        }
+    }
+
+    function closeSearchHistory() {
+        let timer = setTimeout(function () {
+            $(".my_search_mh").hide()
+        }, 200);
+    }
+</script>
+
+<script>
+    /*<![CDATA[*/
+    function refreshTrade() {
+        $.ajax({
+            type: 'get',
+            url: '/search/index/refreshTrade',
+            dataType: "json",
+            success: function (data) {
+                var protocol = "https:\/\/";
+                var dname = "zhaobiao.cn";
+                var tempHtml = "";
+                $(data).each(function (index) {
+                    var item = data[index];
+                    var list = item.list;
+                    tempHtml += "<li><span><a href=\"" + protocol + "s." + dname + "/search_q_" + item.code + "_qs_b_s_01_pro_0_f_03_d_02_p_1.html\" title=" + item.name + ">" + item.name + "</a></span>"
+                    $(list).each(function (index2) {
+                        var item2 = list[index2];
+                        tempHtml += " <a href=\"" + protocol + "s." + dname + "/search_q_" + item2.code + "_qs_b_s_01_pro_0_f_03_d_02_p_1.html\" title=" + item2.name + " target=\"_blank\">" + item2.name + "</a>"
+                    });
+                    tempHtml += "</li>";
+                });
+                $("#hotSearchDiv").html("<div><ul>" + tempHtml + "</ul></div>");
+            }
+        });
+    }
+
+    /*]]>*/
+</script>
+</body>
+
+</html>

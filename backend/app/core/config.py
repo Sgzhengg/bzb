@@ -19,7 +19,7 @@ except ImportError:
 class Settings:
     """应用配置（支持环境变量覆盖）"""
 
-    PROJECT_NAME: str = os.getenv("BZB_PROJECT_NAME", "标中宝 - 全国移动招标情报系统")
+    PROJECT_NAME: str = os.getenv("BZB_PROJECT_NAME", "标中宝 - 招标情报系统")
     VERSION: str = os.getenv("BZB_VERSION", "2.0.0")
     DEBUG: bool = os.getenv("BZB_DEBUG", "false").lower() == "true"
 
