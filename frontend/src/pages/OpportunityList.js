@@ -252,7 +252,6 @@ function OpportunityList() {
       province: filterProvince || undefined,           // V2 新增
       city: filterCity || undefined,                   // V2 新增
       project_category: filterCategory || undefined,
-      industry_type: "运营商",
       procurement_method: filterMethod || undefined,
       collected_from: collectedFrom ? collectedFrom.format("YYYY-MM-DD") : undefined,
       collected_to: collectedTo ? collectedTo.format("YYYY-MM-DD") : undefined,
@@ -761,6 +760,10 @@ function OpportunityList() {
               <Select.Option value="b2b_10086">📶 中国移动</Select.Option>
               <Select.Option value="telecom">📡 中国电信</Select.Option>
               <Select.Option value="unicom">📞 中国联通</Select.Option>
+            </Select.OptGroup>
+            <Select.OptGroup label="🏛️ 政府单位">
+              <Select.Option value="all_gov">🏛️ 全部政府单位</Select.Option>
+              <Select.Option value="ccgp">🏛️ 中国政府采购网</Select.Option>
             </Select.OptGroup>
           </Select>
         </div>

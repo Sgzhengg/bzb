@@ -40,7 +40,7 @@ data_collector:
 
     # ═══ 银行 ═══
     bank:
-      enabled: true
+      enabled: false   # 银行适配器尚未就绪
       category: bank
       module: "adapters.bank_adapter"
       class_name: "BankAdapter"

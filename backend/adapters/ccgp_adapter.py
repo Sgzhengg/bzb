@@ -330,13 +330,13 @@ class CcgpAdapter(BaseAdapter):
                                     pass
 
                             record = self._normalize_record(parsed)
-                            if record.get("is_ad") or record.get("is_target", False):
+                            if record.get("is_ad"):
                                 all_results.append(record)
                                 self.logger.info(f"  ✅ [{record.get('industry_type','')}/{record.get('project_category','')}] {record['title'][:50]}")
                             else:
                                 self.logger.debug(f"  ⏭️ 跳过: {record['title'][:50]}")
 
-                            if save_to_db and (record.get("is_ad") or record.get("is_target", False)):
+                            if save_to_db and record.get("is_ad"):
                                 self._save_to_db(record)
 
                         except Exception as e:
