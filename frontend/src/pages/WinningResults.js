@@ -282,10 +282,6 @@ function WinningResults() {
               <Select.Option value="telecom">📡 中国电信</Select.Option>
               <Select.Option value="unicom">📞 中国联通</Select.Option>
             </Select.OptGroup>
-            <Select.OptGroup label="🏛️ 政府单位">
-              <Select.Option value="all_gov">🏛️ 全部政府单位</Select.Option>
-              <Select.Option value="ccgp">🏛️ 中国政府采购网</Select.Option>
-            </Select.OptGroup>
           </Select>
         </div>
 
@@ -325,18 +321,17 @@ function WinningResults() {
           onClick={() => {
             const province = selectedProvinces.join(",");
             const isAllOp = selectedAdapter === "all_op";
-            const isAllGov = selectedAdapter === "all_gov";
-            const adapter = isAllOp || isAllGov ? "all" : selectedAdapter;
-            const category = isAllOp ? "operator" : isAllGov ? "government" : "";
+            const adapter = isAllOp ? "all" : selectedAdapter;
+            const category = isAllOp ? "operator" : "";
             const dateFrom = fetchDateRange?.[0]?.format("YYYY-MM-DD") || "";
             const dateTo = fetchDateRange?.[1]?.format("YYYY-MM-DD") || "";
             const dateDesc = dateFrom ? ` (${dateFrom}~${dateTo || "至今"})` : "";
-            const desc = `${isAllOp ? "全部运营商" : isAllGov ? "全部政府单位" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : selectedAdapter === "unicom" ? "联通" : "ccgp"} × ${province || "全国"}${dateDesc}`;
+            const desc = `${isAllOp ? "全部运营商" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : selectedAdapter === "unicom" ? "联通" : ""} × ${province || "全国"}${dateDesc}`;
             message.info(`开始采集: ${desc}`);
             startFetch(province, adapter, dateFrom, dateTo, category);
           }}
         >
-          开始采集（{selectedAdapter === "all_op" ? "全部运营商" : selectedAdapter === "all_gov" ? "全部政府单位" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : selectedAdapter === "unicom" ? "联通" : selectedAdapter === "ccgp" ? "中国政府采购网" : ""}
+          开始采集（{selectedAdapter === "all_op" ? "全部运营商" : selectedAdapter === "b2b_10086" ? "移动" : selectedAdapter === "telecom" ? "电信" : selectedAdapter === "unicom" ? "联通" : ""}
           {selectedProvinces.length > 0 ? ` × ${selectedProvinces.join("、")}` : " × 全国"}）
         </Button>
       </Modal>

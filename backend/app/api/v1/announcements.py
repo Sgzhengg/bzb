@@ -674,8 +674,8 @@ async def fetch_announcements(
     background_tasks: BackgroundTasks,
     province: Optional[str] = Query(None, description="目标省份: 广东、广西等；为空则不限省份"),
     city: Optional[str] = Query(None, description="目标城市: 广州、深圳等"),
-    adapter: Optional[str] = Query(None, description="指定适配器: b2b_10086(移动)/telecom(电信)/unicom(联通)/ccgp(政府)/bank(银行)/all(全部)"),
-    category: Optional[str] = Query(None, description="分类: operator(运营商)/government(政府单位)，仅 adapter=all 时生效"),
+    adapter: Optional[str] = Query(None, description="指定适配器: b2b_10086(移动)/telecom(电信)/unicom(联通)/all(全部运营商)"),
+    category: Optional[str] = Query(None, description="分类: operator(运营商)，仅 adapter=all 时生效"),
     date_from: Optional[str] = Query(None, description="采集日期起 (YYYY-MM-DD)，仅采集该日期后的公告"),
     date_to: Optional[str] = Query(None, description="采集日期止 (YYYY-MM-DD)，仅采集该日期前的公告"),
 ):
