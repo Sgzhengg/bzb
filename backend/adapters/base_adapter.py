@@ -234,8 +234,15 @@ class BaseAdapter(ABC):
                 self.logger.warning(f"  意见征集判别异常: {e}")
             if keep:
                 self.logger.info(f"  📋 意见征集保留(招标前兆): {title[:50]}")
+                # 业务类别走行业分类器（意见征集类本身不是业务类别）
+                try:
+                    from app.services.industry_classifier import classify_industry_and_category
+                    ind_result = classify_industry_and_category(title, content, self.source_key)
+                    proj_cat = ind_result.get("project_category", "") or "其他采购"
+                except Exception:
+                    proj_cat = "其他采购"
                 return self._build_final_record(title, content, raw,
-                    is_target=True, project_category="意见征求",
+                    is_target=True, project_category=proj_cat,
                     industry_type="运营商")
             self.logger.info(f"  ⏭️ 意见征集与招标无关跳过: {title[:50]}")
             return self._make_skip_record(title, content, raw, "意见征求-无关")
