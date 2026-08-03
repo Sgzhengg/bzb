@@ -104,6 +104,7 @@ class B2b10086Adapter(BaseAdapter):
         seen = set()
 
         for kw in keywords:
+            # publishType 仅支持 PROCUREMENT/PURCHASE_SERVICE（意见征集经 publishOneType 子字段区分）
             for ptype in ["PROCUREMENT", "PURCHASE_SERVICE"]:
                 try:
                     self._random_delay()
