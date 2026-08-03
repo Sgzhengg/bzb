@@ -313,6 +313,10 @@ async def export_favorites(
     project_category: Optional[str] = Query(None, description="项目类别"),
     procurement_method: Optional[str] = Query(None, description="采购方式"),
     province: Optional[str] = Query(None, description="省份"),
+    city: Optional[str] = Query(None, description="城市"),
+    data_source: Optional[str] = Query(None, description="数据来源: b2b_10086(移动)/telecom(电信)/unicom(联通)"),
+    collected_from: Optional[str] = Query(None, description="公告日期起 (YYYY-MM-DD)"),
+    collected_to: Optional[str] = Query(None, description="公告日期止 (YYYY-MM-DD)"),
     search: Optional[str] = Query(None, description="搜索关键词"),
     db: AsyncSession = Depends(get_db),
 ):
@@ -330,6 +334,16 @@ async def export_favorites(
         & ~Announcement.title.ilike("%中标%")
         & ~Announcement.title.ilike("%候选人%")
         & ~Announcement.title.ilike("%成交结果%")
+    )
+    # 与列表页保持一致：过滤直接采购公告（单一来源成交结果，非招标机会）
+    query = query.where(
+        ~Announcement.title.ilike("%直接采购信息公告%")
+        & ~Announcement.title.ilike("%直接采购需求公示%")
+        & ~Announcement.title.ilike("%直接采购公示%")
+    )
+    # 与列表页保持一致：过滤信息核查公告（供应商资质预审，非实际招标）
+    query = query.where(
+        ~Announcement.title.ilike("%信息核查%")
     )
     if favorites_only:
         query = query.where(Announcement.is_favorited == True)
@@ -351,6 +365,14 @@ async def export_favorites(
         query = query.where(Announcement.procurement_method == procurement_method)
     if province:
         query = query.where(Announcement.province == province)
+    if city:
+        query = query.where(Announcement.city == city)
+    if data_source:
+        query = query.where(Announcement.data_source == data_source)
+    if collected_from:
+        query = query.where(Announcement.announce_date >= collected_from)
+    if collected_to:
+        query = query.where(Announcement.announce_date <= collected_to)
     if budget_min is not None:
         query = query.where((Announcement.budget >= budget_min) | (Announcement.budget == None))
     if budget_max is not None:

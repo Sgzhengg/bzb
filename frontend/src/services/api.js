@@ -231,6 +231,10 @@ export function exportFavoritesUrl(favoritesOnly = false, filters = {}) {
   if (filters.project_category) params.set("project_category", filters.project_category);
   if (filters.procurement_method) params.set("procurement_method", filters.procurement_method);
   if (filters.province) params.set("province", filters.province);
+  if (filters.city) params.set("city", filters.city);
+  if (filters.data_source) params.set("data_source", filters.data_source);
+  if (filters.collected_from) params.set("collected_from", filters.collected_from);
+  if (filters.collected_to) params.set("collected_to", filters.collected_to);
   if (filters.search) params.set("search", filters.search);
   const qs = params.toString();
   return absolute + "/announcements/favorites/export" + (qs ? "?" + qs : "");

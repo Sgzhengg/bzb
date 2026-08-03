@@ -967,6 +967,10 @@ function OpportunityList() {
                   project_category: filterCategory || undefined,
                   procurement_method: filterMethod || undefined,
                   province: filterProvince || undefined,
+                  city: filterCity || undefined,
+                  data_source: filterDataSource || undefined,
+                  collected_from: collectedFrom ? collectedFrom.format("YYYY-MM-DD") : undefined,
+                  collected_to: collectedTo ? collectedTo.format("YYYY-MM-DD") : undefined,
                   search: searchText || undefined,
                 };
                 window.open(exportFavoritesUrl(false, filters), '_blank');
