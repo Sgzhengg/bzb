@@ -502,8 +502,16 @@ class BaseAdapter(ABC):
         self.close()
         return all_results
 
+    # 最小公告日期保护：早于此日期的过期公告不入库（防止历史旧公告混入）
+    MIN_ANNOUNCE_DATE = "2025-01-01"  # 可通过 config 覆盖
+
     def _save_to_db(self, record: Dict):
         """将记录保存到数据库（同步版本，线程安全，短超时）。"""
+        # 过期公告保护：announce_date 早于门槛则跳过
+        _ad = record.get("announce_date") or ""
+        if _ad and _ad < self.MIN_ANNOUNCE_DATE:
+            self.logger.debug(f"  ⏭️ 过期公告跳过({_ad}): {record.get('title', '')[:40]}")
+            return
         try:
             import sqlite3
             import os
