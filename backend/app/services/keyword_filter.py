@@ -379,12 +379,32 @@ _is_gd_mobile_purchaser = _is_mobile_purchaser
 
 
 def _identify_category(title: str, content: str = "") -> str:
-    """按 CATEGORY_RULES 顺序匹配，首个命中即返回对应赛道。"""
+    """按 CATEGORY_RULES 顺序匹配，首个命中即返回对应赛道。
+
+    优先仅用标题匹配（标题含完整项目名，最可靠）；标题未命中时
+    才用标题+正文兜底，避免正文模板语（如"通信工程""发布公告的媒介"）干扰。
+    """
+    title = title or ""
+    content = content or ""
+
+    def _match(text: str) -> str:
+        for rule in CATEGORY_RULES:
+            if _match_keywords(text, rule["keywords"]):
+                return rule["category"]
+        return ""
+
+    # 第一轮：仅标题
+    cat = _match(title)
+    if cat:
+        return cat
+
+    # 第二轮：标题+正文兜底（正文参与可能引入模板语误匹配，但优于全部漏掉）
     combined = f"{title} {content}"
-    for rule in CATEGORY_RULES:
-        if _match_keywords(combined, rule["keywords"]):
-            return rule["category"]
-    return DEFAULT_CATEGORY
+    # 排除正文模板语命中（公告标准模板中常见但与业务无关的词）
+    BOILERPLATE = ["发布公告的媒介", "中国移动通信工程", "招标公告的媒介"]
+    for bp in BOILERPLATE:
+        combined = combined.replace(bp, "")
+    return _match(combined) or DEFAULT_CATEGORY
 
 
 # ── 广告暗示短词（用于采购单位+地域匹配时的辅助判断）──

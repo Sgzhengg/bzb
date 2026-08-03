@@ -137,31 +137,40 @@ def classify_category(title: str, content: str = "", industry: str = "") -> str:
     if not rules:
         return DEFAULT_CATEGORY
 
-    combined = f"{title} {content}"
-
     # ── 排除标准模板语中的误匹配 ──
     # "发布公告的媒介" 是招标公告的标准模板语，不应匹配到 "媒介资源投放"
     BOILERPLATE_PATTERNS = [
         ("媒介", "发布公告的媒介"),
+        ("通信工程", "中国移动通信工程"),
+        ("建设工程", "招标公告"),
     ]
 
-    for rule in rules:
-        for kw in rule["keywords"]:
-            if kw in combined:
-                # 检查是否为模板语误匹配
-                is_boilerplate = False
-                for kw_check, pattern in BOILERPLATE_PATTERNS:
-                    if kw == kw_check and pattern in combined:
-                        # 确认该关键词出现的位置是否在模板语上下文中
-                        idx = combined.find(kw)
-                        pattern_idx = combined.find(pattern)
-                        if pattern_idx != -1 and abs(idx - pattern_idx) < 30:
-                            is_boilerplate = True
-                            break
-                if not is_boilerplate:
-                    return rule["category"]
+    def _match(text: str) -> str:
+        for rule in rules:
+            for kw in rule["keywords"]:
+                if kw in text:
+                    # 检查是否为模板语误匹配
+                    is_boilerplate = False
+                    for kw_check, pattern in BOILERPLATE_PATTERNS:
+                        if kw == kw_check and pattern in text:
+                            # 确认该关键词出现的位置是否在模板语上下文中
+                            idx = text.find(kw)
+                            pattern_idx = text.find(pattern)
+                            if pattern_idx != -1 and abs(idx - pattern_idx) < 30:
+                                is_boilerplate = True
+                                break
+                    if not is_boilerplate:
+                        return rule["category"]
+        return ""
 
-    return DEFAULT_CATEGORY
+    # 第一轮：仅标题（最可靠，含完整项目名）
+    cat = _match(title or "")
+    if cat:
+        return cat
+
+    # 第二轮：标题+正文兜底（正文可能引入模板语，但优于全部漏掉）
+    combined = f"{title} {content}"
+    return _match(combined) or DEFAULT_CATEGORY
 
 
 def classify_industry_and_category(
