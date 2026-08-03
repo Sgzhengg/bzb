@@ -653,9 +653,23 @@ async def get_ai_summary(
         logger.warning(f"公告 #{announcement_id} AI摘要生成失败（LLM不可用）")
         return {"id": announcement_id, "ai_summary": None, "cached": False, "error": "LLM不可用"}
 
-    # 存入数据库
+    # 存入数据库（带重试：采集任务可能占用写锁）
+    import asyncio as _asyncio
+    from sqlalchemy.exc import OperationalError as _OpErr
     ann.ai_summary = summary
-    await db.commit()
+    for _attempt in range(5):
+        try:
+            await db.commit()
+            break
+        except _OpErr as _e:
+            if "locked" not in str(_e).lower():
+                raise
+            logger.warning(f"公告 #{announcement_id} 写入被锁，重试 {_attempt+1}/5")
+            await db.rollback()
+            await _asyncio.sleep(1.5 * (_attempt + 1))
+    else:
+        logger.error(f"公告 #{announcement_id} 写入仍被锁，放弃持久化（返回内存结果）")
+        return {"id": announcement_id, "ai_summary": summary, "cached": False, "persisted": False}
     await db.refresh(ann)
 
     return {"id": announcement_id, "ai_summary": summary, "cached": False}

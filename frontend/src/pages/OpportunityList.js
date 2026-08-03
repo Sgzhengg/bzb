@@ -57,6 +57,14 @@ const NOTICE_TYPE_OPTIONS = [
   { value: "bidding", label: "招标公告" },
 ];
 
+// 运营商（数据来源）筛选
+const DATA_SOURCE_OPTIONS = [
+  { value: "", label: "全部运营商" },
+  { value: "b2b_10086", label: "📶 中国移动" },
+  { value: "telecom", label: "📡 中国电信" },
+  { value: "unicom", label: "📞 中国联通" },
+];
+
 // V2 新增：省份选项（重点省份 + 全部）
 const PROVINCE_OPTIONS = [
   { value: "", label: "全部省份" },
@@ -126,6 +134,7 @@ function OpportunityList() {
   const [filterCategory, setFilterCategory] = useState("");
   const [filterMethod, setFilterMethod] = useState("");
   const [filterNoticeType, setFilterNoticeType] = useState(""); // 公告类型筛选
+  const [filterDataSource, setFilterDataSource] = useState(""); // 运营商(数据来源)筛选
   const [collectedFrom, setCollectedFrom] = useState(null);       // 采集时间起
   const [collectedTo, setCollectedTo] = useState(null);           // 采集时间止
   const [budgetRange, setBudgetRange] = useState([0, 1000]);
@@ -243,7 +252,7 @@ function OpportunityList() {
   // 筛选变更时回到第1页
   useEffect(() => {
     setCurrentPage(1);
-  }, [filterNoticeType, filterCategory, filterMethod, searchText, collectedFrom, collectedTo]);
+  }, [filterNoticeType, filterCategory, filterMethod, filterDataSource, searchText, collectedFrom, collectedTo]);
 
   // 构建查询参数
   const params = useMemo(() => {
@@ -260,13 +269,14 @@ function OpportunityList() {
       search: searchText || undefined,
       favorites_only: showFavorites || undefined,
       notice_type: filterNoticeType || undefined,
+      data_source: filterDataSource || undefined,
       page: currentPage,
       page_size: pageSize,
     };
     // 清除 undefined 值
     Object.keys(result).forEach(k => result[k] === undefined && delete result[k]);
     return result;
-  }, [filterProvince, filterCity, filterCategory, filterMethod, filterNoticeType, budgetRange, searchText, showFavorites, currentPage, pageSize, collectedFrom, collectedTo]);
+  }, [filterProvince, filterCity, filterCategory, filterMethod, filterNoticeType, filterDataSource, budgetRange, searchText, showFavorites, currentPage, pageSize, collectedFrom, collectedTo]);
 
   // 打开采集弹窗时，自动从主筛选栏预填充省份
   const openFetchModal = () => {
@@ -613,6 +623,16 @@ function OpportunityList() {
               options={NOTICE_TYPE_OPTIONS}
               style={{ width: "100%" }}
               placeholder="公告类型"
+            />
+          </Col>
+          <Col xs={12} sm={6} md={3}>
+            <Select
+              value={filterDataSource}
+              onChange={setFilterDataSource}
+              options={DATA_SOURCE_OPTIONS}
+              style={{ width: "100%" }}
+              placeholder="运营商"
+              allowClear
             />
           </Col>
           <Col xs={24} sm={12} md={5}>
