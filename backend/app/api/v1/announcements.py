@@ -139,11 +139,7 @@ async def list_announcements(
     conditions.append(
         ~Announcement.title.ilike("%信息核查%")
     )
-    # 过滤技术规范/评分表征求意见（非招标机会）
-    conditions.append(
-        ~Announcement.title.ilike("%技术规范书%")
-        & ~Announcement.title.ilike("%技术评分表%")
-    )
+    # 意见征集类不过滤：是招标前兆信号，由前端 notice_type=opinion/bidding 筛选控制
 
     # V3 全品类：移除广告专属排除词，改用 industry_type + project_category 筛选
 

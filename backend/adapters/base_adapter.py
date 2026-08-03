@@ -86,7 +86,7 @@ class BaseAdapter(ABC):
             db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "biaozhongbao.db")
             if not os.path.exists(db_path):
                 return set()
-            conn = sqlite3.connect(db_path, timeout=5)
+            conn = sqlite3.connect(db_path, timeout=30)
             cur = conn.execute("SELECT title FROM announcements")
             titles = {row[0] for row in cur.fetchall()}
             conn.close()
@@ -212,8 +212,33 @@ class BaseAdapter(ABC):
         SKIP_KEYWORDS = ["中选候选人", "中选结果", "中选人", "中标候选人", "中标结果", "中标人", "成交候选人", "成交结果"]
         if any(kw in title for kw in SKIP_KEYWORDS):
             return self._make_skip_record(title, content, raw, "中标公示")
-        if "意见征求" in title or "技术规范书" in title or "技术评分表" in title:
-            return self._make_skip_record(title, content, raw, "意见征求")
+
+        # ── 意见征集/技术规范征求意见类：招标前兆信号 ──
+        # 用 LLM 判别正文是否指向真实招标机会：是→保留，否→跳过
+        opinion_keywords = [
+            "意见征求", "征求意见", "意见征询", "征集意见", "征询公告",
+            "技术征询", "技术规范书", "技术评分表", "评审办法", "评分细则",
+            "技术标准", "文件意见", "意见的公示", "意见的公告", "意见反馈",
+        ]
+        if any(kw in title for kw in opinion_keywords):
+            keep = True  # LLM 不可用时保守保留
+            try:
+                from app.services.llm_summarizer import judge_opinion_value
+            except ImportError:
+                from services.llm_summarizer import judge_opinion_value
+            try:
+                v = judge_opinion_value(title, content)
+                if v is not None:
+                    keep = v
+            except Exception as e:
+                self.logger.warning(f"  意见征集判别异常: {e}")
+            if keep:
+                self.logger.info(f"  📋 意见征集保留(招标前兆): {title[:50]}")
+                return self._build_final_record(title, content, raw,
+                    is_target=True, project_category="意见征求",
+                    industry_type="运营商")
+            self.logger.info(f"  ⏭️ 意见征集与招标无关跳过: {title[:50]}")
+            return self._make_skip_record(title, content, raw, "意见征求-无关")
 
         # ── 行业分类器 ──
         try:
@@ -483,7 +508,7 @@ class BaseAdapter(ABC):
             import sqlite3
             import os
             db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "biaozhongbao.db")
-            conn = sqlite3.connect(db_path, timeout=3)
+            conn = sqlite3.connect(db_path, timeout=30)
             conn.execute("PRAGMA journal_mode=WAL")
             
             cur = conn.execute("SELECT id FROM announcements WHERE title = ? LIMIT 1", (record["title"],))

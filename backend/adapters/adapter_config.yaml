@@ -177,8 +177,8 @@ gd_ygp:
 b2b_10086:
   name: "中国移动采购与招标网"
   base_url: "https://b2b.10086.cn"
-  min_delay: 60.0
-  max_delay: 90.0
+  min_delay: 2.0
+  max_delay: 4.0
   max_retries: 3
   timeout: 30
   max_pages: 3

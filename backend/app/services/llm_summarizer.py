@@ -257,6 +257,71 @@ def _parse_response(text: str) -> Optional[Dict[str, Any]]:
 # 对外接口
 # ============================================================
 
+OPINION_JUDGE_SYSTEM_PROMPT = """你是招标情报分析师。用户会给你一条"征求意见公告"（正式招标前发布的征集意见稿），请判断该公告是否预示后续会发布真实招标机会。
+
+判断依据（任一满足即判为"是"）：
+1. 公告提到具体的采购内容、采购人或项目范围
+2. 公告提到预算、投标、报名、应答等招标流程要素
+3. 标题或正文包含项目名称且属于采购/服务/工程类
+
+判为"否"的情况：
+1. 纯技术咨询、标准讨论，无采购实体
+2. 公告只是例行公示，内容为空泛模板
+3. 与采购完全无关的通知
+
+只输出 JSON：{"is_tender_lead": true或false, "reason": "一句话理由"}"""
+
+
+def judge_opinion_value(title: str, content: str) -> Optional[bool]:
+    """
+    判断征求意见公告是否指向真实招标机会（招标前兆）。
+    返回 True/False；LLM 不可用或调用失败时返回 None（调用方自行决定）。
+    用于采集时区分"有价值的招标前兆"与"无关意见征询"。
+    """
+    if not settings.LLM_API_KEY or not settings.LLM_ENABLED:
+        logger.debug("LLM 未配置，跳过意见征集判别")
+        return None
+    if not content or len(content.strip()) < 30:
+        content = title
+
+    user_prompt = f"标题：{title}\n\n正文（截取）：\n{content[:1500]}"
+    try:
+        import asyncio
+        async def _call():
+            async with httpx.AsyncClient(timeout=30) as client:
+                resp = await client.post(
+                    f"{settings.LLM_API_BASE}/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {settings.LLM_API_KEY}",
+                        "Content-Type": "application/json",
+                    },
+                    json={
+                        "model": settings.LLM_MODEL,
+                        "messages": [
+                            {"role": "system", "content": OPINION_JUDGE_SYSTEM_PROMPT},
+                            {"role": "user", "content": user_prompt},
+                        ],
+                        "temperature": 0.1,
+                        "max_tokens": 200,
+                        "response_format": {"type": "json_object"},
+                    },
+                )
+                resp.raise_for_status()
+                return resp.json()["choices"][0]["message"]["content"]
+        text = asyncio.run(_call())
+        if not text:
+            return None
+        data = json.loads(text)
+        v = data.get("is_tender_lead")
+        if isinstance(v, bool):
+            return v
+        # 兼容字符串
+        return str(v).lower() in ("true", "1", "yes", "是", "会")
+    except Exception as e:
+        logger.warning(f"意见征集判别失败: {e}")
+        return None
+
+
 def generate_summary(title: str, content: str) -> Optional[Dict[str, Any]]:
     """
     同步接口：生成公告智能摘要 + 资格预审分析。

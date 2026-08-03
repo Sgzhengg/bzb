@@ -85,6 +85,10 @@ class B2b10086Adapter(BaseAdapter):
                 headers={
                     "Content-Type": "application/json",
                     "User-Agent": self._next_ua(),
+                    # 必须带 Referer/Origin，否则 API 返回空数据
+                    "Referer": f"{self.BASE_URL}/",
+                    "Origin": self.BASE_URL,
+                    "Accept": "application/json, text/plain, */*",
                 },
             )
         return self._client
@@ -290,11 +294,25 @@ class B2b10086Adapter(BaseAdapter):
                 notice_content = detail.get("noticeContent", "")
 
                 if notice_content:
+                    # 1) base64 PDF
                     try:
                         pdf_bytes = base64.b64decode(notice_content)
-                        return detail.get("name", ""), pdf_bytes
+                        # 校验魔数 %PDF，防止把 HTML 误当 PDF 解码
+                        if pdf_bytes[:4] == b"%PDF":
+                            return detail.get("name", ""), pdf_bytes
                     except Exception:
                         pass
+                    # 2) HTML 正文：直接提取纯文本返回（str）
+                    if notice_content.strip().startswith("<"):
+                        try:
+                            from bs4 import BeautifulSoup
+                            soup = BeautifulSoup(notice_content, "html.parser")
+                            text = soup.get_text("\n", strip=True)
+                            if text:
+                                self.logger.info(f"  HTML 正文: {len(text)} 字符")
+                                return detail.get("name", ""), text
+                        except Exception:
+                            pass
 
                 return detail.get("name", "") or "", None
 
@@ -314,19 +332,24 @@ class B2b10086Adapter(BaseAdapter):
         content_text = ""
 
         if pdf_bytes:
-            try:
-                import fitz
-                doc = fitz.open(stream=pdf_bytes, filetype="pdf")
-                pages = []
-                for pn in range(len(doc)):
-                    t = doc[pn].get_text()
-                    if t.strip():
-                        pages.append(t)
-                doc.close()
-                content_text = "\n".join(pages)
-                self.logger.info(f"  PDF 解码: {len(content_text)} 字符")
-            except Exception as e:
-                self.logger.warning(f"  PDF 解码失败: {e}")
+            if isinstance(pdf_bytes, str):
+                # HTML 提取的纯文本直接使用
+                content_text = pdf_bytes
+                self.logger.info(f"  HTML 正文: {len(content_text)} 字符")
+            else:
+                try:
+                    import fitz
+                    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+                    pages = []
+                    for pn in range(len(doc)):
+                        t = doc[pn].get_text()
+                        if t.strip():
+                            pages.append(t)
+                    doc.close()
+                    content_text = "\n".join(pages)
+                    self.logger.info(f"  PDF 解码: {len(content_text)} 字符")
+                except Exception as e:
+                    self.logger.warning(f"  PDF 解码失败: {e}")
 
         if not content_text:
             content_text = title

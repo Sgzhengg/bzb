@@ -11,7 +11,7 @@ _is_sqlite = settings.DATABASE_URL.startswith("sqlite")
 
 _engine_kwargs = dict(
     echo=False,
-    connect_args={"check_same_thread": False} if _is_sqlite else {},
+    connect_args={"check_same_thread": False, "timeout": 30} if _is_sqlite else {},
 )
 if not _is_sqlite:
     _engine_kwargs.update(pool_size=10, max_overflow=20)
