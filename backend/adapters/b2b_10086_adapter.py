@@ -469,18 +469,50 @@ class B2b10086Adapter(BaseAdapter):
         return m.group(1) if m else ""
 
     def _extract_budget_regex(self, content: str) -> Optional[float]:
-        patterns = [
-            r"采购?预算[总]?[金额]?[约]?[：:为]?\s*(\d+(?:\.\d+)?)\s*万",
-            r"项目预算[：:]?\s*(\d+(?:\.\d+)?)\s*万",
-            r"预算金额[：:]?\s*(\d+(?:\.\d+)?)\s*万",
-            r"采购?总?金?额[：:]?\s*(\d+(?:\.\d+)?)\s*万",
-            r"最高限价[：:]?\s*(\d+(?:\.\d+)?)\s*万",
-            r"估算金额[：:]?\s*(\d+(?:\.\d+)?)\s*万",
+        """从公告正文提取预算金额（万元）。支持万/元两种单位、表格式布局。"""
+        # ── 万元单位 ──
+        patterns_wan = [
+            r"采购?预算[总]?[金额]?[约]?[：:为]?\s*(\d[\d,.]*)\s*万",
+            r"项目预算[：:]?\s*(\d[\d,.]*)\s*万",
+            r"预算金额[：:]?\s*(\d[\d,.]*)\s*万",
+            r"采购?总?金?额[：:]?\s*(\d[\d,.]*)\s*万",
+            r"最高限价[：:]?\s*(\d[\d,.]*)\s*万",
+            r"估算金额[：:]?\s*(\d[\d,.]*)\s*万",
+            r"含税[总]?预算[：:]?\s*(\d[\d,.]*)\s*万",
         ]
-        for pat in patterns:
+        for pat in patterns_wan:
             m = re.search(pat, content)
             if m:
-                return float(m.group(1))
+                return float(m.group(1).replace(",", ""))
+
+        # ── 元单位（需转换为万元）──
+        patterns_yuan = [
+            r"预算不含税[：:为]?\s*[¥￥]?\s*(\d[\d,.]*)\s*元",
+            r"(?:不含税|含税)?预算[总]?[金额]?[：:为]?\s*[¥￥]?\s*(\d[\d,.]*)\s*元",
+            r"总价限价[：:为]?\s*[¥￥]?\s*(\d[\d,.]*)\s*元",
+            r"项目预算[：:为]?\s*(?:不含税|含税)?[¥￥]?\s*(\d[\d,.]*)\s*元",
+            r"预算[总]?(?:不含税|含税)?[：:为]?\s*[¥￥]?\s*(\d[\d,.]*)\s*元",
+            r"不含税预算[总]?(?:价|金额)?[）)]?\s*[：:为]?\s*[¥￥]?\s*(\d[\d,.]*)\s*元",
+            r"含税预算[总]?(?:价|金额)?[）)]?\s*[：:为]?\s*[¥￥]?\s*(\d[\d,.]*)\s*元",
+            r"最高限价[：:为]?\s*[¥￥]?\s*(\d[\d,.]*)\s*元",
+            r"控制价[：:为]?\s*[¥￥]?\s*(\d[\d,.]*)\s*元",
+        ]
+        for pat in patterns_yuan:
+            m = re.search(pat, content)
+            if m:
+                val = float(m.group(1).replace(",", ""))
+                if val > 10000:
+                    return round(val / 10000, 2)
+                return val  # 小于1万的保留原值
+
+        # ── 表格式：不含税预算（元）\n 金额 ──
+        m = re.search(r"不含税预算[总]?(?:价|金额)?[（(]?元[)）]?\s*[\n\r]+\s*[¥￥]?\s*(\d[\d,.]*)", content)
+        if m:
+            val = float(m.group(1).replace(",", ""))
+            if val > 10000:
+                return round(val / 10000, 2)
+            return val
+
         return None
 
     def _extract_reg_fee(self, content: str) -> Optional[float]:

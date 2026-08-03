@@ -69,3 +69,4 @@ frontend/*.jpg
 *.jpg
 frontend/test-results/
 frontend/tests/
+*.db-shm

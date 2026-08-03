@@ -198,66 +198,60 @@ class BaseAdapter(ABC):
         """
         ...
 
-    # ── 标准化映射 ──
+    # ── 标准化映射（V4: 仅运营商招标，统一分类流程）──
 
     def _normalize_record(self, raw: Dict) -> Dict:
-        """将适配器原始字段映射为系统标准 announcements 表结构。V3: 支持多行业。"""
+        """将适配器原始字段映射为系统标准 announcements 表结构。"""
         import sys, os
         sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
         title = raw.get("title", "")
         content = raw.get("content_text", "")
 
-        # ── V3: 行业分类器（新增）──
+        # ── 跳过关键词 ──
+        SKIP_KEYWORDS = ["中选候选人", "中选结果", "中选人", "中标候选人", "中标结果", "中标人", "成交候选人", "成交结果"]
+        if any(kw in title for kw in SKIP_KEYWORDS):
+            return self._make_skip_record(title, content, raw, "中标公示")
+        if "意见征求" in title or "技术规范书" in title or "技术评分表" in title:
+            return self._make_skip_record(title, content, raw, "意见征求")
+
+        # ── 行业分类器 ──
         try:
             from app.services.industry_classifier import classify_industry_and_category
         except ImportError:
             from services.industry_classifier import classify_industry_and_category
 
-        # ── Step 1 粗筛：关键词预过滤 ──
+        # ── 关键词预过滤 ──
         try:
             from app.services.keyword_filter import filter_advertisement_projects, _is_mobile_purchaser
         except ImportError:
             from services.keyword_filter import filter_advertisement_projects, _is_mobile_purchaser
 
-        is_operator_source = self.source_key in ("b2b_10086", "telecom", "unicom")
-
-        # ── V3: 非运营商来源，直接用行业分类器判定 ──
-        if not is_operator_source:
-            ind_result = classify_industry_and_category(title, content, self.source_key)
-            # 只跳过明确无用的（中标公示、意见征求）
-            winning_keywords = ["中选候选人", "中选结果", "中选人", "中标候选人", "中标结果", "中标人", "成交候选人", "成交结果"]
-            if any(kw in title for kw in winning_keywords):
-                return self._make_skip_record(title, content, raw, "中标公示")
-            if "意见征求" in title or "技术规范书" in title or "技术评分表" in title:
-                return self._make_skip_record(title, content, raw, "意见征求")
-
-            self.logger.info(
-                f"  ✅ [{ind_result['industry_type']}/{ind_result['project_category']}] {title[:50]}"
-            )
-            return self._build_final_record(title, content, raw, 
-                is_target=True, project_category=ind_result["project_category"],
-                industry_type=ind_result["industry_type"])
-
-        # ── 运营商来源：保留原有广告过滤逻辑 ──
+        # ── 第一步：关键词粗筛 → 判断是否广告类 ──
         kw_result = filter_advertisement_projects(title, content)
+
         if not kw_result["is_ad"] or not _is_mobile_purchaser(title):
-            # 不是广告，尝试用行业分类器判定是否为运营商的非广告项目
+            # 非广告项目 → 行业分类器判定 + LLM 辅助提取预算/日期
             ind_result = classify_industry_and_category(title, content, self.source_key)
             if ind_result["industry_type"] == "运营商":
-                winning_keywords = ["中选候选人", "中选结果", "中标候选人", "中标结果", "成交候选人", "成交结果"]
-                if any(kw in title for kw in winning_keywords):
-                    return self._make_skip_record(title, content, raw, "中标公示")
-                if "意见征求" in title or "技术规范书" in title:
-                    return self._make_skip_record(title, content, raw, "意见征求")
+                # 尝试 LLM 提取预算和日期
+                budget = raw.get("budget")
+                deadline = raw.get("deadline", "")
+                bid_date = raw.get("bid_date")
+                procurement_method = raw.get("procurement_method", "公开招标")
+                budget, deadline, bid_date, procurement_method = self._try_llm_extract(
+                    title, content, raw, budget, deadline, bid_date, procurement_method)
                 self.logger.info(
                     f"  ✅ [运营商/{ind_result['project_category']}] {title[:50]}"
                 )
                 return self._build_final_record(title, content, raw,
                     is_target=True, project_category=ind_result["project_category"],
-                    industry_type="运营商")
-            # 完全无关
+                    industry_type="运营商",
+                    procurement_method=procurement_method,
+                    budget=budget, deadline=deadline, bid_date=bid_date)
             return self._make_skip_record(title, content, raw, "非目标")
+
+        # ── 第二步：广告类项目 → LLM 精细分类 + 字段提取 ──
 
         # 中标公示跳过
         winning_keywords = ["中选候选人", "中选结果", "中选人", "中标候选人", "中标结果", "中标人", "成交候选人", "成交结果"]
@@ -284,13 +278,23 @@ class BaseAdapter(ABC):
             unified = classify_and_extract(title, content)
 
             is_ad = unified.get("is_ad", False)
-            category = unified.get("category", "")
+            llm_category = unified.get("category", "")
 
             # LLM 未配置或返回 is_ad=False 时，回退到关键词过滤器的结果
             if not is_ad:
                 is_ad = kw_result.get("is_ad", False)
-                category = kw_result.get("category", category)
-                self.logger.debug(f"  LLM未确认，回退关键词: [{category}] {title[:50]}")
+                llm_category = kw_result.get("category", llm_category)
+                self.logger.debug(f"  LLM未确认，回退关键词: [{llm_category}] {title[:50]}")
+
+            # LLM 有结果时优先使用
+            if llm_category and llm_category != "其他营销类":
+                category = llm_category
+            # 否则尝试 industry_classifier 获取更精确的赛道
+            elif category == "其他营销类":
+                ind_result = classify_industry_and_category(title, content, self.source_key)
+                if ind_result["project_category"] != "其他采购":
+                    category = ind_result["project_category"]
+                    self.logger.info(f"  🔄 keyword→industry_classifier: [{category}] {title[:50]}")
 
             if is_ad:
                 # LLM 提取的值优先
@@ -375,6 +379,25 @@ class BaseAdapter(ABC):
         }
 
     # ── 主流程 ──
+
+    def _try_llm_extract(self, title: str, content: str, raw: Dict,
+                          budget, deadline: str, bid_date, procurement_method: str):
+        """尝试通过 LLM 提取预算、日期等字段。原地修改传入的变量。"""
+        try:
+            from app.services.llm_classifier import classify_and_extract
+            unified = classify_and_extract(title, content)
+
+            if unified.get("budget"):
+                budget = unified["budget"]
+            if unified.get("deadline"):
+                deadline = unified["deadline"]
+            if unified.get("bid_date"):
+                bid_date = unified["bid_date"]
+            if unified.get("procurement_method"):
+                procurement_method = unified["procurement_method"]
+        except Exception:
+            pass  # LLM 不可用时静默跳过
+        return budget, deadline, bid_date, procurement_method
 
     def run(self, save_to_db: bool = True, **kwargs) -> List[Dict]:
         """

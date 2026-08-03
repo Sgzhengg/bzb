@@ -104,7 +104,25 @@ async def _classify_award(title: str, content: str = "", data_source: str = "") 
         logger.warning(f"LLM step failed, using keyword result: {e}")
         is_ad, category, budget = True, "", None
 
-    # ── Step 3: LLM 折扣率提取（从PDF正文中提取中标折扣率/金额）──
+    # ── Step 3: 非广告项目 → industry_classifier 兜底 ──
+    if not is_ad or not category:
+        try:
+            def _step3():
+                try:
+                    from app.services.industry_classifier import classify_industry_and_category
+                except ImportError:
+                    from services.industry_classifier import classify_industry_and_category
+                return classify_industry_and_category(title, content, data_source)
+            ind_result = await asyncio.to_thread(_step3)
+            cat = ind_result.get("project_category", "")
+            if cat and cat != "其他采购":
+                category = cat
+                is_ad = True  # 有具体类别就入库
+                logger.info(f"  🔄 industry_classifier: [{cat}] {title[:50]}")
+        except Exception as e:
+            logger.warning(f"industry_classifier fallback failed: {e}")
+
+    # ── Step 4: LLM 折扣率提取（从PDF正文中提取中标折扣率/金额）──
     discount_rate = None
     if content and len(content) > 100:
         try:
@@ -264,13 +282,20 @@ async def _import_to_db(backend_dir: str, adapter: str, province: str = "") -> i
             try:
                 classify_result = await _classify_award(title, item.get("original_content", ""), data_source)
                 if not classify_result.get("is_ad"):
-                    logger.info(f"  ⏭️ 二步法判定非广告: {title[:60]}")
-                    continue
+                    # 非广告项目也有类别（industry_classifier 已处理），继续入库
+                    llm_category = classify_result.get("category", "")
+                    if llm_category:
+                        project_category = llm_category
+                        logger.info(f"  ✅ 非广告类 [{project_category}]: {title[:60]}")
+                    else:
+                        logger.info(f"  ⏭️ 无法分类，跳过: {title[:60]}")
+                        continue
                 # LLM category 覆盖关键词猜测（但仅当LLM类别为广告类赛道时）
                 llm_category = classify_result.get("category", "")
                 AD_CATEGORIES = {"广告类", "广告创意设计", "物料制作印刷", "活动策划执行",
-                    "品牌宣传传播", "视频内容制作", "新媒体运营类", "媒介投放类",
-                    "渠道营销类", "渠道营销推广", "内容制作类", "创意设计类", "其他"}
+                    "品牌宣传传播", "视频内容制作", "新媒体运营", "新媒体运营类", "媒介资源投放", "媒介投放类",
+                    "渠道营销推广", "渠道营销类", "内容制作类", "创意设计类", "其他",
+                    "通信工程建设", "ICT系统集成", "设备采购", "网络维护代维", "行政物业", "设计勘察"}
                 if llm_category in AD_CATEGORIES:
                     project_category = llm_category
                 # LLM discount_rate
@@ -338,45 +363,28 @@ def _extract_winner_from_title(title: str) -> str:
 
 
 def _guess_category(title: str) -> str:
-    """根据标题推测项目类别。"""
+    """根据标题推测项目类别（与 announcements 表对齐）。"""
     category_map = {
-        "广告": "广告类",
-        "活动": "活动会展类",
-        "渠道": "渠道营销类",
-        "触点": "渠道营销类",
-        "新媒体": "新媒体运营类",
-        "运营": "新媒体运营类",
-        "内容": "内容制作类",
-        "制作": "内容制作类",
-        "设计": "创意设计类",
-        "投放": "媒介投放类",
-        "媒介": "媒介投放类",
-        "品牌": "品牌策略类",
-        "策略": "品牌策略类",
-        "传播": "政企传播类",
-        "政企": "政企传播类",
-        "IT": "IT信息化",
-        "信息化": "IT信息化",
-        "软件": "IT信息化",
-        "系统": "IT信息化",
-        "网络": "网络建设",
-        "基站": "网络建设",
-        "设备": "设备采购",
-        "采购": "设备采购",
-        "工程": "工程建设",
-        "施工": "工程建设",
-        "维护": "运维服务",
-        "维保": "运维服务",
-        "物业": "物业服务",
-        "保安": "物业服务",
-        "保洁": "物业服务",
-        "咨询": "咨询服务",
-        "监理": "咨询服务",
+        "广告": "广告创意设计", "创意设计": "广告创意设计", "全案策划": "广告创意设计",
+        "物料": "物料制作印刷", "喷绘": "物料制作印刷", "印刷": "物料制作印刷",
+        "活动策划": "活动策划执行", "活动执行": "活动策划执行", "发布会": "活动策划执行", "路演": "活动策划执行", "展会": "活动策划执行",
+        "品牌宣传": "品牌宣传传播", "品牌推广": "品牌宣传传播", "品牌传播": "品牌宣传传播", "宣传": "品牌宣传传播",
+        "视频制作": "视频内容制作", "宣传片": "视频内容制作", "短视频": "视频内容制作",
+        "新媒体": "新媒体运营", "公众号": "新媒体运营", "抖音": "新媒体运营", "直播": "新媒体运营",
+        "媒介": "媒介资源投放", "投放": "媒介资源投放", "户外广告": "媒介资源投放", "电梯广告": "媒介资源投放",
+        "渠道营销": "渠道营销推广", "地推": "渠道营销推广", "网格": "渠道营销推广", "触点": "渠道营销推广",
+        "基站": "通信工程建设", "机房": "通信工程建设", "光缆": "通信工程建设", "铁塔": "通信工程建设", "管线": "通信工程建设", "土建": "通信工程建设", "通信工程": "通信工程建设", "施工": "通信工程建设",
+        "系统集成": "ICT系统集成", "ICT": "ICT系统集成", "软件开发": "ICT系统集成", "平台": "ICT系统集成", "大数据": "ICT系统集成", "云计算": "ICT系统集成", "软硬件": "ICT系统集成",
+        "服务器": "设备采购", "交换机": "设备采购", "路由器": "设备采购", "设备采购": "设备采购", "终端": "设备采购",
+        "网络维护": "网络维护代维", "代维": "网络维护代维", "运维": "网络维护代维", "维保": "网络维护代维", "网络优化": "网络维护代维", "网络安全": "网络维护代维",
+        "物业": "行政物业", "保安": "行政物业", "保洁": "行政物业", "食堂": "行政物业", "消防": "行政物业", "快递": "行政物业", "速递": "行政物业",
+        "勘察": "设计勘察", "可行性研究": "设计勘察", "规划": "设计勘察",
+        "制作": "视频内容制作", "设计": "广告创意设计",
     }
     for kw, cat in category_map.items():
         if kw in title:
             return cat
-    return "其他"
+    return "其他采购"
 
 
 @router.get("", summary="获取中标结果列表")
