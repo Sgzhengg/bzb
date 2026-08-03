@@ -32,6 +32,29 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/announcements", tags=["招标公告"])
 
+# ── 业务类别粗分类 → 具体类别集合（与前端 CATEGORY_BY_INDUSTRY 对应） ──
+CATEGORY_MAPPING = {
+    "广告": ["广告", "媒介资源投放", "品牌宣传传播", "物料制作印刷", "视频内容制作",
+             "活动策划执行", "新媒体运营", "渠道营销推广", "广告创意策划传播",
+             "广告宣传策划及品牌活动执行"],
+    "工程": ["通信工程建设", "设计勘察", "土建"],
+    "维护": ["网络维护代维", "维护"],
+    "ICT": ["ICT系统集成", "软件开发", "云"],
+    "设备": ["设备采购"],
+    "物业": ["行政物业", "食堂", "物业"],
+}
+
+def _apply_project_category_filter(conditions, category: str):
+    """业务类别过滤：粗分类映射为具体类别集合(IN)，否则模糊匹配。"""
+    if not category:
+        return
+    mapped = CATEGORY_MAPPING.get(category)
+    if mapped:
+        or_conds = [Announcement.project_category.ilike(f"%{c}%") for c in mapped]
+        conditions.append(or_(*or_conds))
+    else:
+        conditions.append(Announcement.project_category.ilike(f"%{category}%"))
+
 # ── 采集进度追踪（内存中，重启丢失） ──
 _fetch_tasks: dict = {}  # {task_id: {status, progress, message, ...}}
 
@@ -104,7 +127,7 @@ async def list_announcements(
     if purchaser_level:
         conditions.append(Announcement.purchaser_level == purchaser_level)
     if project_category:
-        conditions.append(Announcement.project_category.ilike(f"%{project_category}%"))
+        _apply_project_category_filter(conditions, project_category)
     if procurement_method:
         conditions.append(Announcement.procurement_method == procurement_method)
     if data_source:
@@ -364,7 +387,11 @@ async def export_favorites(
             & ~Announcement.title.ilike("%意见%")
         )
     if project_category:
-        query = query.where(Announcement.project_category == project_category)
+        # 与列表页一致：粗分类映射为具体类别集合
+        conds = []
+        _apply_project_category_filter(conds, project_category)
+        for c in conds:
+            query = query.where(c)
     if procurement_method:
         query = query.where(Announcement.procurement_method == procurement_method)
     if province:
