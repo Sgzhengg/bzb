@@ -120,7 +120,11 @@ async def list_announcements(
             (Announcement.budget <= budget_max) | (Announcement.budget == None)
         )
     if search:
-        conditions.append(Announcement.title.ilike(f"%{search}%"))
+        # 空格分词多关键词 AND 语义：所有关键词都需命中标题（更精准）
+        keywords = [k.strip() for k in search.split() if k.strip()]
+        if keywords:
+            for kw in keywords:
+                conditions.append(Announcement.title.ilike(f"%{kw}%"))
 
     # 自动过滤中标公示（中选/中标/候选人/结果公示属于中标结果页，非机会列表）
     conditions.append(
@@ -174,12 +178,12 @@ async def list_announcements(
         count_q = count_q.where(and_(*conditions))
     total = (await db.execute(count_q)).scalar() or 0
 
-    # 排序
-    order_clauses = [desc(Announcement.announce_date)]
+    # 排序（默认：公告日期降序 + 同日内最新采集优先）
+    order_clauses = [desc(Announcement.announce_date), desc(Announcement.created_at)]
     if sort == "score_desc":
-        order_clauses = [desc(Announcement.announce_date)]  # 默认日期降序（评分由前端Mock）
+        order_clauses = [desc(Announcement.announce_date), desc(Announcement.created_at)]
     elif sort == "date_desc":
-        order_clauses = [desc(Announcement.announce_date)]
+        order_clauses = [desc(Announcement.announce_date), desc(Announcement.created_at)]
     elif sort == "budget_desc":
         order_clauses = [desc(Announcement.budget)]
 
