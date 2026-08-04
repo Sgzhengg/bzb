@@ -573,6 +573,9 @@ def _parse_date(s: str):
     import re
     if not s:
         return None  # 空日期返回 None，不造假日期
+    # 1900 魔数（API 无效占位值）视为无日期
+    if s.strip().startswith("1900") or s.strip().startswith("0000"):
+        return None
     # 多种格式
     for fmt in [
         r"(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})",
@@ -588,6 +591,9 @@ def _parse_datetime(s: str):
     from datetime import datetime
     import re
     if not s:
+        return None
+    # 1900 魔数（API 无效占位值）视为无时间
+    if s.strip().startswith("1900") or s.strip().startswith("0000"):
         return None
     # 完整日期时间
     m = re.match(r"(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})[T\s]?(\d{1,2}):(\d{2})", s.strip())

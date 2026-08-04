@@ -52,6 +52,7 @@ class B2b10086Adapter(BaseAdapter):
         self._client = None
         self._seen_ids = set()
         self._current_item = None  # 当前正在处理的 b2b item（传递 uuid 用）
+        self._api_dates = {}  # 详情API返回的结构化日期字段
         self.search_keywords = [
             # 精准广告关键词（优先匹配真实广告类项目）
             "广告设计", "品牌推广", "活动策划", "新媒体运营",
@@ -294,6 +295,13 @@ class B2b10086Adapter(BaseAdapter):
                 detail = data.get("data", {})
                 notice_content = detail.get("noticeContent", "")
 
+                # 保存 API 结构化日期字段（供 parse_detail 使用）
+                self._api_dates = {
+                    "tender_sale_deadline": detail.get("tenderSaleDeadline", "") or "",
+                    "back_date": detail.get("backDate", "") or "",
+                    "publish_date": detail.get("publishDate", "") or "",
+                }
+
                 if notice_content:
                     # 1) base64 PDF
                     try:
@@ -362,6 +370,17 @@ class B2b10086Adapter(BaseAdapter):
         city = self._extract_city(title)
         province = self._extract_province(title)
 
+        # ── API 结构化日期兜底（正文正则提取不到时使用）──
+        apid = getattr(self, "_api_dates", {}) or {}
+        tsd = (apid.get("tender_sale_deadline") or "").strip()
+        bd = (apid.get("back_date") or "").strip()
+        # 1900 魔数视为无效
+        if not deadline and tsd and not tsd.startswith("1900") and not tsd.startswith("0000"):
+            deadline = tsd[:10]
+        bid_date = ""
+        if bd and not bd.startswith("1900") and not bd.startswith("0000"):
+            bid_date = bd[:10]
+
         return {
             "title": title,
             "purchaser": purchaser,
@@ -372,6 +391,7 @@ class B2b10086Adapter(BaseAdapter):
             "deposit": self._extract_deposit_regex(content_text),
             "publish_date": "",
             "deadline": deadline,
+            "bid_date": bid_date,
             "content_text": content_text[:50000],
             "source_url": "",
             "bid_number": self._extract_bid_number(content_text),
