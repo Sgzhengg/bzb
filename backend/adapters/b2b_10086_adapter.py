@@ -374,12 +374,17 @@ class B2b10086Adapter(BaseAdapter):
         apid = getattr(self, "_api_dates", {}) or {}
         tsd = (apid.get("tender_sale_deadline") or "").strip()
         bd = (apid.get("back_date") or "").strip()
+        pub = (apid.get("publish_date") or "").strip()
         # 1900 魔数视为无效
         if not deadline and tsd and not tsd.startswith("1900") and not tsd.startswith("0000"):
             deadline = tsd[:10]
         bid_date = ""
         if bd and not bd.startswith("1900") and not bd.startswith("0000"):
             bid_date = bd[:10]
+        # 发布日：详情 API publishDate 优先（列表 API 老记录可能缺失该字段）
+        publish_date = ""
+        if pub and not pub.startswith("1900") and not pub.startswith("0000"):
+            publish_date = pub[:10]
 
         return {
             "title": title,
@@ -389,7 +394,7 @@ class B2b10086Adapter(BaseAdapter):
             "budget": budget,
             "registration_fee": self._extract_reg_fee(content_text),
             "deposit": self._extract_deposit_regex(content_text),
-            "publish_date": "",
+            "publish_date": publish_date,
             "deadline": deadline,
             "bid_date": bid_date,
             "content_text": content_text[:50000],
@@ -576,15 +581,53 @@ class B2b10086Adapter(BaseAdapter):
         return None
 
     def _extract_deadline(self, content: str) -> str:
-        patterns = [
-            r"(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*(?:日)?\s*(?:前|截止|之前)?.*?(?:投标|递交|提交|应答)",
-            r"(?:投标|递交|提交|应答).*?截止.*?(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})",
-            r"截止时间[：:]\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})",
+        # 语义: 提取"报名/反馈截止"= 招募文件获取截止(报名截止)，
+        # 优先于应答截止(那是递交应答文件的截止,属开标时间)
+        # ── 第一优先级: 明确的报名/获取截止 ──
+        signup_patterns = [
+            # "招募文件获取时间：X至Y" → 取区间结束 Y
+            r"获取时间[：:]\s*\d{4}[-/年]\d{1,2}[-/月]\d{1,2}\s*日?[^至至]*?至\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*日?",
+            # "报名截止时间：X" / "报名时间：X至Y"
+            r"报名截止[时间]?[：:为]\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*日?",
+            r"报名时间[：:]\s*\d{4}[-/年]\d{1,2}[-/月]\d{1,2}\s*日?[^至至]*?至\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*日?",
+            # "文件售卖截止时间：X"（招标采购）
+            r"文件售卖截止.{0,10}?[：:为]\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*日?",
         ]
-        for pat in patterns:
+        for pat in signup_patterns:
             m = re.search(pat, content)
             if m:
                 return m.group(1)
+
+        # ── 第二优先级: 获取文件区间(招募/招标通用) 取区间结束 ──
+        range_patterns = [
+            # "2025年2月12日12时00分至2025年2月15日18时00分" 取后面那个
+            r"(?:\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*日?\s*\d{1,2}时\d{1,2}分?\s*至\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*日?",
+        ]
+        for pat in range_patterns:
+            m = re.search(pat, content)
+            if m:
+                return m.group(1)
+
+        # ── 第三优先级: 强信号截止（递交/应答截止——作为兜底，标为开标语义）──
+        strong_patterns = [
+            r"(?:投标|递交|提交|应答).{0,40}?截止.{0,30}?为?\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*日?",
+            r"截止时间[：:]\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*日?",
+            r"截止时间.{0,10}?为\s*(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*日?",
+        ]
+        for pat in strong_patterns:
+            m = re.search(pat, content)
+            if m:
+                return m.group(1)
+
+        # ── 弱信号模式兜底：日期后紧跟"前/截止"（60字符内出现投标/递交/应答）──
+        weak_patterns = [
+            r"(\d{4}[-/年]\d{1,2}[-/月]\d{1,2})\s*日?\s*(?:前|截止|之前)(?:.{0,60}?)(?:投标|递交|提交|应答|报名)",
+        ]
+        for pat in weak_patterns:
+            m = re.search(pat, content)
+            if m:
+                return m.group(1)
+
         return ""
 
     def _extract_method(self, content: str) -> str:

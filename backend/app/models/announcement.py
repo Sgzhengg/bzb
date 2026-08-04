@@ -36,7 +36,7 @@ class Announcement(Base):
     source_url = Column(String(1000), comment="网址")
 
     # ── 原始 deadline 拆分 ──
-    deadline = Column(DateTime, nullable=False, comment="报名截止日期")
+    deadline = Column(DateTime, nullable=True, comment="报名截止日期")
     deadline_time = Column(String(10), default="", comment="截止时间")
 
     bid_date = Column(Date, nullable=True, comment="投标日期")

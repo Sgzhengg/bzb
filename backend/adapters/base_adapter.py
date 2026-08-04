@@ -8,6 +8,7 @@
 import logging
 import random
 import time
+import re
 from datetime import date
 from abc import ABC, abstractmethod
 from typing import List, Dict, Optional, Tuple, Callable
@@ -266,18 +267,19 @@ class BaseAdapter(ABC):
             # 非广告项目 → 行业分类器判定 + LLM 辅助提取预算/日期
             ind_result = classify_industry_and_category(title, content, self.source_key)
             if ind_result["industry_type"] == "运营商":
-                # 尝试 LLM 提取预算和日期
+                # 尝试 LLM 提取预算和日期（LLM 语义提取优先）
                 budget = raw.get("budget")
                 deadline = raw.get("deadline", "")
                 bid_date = raw.get("bid_date")
                 procurement_method = raw.get("procurement_method", "公开招标")
-                budget, deadline, bid_date, procurement_method = self._try_llm_extract(
-                    title, content, raw, budget, deadline, bid_date, procurement_method)
+                llm_cat = ind_result["project_category"]
+                budget, deadline, bid_date, procurement_method, llm_cat = self._try_llm_extract(
+                    title, content, raw, budget, deadline, bid_date, procurement_method, llm_cat)
                 self.logger.info(
-                    f"  ✅ [运营商/{ind_result['project_category']}] {title[:50]}"
+                    f"  ✅ [运营商/{llm_cat}] {title[:50]}"
                 )
                 return self._build_final_record(title, content, raw,
-                    is_target=True, project_category=ind_result["project_category"],
+                    is_target=True, project_category=llm_cat,
                     industry_type="运营商",
                     procurement_method=procurement_method,
                     budget=budget, deadline=deadline, bid_date=bid_date)
@@ -412,24 +414,86 @@ class BaseAdapter(ABC):
 
     # ── 主流程 ──
 
+    _STANDARD_CATEGORIES = [
+        "广告创意设计", "物料制作印刷", "活动策划执行", "品牌宣传传播",
+        "视频内容制作", "新媒体运营", "媒介资源投放", "渠道营销推广",
+        "通信工程建设", "设计勘察", "ICT系统集成", "软件开发", "大数据AI",
+        "信息安全", "设备采购", "服务器存储", "网络设备", "终端及配套",
+        "设备维保", "网络维护代维", "行政物业", "食堂餐饮", "办公后勤", "其他采购",
+    ]
+
+    # 变体关键词 → 标准类别（LLM 自创类别的归一兜底）
+    _CATEGORY_SYNONYMS = [
+        (["广告制作", "广告物料", "物料", "印刷", "制作印刷"], "物料制作印刷"),
+        (["广告监测", "监测服务"], "媒介资源投放"),
+        (["广告创意", "创意策划"], "广告创意设计"),
+        (["品牌", "宣传", "公关"], "品牌宣传传播"),
+        (["活动", "策划执行"], "活动策划执行"),
+        (["媒介", "投放", "广告发布"], "媒介资源投放"),
+        (["视频", "拍摄", "影视"], "视频内容制作"),
+        (["新媒体", "运营号", "社媒"], "新媒体运营"),
+        (["渠道", "推广", "分销"], "渠道营销推广"),
+        (["安防", "消防", "安保", "保安"], "网络维护代维"),
+        (["工程", "施工", "建设", "土建"], "通信工程建设"),
+        (["勘察", "设计服务"], "设计勘察"),
+        (["系统集成", "ICT", "集成", "技术研究"], "ICT系统集成"),
+        (["软件开发", "软件服务", "代码"], "软件开发"),
+        (["大数据", "云平台", "AI", "人工智能", "智算"], "大数据AI"),
+        (["安全", "漏洞", "渗透", "等保"], "信息安全"),
+        (["服务器", "存储"], "服务器存储"),
+        (["网络设备", "交换机", "路由器"], "网络设备"),
+        (["维保", "维护", "代维", "运维", "支撑"], "设备维保"),
+        (["食堂", "餐饮", "食材"], "食堂餐饮"),
+        (["物业", "后勤", "保洁", "行政"], "行政物业"),
+        (["邮寄", "快递", "速递"], "其他采购"),
+        (["测试"], "设备采购"),
+    ]
+
+    def _normalize_llm_category(self, cat: str) -> str:
+        """LLM 返回的类别归一到标准类别集合（防自创/复合污染）。"""
+        if not cat:
+            return "其他采购"
+        c = cat.strip()
+        # 复合类别（斜杠/顿号分隔）取第一个可识别的
+        if "/" in c or "、" in c or "/" in c.replace(" ", ""):
+            first = re.split(r"[/、]", c)[0].strip()
+            if first in self._STANDARD_CATEGORIES:
+                return first
+            for kws, std in self._CATEGORY_SYNONYMS:
+                if any(k in first for k in kws):
+                    return std
+            return first  # 未知复合取首段
+        if c in self._STANDARD_CATEGORIES:
+            return c
+        # 变体匹配
+        for kws, std in self._CATEGORY_SYNONYMS:
+            if any(k in c for k in kws):
+                return std
+        return c  # 未知类别保留（宁可显示原文也不硬编造）
+
     def _try_llm_extract(self, title: str, content: str, raw: Dict,
-                          budget, deadline: str, bid_date, procurement_method: str):
-        """尝试通过 LLM 提取预算、日期等字段。原地修改传入的变量。"""
+                          budget, deadline: str, bid_date, procurement_method: str,
+                          project_category: str = ""):
+        """尝试通过 LLM 提取预算、日期、业务类别等字段（LLM 结果优先于正则）。"""
         try:
             from app.services.llm_classifier import classify_and_extract
             unified = classify_and_extract(title, content)
 
+            # LLM 提取的字段无条件优先（即使 LLM 判定非广告类，只要正文有就提取）
             if unified.get("budget"):
                 budget = unified["budget"]
+            # deadline: LLM 语义提取(报名/获取截止)优先于正则
             if unified.get("deadline"):
                 deadline = unified["deadline"]
             if unified.get("bid_date"):
                 bid_date = unified["bid_date"]
             if unified.get("procurement_method"):
                 procurement_method = unified["procurement_method"]
+            if unified.get("project_category"):
+                project_category = self._normalize_llm_category(unified["project_category"])
         except Exception:
-            pass  # LLM 不可用时静默跳过
-        return budget, deadline, bid_date, procurement_method
+            pass  # LLM 不可用时静默跳过，保留正则结果
+        return budget, deadline, bid_date, procurement_method, project_category
 
     def run(self, save_to_db: bool = True, **kwargs) -> List[Dict]:
         """
