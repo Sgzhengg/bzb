@@ -36,10 +36,10 @@ const CATEGORY_BY_INDUSTRY = {
     { value: "", label: "业务类别" },
     { value: "广告", label: "📢 广告类（设计/投放/制作/活动）" },
     { value: "工程", label: "🏗️ 工程类（施工/建设）" },
-    { value: "维护", label: "🔧 维护类（代维/维保）" },
-    { value: "ICT", label: "💻 ICT集成类（系统/软件/云）" },
-    { value: "设备", label: "🖥️ 设备采购类（服务器/交换机）" },
-    { value: "物业", label: "🏢 物业/后勤类" },
+    { value: "维护", label: "🔧 维护类（代维/维保/技术支持）" },
+    { value: "ICT", label: "💻 ICT类（系统/软件/云/安全）" },
+    { value: "设备", label: "🖥️ 设备类（服务器/网络/终端）" },
+    { value: "物业", label: "🏢 物业/后勤类（物业/食堂/办公）" },
   ],
 };
 
