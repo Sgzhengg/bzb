@@ -22,7 +22,7 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useOpportunityList } from "../services/apiHooks";
-import { fetchNewAnnouncements, getFetchStatus } from "../services/api";
+import { fetchNewAnnouncements, getFetchStatus, exportFavoritesUrl } from "../services/api";
 
 const { Title, Text } = Typography;
 
